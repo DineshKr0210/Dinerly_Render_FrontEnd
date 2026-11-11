@@ -243,3 +243,9 @@ html:not([data-theme="dark"]) app-waitlist-admin .sidebar .settings-submenu butt
 .customer-sidebar p {
   color: #cfc5e2 !important;
 }
+
+/* Phone country code (dark mode): the native select text is hidden, so only
+   the flag shows, the same as light mode. Stops "CA" overlapping the flag. */
+html[data-theme="dark"] .phone-box .country-code-select select {
+  color: transparent !important;
+}
