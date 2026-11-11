@@ -73,18 +73,19 @@ html:not([data-theme="dark"]) app-waitlist-admin .sidebar .settings-submenu butt
    ========================================================= */
 
 :root {
-  --sidebar-ease: cubic-bezier(0.22, 0.8, 0.24, 1);
+  --sidebar-ease: cubic-bezier(0.645, 0.045, 0.355, 1);
+  --sidebar-duration: 0.6s;
 }
 
 .app-shell .sidebar,
 .app-wrapper .guest-sidebar-component {
   transition:
-    transform 0.32s var(--sidebar-ease),
-    visibility 0.32s;
+    transform var(--sidebar-duration) var(--sidebar-ease),
+    visibility var(--sidebar-duration);
 }
 
 .app-shell .main-content {
-  transition: margin-left 0.32s var(--sidebar-ease);
+  transition: margin-left var(--sidebar-duration) var(--sidebar-ease);
 }
 
 .app-shell.sidebar-hidden .sidebar,
@@ -99,7 +100,7 @@ html:not([data-theme="dark"]) app-waitlist-admin .sidebar .settings-submenu butt
 
 @media (min-width: 1025px) {
   .app-wrapper .customer-main {
-    transition: margin-left 0.32s var(--sidebar-ease);
+    transition: margin-left var(--sidebar-duration) var(--sidebar-ease);
   }
 
   .app-wrapper.sidebar-hidden .customer-main {
@@ -151,7 +152,7 @@ html:not([data-theme="dark"]) app-waitlist-admin .sidebar .settings-submenu butt
   cursor: pointer;
   opacity: 1;
   visibility: visible;
-  transition: opacity 0.25s ease, visibility 0.25s, background 0.2s ease;
+  transition: opacity 0.4s ease, visibility 0.4s, background 0.2s ease;
 }
 
 .guest-sidebar-toggle:hover {
@@ -198,9 +199,9 @@ html:not([data-theme="dark"]) app-waitlist-admin .sidebar .settings-submenu butt
   visibility: hidden;
   transform: translateY(12px) scale(0.85);
   transition:
-    opacity 0.25s ease,
-    transform 0.32s var(--sidebar-ease),
-    visibility 0.25s,
+    opacity 0.4s ease 0.15s,
+    transform 0.5s var(--sidebar-ease) 0.15s,
+    visibility 0.4s,
     background 0.2s ease;
 }
 

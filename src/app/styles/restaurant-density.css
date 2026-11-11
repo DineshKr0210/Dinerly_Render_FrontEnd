@@ -60,3 +60,13 @@ app-waitlist-restaurant-component .app-shell .panel-header {
 app-waitlist-restaurant-component .app-shell .guest-row {
   border-radius: 12px;
 }
+
+/* Restaurant portal opens at 80% zoom by default. The page height is
+   compensated so the layout still fills the viewport. */
+app-waitlist-restaurant-component {
+  zoom: 0.8;
+}
+
+app-waitlist-restaurant-component .app-shell {
+  min-height: 125vh;
+}
