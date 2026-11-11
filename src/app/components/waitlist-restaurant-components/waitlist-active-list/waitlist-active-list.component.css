@@ -5604,7 +5604,7 @@
 }
 
 .call-pill-phone {
-  font-size: 11px;
+  font-size: 13px;
 }
 
 .call-pill--fading-muted {
@@ -5679,4 +5679,11 @@
   .call-pill--calling::before {
     transform: scaleX(1);
   }
+}
+
+/* declined (voice reply 2): red, same vibrate and fade as confirmed */
+.call-pill--reject {
+  background: #fdecec;
+  color: #b42318;
+  border-color: #f3b8b8;
 }

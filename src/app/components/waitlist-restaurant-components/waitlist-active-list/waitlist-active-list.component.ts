@@ -1591,6 +1591,7 @@ export class WaitlistActiveListComponent
       startedAt: number;
       endedAt?: number;
       noAnswer?: boolean;
+      rejected?: boolean;
     };
   } = {};
 
@@ -1612,7 +1613,8 @@ export class WaitlistActiveListComponent
     }
   }
 
-  private markCallAnswered(guestId: number): void {
+  private markCallAnswered(guest: any): void {
+    const guestId = Number(guest?.id);
     const rec = this.callRecords[guestId];
     if (!rec || rec.state !== 'calling' && rec.state !== 'in-call') {
       return;
@@ -1620,6 +1622,7 @@ export class WaitlistActiveListComponent
 
     rec.state = 'answered';
     rec.endedAt = Date.now();
+    rec.rejected = this.isRejectedReply(guest);
 
     /* Vibrate, hold briefly, fade out, then remove the pill. */
     this.callAnswerTimers[guestId] = setTimeout(() => {
@@ -1664,6 +1667,13 @@ export class WaitlistActiveListComponent
     }, 2000);
   }
 
+  /** Voice reply 2 (or a decline wording) means the guest cannot attend. */
+  private isRejectedReply(guest: any): boolean {
+    const digits = String(guest?.voiceReplyDigits ?? '').trim();
+    const text = String(guest?.callResponse ?? guest?.latestVoiceReply ?? '').toLowerCase();
+    return digits === '2' || /reject|declin|can.?t|cannot|not attend/.test(text);
+  }
+
   private isConnectedCallStatus(status?: string): boolean {
     const normalized = String(status || '').trim().toUpperCase();
     return normalized.includes('IN_PROGRESS') || normalized.includes('CONNECTED');
@@ -1695,7 +1705,7 @@ export class WaitlistActiveListComponent
   }
 
   /** The pill shown next to the guest's buttons, or null. */
-  getCallPill(guest: DashboardLiveGuest): { state: string; label: string } | null {
+  getCallPill(guest: DashboardLiveGuest): { state: string; label: string; tone: string } | null {
     const rec = this.callRecords[Number(guest?.id)];
 
     if (!rec) {
@@ -1710,17 +1720,22 @@ export class WaitlistActiveListComponent
 
     switch (rec.state) {
       case 'calling':
-        return { state: 'calling', label: `Calling ${this.formatCallTime(elapsed)}` };
+        return { state: 'calling', label: `Calling ${this.formatCallTime(elapsed)}`, tone: 'ok' };
       case 'in-call':
-        return { state: 'in-call', label: `In call ${this.formatCallTime(elapsed)}` };
+        return { state: 'in-call', label: `In call ${this.formatCallTime(elapsed)}`, tone: 'ok' };
       case 'answered':
-        return { state: 'answered', label: 'Confirmed' };
+        return rec.rejected
+          ? { state: 'answered', label: 'Declined', tone: 'reject' }
+          : { state: 'answered', label: 'Confirmed', tone: 'ok' };
       case 'fading':
-        return rec.noAnswer
-          ? { state: 'fading-muted', label: 'No answer' }
-          : { state: 'fading', label: 'Confirmed' };
+        if (rec.noAnswer) {
+          return { state: 'fading-muted', label: 'No answer', tone: 'ok' };
+        }
+        return rec.rejected
+          ? { state: 'fading', label: 'Declined', tone: 'reject' }
+          : { state: 'fading', label: 'Confirmed', tone: 'ok' };
       case 'ended':
-        return { state: 'ended', label: 'No answer' };
+        return { state: 'ended', label: 'No answer', tone: 'ok' };
     }
 
     return null;
@@ -1760,7 +1775,7 @@ export class WaitlistActiveListComponent
         updatedGuest
       )
     ) {
-      this.markCallAnswered(updatedGuest.id);
+      this.markCallAnswered(updatedGuest);
       this.closeCallingPopup();
       return;
     }

@@ -283,7 +283,7 @@
           <!-- ACTIONS -->
           <div class="action-cell" (click)="$event.stopPropagation()">
 
-            <span class="call-pill" *ngIf="getCallPill(guest) as pill" [ngClass]="'call-pill--' + pill.state" aria-live="polite">
+            <span class="call-pill" *ngIf="getCallPill(guest) as pill" [ngClass]="['call-pill--' + pill.state, pill.tone === 'reject' ? 'call-pill--reject' : '']" aria-live="polite">
               <i class="call-pill-dot" *ngIf="pill.state !== 'answered' && pill.state !== 'fading'"></i>
               {{ pill.label }}
               <i class="fa-solid fa-phone call-pill-phone" *ngIf="pill.state === 'answered' || pill.state === 'fading'"></i>
@@ -365,7 +365,7 @@
 
             <div class="tablet-guest-action-wrap">
               <div class="tablet-guest-actions">
-                <span class="call-pill" *ngIf="getCallPill(guest) as pill" [ngClass]="'call-pill--' + pill.state" aria-live="polite">
+                <span class="call-pill" *ngIf="getCallPill(guest) as pill" [ngClass]="['call-pill--' + pill.state, pill.tone === 'reject' ? 'call-pill--reject' : '']" aria-live="polite">
                   <i class="call-pill-dot" *ngIf="pill.state !== 'answered' && pill.state !== 'fading'"></i>
               {{ pill.label }}
               <i class="fa-solid fa-phone call-pill-phone" *ngIf="pill.state === 'answered' || pill.state === 'fading'"></i>
