@@ -7,6 +7,15 @@
 
     <div class="top-brand">
 
+        <button
+        type="button"
+          class="top-action-button sidebar-toggle-button"
+          (click)="toggleSidebarVisibility()"
+          [attr.aria-label]="sidebarHidden ? 'Show sidebar' : 'Hide sidebar'"
+          [attr.title]="sidebarHidden ? 'Show sidebar' : 'Hide sidebar'">
+          <i class="fa-solid fa-bars"></i>
+      </button>
+
       <div class="brand-logo">
         <img src="assets/brand/dinerly-icon.png" alt="">
       </div>
@@ -23,14 +32,6 @@
 
     <div class="top-actions">
 
-      <button
-        type="button"
-        class="top-action-button sidebar-toggle-button"
-        (click)="toggleSidebarVisibility()"
-        [attr.aria-label]="sidebarHidden ? 'Show sidebar' : 'Hide sidebar'"
-        [attr.title]="sidebarHidden ? 'Show sidebar' : 'Hide sidebar'">
-        <i class="fa-solid fa-bars"></i>
-      </button>
 
       <button
         type="button"

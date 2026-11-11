@@ -88,3 +88,11 @@ html:not([data-theme="dark"]) app-waitlist-admin .sidebar .settings-submenu butt
     margin-left: 0 !important;
   }
 }
+
+/* Navbar: sidebar toggle sits to the left of the brand (restaurant wraps both) */
+.top-brand-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
