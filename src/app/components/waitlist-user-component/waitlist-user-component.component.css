@@ -1098,15 +1098,16 @@
 
     background: #ffffff;
 
-    box-shadow:
-      18px 0 50px
-      rgba(25, 14, 42, 0.2);
-
+    /* Closed: hidden completely, so no shadow shows on the page edge. */
     transform:
       translateX(-105%);
 
+    visibility: hidden;
+
     transition:
-      transform 0.28s ease;
+      transform 0.28s ease,
+      visibility 0.28s,
+      box-shadow 0.28s ease;
 
     will-change: transform;
   }
@@ -1118,6 +1119,12 @@
   .guest-sidebar-component.mobile-open {
     transform:
       translateX(0);
+
+    visibility: visible;
+
+    box-shadow:
+      18px 0 50px
+      rgba(25, 14, 42, 0.2);
   }
 
 

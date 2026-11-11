@@ -105,3 +105,10 @@ button:active:not(:disabled) { transform: scale(0.98); }
     scroll-behavior: auto !important;
   }
 }
+
+
+/* Guest mobile drawer open: lock page scrolling behind it */
+body.guest-mobile-menu-open {
+  overflow: hidden;
+  touch-action: none;
+}

@@ -1029,7 +1029,7 @@
 
 @media (max-width: 480px) {
   .section-heading {
-    align-items: flex-start;
+    align-items: center;
   }
 
   .section-heading h2 {
@@ -1038,6 +1038,8 @@
 
   .section-heading button {
     font-size: 12px;
+    min-height: 36px;
+    padding: 0 4px;
   }
 
   .login-offers-card {

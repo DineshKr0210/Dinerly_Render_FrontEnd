@@ -233,3 +233,13 @@ html:not([data-theme="dark"]) app-waitlist-admin .sidebar .settings-submenu butt
 .top-brand {
   cursor: pointer;
 }
+
+
+/* Guest sidebar brand text reads on the dark triangle pattern */
+.customer-sidebar h2 {
+  color: #ffffff !important;
+}
+
+.customer-sidebar p {
+  color: #cfc5e2 !important;
+}
