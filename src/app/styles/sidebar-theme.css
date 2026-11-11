@@ -81,6 +81,7 @@ html:not([data-theme="dark"]) app-waitlist-admin .sidebar .settings-submenu butt
 .app-wrapper .guest-sidebar-component {
   transition:
     transform var(--sidebar-duration) var(--sidebar-ease),
+    opacity var(--sidebar-duration) ease,
     visibility var(--sidebar-duration);
 }
 
@@ -91,6 +92,7 @@ html:not([data-theme="dark"]) app-waitlist-admin .sidebar .settings-submenu butt
 .app-shell.sidebar-hidden .sidebar,
 .app-wrapper.sidebar-hidden .guest-sidebar-component {
   transform: translateX(-100%);
+  opacity: 0;
   visibility: hidden;
 }
 
