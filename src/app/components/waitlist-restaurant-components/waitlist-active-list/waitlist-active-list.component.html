@@ -488,8 +488,11 @@
       <div class="info-card-header">
         <div class="info-card-title">
           <i class="fa-solid fa-user-check"></i>
-          <h3>Seated Guests ({{ activeSeatedGuests.length }})</h3>
+          <span class="title-dot"></span>
+          <h3>Seated Guests</h3>
+          <span class="count">{{ activeSeatedGuests.length }}</span>
         </div>
+        <span class="panel-note">Server follows the table</span>
 
       </div>
 
@@ -508,6 +511,7 @@
           <div class="guest-name-block">
             <strong>{{ guest.guestName }}</strong>
             <small *ngIf="guest.tableName">Table {{ guest.tableName }}</small>
+            <em class="sub-line">Seated {{ formatTime(guest.seatedAt) }}</em>
           </div>
           <span>{{ guest.partySize }}</span>
           <strong>{{ formatTime(guest.seatedAt) }}</strong>
@@ -586,7 +590,9 @@
       <div class="info-card-header">
         <div class="info-card-title">
           <i class="fa-solid fa-circle-check"></i>
-          <h3>Completed Guests ({{ completedGuests.length }})</h3>
+          <span class="title-dot"></span>
+          <h3>Completed Guests</h3>
+          <span class="count">{{ completedGuests.length }}</span>
         </div>
 
         
@@ -669,7 +675,9 @@
       <div class="info-card-header">
         <div class="info-card-title">
           <i class="fa-solid fa-circle-xmark"></i>
-          <h3>Cancelled Guests ({{ cancelledGuests.length }})</h3>
+          <span class="title-dot"></span>
+          <h3>Cancelled Guests</h3>
+          <span class="count">{{ cancelledGuests.length }}</span>
         </div>
       </div>
 
@@ -679,6 +687,7 @@
           <span>Guest</span>
           <span>Party Size</span>
           <span>Cancelled At</span>
+          <span>Status</span>
           <span>Actions</span>
         </div>
 
@@ -690,6 +699,7 @@
           </div>
           <span>{{ guest.partySize }}</span>
           <strong>{{ formatTime(guest.joinedAt) }}</strong>
+          <span class="pill cancel"><i></i>Cancelled</span>
           <button type="button" class="inline-link">View</button>
         </div>
 
