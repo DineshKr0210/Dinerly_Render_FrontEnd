@@ -5687,3 +5687,13 @@
   color: #b42318;
   border-color: #f3b8b8;
 }
+
+/* Confirmed / Declined: same width as the phone button (only these pills change) */
+.call-pill--answered,
+.call-pill--fading {
+  width: clamp(92px, 6vw, 124px);
+  justify-content: center;
+  padding: 0 6px;
+  gap: 5px;
+  font-size: 11px;
+}
