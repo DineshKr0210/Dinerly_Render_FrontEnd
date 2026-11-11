@@ -502,7 +502,7 @@
           <span>Actions</span>
         </div>
 
-        <div class="info-row data-row" *ngFor="let guest of activeSeatedGuests.slice(0, 3); trackBy: trackByGuest; let i = index">
+        <div class="info-row data-row" *ngFor="let guest of activeSeatedGuests; trackBy: trackByGuest; let i = index">
           <span>{{ i + 1 }}</span>
           <div class="guest-name-block">
             <strong>{{ guest.guestName }}</strong>
@@ -599,7 +599,7 @@
           <span>Status</span>
         </div>
 
-        <div class="info-row data-row" *ngFor="let guest of completedGuests.slice(0, 3); trackBy: trackByGuest; let i = index">
+        <div class="info-row data-row" *ngFor="let guest of completedGuests; trackBy: trackByGuest; let i = index">
           <span>{{ i + 1 }}</span>
           <div class="guest-name-block">
             <strong>{{ guest.guestName }}</strong>
@@ -680,7 +680,7 @@
           <span>Actions</span>
         </div>
 
-        <div class="info-row data-row" *ngFor="let guest of cancelledGuests.slice(0, 3); trackBy: trackByGuest; let i = index">
+        <div class="info-row data-row" *ngFor="let guest of cancelledGuests; trackBy: trackByGuest; let i = index">
           <span>{{ i + 1 }}</span>
           <div class="guest-name-block">
             <strong>{{ guest.guestName }}</strong>

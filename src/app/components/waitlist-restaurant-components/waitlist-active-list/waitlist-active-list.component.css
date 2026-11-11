@@ -4473,8 +4473,11 @@
 .info-card-table {
   border: 1px solid #ece4f4;
   border-radius: 12px;
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: auto;
+  max-height: 420px;
   background: rgba(248, 245, 251, 0.55);
+  scrollbar-width: thin;
 }
 
 .info-empty-state {
