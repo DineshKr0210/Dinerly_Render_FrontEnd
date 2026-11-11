@@ -1525,8 +1525,11 @@ html[data-theme="dark"] .delete-btn {
 }
 
 /* waitlist-settings
-   The existing .restaurant-dark-mode rules have higher specificity, so they still win where that class is set. */
-html[data-theme="dark"] .settings-page {
+   The existing .restaurant-dark-mode rules have higher specificity, so they still win where that class is set.
+   The admin dark rule for .settings-page paints a grey box behind the restaurant settings page,
+   so the restaurant page is scoped here and kept transparent (like the other restaurant pages). */
+html[data-theme="dark"] app-waitlist-restaurant-component .settings-page {
+  background: transparent;
   color: var(--dk-text);
 }
 
