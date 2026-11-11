@@ -102,6 +102,11 @@ export class WaitlistRestaurantComponentComponent
     this.themeService.toggle();
   }
 
+  /** Logo click: back to the default landing page. */
+  goToLanding(): void {
+    this.router.navigate(['/restaurant/waitlist']);
+  }
+
   toggleSidebar(): void {
     this.isSidebarCollapsed = !this.isSidebarCollapsed;
 

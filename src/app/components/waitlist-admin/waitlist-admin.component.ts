@@ -45,6 +45,11 @@ export class WaitlistAdminComponent
   /** Sidebar hidden with the navbar toggle (desktop). */
   sidebarHidden = false;
 
+  /** Logo click: back to the default landing page. */
+  goToLanding(): void {
+    this.router.navigate(['/admin/home']);
+  }
+
   toggleSidebarVisibility(): void {
     this.sidebarHidden = !this.sidebarHidden;
   }

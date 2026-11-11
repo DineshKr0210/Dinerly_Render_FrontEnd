@@ -199,3 +199,8 @@ html:not([data-theme="dark"]) app-waitlist-admin .sidebar .settings-submenu butt
 .app-wrapper.sidebar-hidden .sidebar-show-fab {
   display: inline-flex;
 }
+
+/* Brand logo in the navbar is a link to the default landing page */
+.top-brand {
+  cursor: pointer;
+}
