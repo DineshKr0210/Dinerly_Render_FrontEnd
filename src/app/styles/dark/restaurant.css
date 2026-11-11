@@ -2236,6 +2236,52 @@ html[data-theme="dark"] .history-list-head {
   color: var(--dk-text-3);
 }
 
+/* waitlist-restaurant-history: guest rows, expanded details and pagination
+   were hard-coded white in the component CSS. */
+html[data-theme="dark"] .history-row-button {
+  background: var(--dk-surface);
+  border-bottom-color: var(--dk-border);
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .history-row-button:hover {
+  background: var(--dk-surface-2);
+}
+
+html[data-theme="dark"] .history-row-button.expanded {
+  background: var(--dk-surface-2);
+}
+
+html[data-theme="dark"] .history-row-button .guest-name {
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .history-row-button .guest-phone,
+html[data-theme="dark"] .history-row-button .cell {
+  color: var(--dk-text-2);
+}
+
+html[data-theme="dark"] .history-details {
+  background: var(--dk-sunken);
+  border-top-color: var(--dk-border);
+}
+
+html[data-theme="dark"] .history-pagination {
+  background: var(--dk-surface);
+  border-color: var(--dk-border);
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .history-pagination .page-btn {
+  background: var(--dk-surface-2);
+  border-color: var(--dk-border);
+  color: var(--dk-text-2);
+}
+
+html[data-theme="dark"] .history-pagination .page-btn.arrow {
+  color: var(--dk-text-2);
+}
+
 /* Settings submenu: the active item was a light pill in dark mode.
    Angular's emulated encapsulation makes the component's own rule more
    specific, so this one needs !important. */
