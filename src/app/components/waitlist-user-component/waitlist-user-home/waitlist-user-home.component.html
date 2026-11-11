@@ -59,6 +59,26 @@
 
     </div>
 
+    <!-- SEARCH: dish matches (shown when searching) -->
+    <section class="search-dishes" *ngIf="searchText.trim()">
+      <div class="search-dishes-head">
+        <h3>Dishes</h3>
+        <span *ngIf="!canAccessAccountFeatures">Log in to search dishes</span>
+      </div>
+
+      <ul *ngIf="filteredDishes.length > 0" class="search-dish-list">
+        <li *ngFor="let dish of filteredDishes.slice(0, 8)">
+          <div>
+            <strong>{{ dish.name }}</strong>
+            <small>{{ dish.category }}</small>
+          </div>
+          <span *ngIf="dish.price">{{ dish.price | currency:'$':'symbol':'1.0-2' }}</span>
+        </li>
+      </ul>
+
+      <p *ngIf="filteredDishes.length === 0 && canAccessAccountFeatures" class="search-none">No dishes match "{{ searchText }}".</p>
+    </section>
+
     <div class="hero-restaurants" *ngIf="filteredRestaurants.length > 0">
 
       <div class="hero-restaurant-item" *ngFor="
