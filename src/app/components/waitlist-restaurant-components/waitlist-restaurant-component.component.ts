@@ -64,7 +64,8 @@ export class WaitlistRestaurantComponentComponent
 
   isLoading = false;
 
-  isSidebarCollapsed = false;
+  /** Sidebar starts hidden on tablet widths so the waitlist table fits. */
+  isSidebarCollapsed = typeof window !== 'undefined' && window.innerWidth <= 900;
 
   showUserMenu = false;
   restaurantName = '';

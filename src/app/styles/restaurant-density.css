@@ -114,13 +114,27 @@ app-waitlist-restaurant-component .app-shell .guest-list .guest-row .notify-acti
   /* Current Waitlist: fit the five columns */
   app-waitlist-restaurant-component .app-shell .waitlist-table-body .table-row.header-row,
   app-waitlist-restaurant-component .app-shell .guest-list .guest-row {
-    grid-template-columns: minmax(200px, 2fr) 64px 96px 120px minmax(250px, 1.6fr);
+    grid-template-columns: minmax(170px, 2fr) 62px 92px 112px minmax(220px, 1.4fr);
     column-gap: 10px;
+  }
+
+  /* Tablet: compact action buttons so all three fit in the Actions column */
+  app-waitlist-restaurant-component .app-shell .guest-list .guest-row .notify-action {
+    min-width: 84px;
+    padding: 0 10px;
+  }
+
+  app-waitlist-restaurant-component .app-shell .guest-list .guest-row .action-btn {
+    min-width: 50px;
+  }
+
+  app-waitlist-restaurant-component .app-shell .guest-list .guest-row .action-cell {
+    gap: 6px;
   }
 
   /* Seated and Completed: fit the five columns */
   app-waitlist-restaurant-component .app-shell .info-card-table .info-row {
-    grid-template-columns: minmax(36px, 0.4fr) minmax(120px, 2fr) 84px 110px minmax(160px, 1.4fr);
+    grid-template-columns: minmax(32px, 0.4fr) minmax(110px, 2fr) 80px 100px minmax(150px, 1.4fr);
     column-gap: 10px;
   }
 
@@ -137,8 +151,8 @@ app-waitlist-restaurant-component .app-shell .guest-list .guest-row .notify-acti
 
   app-waitlist-restaurant-component .app-shell .waitlist-table-body,
   app-waitlist-restaurant-component .app-shell .guest-list {
-    width: 1000px;
-    min-width: 1000px;
+    width: 100%;
+    min-width: 660px;
     max-width: none;
   }
 
