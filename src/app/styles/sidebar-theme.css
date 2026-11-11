@@ -67,46 +67,51 @@ html:not([data-theme="dark"]) app-waitlist-admin .sidebar .settings-submenu butt
 }
 
 /* =========================================================
-   SIDEBAR HIDE / SHOW
-   The portal root gets .sidebar-hidden from the navbar toggle.
-   The sidebar is removed and the content uses the full width.
+   SIDEBAR HIDE / SHOW (animated)
+   The portal root gets .sidebar-hidden. The sidebar slides out to
+   the left while the content moves to the left edge.
    ========================================================= */
 
-.app-shell.sidebar-hidden,
-.app-wrapper.sidebar-hidden {
-  --sidebar-width: 0px !important;
-  --portal-sidebar-width: 0px !important;
+:root {
+  --sidebar-ease: cubic-bezier(0.22, 0.8, 0.24, 1);
+}
+
+.app-shell .sidebar,
+.app-wrapper .guest-sidebar-component {
+  transition:
+    transform 0.32s var(--sidebar-ease),
+    visibility 0.32s;
+}
+
+.app-shell .main-content {
+  transition: margin-left 0.32s var(--sidebar-ease);
 }
 
 .app-shell.sidebar-hidden .sidebar,
 .app-wrapper.sidebar-hidden .guest-sidebar-component {
-  display: none !important;
+  transform: translateX(-100%);
+  visibility: hidden;
+}
+
+.app-shell.sidebar-hidden .main-content {
+  margin-left: 0 !important;
 }
 
 @media (min-width: 1025px) {
+  .app-wrapper .customer-main {
+    transition: margin-left 0.32s var(--sidebar-ease);
+  }
+
   .app-wrapper.sidebar-hidden .customer-main {
     margin-left: 0 !important;
   }
 }
 
-/* Navbar: sidebar toggle sits to the left of the brand (restaurant wraps both) */
-.top-brand-group {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  min-width: 0;
-}
-
-/* =========================================================
-   SIDEBAR TOGGLE PLACEMENT
-   Open state: button in the sidebar header (top-right).
-   Hidden state: round button at the bottom-left of the screen.
-   ========================================================= */
-
+/* Open state: hide button at the bottom-left of the sidebar */
 .sidebar-header-toggle {
   position: absolute;
-  top: 12px;
-  right: 10px;
+  left: 12px;
+  bottom: 14px;
   z-index: 3;
   width: 30px;
   height: 30px;
@@ -119,6 +124,7 @@ html:not([data-theme="dark"]) app-waitlist-admin .sidebar .settings-submenu butt
   color: #ffffff;
   font-size: 12px;
   cursor: pointer;
+  transition: background 0.2s ease, border-color 0.2s ease;
 }
 
 .sidebar-header-toggle:hover {
@@ -126,27 +132,11 @@ html:not([data-theme="dark"]) app-waitlist-admin .sidebar .settings-submenu butt
   border-color: rgba(255, 255, 255, 0.35);
 }
 
-.sidebar-header-toggle:focus-visible,
-.guest-sidebar-toggle:focus-visible,
-.sidebar-show-fab:focus-visible {
-  outline: none;
-  box-shadow: none;
-}
-
-/* Keep the restaurant name and its hover box clear of the header toggle */
-.sidebar .restaurant-section {
-  padding-right: 46px;
-}
-
-.sidebar .restaurant-selector {
-  width: calc(100% - 46px) !important;
-}
-
-/* Guest sidebar header toggle (desktop only; phones use the navbar menu) */
+/* Guest: same bottom-left button, desktop only (phones use the navbar menu) */
 .guest-sidebar-toggle {
   position: fixed;
-  top: 74px;
-  left: calc(var(--portal-sidebar-width) - 42px);
+  left: 12px;
+  bottom: 14px;
   z-index: 1600;
   width: 30px;
   height: 30px;
@@ -155,10 +145,17 @@ html:not([data-theme="dark"]) app-waitlist-admin .sidebar .settings-submenu butt
   justify-content: center;
   border: 1px solid rgba(255, 255, 255, 0.18);
   border-radius: 8px;
-  background: rgba(255, 255, 255, 0.12);
+  background: rgba(35, 20, 60, 0.85);
   color: #ffffff;
   font-size: 12px;
   cursor: pointer;
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 0.25s ease, visibility 0.25s, background 0.2s ease;
+}
+
+.guest-sidebar-toggle:hover {
+  background: rgba(60, 35, 100, 0.95);
 }
 
 @media (max-width: 1024px) {
@@ -168,18 +165,26 @@ html:not([data-theme="dark"]) app-waitlist-admin .sidebar .settings-submenu butt
 }
 
 .app-wrapper.sidebar-hidden .guest-sidebar-toggle {
-  display: none;
+  opacity: 0;
+  visibility: hidden;
 }
 
-/* Round show button, shown only while the sidebar is hidden */
+.sidebar-header-toggle:focus-visible,
+.guest-sidebar-toggle:focus-visible,
+.sidebar-show-fab:focus-visible {
+  outline: none;
+  box-shadow: none;
+}
+
+/* Hidden state: round button at the bottom-left, fades and rises in */
 .sidebar-show-fab {
-  display: none;
   position: fixed;
   left: 16px;
   bottom: 16px;
   z-index: 1600;
   width: 44px;
   height: 44px;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
   border: 0;
@@ -189,6 +194,14 @@ html:not([data-theme="dark"]) app-waitlist-admin .sidebar .settings-submenu butt
   font-size: 15px;
   box-shadow: 0 6px 18px rgba(40, 20, 70, 0.3);
   cursor: pointer;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(12px) scale(0.85);
+  transition:
+    opacity 0.25s ease,
+    transform 0.32s var(--sidebar-ease),
+    visibility 0.25s,
+    background 0.2s ease;
 }
 
 .sidebar-show-fab:hover {
@@ -197,7 +210,20 @@ html:not([data-theme="dark"]) app-waitlist-admin .sidebar .settings-submenu butt
 
 .app-shell.sidebar-hidden .sidebar-show-fab,
 .app-wrapper.sidebar-hidden .sidebar-show-fab {
-  display: inline-flex;
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .app-shell .sidebar,
+  .app-wrapper .guest-sidebar-component,
+  .app-shell .main-content,
+  .app-wrapper .customer-main,
+  .sidebar-show-fab,
+  .guest-sidebar-toggle {
+    transition: none !important;
+  }
 }
 
 /* Brand logo in the navbar is a link to the default landing page */
