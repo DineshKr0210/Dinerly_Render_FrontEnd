@@ -5700,3 +5700,55 @@
   gap: 5px;
   font-size: 11px;
 }
+
+
+/* Below desktop (up to 1199px: tablet portrait and landscape, and phones):
+   Seated, Completed and Cancelled stack one below another. */
+@media (max-width: 1199px) {
+  app-waitlist-restaurant-component .lower-grid,
+  .lower-grid {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+}
+
+/* Seated table: guest, party, seated time, server, actions */
+.info-card.seated-card .info-row {
+  grid-template-columns: minmax(0, 0.45fr) minmax(0, 1.7fr) minmax(0, 0.7fr) minmax(0, 1fr) minmax(0, 1.2fr) minmax(0, 1.3fr);
+}
+
+.server-cell {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 13px;
+  font-weight: 600;
+  color: #4b3f5e;
+}
+
+/* Seated table: actions line up under their heading */
+.info-card.seated-card .info-row > :last-child {
+  justify-self: start;
+}
+
+/* Phones: the seated table drops the row number so guest, party, time,
+   server and actions fit without overlapping. */
+@media (max-width: 767px) {
+  .info-card.seated-card .info-row {
+    grid-template-columns: minmax(0, 1.7fr) minmax(0, 0.45fr) minmax(0, 0.95fr) minmax(0, 0.95fr) minmax(0, 1.2fr) !important;
+    gap: 6px;
+  }
+
+  .info-card.seated-card .info-row > :first-child {
+    display: none;
+  }
+
+  .server-cell {
+    white-space: normal;
+    overflow-wrap: anywhere;
+  }
+
+  .info-card.seated-card .info-row > :first-child + * {
+    grid-column: auto;
+  }
+}

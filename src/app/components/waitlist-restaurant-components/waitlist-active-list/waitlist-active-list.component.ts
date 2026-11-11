@@ -435,10 +435,36 @@ export class WaitlistActiveListComponent
     });
   }
 
+  /** Server assigned to each table, keyed by table name (for the seated list). */
+  tableServerNames: Record<string, string> = {};
+
+  loadTableServerAssignments(): void {
+    this.waitlistApi
+      .getTableServerAssignments(this.restaurantId)
+      .subscribe({
+        next: res => {
+          const names: Record<string, string> = {};
+          (res?.data || [])
+            .filter(a => a.isActive !== false && a.tableName)
+            .forEach(a => names[a.tableName] = a.serverName);
+          this.tableServerNames = names;
+        },
+        error: () => {
+          this.tableServerNames = {};
+        }
+      });
+  }
+
+  serverForGuest(guest: SeatedGuest): string {
+    return this.tableServerNames[guest.tableName] || '—';
+  }
+
   private applyDashboardData(
     res: any,
     showLoader: boolean
   ): void {
+    this.loadTableServerAssignments();
+
     if (showLoader) {
       this.isInitialLoading = false;
     }

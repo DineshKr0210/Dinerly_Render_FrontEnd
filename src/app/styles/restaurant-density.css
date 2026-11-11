@@ -95,3 +95,15 @@ app-waitlist-restaurant-component .app-shell .guest-list .guest-row .notify-acti
 app-waitlist-restaurant-component .app-shell .guest-list .guest-row .action-cell .contact-action-wrapper:empty {
   display: none;
 }
+
+
+/* Tablet (768-1199px, portrait and landscape): content opens a little smaller
+   so the tables and cards fit. The sidebar offset is divided by the zoom so it
+   stays exact (same method as the desktop rule above). */
+@media (min-width: 768px) and (max-width: 1199px) {
+  app-waitlist-restaurant-component .app-shell .main-content {
+    zoom: 0.86;
+    margin-left: calc(var(--sidebar-width) / 0.86);
+    padding-top: calc((var(--top-navbar-height) + 18px) / 0.86) !important;
+  }
+}

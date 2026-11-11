@@ -499,6 +499,7 @@
           <span>Guest</span>
           <span>Party Size</span>
           <span>Seated At</span>
+          <span>Server</span>
           <span>Actions</span>
         </div>
 
@@ -510,6 +511,7 @@
           </div>
           <span>{{ guest.partySize }}</span>
           <strong>{{ formatTime(guest.seatedAt) }}</strong>
+          <span class="server-cell">{{ serverForGuest(guest) }}</span>
 
           <div class="inline-action-stack">
             <button type="button" class="inline-link" (click)="openEditSeatedGuestModal(guest)">Edit</button>

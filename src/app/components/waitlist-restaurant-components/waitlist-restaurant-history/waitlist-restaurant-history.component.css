@@ -454,3 +454,40 @@
     box-sizing: border-box;
   }
 }
+
+
+/* Tablet (768-1199px): filters in a three-column grid (search spans two),
+   and the list shows Guest, Party, Joined and Status so nothing is clipped. */
+@media (min-width: 768px) and (max-width: 1199px) {
+  .history-filters {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .history-filters > input[type="text"] {
+    grid-column: span 2;
+  }
+
+  .history-filters .clear-btn {
+    justify-self: end;
+  }
+
+  .history-columns {
+    grid-template-columns: minmax(0, 2.2fr) 56px minmax(0, 1.4fr) 124px;
+  }
+
+  .history-columns > .cell-optional {
+    display: block;
+  }
+
+  .history-columns > :nth-child(3),
+  .history-columns > :nth-child(4),
+  .history-columns > :nth-child(6) {
+    display: none;
+  }
+
+  .history-columns > :nth-child(2),
+  .history-columns > :nth-child(5) {
+    text-align: left;
+    justify-self: start;
+  }
+}
