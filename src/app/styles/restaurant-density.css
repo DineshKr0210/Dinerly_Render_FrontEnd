@@ -89,3 +89,60 @@ app-waitlist-restaurant-component .app-shell .guest-list .guest-row .action-cell
 app-waitlist-restaurant-component .app-shell .guest-list .guest-row .notify-action {
   left: 0;
 }
+
+/* =========================================================
+   TABLET (500px – 1024px): show the desktop table layout, with
+   columns sized to fit. Phones (under 500px) keep the card layout.
+   ========================================================= */
+@media (min-width: 500px) and (max-width: 1024px) {
+  app-waitlist-restaurant-component .app-shell .tablet-section-header,
+  app-waitlist-restaurant-component .app-shell .tablet-guest-list,
+  app-waitlist-restaurant-component .app-shell .tablet-info-card-list {
+    display: none !important;
+  }
+
+  app-waitlist-restaurant-component .app-shell .waitlist-table-body .table-row.header-row,
+  app-waitlist-restaurant-component .app-shell .guest-list {
+    display: grid !important;
+  }
+
+  app-waitlist-restaurant-component .app-shell .info-card-table .info-row.header-row,
+  app-waitlist-restaurant-component .app-shell .info-card-table .info-row.data-row {
+    display: grid !important;
+  }
+
+  /* Current Waitlist: fit the five columns */
+  app-waitlist-restaurant-component .app-shell .waitlist-table-body .table-row.header-row,
+  app-waitlist-restaurant-component .app-shell .guest-list .guest-row {
+    grid-template-columns: minmax(200px, 2fr) 64px 96px 120px minmax(250px, 1.6fr);
+    column-gap: 10px;
+  }
+
+  /* Seated and Completed: fit the five columns */
+  app-waitlist-restaurant-component .app-shell .info-card-table .info-row {
+    grid-template-columns: minmax(36px, 0.4fr) minmax(120px, 2fr) 84px 110px minmax(160px, 1.4fr);
+    column-gap: 10px;
+  }
+
+  app-waitlist-restaurant-component .app-shell .info-card-table .info-row > * {
+    min-width: 0;
+  }
+
+  /* On narrower tablets the table keeps its desktop columns and the card
+     scrolls sideways, so no column is cut off. */
+  app-waitlist-restaurant-component .app-shell .current-waitlist-panel,
+  app-waitlist-restaurant-component .app-shell .info-card {
+    overflow-x: auto;
+  }
+
+  app-waitlist-restaurant-component .app-shell .waitlist-table-body,
+  app-waitlist-restaurant-component .app-shell .guest-list {
+    width: 1000px;
+    min-width: 1000px;
+    max-width: none;
+  }
+
+  app-waitlist-restaurant-component .app-shell .info-card .info-card-table {
+    min-width: 600px;
+  }
+}

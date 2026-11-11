@@ -5538,9 +5538,3 @@
   white-space: nowrap;
 }
 
-@media (max-width: 1024px) {
-  .waitlist-table-body:has(.tablet-guest-list),
-  .waitlist-table-body:has(.tablet-info-card-list) {
-    padding: 12px;
-  }
-}
