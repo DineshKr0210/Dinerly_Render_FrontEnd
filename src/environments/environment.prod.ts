@@ -1,5 +1,5 @@
 export const environment = {
   production: true,
-  apiUrl: 'https://apidev.dinerly.ca/api',
-  menuApiUrl: 'https://apidev.dinerly.ca/api/menu'
+  apiUrl: 'https://dinerly.onrender.com/api',
+  menuApiUrl: 'https://dinerly.onrender.com/api/menu'
 };
