@@ -88,13 +88,11 @@
 
       <div class="offer-image">
 
-        <img *ngIf="offer.photoUrl" [src]="offer.photoUrl" [alt]="offer.name" />
-
-        <div class="offer-image-placeholder" *ngIf="!offer.photoUrl">
-
-          <i class="fa-solid fa-tag"></i>
-
-        </div>
+        <img
+          [src]="offer.photoUrl || 'assets/offers/offer-card.png'"
+          [alt]="offer.name"
+          loading="lazy"
+          (error)="$any($event.target).src = 'assets/offers/offer-card.png'" />
 
         <span class="offer-status" *ngIf="offer.status">
 
