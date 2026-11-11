@@ -2,7 +2,7 @@
   display: block;
   min-height: 100%;
   font-family: var(--font-ui);
-  background: #ffffff;
+  background: transparent;
 }
 
 * {

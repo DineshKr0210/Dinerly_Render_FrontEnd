@@ -32,7 +32,7 @@
   padding: 0 18px;
   border: none;
   border-radius: 10px;
-  background: #5d0fc3;
+  background: #5a3fb8;
   color: #fff;
   font-family: inherit;
   font-size: 11px;
@@ -46,11 +46,12 @@
 }
 
 .primary-button:hover {
-  background: #7018dc;
+  background: #4b31a0;
 }
 
 .primary-button:disabled {
-  opacity: .5;
+  background: #e6e0f1;
+  color: #8a7fa0;
   cursor: not-allowed;
 }
 

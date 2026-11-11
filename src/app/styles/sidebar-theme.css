@@ -26,3 +26,42 @@
 .customer-sidebar::before {
   display: none !important;
 }
+
+/* Admin sidebar in light mode: the triangle pattern is dark, so the
+   menu uses light text instead of the grey used on the white sidebar. */
+html:not([data-theme="dark"]) app-waitlist-admin .sidebar .nav-item {
+  color: #e7e0f3;
+}
+
+html:not([data-theme="dark"]) app-waitlist-admin .sidebar .nav-item:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+}
+
+html:not([data-theme="dark"]) app-waitlist-admin .sidebar .nav-item.active {
+  background: rgba(255, 255, 255, 0.16);
+  color: #ffffff;
+  box-shadow: inset 3px 0 0 #c4a8ff;
+}
+
+html:not([data-theme="dark"]) app-waitlist-admin .sidebar .nav-icon {
+  color: inherit;
+}
+
+html:not([data-theme="dark"]) app-waitlist-admin .sidebar .restaurant-info strong {
+  color: #ffffff;
+}
+
+html:not([data-theme="dark"]) app-waitlist-admin .sidebar .restaurant-info small,
+html:not([data-theme="dark"]) app-waitlist-admin .sidebar .location-chevron {
+  color: #cfc5e2;
+}
+
+html:not([data-theme="dark"]) app-waitlist-admin .sidebar .settings-submenu button {
+  color: #d6cde6;
+}
+
+html:not([data-theme="dark"]) app-waitlist-admin .sidebar .settings-submenu button.active,
+html:not([data-theme="dark"]) app-waitlist-admin .sidebar .settings-submenu button:hover {
+  color: #ffffff;
+}

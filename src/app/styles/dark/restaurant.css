@@ -2212,3 +2212,26 @@ html[data-theme="dark"] .info-card-table {
   background: var(--dk-surface);
   border-color: var(--dk-border);
 }
+
+/* waitlist-restaurant-history: filter bar was a light panel in dark mode */
+html[data-theme="dark"] .history-filters {
+  background: var(--dk-surface);
+  border-color: var(--dk-border);
+  box-shadow: none;
+}
+
+html[data-theme="dark"] .clear-btn {
+  color: var(--dk-text-2);
+}
+
+/* waitlist-restaurant-history: list card and its header row */
+html[data-theme="dark"] .history-list-card {
+  background: var(--dk-surface);
+  border-color: var(--dk-border);
+}
+
+html[data-theme="dark"] .history-list-head {
+  background: var(--dk-surface-2);
+  border-bottom-color: var(--dk-border);
+  color: var(--dk-text-3);
+}
