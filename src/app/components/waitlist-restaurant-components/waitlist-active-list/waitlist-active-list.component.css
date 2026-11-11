@@ -6173,26 +6173,3 @@ html:not([data-theme="dark"]) app-waitlist-restaurant-component .call-pill--answ
   color: #ffffff;
   font-weight: 700;
 }
-
-/* ---------------------------------------------------------------
-   Column headers (Option 2): no tinted background, a hairline divider,
-   lighter and airier labels. Applies to all four panels: Current
-   Waitlist, Seated, Completed and Cancelled.
-   --------------------------------------------------------------- */
-.table-row.header-row,
-.info-card .info-row.header-row {
-  background: transparent !important;
-  border-bottom: 1px solid #ece7f3 !important;
-  color: #a79dbb !important;
-  font-size: 11px !important;
-  font-weight: 600 !important;
-  letter-spacing: 0.02em !important;
-  text-transform: none !important;
-  padding-bottom: 10px !important;
-  margin-bottom: 8px;
-}
-
-.waitlist-table-body .table-row.header-row {
-  padding-left: 20px;
-  padding-right: 20px;
-}
