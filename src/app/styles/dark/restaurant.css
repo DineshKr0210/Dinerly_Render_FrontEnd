@@ -2325,3 +2325,44 @@ html[data-theme="dark"] .country-code-selector select option {
   background: var(--dk-surface-2);
   color: var(--dk-text);
 }
+
+/* Guest rows (Current Waitlist): name avatar in dark mode uses the neutral
+   brand tint instead of the bright status colours, and the name reads clearly. */
+html[data-theme="dark"] .guest-row .guest-avatar {
+  background: #2b2246 !important;
+  color: #c9b6ff !important;
+  box-shadow: inset 0 0 0 1px rgba(167, 139, 250, 0.35) !important;
+}
+
+html[data-theme="dark"] .guest-row .guest-name-line strong {
+  color: #f4f4f8 !important;
+}
+
+/* Notified guests and the Notify action: sky blue accent in dark mode */
+html[data-theme="dark"] .status-pill.notified {
+  background: rgba(56, 189, 248, 0.14) !important;
+  color: #7dd3fc !important;
+  border-color: rgba(56, 189, 248, 0.42) !important;
+}
+
+html[data-theme="dark"] .notify-action,
+html[data-theme="dark"] .mini-action-btn.notify {
+  background: rgba(56, 189, 248, 0.14) !important;
+  color: #7dd3fc !important;
+  border-color: rgba(56, 189, 248, 0.42) !important;
+}
+
+html[data-theme="dark"] .guest-row.status-notified::before {
+  background: #7dd3fc !important;
+}
+
+/* Add Guest modal: focused fields stayed white in dark mode (the component
+   sets background:#fff on :focus). Keep the dark field colour while focused. */
+html[data-theme="dark"] .form-input:focus,
+html[data-theme="dark"] .form-select:focus,
+html[data-theme="dark"] .form-textarea:focus,
+html[data-theme="dark"] .restaurant-phone-box:focus-within,
+html[data-theme="dark"] .restaurant-select-box:focus-within,
+html[data-theme="dark"] .input-box:focus-within {
+  background: var(--dk-sunken) !important;
+}

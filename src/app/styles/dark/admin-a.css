@@ -2002,9 +2002,10 @@ html[data-theme="dark"] .date-field input:focus {
   border-color: var(--dk-brand);
 }
 
+/* !important: the admin reports component's own :disabled background outranks this rule */
 html[data-theme="dark"] .date-field input:disabled {
-  background: var(--dk-surface-2);
-  color: var(--dk-text-3);
+  background: var(--dk-surface-2) !important;
+  color: var(--dk-text-3) !important;
 }
 
 html[data-theme="dark"] .selected-location {
