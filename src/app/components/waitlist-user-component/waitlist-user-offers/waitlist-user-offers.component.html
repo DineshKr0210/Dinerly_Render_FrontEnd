@@ -104,6 +104,19 @@
 
       </div>
 
+      <div class="offer-cover">
+
+        <img src="assets/offers/offer-banner.png" alt="" loading="lazy">
+
+        <span class="offer-cover-badge" *ngIf="offer.discountValue && offer.discountValue > 0">
+
+          {{ offer.discountValue }}%<small>OFF</small>
+
+        </span>
+
+      </div>
+
+
       <div class="offer-body">
 
         <div class="offer-restaurant">
