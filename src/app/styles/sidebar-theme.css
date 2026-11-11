@@ -1,0 +1,28 @@
+/* =========================================================
+   SIDEBAR BACKGROUND: shared triangle pattern
+   The same sidebar-new.png pattern is used by the Guest, Admin,
+   Restaurant and Server portals, in both light and dark mode.
+   Imported globally, so it overrides the per-component sidebar
+   backgrounds (which have higher specificity) with !important.
+   ========================================================= */
+
+.sidebar,
+.customer-sidebar {
+  background-color: #2a1446 !important;
+  background-image: url('/assets/sidebar-new.png') !important;
+  background-size: cover !important;
+  background-position: center center !important;
+  background-repeat: no-repeat !important;
+}
+
+/* Guest sidebar text was dark; it sits on the dark pattern now. */
+.customer-sidebar {
+  color: #f4f0fb !important;
+}
+
+/* The portal shell adds a radial glow on top of the sidebar.
+   Remove it so the triangle pattern looks the same in every portal. */
+.sidebar::before,
+.customer-sidebar::before {
+  display: none !important;
+}

@@ -2195,3 +2195,20 @@ html[data-theme="dark"] #offer-qr-reader {
 }
 html[data-theme="dark"] .qr-help-text { color: var(--dk-text-3); }
 html[data-theme="dark"] .qr-validation-loading { color: var(--dk-brand); }
+
+/* waitlist-active-list: table header rows stayed light lavender in dark mode */
+html[data-theme="dark"] .table-row.header-row,
+html[data-theme="dark"] .info-row.header-row {
+  background: var(--dk-surface-2);
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .waitlist-table-body {
+  background: var(--dk-surface);
+  border-color: var(--dk-border);
+}
+
+html[data-theme="dark"] .info-card-table {
+  background: var(--dk-surface);
+  border-color: var(--dk-border);
+}

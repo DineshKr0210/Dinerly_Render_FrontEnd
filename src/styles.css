@@ -10,6 +10,8 @@
 @import 'app/styles/dark/text-fixes.css';
 @import 'app/styles/dark/server.css';
 @import 'app/styles/dark/surfaces.css';
+@import 'app/styles/sidebar-theme.css';
+@import 'app/styles/restaurant-density.css';
 
 :root {
   --font-ui: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;

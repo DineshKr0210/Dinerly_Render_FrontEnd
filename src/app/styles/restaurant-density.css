@@ -1,0 +1,58 @@
+/* =========================================================
+   RESTAURANT PORTAL: compact cards
+   Roughly 15% smaller stat cards, summary cards and guest rows
+   than the original sizing. Scoped to the restaurant shell, and
+   the selector is prefixed so it outranks the component rules.
+   ========================================================= */
+
+app-waitlist-restaurant-component .app-shell .stat-card {
+  padding: 12px 16px;
+  gap: 14px;
+  border-radius: 12px;
+}
+
+app-waitlist-restaurant-component .app-shell .stat-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  font-size: 17px;
+}
+
+app-waitlist-restaurant-component .app-shell .stat-card h2 {
+  font-size: clamp(24px, 1.7vw, 34px);
+}
+
+app-waitlist-restaurant-component .app-shell .stat-card p {
+  margin-top: 4px;
+  font-size: clamp(12px, 0.8vw, 14px);
+}
+
+app-waitlist-restaurant-component .app-shell .summary-card {
+  padding: 13px 15px;
+  gap: 11px;
+  border-radius: 10px;
+}
+
+app-waitlist-restaurant-component .app-shell .summary-icon {
+  width: 36px;
+  height: 36px;
+  flex: 0 0 36px;
+}
+
+app-waitlist-restaurant-component .app-shell .summary-card strong {
+  font-size: 20px;
+}
+
+app-waitlist-restaurant-component .app-shell .summary-card span:not(.summary-icon) {
+  font-size: 10px;
+}
+
+app-waitlist-restaurant-component .app-shell .guest-row {
+  min-height: clamp(64px, 4.2vw, 88px);
+  padding: clamp(12px, 1vw, 18px) 14px;
+  gap: 14px;
+}
+
+app-waitlist-restaurant-component .app-shell .panel-header {
+  padding: 2px 2px 12px;
+}
