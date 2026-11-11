@@ -2382,3 +2382,24 @@ html[data-theme="dark"] .edit-table-options button.active {
   border-color: #6920c2 !important;
   color: #ffffff !important;
 }
+
+/* ---------------------------------------------------------------
+   Restaurant pages use the admin portal's dark surfaces and type scale.
+   Scope: waitlist, tables, history, settings (inside the restaurant shell).
+   --------------------------------------------------------------- */
+html[data-theme="dark"] app-waitlist-restaurant-component .info-card {
+  background: var(--dk-surface) !important;
+  border-color: var(--dk-border) !important;
+  border-radius: 14px;
+}
+
+html[data-theme="dark"] app-waitlist-restaurant-component h1 {
+  color: var(--dk-text);
+  font-size: 27px !important;
+  font-weight: 700 !important;
+}
+
+html[data-theme="dark"] app-waitlist-restaurant-component h1 + p,
+html[data-theme="dark"] app-waitlist-restaurant-component .page-header p {
+  color: var(--dk-text-3);
+}
