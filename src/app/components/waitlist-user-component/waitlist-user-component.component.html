@@ -118,7 +118,7 @@
         </app-waitlist-user-hero>
 
 
-        <app-waitlist-waiting-screen [guest]="waitlistGuest" (leaveSuccess)="onLeaveSuccess($event)">
+        <app-waitlist-waiting-screen [guest]="waitlistGuest" (leaveSuccess)="onLeaveSuccess($event)" (menuRequested)="changeTab('MENU')">
         </app-waitlist-waiting-screen>
 
       </ng-container>

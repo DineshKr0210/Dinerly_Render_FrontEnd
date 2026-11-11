@@ -262,6 +262,11 @@
 .details-card b {
   text-align: right;
   color: #241f2d;
+  min-width: 0;
+  max-width: 62%;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  white-space: normal;
 }
 
 .menu-btn {

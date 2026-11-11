@@ -15,6 +15,7 @@ export class WaitlistWaitingScreenComponent implements OnInit {
   @Input() guest: any;
   restaurantId = 1;
   @Output() leaveSuccess = new EventEmitter<any>();
+  @Output() menuRequested = new EventEmitter<void>();
   pendingSeconds = 120;
   timerText = '';
   waitingTimerText = '';

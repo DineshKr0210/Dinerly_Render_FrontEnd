@@ -753,7 +753,10 @@ input::placeholder,
     height: 38px;
   }
 
-  .restaurant-select-box select,
+  .restaurant-select-box select {
+    font-size: 13px;
+  }
+
   input,
   .request-textarea {
     font-size: 16px;
