@@ -66,3 +66,30 @@ html:not([data-theme="dark"]) .guest-navbar .navbar-icon-button:hover {
 html:not([data-theme="dark"]) .top-navbar .admin-user-menu {
   color: #1d1830;
 }
+
+
+/* Guest profile dropdown (light mode): light panel, dark text, violet Login */
+html:not([data-theme="dark"]) .guest-navbar .navbar-profile-menu {
+  background: #ffffff !important;
+  border-color: #e5ddec !important;
+}
+
+html:not([data-theme="dark"]) .guest-navbar .navbar-profile-menu button {
+  color: #2a1446 !important;
+  background: transparent !important;
+}
+
+html:not([data-theme="dark"]) .guest-navbar .navbar-profile-menu button:hover {
+  background: #f6f1ff !important;
+}
+
+html:not([data-theme="dark"]) .guest-navbar .navbar-profile-menu button:has(.fa-arrow-right-to-bracket) {
+  background: #5a3fb8 !important;
+  color: #ffffff !important;
+  justify-content: center;
+  font-weight: 700;
+}
+
+html:not([data-theme="dark"]) .guest-navbar .navbar-profile-menu button:has(.fa-arrow-right-to-bracket):hover {
+  background: #4b31a0 !important;
+}

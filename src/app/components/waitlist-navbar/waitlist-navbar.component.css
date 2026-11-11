@@ -812,3 +812,34 @@
   }
 
 }
+
+/* Phones: the side menu is no longer opened from the navbar.
+   Login, account and logout live in the profile dropdown. */
+@media (max-width: 767px) {
+  .mobile-menu-button {
+    display: none !important;
+  }
+}
+
+/* Unlock rewards promo inside the profile dropdown (logged out only) */
+.profile-rewards-promo {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 10px 12px;
+  margin-bottom: 6px;
+  border-radius: 10px;
+  background: #f6f1ff;
+}
+
+.profile-rewards-promo strong {
+  color: #2a1446;
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.profile-rewards-promo span {
+  color: #6b6478;
+  font-size: 12px;
+  line-height: 1.35;
+}

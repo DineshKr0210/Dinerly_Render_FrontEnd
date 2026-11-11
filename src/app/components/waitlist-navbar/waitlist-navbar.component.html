@@ -150,6 +150,11 @@
         </button>
 
 
+        <div class="profile-rewards-promo" *ngIf="!hasAccountAccess">
+          <strong>Unlock rewards</strong>
+          <span>Login with email for offers, rewards and food.</span>
+        </div>
+
         <button type="button" *ngIf="!hasAccountAccess" (click)="login()">
           <i class="fa-solid fa-arrow-right-to-bracket"></i>
           Login with email
