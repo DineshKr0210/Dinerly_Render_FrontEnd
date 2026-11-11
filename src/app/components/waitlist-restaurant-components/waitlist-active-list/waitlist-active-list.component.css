@@ -5795,3 +5795,130 @@
   justify-content: flex-start;
   gap: 14px;
 }
+
+/* ---------------------------------------------------------------
+   Table redesign (Option B): each section is a panel, each guest row is a
+   card with a coloured left edge, headings are quiet, and actions are calm.
+   CSS only; the markup is unchanged.
+   --------------------------------------------------------------- */
+.info-card {
+  padding: 18px 22px 16px;
+}
+
+.info-card .info-card-table {
+  border: 0;
+  background: transparent;
+  overflow-x: hidden;
+  overflow-y: auto;
+  padding: 0 0 4px;
+}
+
+.info-card .info-row.header-row {
+  padding: 0 18px 8px 22px;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  color: #8e859b;
+}
+
+.info-card .info-row.data-row {
+  position: relative;
+  margin: 0 0 10px;
+  padding: 12px 18px 12px 22px;
+  min-height: 0;
+  border: 1px solid #ebe5f3;
+  border-radius: 12px;
+  background: #ffffff;
+  row-gap: 0;
+}
+
+.info-card .info-row.data-row::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 12px;
+  bottom: 12px;
+  width: 3px;
+  border-radius: 0 3px 3px 0;
+  background: var(--row-accent, #d8ccf4);
+}
+
+.seated-card { --row-accent: #1e8b5a; }
+.completed-card { --row-accent: #5a3fb8; }
+.cancelled-card { --row-accent: #d9534f; }
+
+.info-card .info-row.data-row > span,
+.info-card .info-row.data-row > strong {
+  font-size: 13px;
+  font-weight: 600;
+  color: #2a2433;
+}
+
+.info-card .info-row.data-row .guest-name-block strong {
+  font-size: 14px;
+  font-weight: 650;
+}
+
+.info-card .info-row.data-row .guest-name-block small {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 2px 7px;
+  border-radius: 6px;
+  background: #f2eff7;
+  color: #5b5268;
+}
+
+.info-card .info-row.data-row .inline-link {
+  height: 30px;
+  padding: 0 10px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 650;
+  color: #5a3fb8;
+  background: transparent;
+}
+
+.info-card .info-row.data-row .inline-link.complete-link {
+  color: #1e8b5a;
+  background: #e7f5ee;
+  border: 1px solid #bfe6cf;
+}
+
+.info-card .info-row.data-row .inline-link:disabled {
+  opacity: 0.6;
+}
+
+.info-card.seated-card .inline-action-stack {
+  justify-content: flex-start;
+  gap: 8px;
+}
+
+/* Current Waitlist rows keep the same card look */
+.guest-row {
+  border-radius: 12px;
+}
+
+/* Seated rows: give the actions column room so Complete is not clipped */
+.info-card.seated-card .info-row.data-row {
+  grid-template-columns: minmax(0, 0.35fr) minmax(0, 1.6fr) minmax(0, 0.55fr) minmax(0, 0.95fr) minmax(0, 0.9fr) minmax(0, 1.9fr);
+  column-gap: 12px;
+}
+
+.info-card.seated-card .info-row.data-row > :last-child {
+  overflow: visible;
+}
+
+/* Completed pill: green tint, like the other status pills */
+.info-card .completed-pill {
+  display: inline-flex;
+  align-items: center;
+  height: 24px;
+  padding: 0 10px;
+  border: 0;
+  border-radius: 999px;
+  background: #e7f5ee !important;
+  color: #1e8b5a !important;
+  opacity: 1 !important;
+  font-size: 11px;
+  font-weight: 650;
+}
