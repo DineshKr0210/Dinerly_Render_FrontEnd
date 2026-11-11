@@ -1,0 +1,2269 @@
+/* Dark theme overrides for admin portal pages (A-group: dashboard, settings, marketing, offers, reward program, redemptions, reports, reviews).
+   Mirrors original selector chains; applied only when <html data-theme="dark">. */
+
+/* admin-dashboard */
+
+html[data-theme="dark"] .dashboard-eyebrow {
+  background: var(--dk-success-soft);
+  color: var(--dk-success);
+}
+
+html[data-theme="dark"] .dashboard-header h1 {
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .metric-card {
+  border-color: var(--dk-border);
+  background: var(--dk-surface);
+}
+
+html[data-theme="dark"] .metric-icon.purple {
+  background: var(--dk-brand-soft);
+  color: var(--dk-brand);
+}
+
+html[data-theme="dark"] .metric-icon.blue {
+  background: var(--dk-info-soft);
+  color: var(--dk-info);
+}
+
+html[data-theme="dark"] .metric-icon.orange {
+  background: var(--dk-warning-soft);
+  color: var(--dk-warning);
+}
+
+html[data-theme="dark"] .metric-icon.green {
+  background: var(--dk-success-soft);
+  color: var(--dk-success);
+}
+
+html[data-theme="dark"] .metric-label {
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .metric-value {
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .metric-comparison.positive {
+  color: var(--dk-success);
+}
+
+html[data-theme="dark"] .panel {
+  border-color: var(--dk-border);
+  background: var(--dk-surface);
+}
+
+html[data-theme="dark"] .panel-header h2,
+html[data-theme="dark"] .locations-header h2 {
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .panel-header p,
+html[data-theme="dark"] .locations-header p {
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .insight-tab {
+  background: var(--dk-surface-2);
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .insight-tab:hover:not(.active) {
+  background: var(--dk-brand-soft);
+}
+
+html[data-theme="dark"] .insight-row {
+  border-bottom-color: var(--dk-border);
+}
+
+html[data-theme="dark"] .insight-icon.purple {
+  background: var(--dk-brand-soft);
+  color: var(--dk-brand);
+}
+
+html[data-theme="dark"] .insight-icon.orange {
+  background: var(--dk-warning-soft);
+  color: var(--dk-warning);
+}
+
+html[data-theme="dark"] .insight-icon.red {
+  background: var(--dk-danger-soft);
+  color: var(--dk-danger);
+}
+
+html[data-theme="dark"] .insight-icon.blue {
+  background: var(--dk-info-soft);
+  color: var(--dk-info);
+}
+
+html[data-theme="dark"] .insight-icon.green {
+  background: var(--dk-success-soft);
+  color: var(--dk-success);
+}
+
+html[data-theme="dark"] .insight-tag {
+  color: var(--dk-brand);
+}
+
+html[data-theme="dark"] .orange-text {
+  color: var(--dk-warning);
+}
+
+html[data-theme="dark"] .red-text {
+  color: var(--dk-danger);
+}
+
+html[data-theme="dark"] .purple-text {
+  color: var(--dk-brand);
+}
+
+html[data-theme="dark"] .blue-text {
+  color: var(--dk-info);
+}
+
+html[data-theme="dark"] .green-text {
+  color: var(--dk-success);
+}
+
+html[data-theme="dark"] .insight-content h3 {
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .insight-description,
+html[data-theme="dark"] .insight-content p {
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .insight-description {
+  color: var(--dk-text-2);
+}
+
+html[data-theme="dark"] .insight-message {
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .insight-metric,
+html[data-theme="dark"] .insight-priority {
+  background: var(--dk-surface-3);
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .insight-priority.high {
+  background: var(--dk-danger-soft);
+  color: var(--dk-danger);
+}
+
+html[data-theme="dark"] .insight-priority.medium {
+  background: var(--dk-warning-soft);
+  color: var(--dk-warning);
+}
+
+html[data-theme="dark"] .insight-priority.low {
+  background: var(--dk-success-soft);
+  color: var(--dk-success);
+}
+
+html[data-theme="dark"] .insight-time {
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .outline-action {
+  border-color: var(--dk-border);
+  background: var(--dk-surface-2);
+  color: var(--dk-brand);
+}
+
+html[data-theme="dark"] .outline-action:hover {
+  background: var(--dk-brand-soft);
+  border-color: var(--dk-border-strong);
+}
+
+html[data-theme="dark"] .quick-action {
+  border-color: var(--dk-border);
+  background: var(--dk-surface);
+  color: var(--dk-text-2);
+}
+
+html[data-theme="dark"] .quick-action:hover {
+  background: var(--dk-surface-2);
+  border-color: var(--dk-border-strong);
+}
+
+html[data-theme="dark"] .quick-action > i:last-child {
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .quick-action-icon {
+  background: var(--dk-brand-soft);
+  color: var(--dk-brand);
+}
+
+html[data-theme="dark"] .view-all-button {
+  border-color: var(--dk-border);
+  background: var(--dk-surface-2);
+  color: var(--dk-brand);
+}
+
+html[data-theme="dark"] .view-all-button:hover {
+  background: var(--dk-brand-soft);
+}
+
+html[data-theme="dark"] .location-row {
+  border-bottom-color: var(--dk-border);
+}
+
+html[data-theme="dark"] .location-heading {
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .location-name strong {
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .location-name small {
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .location-address,
+html[data-theme="dark"] .location-phone {
+  color: var(--dk-text-2);
+}
+
+html[data-theme="dark"] .location-status.active {
+  background: var(--dk-success-soft);
+  color: var(--dk-success);
+}
+
+html[data-theme="dark"] .manage-button {
+  border-color: var(--dk-border);
+  background: var(--dk-surface-2);
+  color: var(--dk-brand);
+}
+
+html[data-theme="dark"] .manage-button:hover {
+  background: var(--dk-brand-soft);
+}
+
+html[data-theme="dark"] .locations-skeleton-row {
+  border-bottom-color: var(--dk-border);
+}
+
+html[data-theme="dark"] .dashboard-error {
+  color: var(--dk-danger);
+}
+
+html[data-theme="dark"] .empty-locations {
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .dashboard-message {
+  box-shadow: var(--shadow-md);
+}
+
+html[data-theme="dark"] .success-message {
+  background: var(--dk-success-soft);
+  color: var(--dk-success);
+}
+
+html[data-theme="dark"] .error-message {
+  background: var(--dk-danger-soft);
+  color: var(--dk-danger);
+}
+
+html[data-theme="dark"] .location-modal,
+html[data-theme="dark"] .menu-modal,
+html[data-theme="dark"] .offer-modal {
+  background: var(--dk-surface);
+}
+
+html[data-theme="dark"] .location-modal-header h2,
+html[data-theme="dark"] .modal-header h2 {
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .location-modal-header p,
+html[data-theme="dark"] .modal-header p {
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .close-button {
+  background: var(--dk-surface-2);
+  color: var(--dk-brand);
+}
+
+html[data-theme="dark"] .form-group label {
+  color: var(--dk-text-2);
+}
+
+html[data-theme="dark"] .form-group input,
+html[data-theme="dark"] .form-group select,
+html[data-theme="dark"] .form-group textarea {
+  border-color: var(--dk-border);
+  background: var(--dk-sunken);
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .form-group input::placeholder,
+html[data-theme="dark"] .form-group textarea::placeholder {
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .form-group input:focus,
+html[data-theme="dark"] .form-group select:focus,
+html[data-theme="dark"] .form-group textarea:focus {
+  border-color: var(--dk-brand);
+  box-shadow: var(--focus-ring);
+}
+
+html[data-theme="dark"] .field-error {
+  color: var(--dk-danger);
+}
+
+html[data-theme="dark"] .cancel-button,
+html[data-theme="dark"] .modal-cancel-button {
+  border-color: var(--dk-border);
+  background: var(--dk-surface);
+  color: var(--dk-text-2);
+}
+
+html[data-theme="dark"] .type-checkbox {
+  border-color: var(--dk-border);
+}
+
+html[data-theme="dark"] .upload-box {
+  border-color: var(--dk-border-strong);
+  background: var(--dk-surface-2);
+}
+
+html[data-theme="dark"] .upload-icon {
+  color: var(--dk-brand);
+}
+
+html[data-theme="dark"] .upload-title {
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .upload-description {
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .image-preview {
+  color: var(--dk-text-2);
+}
+
+html[data-theme="dark"] .status-slider {
+  background: var(--dk-border-strong);
+}
+
+html[data-theme="dark"] .status-toggle-label {
+  color: var(--dk-text-2);
+}
+
+html[data-theme="dark"] .insights-skeleton-row {
+  border-bottom-color: var(--dk-border);
+}
+
+html[data-theme="dark"] .insights-empty {
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .insights-empty-icon {
+  background: var(--dk-brand-soft);
+  color: var(--dk-brand);
+}
+
+html[data-theme="dark"] .insights-empty strong {
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .insights-empty span {
+  color: var(--dk-text-3);
+}
+
+/* admin-settings
+   Profile-style cards (.settings-section, .profile-card) share one surface treatment. */
+
+html[data-theme="dark"] .settings-page {
+  background: var(--dk-surface);
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .time-pill {
+  background: var(--dk-surface-2);
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .restaurant-btn {
+  color: var(--dk-text);
+  background: var(--dk-surface-2);
+}
+
+html[data-theme="dark"] .restaurant-btn:hover,
+html[data-theme="dark"] .restaurant-btn.menu-open {
+  border-color: var(--dk-border-strong);
+  background: var(--dk-surface-3);
+  box-shadow: var(--shadow-sm);
+}
+
+html[data-theme="dark"] .restaurant-btn>i {
+  color: var(--dk-text-2);
+}
+
+html[data-theme="dark"] .restaurant-dropdown {
+  border-color: var(--dk-border);
+  background: var(--dk-surface);
+  box-shadow: var(--shadow-lg);
+}
+
+html[data-theme="dark"] .restaurant-dropdown::before {
+  border-top-color: var(--dk-border);
+  border-left-color: var(--dk-border);
+  background: var(--dk-surface);
+}
+
+html[data-theme="dark"] .restaurant-dropdown-info strong {
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .restaurant-dropdown-info span {
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .restaurant-dropdown-divider {
+  background: var(--dk-border);
+}
+
+html[data-theme="dark"] .logout-action {
+  color: var(--dk-danger);
+  background: transparent;
+}
+
+html[data-theme="dark"] .logout-action:hover {
+  color: var(--dk-danger);
+  background: var(--dk-danger-soft);
+}
+
+html[data-theme="dark"] .settings-section,
+html[data-theme="dark"] .profile-card {
+  border-color: var(--dk-border);
+  background: var(--dk-surface);
+  box-shadow: var(--shadow-sm);
+}
+
+html[data-theme="dark"] .setting-value-row,
+html[data-theme="dark"] .editable-value-row,
+html[data-theme="dark"] .advanced-value-row {
+  border-bottom-color: var(--dk-border);
+}
+
+html[data-theme="dark"] .setting-value-row>span {
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .plan-value>span:first-child {
+  color: var(--dk-text-2);
+}
+
+html[data-theme="dark"] .info-icon {
+  border-color: var(--dk-border-strong);
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .outline-btn {
+  border-color: var(--dk-border-strong);
+  background: var(--dk-surface);
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .profile-heading-icon {
+  background: var(--dk-brand-soft);
+  color: var(--dk-brand);
+}
+
+html[data-theme="dark"] .profile-heading h2 {
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .profile-heading p {
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .edit-details-btn,
+html[data-theme="dark"] .manage-integrations-btn {
+  border-color: var(--dk-border);
+  background: var(--dk-surface);
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .edit-details-btn:hover,
+html[data-theme="dark"] .manage-integrations-btn:hover {
+  border-color: var(--dk-border-strong);
+  background: var(--dk-surface-2);
+  box-shadow: var(--shadow-sm);
+}
+
+html[data-theme="dark"] .edit-details-btn i {
+  color: var(--dk-brand);
+}
+
+html[data-theme="dark"] .cancel-edit-btn {
+  border-color: var(--dk-border);
+  background: var(--dk-surface);
+  color: var(--dk-text-2);
+}
+
+html[data-theme="dark"] .cancel-edit-btn:hover:not(:disabled) {
+  background: var(--dk-surface-2);
+}
+
+html[data-theme="dark"] .restaurant-image-wrapper {
+  background: var(--dk-surface-2);
+}
+
+html[data-theme="dark"] .restaurant-image-placeholder {
+  color: var(--dk-text-3);
+  background: var(--dk-surface-2);
+}
+
+html[data-theme="dark"] .restaurant-image-edit {
+  border-color: var(--dk-border-strong);
+  background: var(--dk-surface);
+  color: var(--dk-text-2);
+  box-shadow: var(--shadow-sm);
+}
+
+/* Chained with body.dark-mode: component rules carry two encapsulation attributes, so these need the extra weight. */
+html[data-theme="dark"] body.dark-mode .restaurant-info-row {
+  border-bottom-color: var(--dk-border);
+}
+
+html[data-theme="dark"] body.dark-mode .restaurant-info-row>strong {
+  color: var(--dk-text-2);
+}
+
+html[data-theme="dark"] body.dark-mode .restaurant-info-row>span {
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] body.dark-mode .restaurant-info-row input,
+html[data-theme="dark"] body.dark-mode .restaurant-info-row textarea {
+  border-color: var(--dk-border);
+  background: var(--dk-sunken);
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] body.dark-mode .restaurant-info-row input::placeholder,
+html[data-theme="dark"] body.dark-mode .restaurant-info-row textarea::placeholder {
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] body.dark-mode .restaurant-info-row input:focus,
+html[data-theme="dark"] body.dark-mode .restaurant-info-row textarea:focus {
+  border-color: var(--dk-brand);
+  box-shadow: var(--focus-ring);
+}
+
+html[data-theme="dark"] .map-link {
+  color: var(--dk-brand);
+}
+
+html[data-theme="dark"] .profile-save-message {
+  background: var(--dk-success-soft);
+  color: var(--dk-success);
+}
+
+html[data-theme="dark"] .plan-highlight {
+  background: linear-gradient(100deg,
+      var(--dk-brand-soft) 0%,
+      var(--dk-surface-2) 100%);
+}
+
+html[data-theme="dark"] .plan-name-row strong {
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .active-plan-badge {
+  background: var(--dk-success-soft);
+  color: var(--dk-success);
+}
+
+html[data-theme="dark"] .plan-highlight-info p {
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .sms-icon {
+  color: var(--dk-info);
+  background: var(--dk-info-soft);
+}
+
+html[data-theme="dark"] .marketing-icon {
+  color: var(--dk-info);
+  background: var(--dk-info-soft);
+}
+
+html[data-theme="dark"] .locations-icon {
+  color: var(--dk-info);
+  background: var(--dk-info-soft);
+}
+
+html[data-theme="dark"] .plan-usage-item span {
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .plan-usage-item strong {
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .manage-integrations-btn i {
+  color: var(--dk-brand);
+}
+
+html[data-theme="dark"] .integration-item {
+  border-color: var(--dk-border);
+  background: var(--dk-surface);
+}
+
+html[data-theme="dark"] .integration-item:hover {
+  border-color: var(--dk-border-strong);
+  box-shadow: var(--shadow-sm);
+}
+
+html[data-theme="dark"] .google-logo {
+  background: var(--dk-info-soft);
+}
+
+html[data-theme="dark"] .stripe-logo {
+  background: var(--dk-brand-soft);
+}
+
+html[data-theme="dark"] .mailchimp-logo {
+  color: var(--dk-warning);
+  background: var(--dk-warning-soft);
+}
+
+html[data-theme="dark"] .twilio-logo {
+  background: var(--dk-danger-soft);
+}
+
+html[data-theme="dark"] .integration-details strong {
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .connected-status {
+  background: var(--dk-success-soft);
+  color: var(--dk-success);
+}
+
+html[data-theme="dark"] .not-connected-status {
+  background: var(--dk-surface-3);
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .integration-arrow {
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .toggle-setting-row {
+  border-bottom-color: var(--dk-border);
+}
+
+html[data-theme="dark"] .toggle-setting-row p,
+html[data-theme="dark"] .advanced-value-row p {
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .switch span {
+  background: var(--dk-border-strong);
+}
+
+html[data-theme="dark"] .template-control-row select,
+html[data-theme="dark"] .staff-form input,
+html[data-theme="dark"] .staff-form select,
+html[data-theme="dark"] .compact-select,
+html[data-theme="dark"] .editable-value-row input {
+  border-color: var(--dk-border);
+  background: var(--dk-sunken);
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .staff-form input::placeholder,
+html[data-theme="dark"] .editable-value-row input::placeholder {
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .template-control-row select:focus,
+html[data-theme="dark"] .staff-form input:focus,
+html[data-theme="dark"] .staff-form select:focus,
+html[data-theme="dark"] .compact-select:focus,
+html[data-theme="dark"] .editable-value-row input:focus {
+  border-color: var(--dk-brand);
+  box-shadow: var(--focus-ring);
+}
+
+html[data-theme="dark"] .message-preview {
+  background: var(--dk-surface-2);
+}
+
+html[data-theme="dark"] .call-preview {
+  background: var(--dk-surface-2);
+  color: var(--dk-text-2);
+}
+
+html[data-theme="dark"] .input-with-suffix span {
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .terms-row {
+  border-bottom-color: var(--dk-border);
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .empty-message {
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .staff-item {
+  border-color: var(--dk-border);
+}
+
+html[data-theme="dark"] .staff-details span {
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .floor-status-btn {
+  background: var(--dk-surface-2);
+  color: var(--dk-brand);
+}
+
+html[data-theme="dark"] .floor-status-btn.active {
+  background: var(--dk-brand-soft);
+}
+
+html[data-theme="dark"] .remove-staff-btn {
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .holiday-row {
+  border-bottom-color: var(--dk-border);
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .holiday-row span {
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .status-pill {
+  border-color: var(--dk-border-strong);
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .status-pill.enabled {
+  background: var(--dk-success-soft);
+  color: var(--dk-success);
+}
+
+html[data-theme="dark"] .time-zone-value>span {
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .qr-code {
+  border-color: var(--dk-border);
+}
+
+html[data-theme="dark"] .guest-link-row span {
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .save-message {
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .compact-input {
+  border-color: var(--dk-border);
+  background: var(--dk-sunken);
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .compact-input::placeholder {
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .compact-input:focus {
+  border-color: var(--dk-brand);
+  box-shadow: var(--focus-ring);
+}
+
+html[data-theme="dark"] .holiday-form-modal {
+  background: var(--dk-surface);
+  box-shadow: var(--shadow-lg);
+}
+
+html[data-theme="dark"] .holiday-modal-header h3 {
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .holiday-modal-header p {
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .holiday-close-btn {
+  background: var(--dk-surface-2);
+  color: var(--dk-text-2);
+}
+
+html[data-theme="dark"] .holiday-field label {
+  color: var(--dk-text-2);
+}
+
+html[data-theme="dark"] .holiday-field input,
+html[data-theme="dark"] .holiday-field textarea {
+  border-color: var(--dk-border);
+  background: var(--dk-sunken);
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .holiday-field input::placeholder,
+html[data-theme="dark"] .holiday-field textarea::placeholder {
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .holiday-field input:focus,
+html[data-theme="dark"] .holiday-field textarea:focus {
+  border-color: var(--dk-brand);
+  box-shadow: var(--focus-ring);
+}
+
+html[data-theme="dark"] .settings-error {
+  border-color: var(--dk-danger);
+  background: var(--dk-danger-soft);
+  color: var(--dk-danger);
+}
+
+/* Restaurant dark-mode mirrors: same tokens, so the hard-coded dark values match the theme. */
+html[data-theme="dark"] .restaurant-dark-mode .holiday-form-modal {
+  background: var(--dk-surface);
+}
+
+html[data-theme="dark"] .restaurant-dark-mode .holiday-modal-header h3,
+html[data-theme="dark"] .restaurant-dark-mode .holiday-field label {
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .restaurant-dark-mode .holiday-modal-header p,
+html[data-theme="dark"] .restaurant-dark-mode .save-message {
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .restaurant-dark-mode .holiday-field input,
+html[data-theme="dark"] .restaurant-dark-mode .holiday-field textarea,
+html[data-theme="dark"] .restaurant-dark-mode .compact-input {
+  border-color: var(--dk-border);
+  background: var(--dk-sunken);
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .restaurant-dark-mode .settings-error {
+  border-color: var(--dk-danger);
+  background: var(--dk-danger-soft);
+  color: var(--dk-danger);
+}
+
+/* admin-marketing */
+html[data-theme="dark"] .marketing-page {
+  background: var(--dk-surface-2);
+}
+
+html[data-theme="dark"] .page-header h1 {
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .page-header p {
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .summary-card {
+  border-color: var(--dk-border);
+  background: var(--dk-surface);
+}
+
+html[data-theme="dark"] .summary-icon.purple {
+  background: var(--dk-brand-soft);
+  color: var(--dk-brand);
+}
+
+html[data-theme="dark"] .summary-icon.blue {
+  background: var(--dk-info-soft);
+  color: var(--dk-info);
+}
+
+html[data-theme="dark"] .summary-icon.orange {
+  background: var(--dk-warning-soft);
+  color: var(--dk-warning);
+}
+
+html[data-theme="dark"] .summary-icon.green {
+  background: var(--dk-success-soft);
+  color: var(--dk-success);
+}
+
+html[data-theme="dark"] .summary-value {
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .summary-label {
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .summary-trend {
+  color: var(--dk-danger);
+}
+
+html[data-theme="dark"] .summary-trend.positive {
+  color: var(--dk-success);
+}
+
+html[data-theme="dark"] .summary-trend.negative {
+  color: var(--dk-danger);
+}
+
+html[data-theme="dark"] .marketing-tabs {
+  border-bottom-color: var(--dk-border);
+}
+
+html[data-theme="dark"] .marketing-tab {
+  color: var(--dk-text-2);
+}
+
+html[data-theme="dark"] .marketing-tab.active {
+  border-bottom-color: var(--dk-brand);
+  color: var(--dk-brand);
+}
+
+html[data-theme="dark"] .section-card {
+  border-color: var(--dk-border);
+  background: var(--dk-surface);
+}
+
+html[data-theme="dark"] .section-header {
+  border-bottom-color: var(--dk-border);
+}
+
+html[data-theme="dark"] .section-header h2 {
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .section-header p {
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .campaign-filters select {
+  border-color: var(--dk-border);
+  background: var(--dk-sunken);
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .campaign-row {
+  border-bottom-color: var(--dk-border);
+}
+
+html[data-theme="dark"] .campaign-row:hover {
+  background: var(--dk-surface-2);
+}
+
+html[data-theme="dark"] .campaign-title {
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .campaign-message {
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .campaign-channel,
+html[data-theme="dark"] .campaign-reach,
+html[data-theme="dark"] .campaign-redemptions,
+html[data-theme="dark"] .campaign-date {
+  color: var(--dk-text-2);
+}
+
+html[data-theme="dark"] .status-badge {
+  background: var(--dk-surface-3);
+  color: var(--dk-text-2);
+}
+
+html[data-theme="dark"] .status-badge.active {
+  background: var(--dk-success-soft);
+  color: var(--dk-success);
+}
+
+html[data-theme="dark"] .status-badge.scheduled {
+  background: var(--dk-brand-soft);
+  color: var(--dk-brand);
+}
+
+html[data-theme="dark"] .status-badge.completed {
+  background: var(--dk-info-soft);
+  color: var(--dk-info);
+}
+
+html[data-theme="dark"] .status-badge.draft {
+  background: var(--dk-surface-3);
+  color: var(--dk-text-2);
+}
+
+html[data-theme="dark"] .loading {
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .spinner {
+  border-color: var(--dk-border);
+  border-top-color: var(--dk-brand);
+}
+
+html[data-theme="dark"] .empty-state {
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .empty-state .material-icons {
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .empty-state h3 {
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .error-message {
+  border-color: var(--dk-danger);
+  background: var(--dk-danger-soft);
+  color: var(--dk-danger);
+}
+
+html[data-theme="dark"] .success-message {
+  border-color: var(--dk-success);
+  background: var(--dk-success-soft);
+  color: var(--dk-success);
+}
+
+html[data-theme="dark"] .pagination {
+  border-top-color: var(--dk-border);
+}
+
+html[data-theme="dark"] .pagination-button {
+  border-color: var(--dk-border);
+  background: var(--dk-surface);
+  color: var(--dk-brand);
+}
+
+html[data-theme="dark"] .pagination-button:hover:not(:disabled) {
+  background: var(--dk-surface-2);
+}
+
+html[data-theme="dark"] .pagination-info {
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .template-card {
+  border-color: var(--dk-border);
+  background: var(--dk-surface-2);
+}
+
+html[data-theme="dark"] .template-type {
+  background: var(--dk-brand-soft);
+  color: var(--dk-brand);
+}
+
+html[data-theme="dark"] .template-card h3 {
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .action-button,
+html[data-theme="dark"] .delete-button {
+  border-color: var(--dk-border);
+  background: var(--dk-surface);
+  color: var(--dk-text-2);
+}
+
+html[data-theme="dark"] .delete-button {
+  border-color: var(--dk-danger);
+  color: var(--dk-danger);
+}
+
+html[data-theme="dark"] .template-description {
+  color: var(--dk-text-2);
+}
+
+html[data-theme="dark"] .template-message {
+  background: var(--dk-surface-2);
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .template-footer {
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .campaign-modal,
+html[data-theme="dark"] .template-modal {
+  background: var(--dk-surface);
+  box-shadow: var(--shadow-lg);
+}
+
+html[data-theme="dark"] .modal-header {
+  border-bottom-color: var(--dk-border);
+}
+
+html[data-theme="dark"] .modal-header h2 {
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .modal-header p {
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .close-button {
+  background: var(--dk-surface-2);
+  color: var(--dk-text-2);
+}
+
+html[data-theme="dark"] .campaign-detail-header {
+  border-bottom-color: var(--dk-border);
+}
+
+html[data-theme="dark"] .detail-campaign-icon {
+  background: var(--dk-brand-soft);
+  color: var(--dk-brand);
+}
+
+html[data-theme="dark"] .campaign-detail-header h3 {
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .detail-item {
+  border-color: var(--dk-border);
+  background: var(--dk-surface-2);
+}
+
+html[data-theme="dark"] .detail-item span {
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .detail-item strong {
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .detail-message label {
+  color: var(--dk-text-2);
+}
+
+html[data-theme="dark"] .detail-message div {
+  background: var(--dk-surface-2);
+  color: var(--dk-text-2);
+}
+
+html[data-theme="dark"] .redemption-code-box {
+  background: var(--dk-brand-soft);
+  color: var(--dk-brand);
+}
+
+html[data-theme="dark"] .form-group label {
+  color: var(--dk-text-2);
+}
+
+html[data-theme="dark"] .form-group input,
+html[data-theme="dark"] .form-group select,
+html[data-theme="dark"] .form-group textarea {
+  border-color: var(--dk-border);
+  background: var(--dk-sunken);
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .form-group input::placeholder,
+html[data-theme="dark"] .form-group textarea::placeholder {
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .form-group input:focus,
+html[data-theme="dark"] .form-group select:focus,
+html[data-theme="dark"] .form-group textarea:focus {
+  border-color: var(--dk-brand);
+}
+
+html[data-theme="dark"] .send-summary {
+  background: var(--dk-surface-2);
+}
+
+html[data-theme="dark"] .send-summary strong {
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .send-summary span {
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .selected-count {
+  color: var(--dk-brand) !important;
+}
+
+html[data-theme="dark"] .customer-select-all {
+  border-bottom-color: var(--dk-border);
+}
+
+html[data-theme="dark"] .customer-row {
+  border-bottom-color: var(--dk-border);
+}
+
+html[data-theme="dark"] .customer-info strong {
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .customer-info span {
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .customer-status {
+  background: var(--dk-success-soft);
+  color: var(--dk-success);
+}
+
+html[data-theme="dark"] .modal-footer {
+  border-top-color: var(--dk-border);
+}
+
+html[data-theme="dark"] .cancel-button {
+  border-color: var(--dk-border);
+  background: var(--dk-surface);
+  color: var(--dk-text-2);
+}
+
+html[data-theme="dark"] .secondary-modal-button {
+  border-color: var(--dk-border);
+  background: var(--dk-surface-2);
+  color: var(--dk-brand);
+}
+
+/* admin-offers */
+html[data-theme="dark"] .page-header h1 {
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .page-header p {
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .location-select {
+  border-color: var(--dk-border);
+  background: var(--dk-surface);
+}
+
+html[data-theme="dark"] .location-icon {
+  color: var(--dk-text-2);
+}
+
+html[data-theme="dark"] .location-select select {
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .location-select .select-arrow {
+  color: var(--dk-text-2);
+}
+
+html[data-theme="dark"] .category-tabs {
+  border-bottom-color: var(--dk-border);
+}
+
+html[data-theme="dark"] .category-tab {
+  color: var(--dk-text-2);
+}
+
+html[data-theme="dark"] .category-tab.active {
+  color: var(--dk-brand);
+}
+
+html[data-theme="dark"] .category-tab.active::after {
+  background: var(--dk-brand);
+}
+
+html[data-theme="dark"] .success-message {
+  border-color: var(--dk-success);
+  background: var(--dk-success-soft);
+  color: var(--dk-success);
+}
+
+html[data-theme="dark"] .error-message {
+  border-color: var(--dk-danger);
+  background: var(--dk-danger-soft);
+  color: var(--dk-danger);
+}
+
+html[data-theme="dark"] .loading-container {
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .loader {
+  border-color: var(--dk-border);
+  border-top-color: var(--dk-brand);
+}
+
+html[data-theme="dark"] .offer-card {
+  border-color: var(--dk-border);
+  background: var(--dk-surface);
+  box-shadow: var(--shadow-sm);
+}
+
+html[data-theme="dark"] .status-badge {
+  background: var(--dk-surface-3);
+  color: var(--dk-text-2);
+}
+
+html[data-theme="dark"] .status-badge.active {
+  color: var(--dk-success);
+}
+
+html[data-theme="dark"] .status-badge.scheduled {
+  color: var(--dk-text-2);
+}
+
+html[data-theme="dark"] .status-badge.inactive {
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .status-badge.expired {
+  color: var(--dk-danger);
+}
+
+html[data-theme="dark"] .discount-label {
+  color: var(--dk-brand);
+}
+
+html[data-theme="dark"] .offer-name {
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .offer-description {
+  color: var(--dk-text-2);
+}
+
+html[data-theme="dark"] .offer-meta {
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .edit-button {
+  border-color: var(--dk-border);
+  background: var(--dk-surface);
+  color: var(--dk-brand);
+}
+
+html[data-theme="dark"] .edit-button:hover {
+  background: var(--dk-surface-2);
+}
+
+html[data-theme="dark"] .delete-icon-button {
+  border-color: var(--dk-border);
+  background: var(--dk-danger-soft);
+  color: var(--dk-danger);
+}
+
+html[data-theme="dark"] .delete-icon-button:hover {
+  border-color: var(--dk-danger);
+  background: var(--dk-danger-soft);
+}
+
+html[data-theme="dark"] .delete-modal {
+  background: var(--dk-surface);
+  box-shadow: var(--shadow-lg);
+}
+
+html[data-theme="dark"] .delete-modal-icon {
+  background: var(--dk-danger-soft);
+  color: var(--dk-danger);
+}
+
+html[data-theme="dark"] .delete-modal-content h2 {
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .delete-modal-content p {
+  color: var(--dk-text-2);
+}
+
+html[data-theme="dark"] .delete-modal-content strong {
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .delete-warning {
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .delete-cancel-button {
+  border-color: var(--dk-border);
+  background: var(--dk-surface);
+  color: var(--dk-text-2);
+}
+
+html[data-theme="dark"] .delete-cancel-button:hover {
+  background: var(--dk-surface-2);
+}
+
+html[data-theme="dark"] .toggle-slider {
+  background: var(--dk-border-strong);
+}
+
+html[data-theme="dark"] .add-offer-card {
+  border-color: var(--dk-border);
+  background: var(--dk-surface);
+  color: var(--dk-text-2);
+}
+
+html[data-theme="dark"] .add-offer-card:hover {
+  border-color: var(--dk-border-strong);
+  background: var(--dk-surface-2);
+}
+
+html[data-theme="dark"] .add-offer-icon {
+  color: var(--dk-text-2);
+}
+
+html[data-theme="dark"] .empty-state {
+  border-color: var(--dk-border);
+  background: var(--dk-surface);
+}
+
+html[data-theme="dark"] .empty-icon {
+  background: var(--dk-brand-soft);
+  color: var(--dk-brand);
+}
+
+html[data-theme="dark"] .empty-state h3 {
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .empty-state p {
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .pagination-button {
+  border-color: var(--dk-border);
+  background: var(--dk-surface);
+  color: var(--dk-brand);
+}
+
+html[data-theme="dark"] .pagination-button:disabled {
+  background: var(--dk-surface-2);
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .page-info {
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .offer-modal {
+  background: var(--dk-surface);
+  box-shadow: var(--shadow-lg);
+}
+
+html[data-theme="dark"] .modal-header {
+  border-bottom-color: var(--dk-border);
+}
+
+html[data-theme="dark"] .modal-header h2 {
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .modal-header p {
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .close-button {
+  background: var(--dk-surface-2);
+  color: var(--dk-text-2);
+}
+
+html[data-theme="dark"] .close-button:hover {
+  background: var(--dk-surface-3);
+}
+
+html[data-theme="dark"] .form-group label {
+  color: var(--dk-text-2);
+}
+
+html[data-theme="dark"] .form-group input,
+html[data-theme="dark"] .form-group textarea,
+html[data-theme="dark"] .modal-select-wrapper select {
+  border-color: var(--dk-border);
+  background: var(--dk-sunken);
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .form-group input::placeholder,
+html[data-theme="dark"] .form-group textarea::placeholder {
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .form-group input:focus,
+html[data-theme="dark"] .form-group textarea:focus,
+html[data-theme="dark"] .modal-select-wrapper select:focus {
+  border-color: var(--dk-brand);
+  box-shadow: var(--focus-ring);
+}
+
+html[data-theme="dark"] .form-group input.ng-invalid.ng-touched,
+html[data-theme="dark"] .form-group textarea.ng-invalid.ng-touched,
+html[data-theme="dark"] .modal-select-wrapper select.ng-invalid.ng-touched {
+  border-color: var(--dk-danger);
+}
+
+html[data-theme="dark"] .field-error {
+  color: var(--dk-danger);
+}
+
+html[data-theme="dark"] .modal-actions {
+  border-top-color: var(--dk-border);
+}
+
+html[data-theme="dark"] .cancel-button {
+  border-color: var(--dk-border);
+  background: var(--dk-surface);
+  color: var(--dk-text-2);
+}
+
+html[data-theme="dark"] .cancel-button:hover {
+  background: var(--dk-surface-2);
+}
+
+/* admin-reward-program */
+html[data-theme="dark"] .page-header h1 {
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .page-header p {
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .section-title {
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .tiers-section,
+html[data-theme="dark"] .ways-section,
+html[data-theme="dark"] .catalog-section {
+  border-color: var(--dk-border);
+  background: var(--dk-surface);
+}
+
+html[data-theme="dark"] .outline-action-button {
+  border-color: var(--dk-border);
+  background: var(--dk-surface);
+  color: var(--dk-text-2);
+}
+
+html[data-theme="dark"] .outline-action-button:hover {
+  border-color: var(--dk-border-strong);
+  background: var(--dk-surface-2);
+  color: var(--dk-brand);
+}
+
+html[data-theme="dark"] .tier-card {
+  border-color: var(--dk-border);
+  background: var(--dk-surface-2);
+  box-shadow: var(--shadow-sm);
+}
+
+html[data-theme="dark"] .tier-card:hover {
+  box-shadow: var(--shadow-md);
+}
+
+html[data-theme="dark"] .tier-top-line.platinum {
+  background: var(--dk-brand);
+}
+
+html[data-theme="dark"] .tier-card h3 {
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .tier-points {
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .tier-divider {
+  background: var(--dk-border);
+}
+
+html[data-theme="dark"] .tier-perk {
+  color: var(--dk-text-2);
+}
+
+html[data-theme="dark"] .earning-row,
+html[data-theme="dark"] .reward-row {
+  border-color: var(--dk-border);
+  background: var(--dk-surface-2);
+}
+
+html[data-theme="dark"] .earning-name,
+html[data-theme="dark"] .reward-title {
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .earning-points {
+  color: var(--dk-success);
+}
+
+html[data-theme="dark"] .icon-button {
+  border-color: var(--dk-border);
+  background: var(--dk-surface);
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .icon-button:hover {
+  border-color: var(--dk-border-strong);
+  background: var(--dk-surface-2);
+  color: var(--dk-brand);
+}
+
+html[data-theme="dark"] .delete-icon-button {
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .delete-icon-button:hover {
+  border-color: var(--dk-danger);
+  background: var(--dk-danger-soft);
+  color: var(--dk-danger);
+}
+
+html[data-theme="dark"] .reward-icon {
+  background: var(--dk-brand-soft);
+  color: var(--dk-brand);
+}
+
+html[data-theme="dark"] .reward-description {
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .reward-points {
+  color: var(--dk-brand);
+}
+
+html[data-theme="dark"] .loading-state,
+html[data-theme="dark"] .empty-state {
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .success-toast {
+  border-color: var(--dk-success);
+  background: var(--dk-success-soft);
+  color: var(--dk-success);
+}
+
+html[data-theme="dark"] .error-toast {
+  border-color: var(--dk-danger);
+  background: var(--dk-danger-soft);
+  color: var(--dk-danger);
+}
+
+html[data-theme="dark"] .toast-icon {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+html[data-theme="dark"] .reward-modal,
+html[data-theme="dark"] .confirmation-modal {
+  background: var(--dk-surface);
+  box-shadow: var(--shadow-lg);
+}
+
+html[data-theme="dark"] .modal-header,
+html[data-theme="dark"] .modal-actions {
+  border-color: var(--dk-border);
+}
+
+html[data-theme="dark"] .modal-header h2,
+html[data-theme="dark"] .confirmation-modal h2 {
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .modal-header p {
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .close-button {
+  background: var(--dk-surface-2);
+  color: var(--dk-text-2);
+}
+
+html[data-theme="dark"] .close-button:hover {
+  background: var(--dk-surface-3);
+}
+
+html[data-theme="dark"] .form-group label,
+html[data-theme="dark"] .checkbox-label {
+  color: var(--dk-text-2);
+}
+
+html[data-theme="dark"] .form-group input,
+html[data-theme="dark"] .form-group textarea {
+  border-color: var(--dk-border);
+  background: var(--dk-sunken);
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .form-group input::placeholder,
+html[data-theme="dark"] .form-group textarea::placeholder {
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .form-group input:focus,
+html[data-theme="dark"] .form-group textarea:focus {
+  border-color: var(--dk-brand);
+  box-shadow: var(--focus-ring);
+}
+
+html[data-theme="dark"] .field-error {
+  color: var(--dk-danger);
+}
+
+html[data-theme="dark"] .selected-location-info {
+  background: var(--dk-surface-2);
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .selected-location-info strong {
+  color: var(--dk-text-2);
+}
+
+html[data-theme="dark"] .cancel-button {
+  border-color: var(--dk-border);
+  background: var(--dk-surface);
+  color: var(--dk-text-2);
+}
+
+html[data-theme="dark"] .cancel-button:hover {
+  background: var(--dk-surface-2);
+}
+
+html[data-theme="dark"] .confirmation-icon {
+  background: var(--dk-danger-soft);
+  color: var(--dk-danger);
+}
+
+html[data-theme="dark"] .confirmation-modal p {
+  color: var(--dk-text-2);
+}
+
+html[data-theme="dark"] .confirmation-warning {
+  color: var(--dk-text-3) !important;
+}
+
+/* admin-redemptions */
+html[data-theme="dark"] .redemptions-page {
+  background: var(--dk-surface-2);
+}
+
+html[data-theme="dark"] .page-header h1 {
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .page-header p {
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .filter-select-wrapper,
+html[data-theme="dark"] .datetime-filter {
+  border-color: var(--dk-border);
+  background: var(--dk-surface);
+}
+
+html[data-theme="dark"] .filter-icon,
+html[data-theme="dark"] .dropdown-icon {
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .filter-select-wrapper select {
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .datetime-filter label {
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .datetime-filter input {
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .status-tab {
+  border-color: var(--dk-border);
+  background: var(--dk-surface);
+  color: var(--dk-text-2);
+}
+
+html[data-theme="dark"] .status-tab:hover {
+  border-color: var(--dk-border-strong);
+  color: var(--dk-brand);
+}
+
+html[data-theme="dark"] .status-tab.active {
+  border-color: var(--dk-brand);
+  background: var(--dk-brand-soft);
+  color: var(--dk-brand);
+}
+
+html[data-theme="dark"] .export-button {
+  border-color: var(--dk-border);
+  background: var(--dk-surface);
+  color: var(--dk-brand);
+}
+
+html[data-theme="dark"] .export-button:hover:not(:disabled) {
+  border-color: var(--dk-border-strong);
+  background: var(--dk-surface-2);
+}
+
+html[data-theme="dark"] .export-spinner {
+  border-color: var(--dk-border);
+}
+
+html[data-theme="dark"] .error-message {
+  border-color: var(--dk-danger);
+  background: var(--dk-danger-soft);
+  color: var(--dk-danger);
+}
+
+html[data-theme="dark"] .table-card {
+  border-color: var(--dk-border);
+  background: var(--dk-surface);
+  box-shadow: var(--shadow-sm);
+}
+
+html[data-theme="dark"] .table-card:hover {
+  box-shadow: var(--shadow-md);
+}
+
+html[data-theme="dark"] thead th {
+  color: var(--dk-text-3);
+  border-bottom-color: var(--dk-border);
+}
+
+html[data-theme="dark"] tbody td {
+  color: var(--dk-text-2);
+  border-bottom-color: var(--dk-border);
+}
+
+html[data-theme="dark"] tbody tr:hover {
+  background: var(--dk-surface-2);
+}
+
+html[data-theme="dark"] .code-badge {
+  background: var(--dk-brand-soft);
+  color: var(--dk-brand);
+}
+
+html[data-theme="dark"] .type-badge.reward {
+  background: var(--dk-brand-soft);
+  color: var(--dk-brand);
+}
+
+html[data-theme="dark"] .type-badge.coupon {
+  background: var(--dk-warning-soft);
+  color: var(--dk-warning);
+}
+
+html[data-theme="dark"] .empty-value {
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .loading-container {
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .spinner {
+  border-color: var(--dk-border);
+}
+
+html[data-theme="dark"] .empty-state .material-icons {
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .empty-state h3 {
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .empty-state p {
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .table-footer {
+  border-color: var(--dk-border);
+  background: var(--dk-surface);
+  color: var(--dk-text-2);
+}
+
+html[data-theme="dark"] .page-btn {
+  border-color: var(--dk-border);
+  background: var(--dk-surface);
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .page-btn:hover:not(:disabled) {
+  border-color: var(--dk-border-strong);
+  background: var(--dk-surface-2);
+}
+
+html[data-theme="dark"] .page-btn.arrow {
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .page-btn:disabled {
+  background: var(--dk-surface-2);
+}
+
+html[data-theme="dark"] .jump-input {
+  border-color: var(--dk-border);
+  background: var(--dk-sunken);
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .jump-input:focus {
+  border-color: var(--dk-brand);
+  box-shadow: var(--focus-ring);
+}
+
+/* admin-reports */
+html[data-theme="dark"] .reports-page {
+  background: var(--dk-surface-2);
+}
+
+html[data-theme="dark"] .reports-header h1,
+html[data-theme="dark"] .section-title h2,
+html[data-theme="dark"] .recent-header h2,
+html[data-theme="dark"] .location-modal-header h2 {
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .reports-header p,
+html[data-theme="dark"] .field-label,
+html[data-theme="dark"] .scope-card span,
+html[data-theme="dark"] .date-field label,
+html[data-theme="dark"] .includes-section p,
+html[data-theme="dark"] .location-modal-header p {
+  color: var(--dk-text-2);
+}
+
+html[data-theme="dark"] .report-generator,
+html[data-theme="dark"] .recent-reports,
+html[data-theme="dark"] .location-modal {
+  border-color: var(--dk-border);
+  background: var(--dk-surface);
+  box-shadow: var(--shadow-md);
+}
+
+html[data-theme="dark"] .scope-card {
+  border-color: var(--dk-border);
+  background: var(--dk-surface-2);
+}
+
+html[data-theme="dark"] .scope-card:hover {
+  border-color: var(--dk-brand);
+}
+
+html[data-theme="dark"] .scope-card.selected {
+  border-color: var(--dk-brand);
+  background: var(--dk-brand-soft);
+}
+
+html[data-theme="dark"] .scope-card strong {
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .scope-card.selected strong {
+  color: var(--dk-brand);
+}
+
+html[data-theme="dark"] .period-select-wrapper {
+  border-color: var(--dk-border);
+  background: var(--dk-sunken);
+}
+
+html[data-theme="dark"] .period-select-wrapper > i:first-child,
+html[data-theme="dark"] .period-select-wrapper > i:last-child {
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .period-select-wrapper select {
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .period-select-wrapper select:disabled {
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .date-field input {
+  border-color: var(--dk-border);
+  background: var(--dk-sunken);
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .date-field input:focus {
+  border-color: var(--dk-brand);
+}
+
+html[data-theme="dark"] .date-field input:disabled {
+  background: var(--dk-surface-2);
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .selected-location {
+  background: var(--dk-brand-soft);
+}
+
+html[data-theme="dark"] .selected-location-icon {
+  background: var(--dk-brand-soft);
+  color: var(--dk-brand);
+}
+
+html[data-theme="dark"] .selected-location span {
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .selected-location strong {
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .selected-location button {
+  color: var(--dk-brand);
+}
+
+html[data-theme="dark"] .report-message.success {
+  background: var(--dk-success-soft);
+  color: var(--dk-success);
+}
+
+html[data-theme="dark"] .report-message.error {
+  background: var(--dk-danger-soft);
+  color: var(--dk-danger);
+}
+
+html[data-theme="dark"] .report-row {
+  border-bottom-color: var(--dk-border);
+}
+
+html[data-theme="dark"] .report-heading {
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .report-name strong {
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .report-icon {
+  background: var(--dk-brand-soft);
+  color: var(--dk-brand);
+}
+
+html[data-theme="dark"] .report-scope,
+html[data-theme="dark"] .report-period,
+html[data-theme="dark"] .report-generated {
+  color: var(--dk-text-2);
+}
+
+html[data-theme="dark"] .report-download button {
+  color: var(--dk-brand);
+}
+
+html[data-theme="dark"] .reports-loading,
+html[data-theme="dark"] .empty-reports {
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .close-button {
+  background: var(--dk-surface-2);
+  color: var(--dk-text-2);
+}
+
+html[data-theme="dark"] .location-option {
+  background: var(--dk-surface);
+}
+
+html[data-theme="dark"] .location-option:hover {
+  background: var(--dk-surface-2);
+}
+
+html[data-theme="dark"] .location-option.selected {
+  border-color: var(--dk-brand);
+  background: var(--dk-brand-soft);
+}
+
+html[data-theme="dark"] .location-option-icon {
+  background: var(--dk-brand-soft);
+  color: var(--dk-brand);
+}
+
+html[data-theme="dark"] .location-option-content strong {
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .location-modal-header {
+  border-bottom-color: var(--dk-border);
+}
+
+/* admin-reviews */
+html[data-theme="dark"] .reviews-page {
+  background: var(--dk-surface-2);
+}
+
+html[data-theme="dark"] .page-header h1 {
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .page-header p {
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .filter-select {
+  border-color: var(--dk-border);
+  background-color: var(--dk-sunken);
+  color: var(--dk-brand);
+}
+
+html[data-theme="dark"] .filter-select:focus {
+  border-color: var(--dk-brand);
+  box-shadow: var(--focus-ring);
+}
+
+html[data-theme="dark"] .filter-chip {
+  border-color: var(--dk-border);
+  background: var(--dk-surface);
+  color: var(--dk-text-2);
+}
+
+html[data-theme="dark"] .filter-chip:hover:not(:disabled) {
+  border-color: var(--dk-border-strong);
+  background: var(--dk-surface-2);
+}
+
+html[data-theme="dark"] .filter-chip.active {
+  border-color: var(--dk-brand);
+  background: var(--dk-brand-soft);
+  color: #d4bfff;
+}
+
+html[data-theme="dark"] .error-message {
+  border-color: var(--dk-danger);
+  background: var(--dk-danger-soft);
+  color: var(--dk-danger);
+}
+
+html[data-theme="dark"] .success-message {
+  border-color: var(--dk-success);
+  background: var(--dk-success-soft);
+  color: var(--dk-success);
+}
+
+html[data-theme="dark"] .summary-card,
+html[data-theme="dark"] .review-card {
+  border-color: var(--dk-border);
+  background: var(--dk-surface);
+}
+
+html[data-theme="dark"] .summary-label,
+html[data-theme="dark"] .review-meta {
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .summary-value,
+html[data-theme="dark"] .guest-name {
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .summary-star,
+html[data-theme="dark"] .rating {
+  color: var(--dk-warning);
+}
+
+html[data-theme="dark"] .meta-separator {
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .empty-star {
+  color: var(--dk-border-strong);
+}
+
+html[data-theme="dark"] .review-text,
+html[data-theme="dark"] .reply-text {
+  color: var(--dk-text-2);
+}
+
+html[data-theme="dark"] .existing-reply {
+  background: var(--dk-surface-2);
+}
+
+html[data-theme="dark"] .reply-label {
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .reply-section {
+  border-top-color: var(--dk-border);
+}
+
+html[data-theme="dark"] .reply-section textarea {
+  border-color: var(--dk-border);
+  background: var(--dk-sunken);
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .reply-section textarea::placeholder {
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .reply-section textarea:focus {
+  border-color: var(--dk-brand);
+  box-shadow: var(--focus-ring);
+}
+
+html[data-theme="dark"] .reply-section textarea:disabled {
+  background: var(--dk-surface-2);
+}
+
+html[data-theme="dark"] .reply-button {
+  border-color: var(--dk-border-strong);
+  background: var(--dk-surface);
+  color: var(--dk-brand);
+}
+
+html[data-theme="dark"] .reply-button:hover:not(:disabled) {
+  border-color: var(--dk-brand);
+  background: var(--dk-surface-2);
+}
+
+html[data-theme="dark"] .loading {
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .spinner {
+  border-color: var(--dk-border);
+}
+
+html[data-theme="dark"] .empty-state .material-icons {
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .empty-state h3 {
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .empty-state p {
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .pagination {
+  border-top-color: var(--dk-border);
+}
+
+html[data-theme="dark"] .pagination-button {
+  border-color: var(--dk-border);
+  background: var(--dk-surface);
+  color: var(--dk-brand);
+}
+
+html[data-theme="dark"] .pagination-button:hover:not(:disabled) {
+  background: var(--dk-surface-2);
+}
+
+html[data-theme="dark"] .pagination-info {
+  color: var(--dk-text-3);
+}

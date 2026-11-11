@@ -1,0 +1,102 @@
+/* Dark-mode text legibility overrides.
+   Component styles are emulated (`[_ngcontent-*]`), so their selectors out-rank the
+   plain dark mirrors. These rules add `body.dark-mode [class]` to beat them. */
+
+html[data-theme="dark"] body.dark-mode [class] :is(h1, h2, h3, h4, h5, h6) {
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] body.dark-mode [class] label {
+  color: var(--dk-text-2);
+}
+
+html[data-theme="dark"] body.dark-mode [class] strong {
+  color: var(--dk-text);
+}
+
+/* Solid brand purple is too dark on charcoal for text-only section links. */
+html[data-theme="dark"] body.dark-mode [class] .section-heading button {
+  color: var(--dk-brand);
+}
+
+/* Redemptions table: light-theme purple-gray cells were nearly invisible. */
+html[data-theme="dark"] body.dark-mode .redemptions-page thead th {
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] body.dark-mode .redemptions-page tbody td,
+html[data-theme="dark"] body.dark-mode .redemptions-page tbody td span:not([class]) {
+  color: var(--dk-text);
+}
+
+/* Dropdowns: white native selects and purple select text were unreadable. */
+html[data-theme="dark"] body.dark-mode [class] select {
+  color: var(--dk-text);
+  background-color: var(--dk-surface-2);
+  border-color: var(--dk-border);
+}
+
+html[data-theme="dark"] body.dark-mode [class] select:disabled {
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] body.dark-mode [class] select option {
+  color: var(--dk-text);
+  background-color: var(--dk-surface-2);
+}
+
+html[data-theme="dark"] body.dark-mode [class] .filter-select-wrapper select {
+  background-color: transparent;
+}
+
+html[data-theme="dark"] body.dark-mode [class] select ~ .material-icons {
+  color: var(--dk-text-3);
+}
+
+/* Performance tabs: inactive labels and the active tab were low contrast. */
+html[data-theme="dark"] body.dark-mode [class] .performance-tabs button {
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] body.dark-mode [class] .performance-tabs button.active {
+  color: var(--dk-brand);
+  border-bottom-color: var(--dk-brand);
+}
+
+/* Reports: selected scope title and description copy. */
+html[data-theme="dark"] body.dark-mode [class] .scope-card strong {
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] body.dark-mode [class] .scope-card.selected strong {
+  color: var(--dk-brand);
+}
+
+html[data-theme="dark"] body.dark-mode [class] .scope-card span {
+  color: var(--dk-text-2);
+}
+
+/* History status filter: inactive labels were dim purple-grey. */
+html[data-theme="dark"] body.dark-mode [class] .status-tabs button {
+  color: var(--dk-text-2);
+}
+
+html[data-theme="dark"] body.dark-mode [class] .status-tabs button.active {
+  color: #ffffff;
+}
+
+/* Email verification popup: light green fill with white text was too low contrast. */
+html[data-theme="dark"] body.dark-mode [class] .popup-login-button {
+  background: #0f7a4a;
+  color: #ffffff;
+}
+
+/* Filled primary buttons: light purple label on purple fill was low contrast. */
+html[data-theme="dark"] body.dark-mode .primary-button {
+  color: #ffffff;
+}
+
+/* Muted body copy across portals was below WCAG AA on charcoal. */
+html[data-theme="dark"] body.dark-mode p:not([class*="error"]):not([class*="success"]) {
+  color: var(--dk-text-2);
+}

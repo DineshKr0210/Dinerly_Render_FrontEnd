@@ -1,0 +1,407 @@
+/* =====================================================
+   GUEST SIDEBAR (admin sidebar look)
+===================================================== */
+
+.customer-sidebar {
+  height: 100%;
+
+  padding: 16px 11px 18px;
+
+  box-sizing: border-box;
+
+  display: flex;
+  flex-direction: column;
+
+  overflow-x: hidden;
+  overflow-y: auto;
+
+  background-image: url('../../../../assets/sidebar-new.png');
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+
+  border-right: 1px solid #eeeaf4;
+
+  color: #302938;
+
+  font-family: inherit;
+}
+
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+
+  padding: 0 9px;
+
+  margin-bottom: 18px;
+}
+
+.brand-icon {
+  width: 30px;
+  height: 30px;
+
+  flex: 0 0 30px;
+
+  display: grid;
+  place-items: center;
+
+  border-radius: 8px;
+
+  background: transparent;
+}
+
+.brand h2 {
+  margin: 0;
+
+  color: #6421bd;
+
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: -0.3px;
+}
+
+.brand p {
+  margin: 0;
+
+  color: var(--text-muted);
+
+  font-size: 9px;
+  font-weight: 600;
+}
+
+.section-label {
+  margin: 0 0 8px 9px;
+
+  color: #9a91a4;
+
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+}
+
+
+.side-nav {
+  display: flex;
+  flex-direction: column;
+
+  gap: 3px;
+}
+
+.side-nav button {
+  width: 100%;
+  min-height: 37px;
+
+  padding: 0 12px;
+
+  border: 0;
+  border-radius: 8px;
+
+  background: transparent;
+
+  color: #726b7e;
+
+  display: flex;
+  align-items: center;
+  gap: 11px;
+
+  font-family: inherit;
+  font-size: 11px;
+  font-weight: 500;
+  text-align: left;
+
+  cursor: pointer;
+
+  transition:
+    background 0.18s ease,
+    color 0.18s ease;
+}
+
+.side-nav button > i:first-child {
+  width: 16px;
+  flex: 0 0 16px;
+
+  text-align: center;
+  font-size: 11px;
+}
+
+.side-nav button > span {
+  flex: 1;
+  min-width: 0;
+}
+
+.side-nav button:hover {
+  background: #f6f1ff;
+  color: #6421bd;
+}
+
+.side-nav button.active {
+  background: #eee4ff;
+  color: #6421bd;
+  font-weight: 700;
+}
+
+.side-nav button.locked {
+  opacity: 0.62;
+}
+
+.nav-lock {
+  color: #9b92a5;
+  font-size: 9px;
+}
+
+
+.profile-nav-button {
+  margin-top: 8px;
+}
+
+.profile-nav-avatar {
+  font-size: 11px;
+}
+
+.profile-arrow {
+  color: #9b92a5;
+  font-size: 8px;
+}
+
+
+.sidebar-spacer {
+  flex: 1;
+  min-height: 16px;
+
+  pointer-events: none;
+}
+
+
+.sidebar-login-card {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+
+  padding: 14px 12px;
+
+  border: 1px solid #e5dfed;
+  border-radius: 12px;
+
+  background: #faf9fd;
+
+  pointer-events: auto;
+}
+
+.login-card-icon {
+  width: 30px;
+  height: 30px;
+
+  display: grid;
+  place-items: center;
+
+  border-radius: 8px;
+
+  background: #eee3ff;
+  color: #6d24c8;
+
+  font-size: 11px;
+}
+
+.login-card-content strong {
+  display: block;
+
+  color: #241f2d;
+
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.login-card-content p {
+  margin: 4px 0 0;
+
+  color: var(--text-muted);
+
+  font-size: 9px;
+  line-height: 1.45;
+}
+
+.sidebar-login-button {
+  width: 100%;
+  min-height: 32px;
+
+  border: 0;
+  border-radius: 8px;
+
+  background: var(--brand-gradient);
+  color: #ffffff;
+
+  font-family: inherit;
+  font-size: 10px;
+  font-weight: 700;
+
+  cursor: pointer;
+  pointer-events: auto;
+
+  transition: background 0.18s ease;
+}
+
+.sidebar-login-button:hover {
+  background: #551b8d;
+}
+
+.sidebar-login-button * {
+  pointer-events: none;
+}
+
+
+.compact-user-card {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+
+  padding: 10px;
+
+  border: 1px solid #e5dfed;
+  border-radius: 12px;
+
+  background: #ffffff;
+
+  cursor: pointer;
+}
+
+.compact-user-avatar {
+  width: 30px;
+  height: 30px;
+
+  flex: 0 0 30px;
+
+  display: grid;
+  place-items: center;
+
+  border-radius: 50%;
+
+  background: #eee3ff;
+  color: #6d24c8;
+
+  font-size: 11px;
+}
+
+.compact-user-content {
+  min-width: 0;
+  flex: 1;
+}
+
+.compact-user-content strong {
+  display: block;
+
+  overflow: hidden;
+
+  color: #342d3e;
+
+  font-size: 11px;
+  font-weight: 700;
+
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.compact-user-card .sidebar-login-button {
+  width: auto;
+  min-height: 28px;
+  padding: 0 9px;
+}
+
+
+.sidebar-footer {
+  margin-top: 14px;
+  padding: 12px 9px 0;
+
+  border-top: 1px solid #eeeaf4;
+}
+
+.sidebar-footer p {
+  margin: 7px 0;
+
+  color: var(--text-muted);
+
+  font-size: 9px;
+  line-height: 1.4;
+}
+
+.sidebar-footer i {
+  width: 14px;
+
+  color: #9b92a5;
+}
+
+
+/* =====================================================
+   DARK MODE (optional guest theme)
+===================================================== */
+
+:host-context(.app-wrapper.dark-mode) .customer-sidebar {
+  background: #120b2c;
+  border-right-color: rgba(255, 255, 255, 0.08);
+  color: #e9e4f5;
+}
+
+:host-context(.app-wrapper.dark-mode) .brand-icon,
+:host-context(.app-wrapper.dark-mode) .login-card-icon,
+:host-context(.app-wrapper.dark-mode) .compact-user-avatar {
+  background: rgba(155, 94, 255, 0.2);
+  color: #d6c4ff;
+}
+
+:host-context(.app-wrapper.dark-mode) .brand h2 {
+  color: #d6c4ff;
+}
+
+:host-context(.app-wrapper.dark-mode) .brand p,
+:host-context(.app-wrapper.dark-mode) .section-label,
+:host-context(.app-wrapper.dark-mode) .sidebar-footer p {
+  color: #8f86a3;
+}
+
+:host-context(.app-wrapper.dark-mode) .side-nav button {
+  color: rgba(255, 255, 255, 0.72);
+}
+
+:host-context(.app-wrapper.dark-mode) .side-nav button:hover {
+  background: rgba(255, 255, 255, 0.06);
+  color: #ffffff;
+}
+
+:host-context(.app-wrapper.dark-mode) .side-nav button.active {
+  background: rgba(155, 94, 255, 0.24);
+  color: #ffffff;
+}
+
+:host-context(.app-wrapper.dark-mode) .sidebar-login-card,
+:host-context(.app-wrapper.dark-mode) .compact-user-card {
+  background: rgba(255, 255, 255, 0.04);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+:host-context(.app-wrapper.dark-mode) .login-card-content strong,
+:host-context(.app-wrapper.dark-mode) .compact-user-content strong {
+  color: #f4f0fb;
+}
+
+:host-context(.app-wrapper.dark-mode) .login-card-content p {
+  color: #8f86a3;
+}
+
+:host-context(.app-wrapper.dark-mode) .sidebar-login-button {
+  background: #7c3cf0;
+}
+
+:host-context(.app-wrapper.dark-mode) .sidebar-login-button:hover {
+  background: #6924aa;
+}
+
+:host-context(.app-wrapper.dark-mode) .sidebar-footer {
+  border-top-color: rgba(255, 255, 255, 0.08);
+}
+
+:host-context(.app-wrapper.dark-mode) .sidebar-footer i,
+:host-context(.app-wrapper.dark-mode) .nav-lock,
+:host-context(.app-wrapper.dark-mode) .profile-arrow {
+  color: #8f86a3;
+}

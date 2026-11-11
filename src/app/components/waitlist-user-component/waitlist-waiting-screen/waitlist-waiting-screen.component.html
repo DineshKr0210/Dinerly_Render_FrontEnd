@@ -1,0 +1,331 @@
+<section class="content-grid">
+  <div class="left-area">
+    <div class="queue-card">
+      <p class="small-title">
+        {{ restaurant?.name?.toLocaleUpperCase() }}
+      </p>
+
+      <h2>Your party of {{ guest?.partySize || 1 }}</h2>
+
+      <!-- WAITLIST STEPPER -->
+      <div class="custom-stepper">
+        <div class="step done">
+          <span><i class="fa-solid fa-check"></i></span>
+          <p>Joined</p>
+        </div>
+
+        <div class="line active"></div>
+
+        <div class="step" [class.active]="stepWaitingActive">
+          <span>2</span>
+          <p>Waiting</p>
+        </div>
+
+        <div class="line" [class.active]="stepNotifiedActive || stepSeatedActive">
+        </div>
+
+        <div class="step" [class.active]="stepNotifiedActive">
+          <span>3</span>
+          <p>Notified</p>
+        </div>
+
+        <div class="line" [class.active]="stepSeatedActive"></div>
+
+        <div class="step" [class.active]="stepSeatedActive">
+          <span>4</span>
+          <p>Seated</p>
+        </div>
+      </div>
+
+      <!-- GUEST STATUS CHIP -->
+      <div class="guest-status" *ngIf="
+          guest?.status === 'NOTIFIED' ||
+          guest?.status === 'SEATED' ||
+          guest?.status === 'COMPLETED'
+        ">
+        <span [ngClass]="'status-chip ' + (guest?.status || '').toLowerCase()">
+          {{
+          guest?.status === 'NOTIFIED'
+          ? 'Notified'
+          : guest?.status === 'COMPLETED'
+          ? 'Completed'
+          : 'Seated'
+          }}
+        </span>
+      </div>
+
+      <!-- PENDING STATUS -->
+      <ng-container *ngIf="guest?.status === 'PENDING'">
+        <h1 class="ready-title">Pending</h1>
+        <p class="time-label">Waiting for restaurant approval</p>
+      </ng-container>
+
+      <!-- WAITING STATUS -->
+      <ng-container *ngIf="guest?.status === 'WAITING'">
+        <h1 class="big-time">{{ waitingTimerText || '0:00' }}</h1>
+
+        <p class="time-label">estimated minutes remaining</p>
+
+        <div class="mini-stats">
+          <div>
+            <h3>#{{ guest?.position || 1 }}</h3>
+            <p>Your position</p>
+          </div>
+
+          <div>
+            <h3>{{ partiesAhead }}</h3>
+            <p>Parties ahead</p>
+          </div>
+        </div>
+      </ng-container>
+
+      <!-- NOTIFIED STATUS -->
+      <ng-container *ngIf="guest?.status === 'NOTIFIED'">
+        <h1 class="ready-title">Your table is ready!</h1>
+        <p class="time-label">Please visit the restaurant counter.</p>
+      </ng-container>
+
+      <!-- SEATED STATUS -->
+      <ng-container *ngIf="guest?.status === 'SEATED'">
+        <h1 class="ready-title seated-title">You are seated</h1>
+        <p class="time-label seated-subtitle">Enjoy your meal!</p>
+      </ng-container>
+
+      <!-- COMPLETED STATUS -->
+      <ng-container *ngIf="guest?.status === 'COMPLETED'">
+        <h1 class="ready-title seated-title">Thank you for visiting</h1>
+        <p class="time-label seated-subtitle">Your feedback helps us improve your experience.</p>
+
+        <!-- REVIEW FORM: EMBEDDED INSIDE THE QUEUE CARD -->
+        <div class="embedded-review" *ngIf="!feedbackSubmitted">
+          <div class="review-header">
+            <div>
+              <span class="review-eyebrow">Write a review</span>
+
+              <h2>{{ restaurant?.name || 'Restaurant' }}</h2>
+
+              <p>Share your experience with other diners</p>
+            </div>
+
+            <button type="button" class="review-close" aria-label="Close review" (click)="closeReview()">
+              <i class="fa-solid fa-xmark"></i>
+            </button>
+          </div>
+
+          <div class="review-body">
+            <!-- RATING -->
+            <div class="review-field">
+              <label class="field-title">Your rating</label>
+
+              <div class="rating-options">
+                <button type="button" *ngFor="let star of stars" class="rating-button"
+                  [class.selected]="rating === star" [attr.aria-pressed]="rating === star" (click)="setRating(star)">
+                  {{ star }}
+                </button>
+              </div>
+            </div>
+
+            <!-- COMMENTS -->
+            <div class="review-field">
+              <label for="reviewComments" class="field-title">
+                Your review
+              </label>
+
+              <textarea id="reviewComments" class="review-textarea" [(ngModel)]="comments" maxlength="1000"
+                placeholder="What did you like? What could be better?">
+              </textarea>
+            </div>
+
+            <!-- MEAL -->
+            <div class="review-section">
+              <label class="field-title">What did you get?</label>
+
+              <div class="choice-list">
+                <button type="button" *ngFor="let option of mealOptions" class="choice-button"
+                  [class.selected]="selectedMeal === option" [attr.aria-pressed]="selectedMeal === option"
+                  (click)="selectMeal(option)">
+                  {{ option }}
+                </button>
+              </div>
+            </div>
+
+            <!-- SPENDING AND WAIT TIME -->
+            <div class="review-combined-section">
+              <div class="review-section">
+                <label class="field-title">
+                  How much did you spend per person?
+                </label>
+
+                <div class="choice-list">
+                  <button type="button" *ngFor="let option of spendingOptions" class="choice-button"
+                    [class.selected]="selectedSpending === option" [attr.aria-pressed]="selectedSpending === option"
+                    (click)="selectSpending(option)">
+                    {{ option }}
+                  </button>
+                </div>
+              </div>
+
+              <div class="review-section">
+                <label class="field-title">
+                  How long did you wait for a table?
+                </label>
+
+                <div class="choice-list">
+                  <button type="button" *ngFor="let option of reviewWaitOptions" class="choice-button"
+                    [class.selected]="selectedReviewWait === option" [attr.aria-pressed]="selectedReviewWait === option"
+                    (click)="selectReviewWait(option)">
+                    {{ option }}
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- NOISE LEVEL -->
+            <div class="review-section">
+              <label class="field-title">
+                How would you describe the noise level?
+              </label>
+
+              <div class="choice-list">
+                <button type="button" *ngFor="let option of noiseOptions" class="choice-button"
+                  [class.selected]="selectedNoise === option" [attr.aria-pressed]="selectedNoise === option"
+                  (click)="selectNoise(option)">
+                  {{ option }}
+                </button>
+              </div>
+            </div>
+
+            <!-- VALIDATION -->
+            <div class="review-error" *ngIf="feedbackError">
+              {{ feedbackError }}
+            </div>
+
+            <!-- SUBMIT -->
+            <div class="review-footer">
+              <p>
+                Reviews are public and tied to your account.
+                You'll earn +20 points for submitting.
+              </p>
+
+              <button type="button" class="submit-review-button" [disabled]="isSubmittingFeedback || feedbackSubmitted"
+                (click)="submitFeedback()">
+                {{ isSubmittingFeedback ? 'Submitting review...' : 'Submit review' }}
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- SHOWN AFTER SUCCESS, INCLUDING WHEN REVISITING -->
+        <div class="embedded-review-success" *ngIf="feedbackSubmitted">
+          <div class="success-icon">
+            <i class="fa-solid fa-check"></i>
+          </div>
+
+          <h2>You submitted your feedback!</h2>
+          <p>Thank you for sharing your experience.</p>
+          <h3>Visit Again!</h3>
+        </div>
+      </ng-container>
+    </div>
+
+    <!-- CANCEL WAITLIST -->
+    <div class="bottom-actions">
+      <button class="cancel-btn" type="button" *ngIf="
+          guest?.status === 'PENDING' ||
+          guest?.status === 'WAITING' ||
+          guest?.status === 'NOTIFIED'
+        " (click)="openLeaveConfirm()">
+        Cancel my spot
+      </button>
+    </div>
+  </div>
+
+  <!-- RIGHT COLUMN REMAINS VISIBLE -->
+  <div class="right-column">
+    <div class="text-alert">
+      <div class="alert-icon">
+        <i class="fa-regular fa-comment"></i>
+      </div>
+
+      <div>
+        <h3>We'll text you when your table is ready</h3>
+        <p>
+          Make sure your phone is nearby and notifications are turned on.
+        </p>
+      </div>
+    </div>
+
+    <div class="info-card" *ngIf="restaurant">
+      <h3>{{ restaurant.name }}</h3>
+
+      <p>
+        <i class="fa-solid fa-location-dot"></i>
+        {{ restaurant.address }}
+      </p>
+
+      <p>
+        <i class="fa-solid fa-phone"></i>
+        {{ restaurant.phone }}
+      </p>
+
+      <p>
+        <i class="fa-solid fa-envelope"></i>
+        {{ restaurant.email }}
+      </p>
+    </div>
+
+    <div class="details-card">
+      <h3>Your details</h3>
+
+      <div>
+        <span>Name</span>
+        <b>{{ guestName }}</b>
+      </div>
+
+      <div>
+        <span>Phone</span>
+        <b>{{ guestPhone }}</b>
+      </div>
+
+      <div>
+        <span>Seating preference</span>
+        <b>{{ guestPreference }}</b>
+      </div>
+    </div>
+
+    <button class="menu-btn" type="button">
+      <i class="fa-solid fa-utensils"></i>
+      See full menu
+      <i class="fa-solid fa-chevron-right"></i>
+    </button>
+
+    <div class="reward-card">
+      <div class="gift">🎁</div>
+
+      <div>
+        <h3>Earn 15 points when you're seated</h3>
+        <p>
+          Sign in to start collecting Dinerly Rewards points tonight.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CANCEL CONFIRMATION MODAL -->
+<div class="modal-backdrop" *ngIf="showLeaveConfirm">
+  <div class="leave-modal">
+    <h2>Cancel your spot?</h2>
+    <p>Do you want to cancel your waitlist spot?</p>
+
+    <div class="actions">
+      <button class="btn-cancel" type="button" (click)="closeLeaveConfirm()">
+        No
+      </button>
+
+      <button class="btn-danger" type="button" [disabled]="isLeaving" (click)="confirmLeaveWaitlist()">
+        {{ isLeaving ? 'Cancelling...' : 'Yes, cancel' }}
+      </button>
+    </div>
+  </div>
+</div>

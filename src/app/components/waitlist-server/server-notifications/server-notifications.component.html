@@ -1,0 +1,92 @@
+<div class="srv-page">
+
+  <div class="srv-page-head">
+
+    <div>
+      <h1>Notifications</h1>
+      <p>Updates about tables assigned to you</p>
+    </div>
+
+    <button
+      type="button"
+      class="srv-refresh-button"
+      [disabled]="isLoading"
+      (click)="refresh()">
+
+      <i class="fa-solid fa-rotate" [class.fa-spin]="isLoading"></i>
+      <span>Refresh</span>
+
+    </button>
+
+  </div>
+
+
+  <!-- Loading -->
+  <div class="srv-notice-list" *ngIf="isLoading">
+    <div class="srv-notice" *ngFor="let n of [1, 2, 3, 4]">
+      <div class="srv-skeleton" style="width: 36px; height: 36px; flex: 0 0 36px;"></div>
+      <div class="srv-notice-body">
+        <div class="srv-skeleton srv-skeleton-line wide"></div>
+        <div class="srv-skeleton srv-skeleton-line"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Error -->
+  <div class="srv-state" *ngIf="!isLoading && hasError">
+    <i class="fa-solid fa-triangle-exclamation"></i>
+    <h2>Could not load notifications</h2>
+    <p>Check your connection and try again.</p>
+    <button type="button" class="srv-refresh-button" (click)="refresh()">
+      <i class="fa-solid fa-rotate"></i>
+      <span>Try again</span>
+    </button>
+  </div>
+
+  <!-- Empty -->
+  <div class="srv-state" *ngIf="!isLoading && !hasError && notifications.length === 0">
+    <i class="fa-regular fa-bell"></i>
+    <h2>No notifications yet</h2>
+    <p>You will see table assignments and updates here.</p>
+  </div>
+
+  <!-- List -->
+  <div class="srv-notice-list" *ngIf="!isLoading && !hasError && notifications.length > 0">
+
+    <button
+      type="button"
+      class="srv-notice"
+      *ngFor="let item of notifications; trackBy: trackById"
+      [class.unread]="!item.isRead"
+      [attr.aria-label]="item.isRead ? item.message : 'Mark as read: ' + item.message"
+      (click)="markRead(item)">
+
+      <span class="srv-notice-icon">
+        <i class="fa-solid" [ngClass]="iconFor(item)"></i>
+      </span>
+
+      <span class="srv-notice-body">
+        <p>{{ item.message }}</p>
+        <small>{{ item.createdAt | date: 'MMM d, h:mm a' }}</small>
+      </span>
+
+      <span class="srv-unread-dot" *ngIf="!item.isRead" title="Unread"></span>
+
+    </button>
+
+    <div class="srv-load-more" *ngIf="!isLast">
+      <button
+        type="button"
+        class="srv-refresh-button"
+        [disabled]="isLoadingMore"
+        (click)="loadMore()">
+
+        <i class="fa-solid" [ngClass]="isLoadingMore ? 'fa-spinner fa-spin' : 'fa-angle-down'"></i>
+        <span>{{ isLoadingMore ? 'Loading' : 'Load more' }}</span>
+
+      </button>
+    </div>
+
+  </div>
+
+</div>

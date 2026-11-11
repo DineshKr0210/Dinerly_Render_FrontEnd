@@ -1,0 +1,274 @@
+<!-- New request banner -->
+<section
+  class="request-banner"
+  *ngIf="
+    latestPendingGuest as guest
+  "
+>
+
+  <div class="request-info">
+
+    <div class="request-icon">
+      <i
+        class="fa-regular fa-calendar-days"
+      ></i>
+    </div>
+
+
+    <div class="request-content">
+
+      <p class="request-label">
+        NEW WAITLIST REQUEST
+      </p>
+
+      <h2>
+        {{ guest.guestName }}
+        —
+        party of
+        {{ guest.partySize }}
+      </h2>
+
+      <span>
+        {{ guest.guestPhone }}
+      </span>
+
+    </div>
+
+  </div>
+
+
+  <div class="request-actions">
+
+    <button
+      type="button"
+      class="decline-btn"
+      [disabled]="
+        isRejecting ||
+        isApproving
+      "
+      (click)="declineGuest(guest)"
+    >
+
+      <i
+        class="fa-solid"
+        [ngClass]="
+          isRejecting
+            ? 'fa-spinner fa-spin'
+            : 'fa-xmark'
+        "
+      ></i>
+
+      {{
+        isRejecting
+          ? 'Declining...'
+          : 'Decline'
+      }}
+
+    </button>
+
+
+    <button
+      type="button"
+      class="approve-btn"
+      [disabled]="
+        isRejecting ||
+        isApproving
+      "
+      (click)="
+        openApprovalPopup(guest)
+      "
+    >
+
+      <i class="fa-solid fa-check"></i>
+
+      Approve
+
+    </button>
+
+  </div>
+
+</section>
+
+
+<!-- Approve guest popup -->
+<div
+  class="request-modal-backdrop"
+  *ngIf="
+    showApprovalPopup &&
+    selectedGuest
+  "
+  (click)="closeApprovalPopup()"
+>
+
+  <div
+    class="request-modal"
+    (click)="$event.stopPropagation()"
+  >
+
+    <div class="modal-header">
+
+      <div>
+
+        <span class="modal-eyebrow">
+          PENDING REQUEST
+        </span>
+
+        <h2>
+          Approve guest
+        </h2>
+
+      </div>
+
+
+      <button
+        type="button"
+        class="close-modal"
+        [disabled]="isApproving"
+        (click)="closeApprovalPopup()"
+      >
+        ×
+      </button>
+
+    </div>
+
+
+    <div class="guest-preview">
+
+      <div class="guest-avatar">
+        {{
+          getGuestInitials(
+            selectedGuest.guestName
+          )
+        }}
+      </div>
+
+
+      <div>
+
+        <strong>
+          {{ selectedGuest.guestName }}
+        </strong>
+
+        <p>
+          {{ selectedGuest.guestPhone }}
+        </p>
+
+      </div>
+
+    </div>
+
+
+    <div class="guest-details">
+
+      <div>
+
+        <span>
+          Party size
+        </span>
+
+        <strong>
+          {{ selectedGuest.partySize }}
+        </strong>
+
+      </div>
+
+
+      <div>
+
+        <span>
+          Preference
+        </span>
+
+        <strong>
+          {{
+            selectedGuest.preference ||
+            'No preference'
+          }}
+        </strong>
+
+      </div>
+
+    </div>
+
+
+    <div
+      class="guest-notes"
+      *ngIf="selectedGuest.notes"
+    >
+
+      <span>
+        Notes
+      </span>
+
+      <p>
+        {{ selectedGuest.notes }}
+      </p>
+
+    </div>
+
+
+    <label class="wait-time-label">
+      Select estimated wait time
+    </label>
+
+
+    <div class="time-options">
+
+      <button
+        type="button"
+        *ngFor="
+          let time of waitTimeOptions
+        "
+        [class.active]="
+          selectedWaitTime === time
+        "
+        [disabled]="isApproving"
+        (click)="selectedWaitTime = time"
+      >
+        {{ time }} min
+      </button>
+
+    </div>
+
+
+    <div class="modal-actions">
+
+      <button
+        type="button"
+        class="modal-cancel-btn"
+        [disabled]="isApproving"
+        (click)="closeApprovalPopup()"
+      >
+        Cancel
+      </button>
+
+
+      <button
+        type="button"
+        class="modal-approve-btn"
+        [disabled]="isApproving"
+        (click)="approveGuest()"
+      >
+
+        <i
+          class="fa-solid"
+          [ngClass]="
+            isApproving
+              ? 'fa-spinner fa-spin'
+              : 'fa-check'
+          "
+        ></i>
+
+        {{
+          isApproving
+            ? 'Approving...'
+            : 'Approve Guest'
+        }}
+
+      </button>
+
+    </div>
+
+  </div>
+
+</div>

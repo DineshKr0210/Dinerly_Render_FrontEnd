@@ -1,0 +1,91 @@
+/* You can add global styles to this file, and also import other style files */
+
+@import 'app/styles/dark/tokens.css';
+@import 'app/styles/dark/shell.css';
+@import 'app/styles/dark/restaurant.css';
+@import 'app/styles/dark/admin-a.css';
+@import 'app/styles/dark/admin-b.css';
+@import 'app/styles/dark/guest-a.css';
+@import 'app/styles/dark/guest-b.css';
+@import 'app/styles/dark/text-fixes.css';
+@import 'app/styles/dark/server.css';
+@import 'app/styles/dark/surfaces.css';
+
+:root {
+  --font-ui: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --text-muted: #6b6478;
+  --shadow-sm: 0 1px 2px rgba(25, 15, 38, 0.06);
+  --shadow-md: 0 8px 24px rgba(25, 15, 38, 0.1);
+  --shadow-lg: 0 20px 48px rgba(25, 15, 38, 0.18);
+  --focus-ring: 0 0 0 3px rgba(105, 36, 170, 0.18);
+  --brand-gradient: linear-gradient(135deg, #7d33d8 0%, #6421bd 100%);
+  --brand-soft: #f3ecff;
+}
+
+html, body { height: 100%; }
+body { margin: 0; font-family: var(--font-ui); -webkit-font-smoothing: antialiased; }
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+
+button:active:not(:disabled) { transform: scale(0.98); }
+
+/* Status chips: shared across Restaurant, Admin and Guest portals */
+.status-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 24px;
+  padding: 0 10px;
+  border-radius: 999px;
+  background: var(--chip-bg, #f1eef6);
+  color: var(--chip-fg, #4a4358);
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.status-chip::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  flex: 0 0 6px;
+  border-radius: 50%;
+  background: var(--chip-dot, #9b92a5);
+}
+
+.status-chip.waiting   { --chip-bg: #eef4ff; --chip-fg: #2a5bd7; --chip-dot: #3b82f6; }
+.status-chip.notified  { --chip-bg: #fff6e5; --chip-fg: #8a5200; --chip-dot: #f59e0b; }
+.status-chip.seated    { --chip-bg: #e8f8ef; --chip-fg: #12703f; --chip-dot: #16a34a; }
+.status-chip.cancelled { --chip-bg: #f3f1f6; --chip-fg: #5f5870; --chip-dot: #8a8298; }
+.status-chip.pending   { --chip-bg: #f6f1ff; --chip-fg: #6421bd; --chip-dot: #9b6ee0; }
+.status-chip.no-show   { --chip-bg: #fdecec; --chip-fg: #b42318; --chip-dot: #e5484d; }
+
+/* Skeleton placeholders: use in place of spinners while data loads */
+.skeleton {
+  background: linear-gradient(90deg, #f1ecf7 25%, #faf7fd 37%, #f1ecf7 63%);
+  background-size: 400% 100%;
+  border-radius: 8px;
+  animation: skeleton-shimmer 1.4s ease infinite;
+}
+
+@keyframes skeleton-shimmer {
+  0% { background-position: 100% 50%; }
+  100% { background-position: 0 50%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

@@ -1,0 +1,569 @@
+<div class="app-shell">
+
+  <!-- =====================================================
+       TOP NAVBAR
+       ===================================================== -->
+  <header class="top-navbar">
+
+    <!-- BRAND -->
+    <div class="top-brand">
+
+      <div class="brand-logo">
+        <img src="assets/brand/dinerly-icon.png" alt="">
+      </div>
+
+      <span class="brand-name">
+        Dinerly
+      </span>
+
+      <span class="brand-badge">
+        ADMIN
+      </span>
+
+    </div>
+
+    <!-- RIGHT SIDE -->
+    <div class="top-actions">
+      <button
+        type="button"
+        class="top-action-button theme-toggle-button"
+        [attr.aria-label]="isDarkMode ? 'Switch to light mode' : 'Switch to dark mode'"
+        [attr.title]="isDarkMode ? 'Light mode' : 'Dark mode'"
+        (click)="toggleTheme()">
+
+        <i class="fa-solid" [ngClass]="isDarkMode ? 'fa-sun' : 'fa-moon'"></i>
+
+      </button>
+
+      <!-- ADMIN USER -->
+      <div class="admin-user-wrapper">
+
+        <button
+          type="button"
+          class="top-action-button user-button"
+          (click)="toggleAdminMenu(); $event.stopPropagation()">
+
+          <i class="fa-regular fa-user"></i>
+
+        </button>
+
+        <!-- USER DROPDOWN -->
+        <div
+          class="admin-user-menu"
+          *ngIf="showAdminMenu"
+          (click)="$event.stopPropagation()">
+
+          <div class="admin-user-menu-header">
+
+            <div class="admin-user-avatar">
+              <i class="fa-regular fa-user"></i>
+            </div>
+
+            <div>
+              <strong>
+                Admin
+              </strong>
+
+              <span>
+                Administrator
+              </span>
+            </div>
+
+          </div>
+
+          <div class="admin-user-menu-divider"></div>
+
+          <button
+            type="button"
+            class="admin-logout-button"
+            (click)="logoutFromMenu($event)">
+
+            <i class="fa-solid fa-arrow-right-from-bracket"></i>
+
+            <span>
+              Logout
+            </span>
+
+          </button>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </header>
+
+
+  <!-- =====================================================
+       SIDEBAR
+       ===================================================== -->
+  <aside class="sidebar">
+
+    <div class="sidebar-top">
+
+      <!-- RESTAURANT / LOCATION SELECTOR -->
+      <div class="restaurant-section">
+
+        <div class="location-selector-wrapper">
+
+          <button
+            type="button"
+            class="restaurant-selector"
+            (click)="toggleLocationDropdown(); $event.stopPropagation()">
+
+            <span class="restaurant-logo">
+
+              {{
+                selectedLocation?.name?.charAt(0) ||
+                'R'
+              }}
+
+            </span>
+
+            <span class="restaurant-info">
+
+              <strong>
+                {{
+                  selectedLocation?.name ||
+                  'Select restaurant'
+                }}
+              </strong>
+
+              <small>
+                {{ locations.length }} locations
+              </small>
+
+            </span>
+
+            <i
+              class="fa-solid fa-chevron-down location-chevron"
+              [class.open]="showLocationDropdown">
+            </i>
+
+          </button>
+
+
+          <!-- LOCATION DROPDOWN -->
+          <div
+            class="location-dropdown"
+            *ngIf="showLocationDropdown"
+            (click)="$event.stopPropagation()">
+
+            <div class="location-dropdown-title">
+              Select location
+            </div>
+
+            <button
+              type="button"
+              class="location-option"
+              *ngFor="let location of locations"
+              [class.selected]="
+                selectedLocation?.id === location.id
+              "
+              (click)="selectLocation(location)">
+
+              <span class="location-option-avatar">
+                {{
+                  location.name.charAt(0)
+                }}
+              </span>
+
+              <span class="location-option-info">
+
+                <strong>
+                  {{ location.name }}
+                </strong>
+
+                <small>
+                  {{ location.address }}
+                </small>
+
+              </span>
+
+              <i
+                class="fa-solid fa-check"
+                *ngIf="
+                  selectedLocation?.id ===
+                  location.id
+                ">
+              </i>
+
+            </button>
+
+            <div
+              class="location-empty"
+              *ngIf="locations.length === 0">
+
+              No locations available.
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- SIDEBAR NAVIGATION -->
+      <nav class="sidebar-nav">
+
+        <button
+          type="button"
+          class="nav-item"
+          [class.active]="activeRoute === 'home'"
+          (click)="navigate('home')">
+
+          <i class="fa-solid fa-house nav-icon"></i>
+
+          <span>
+            Home
+          </span>
+
+        </button>
+
+
+        <!-- <button
+          type="button"
+          class="nav-item"
+          [class.active]="activeRoute === 'management'"
+          (click)="navigate('management')">
+
+          <i class="fa-solid fa-sliders nav-icon"></i>
+
+          <span>
+            Management
+          </span>
+
+          <i class="fa-solid fa-chevron-right nav-arrow"></i>
+
+        </button> -->
+
+
+        <button
+          type="button"
+          class="nav-item"
+          [class.active]="activeRoute === 'locations'"
+          (click)="navigate('locations')">
+
+          <i class="fa-solid fa-location-dot nav-icon"></i>
+
+          <span>
+            Locations
+          </span>
+
+        </button>
+
+
+        <button
+          type="button"
+          class="nav-item"
+          [class.active]="activeRoute === 'menu-management'"
+          (click)="navigate('menu-management')">
+
+          <i class="fa-solid fa-utensils nav-icon"></i>
+
+          <span>
+            Menu management
+          </span>
+
+        </button>
+
+
+        <button
+          type="button"
+          class="nav-item"
+          [class.active]="activeRoute === 'admin'"
+          (click)="navigate('admin')">
+
+          <i class="fa-solid fa-user-shield nav-icon"></i>
+
+          <span>
+            Admin
+          </span>
+
+        </button>
+
+
+        <button
+          type="button"
+          class="nav-item"
+          [class.active]="activeRoute === 'offers'"
+          (click)="navigate('offers')">
+
+          <i class="fa-solid fa-tag nav-icon"></i>
+
+          <span>
+            Offers
+          </span>
+
+        </button>
+
+        <!-- we can add it in the future -->
+
+        <!-- <button
+          type="button"
+          class="nav-item"
+          [class.active]="activeRoute === 'rewards-program'"
+          (click)="navigate('rewards-program')">
+
+          <i class="fa-solid fa-gift nav-icon"></i>
+
+          <span>
+            Rewards program
+          </span>
+
+        </button> -->
+
+
+        <button
+          type="button"
+          class="nav-item"
+          [class.active]="activeRoute === 'redemptions'"
+          (click)="navigate('redemptions')">
+
+          <i class="fa-solid fa-ticket nav-icon"></i>
+
+          <span>
+            Redemptions
+          </span>
+
+        </button>
+
+
+        <button
+          type="button"
+          class="nav-item"
+          [class.active]="activeRoute === 'reviews'"
+          (click)="navigate('reviews')">
+
+          <i class="fa-solid fa-star nav-icon"></i>
+
+          <span>
+            Reviews
+          </span>
+
+        </button>
+
+
+        <button
+          type="button"
+          class="nav-item"
+          [class.active]="activeRoute === 'performance'"
+          (click)="navigate('performance')">
+
+          <i class="fa-solid fa-chart-line nav-icon"></i>
+
+          <span>
+            Performance
+          </span>
+
+        </button>
+
+
+        <button
+          type="button"
+          class="nav-item"
+          [class.active]="activeRoute === 'reports'"
+          (click)="navigate('reports')">
+
+          <i class="fa-solid fa-file-lines nav-icon"></i>
+
+          <span>
+            Reports
+          </span>
+
+        </button>
+
+
+        <button
+          type="button"
+          class="nav-item"
+          [class.active]="activeRoute === 'customers'"
+          (click)="navigate('customers')">
+
+          <i class="fa-solid fa-users nav-icon"></i>
+
+          <span>
+            Customers
+          </span>
+
+        </button>
+
+
+        <button
+          type="button"
+          class="nav-item"
+          [class.active]="activeRoute === 'marketing'"
+          (click)="navigate('marketing')">
+
+          <i class="fa-solid fa-bullhorn nav-icon"></i>
+
+          <span>
+            Marketing
+          </span>
+
+        </button>
+
+
+        <button
+          type="button"
+          class="nav-item"
+          [class.active]="activeRoute === 'store-availability'"
+          (click)="navigate('store-availability')">
+
+          <i class="fa-solid fa-store nav-icon"></i>
+
+          <span>
+            Store availability
+          </span>
+
+        </button>
+
+
+        <button
+          type="button"
+          class="nav-item"
+          [class.active]="activeRoute === 'statements'"
+          (click)="navigate('statements')">
+
+          <i class="fa-solid fa-receipt nav-icon"></i>
+
+          <span>
+            Statements
+          </span>
+
+        </button>
+
+
+        <!-- SETTINGS -->
+        <button
+          type="button"
+          class="nav-item settings-parent"
+          [class.active]="activeRoute === 'settings'"
+          (click)="toggleSettingsMenu()">
+
+          <i class="fa-solid fa-gear nav-icon"></i>
+
+          <span>
+            Settings
+          </span>
+
+          <i
+            class="fa-solid fa-chevron-down settings-arrow"
+            [class.open]="showSettingsMenu">
+          </i>
+
+        </button>
+
+
+        <div
+          class="settings-submenu"
+          [class.open]="showSettingsMenu">
+
+          <button
+            type="button"
+            [class.active]="activeSettingsTab === 'profile'"
+            (click)="openSettingsTab('profile')">
+
+            Profile
+
+          </button>
+
+          <button
+            type="button"
+            [class.active]="activeSettingsTab === 'notification'"
+            (click)="openSettingsTab('notification')">
+
+            Notification
+
+          </button>
+
+          <button
+            type="button"
+            [class.active]="activeSettingsTab === 'waitlist'"
+            (click)="openSettingsTab('waitlist')">
+
+            Waitlist settings
+
+          </button>
+
+          <button
+            type="button"
+            [class.active]="activeSettingsTab === 'tables'"
+            (click)="openSettingsTab('tables')">
+
+            Tables
+
+          </button>
+
+          <button
+            type="button"
+            [class.active]="activeSettingsTab === 'holiday'"
+            (click)="openSettingsTab('holiday')">
+
+            Holiday hours
+
+          </button>
+
+          <button
+            type="button"
+            [class.active]="activeSettingsTab === 'advanced'"
+            (click)="openSettingsTab('advanced')">
+
+            Advanced setting
+
+          </button>
+
+        </div>
+
+
+        <button
+          type="button"
+          class="nav-item"
+          [class.active]="activeRoute === 'help'"
+          (click)="navigate('help')">
+
+          <i class="fa-solid fa-circle-question nav-icon"></i>
+
+          <span>
+            Help
+          </span>
+
+        </button>
+
+      </nav>
+
+    </div>
+
+
+    <!-- LOGOUT -->
+    <!-- <button
+      type="button"
+      class="logout-button"
+      (click)="logoutFromMenu($event)">
+
+      <i class="fa-solid fa-arrow-right-from-bracket"></i>
+
+      <span>
+        Logout
+      </span>
+
+    </button> -->
+
+  </aside>
+
+
+  <!-- =====================================================
+       MAIN CONTENT
+       ===================================================== -->
+  <main class="main-content">
+
+    <router-outlet></router-outlet>
+
+  </main>
+
+</div>
+
+<app-session-timeout></app-session-timeout>

@@ -1,0 +1,1340 @@
+/* =====================================================
+   COMPONENT HOST
+===================================================== */
+
+:host {
+  display: block;
+  min-height: 100vh;
+
+  font-family: var(--font-ui);
+}
+
+
+/* =====================================================
+   APP WRAPPER
+===================================================== */
+
+.app-wrapper {
+  min-height: 100vh;
+
+  background: #ffffff;
+
+  transition:
+    background-color 0.25s ease,
+    color 0.25s ease;
+}
+
+
+.app-wrapper.light-mode {
+  background: #ffffff;
+}
+
+
+.app-wrapper.dark-mode {
+  background:
+    linear-gradient(
+      rgba(3, 0, 18, 0.72),
+      rgba(8, 1, 31, 0.96)
+    ),
+    url('/assets/images/dinerly-dark-bg.jpg');
+
+  background-size: cover;
+  background-position: center top;
+  background-attachment: fixed;
+}
+
+
+/* =====================================================
+   DESKTOP PAGE LAYOUT
+   Fixed top navbar (62px) with a fixed sidebar on the left.
+===================================================== */
+
+.customer-shell {
+  min-height: 100vh;
+  padding-top: 62px;
+
+  background: #faf9fd;
+}
+
+
+.app-wrapper.dark-mode
+.customer-shell {
+  background: transparent;
+}
+
+
+.guest-sidebar-component {
+  position: fixed;
+  top: 62px;
+  bottom: 0;
+  left: 0;
+  z-index: 1500;
+
+  display: block;
+  width: 224px;
+
+  min-width: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+
+  box-sizing: border-box;
+}
+
+
+.customer-main {
+  min-width: 0;
+  margin-left: 224px;
+
+  padding: 24px 28px 32px;
+
+  box-sizing: border-box;
+}
+
+
+.mobile-sidebar-backdrop {
+  display: none;
+}
+
+
+/* =====================================================
+   WAITLIST ACCESS POPUP BACKDROP
+===================================================== */
+
+.access-backdrop {
+  position: fixed;
+  z-index: 10000;
+  inset: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 20px;
+
+  background: rgba(25, 15, 38, 0.48);
+}
+
+
+/* =====================================================
+   WAITLIST ACCESS POPUP
+===================================================== */
+
+.access-popup {
+  position: relative;
+
+  width: 100%;
+  max-width: 380px;
+
+  padding: 22px 22px 20px;
+
+  border-radius: 15px;
+
+  background: #ffffff;
+
+  text-align: center;
+
+  box-shadow: var(--shadow-lg);
+
+  animation:
+    popup-scale
+    0.25s ease;
+}
+
+
+.access-close {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+
+  width: 30px;
+  height: 30px;
+
+  display: grid;
+  place-items: center;
+
+  padding: 0;
+
+  border: none;
+  border-radius: 8px;
+
+  color: #5d5668;
+  background: #f5f1fa;
+
+  font-size: 13px;
+
+  cursor: pointer;
+
+  transition:
+    color 0.15s ease,
+    background-color 0.15s ease;
+}
+
+
+.access-close:hover {
+  color: #292238;
+  background: #eee4ff;
+}
+
+
+.access-icon {
+  width: 52px;
+  height: 52px;
+
+  margin: 0 auto 14px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 14px;
+
+  color: #6d24c8;
+  background: #eee3ff;
+
+  font-size: 20px;
+}
+
+
+.cancelled-icon {
+  color: #c73535;
+  background: #fff1f1;
+}
+
+
+.access-popup h2 {
+  margin: 0 0 8px;
+
+  color: #292238;
+
+  font-size: 18px;
+  font-weight: 700;
+}
+
+
+.access-popup p {
+  margin: 0 0 20px;
+
+  color: var(--text-muted);
+
+  font-size: 11px;
+  line-height: 1.6;
+}
+
+
+.access-btn {
+  width: 100%;
+  height: 38px;
+
+  padding: 0 18px;
+
+  border: none;
+  border-radius: 8px;
+
+  color: #ffffff;
+
+  background: var(--brand-gradient);
+
+  font-size: 11px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition:
+    background-color 0.15s ease;
+}
+
+
+.access-btn:hover {
+  background: #551b8d;
+}
+
+
+.cancelled-popup .access-btn {
+  background: var(--brand-gradient);
+}
+
+
+.cancelled-popup .access-btn:hover {
+  background: #551b8d;
+}
+
+
+@keyframes popup-scale {
+
+  from {
+    opacity: 0;
+
+    transform:
+      scale(0.92)
+      translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+
+    transform:
+      scale(1)
+      translateY(0);
+  }
+
+}
+
+
+/* =====================================================
+   EMAIL LOGIN POPUP
+===================================================== */
+
+.account-login-popup {
+  position: relative;
+
+  width: min(
+    100%,
+    450px
+  );
+
+  max-height:
+    calc(100vh - 40px);
+
+  overflow-y: auto;
+
+  border-radius: 15px;
+
+  background: #ffffff;
+
+  box-shadow: var(--shadow-lg);
+
+  animation:
+    account-popup-in
+    0.25s ease;
+}
+
+
+.account-login-popup
+.access-close {
+  position: absolute;
+  z-index: 2;
+
+  top: 16px;
+  right: 16px;
+}
+
+
+@keyframes account-popup-in {
+
+  from {
+    opacity: 0;
+
+    transform:
+      translateY(15px)
+      scale(0.96);
+  }
+
+  to {
+    opacity: 1;
+
+    transform:
+      translateY(0)
+      scale(1);
+  }
+
+}
+
+
+/* =====================================================
+   ACCOUNT BENEFITS BANNER
+===================================================== */
+
+.account-benefits-banner {
+  display: grid;
+  grid-template-columns:
+    auto
+    1fr
+    auto;
+
+  align-items: center;
+  gap: 16px;
+
+  margin-top: 20px;
+  padding: 18px;
+
+  border:
+    1px solid
+    #e5dfed;
+
+  border-radius: 12px;
+
+  background: #ffffff;
+
+  box-shadow: var(--shadow-sm);
+  transition:
+    transform 180ms ease,
+    box-shadow 180ms ease;
+}
+
+.account-benefits-banner:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+
+.benefit-icon {
+  width: 44px;
+  height: 44px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 12px;
+
+  color: #6d24c8;
+  background: #eee3ff;
+
+  font-size: 18px;
+}
+
+
+.benefit-content {
+  min-width: 0;
+}
+
+
+.benefit-content h3 {
+  margin: 0 0 4px;
+
+  color: #292238;
+
+  font-size: 14px;
+  font-weight: 700;
+}
+
+
+.benefit-content p {
+  margin: 0;
+
+  color: var(--text-muted);
+
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+
+.account-benefits-banner > button {
+  min-height: 38px;
+
+  padding: 0 16px;
+
+  border: none;
+  border-radius: 8px;
+
+  color: #ffffff;
+  background: var(--brand-gradient);
+
+  font-size: 11px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition:
+    background-color 0.2s ease;
+}
+
+
+.account-benefits-banner > button:hover {
+  background: #551b8d;
+}
+
+
+/* =====================================================
+   PROFILE PAGE
+===================================================== */
+
+.customer-profile-page {
+  width: 100%;
+  max-width: 1180px;
+
+  margin: 0 auto;
+
+  box-sizing: border-box;
+}
+
+
+.profile-page-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+
+  margin-bottom: 18px;
+  padding: 18px;
+
+  border:
+    1px solid
+    #e5dfed;
+
+  border-radius: 12px;
+
+  background: #ffffff;
+
+  box-shadow: var(--shadow-sm);
+  transition:
+    transform 180ms ease,
+    box-shadow 180ms ease;
+}
+
+.profile-page-header:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+
+.profile-page-eyebrow {
+  margin: 0 0 6px;
+
+  color: #9a91a4;
+
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+}
+
+
+.profile-page-header h1 {
+  margin: 0;
+
+  color: #241f2d;
+
+  font-size: 25px;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+}
+
+
+.profile-page-header > div:first-child > p:last-child {
+  margin: 4px 0 0;
+
+  color: var(--text-muted);
+
+  font-size: 11px;
+}
+
+
+.profile-header-avatar {
+  width: 56px;
+  height: 56px;
+  flex: 0 0 56px;
+
+  display: grid;
+  place-items: center;
+
+  border-radius: 14px;
+
+  color: #ffffff;
+  background: #6920c2;
+
+  font-size: 20px;
+  font-weight: 700;
+}
+
+
+.profile-details-card {
+  padding: 18px;
+
+  border:
+    1px solid
+    #e5dfed;
+
+  border-radius: 12px;
+
+  background: #ffffff;
+
+  box-shadow: var(--shadow-sm);
+  transition:
+    transform 180ms ease,
+    box-shadow 180ms ease;
+}
+
+.profile-details-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+
+.profile-card-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+
+  margin-bottom: 18px;
+  padding-bottom: 14px;
+
+  border-bottom:
+    1px solid
+    #eeeaf4;
+}
+
+
+.profile-card-heading h2 {
+  margin: 0;
+
+  color: #241f2d;
+
+  font-size: 15px;
+  font-weight: 700;
+}
+
+
+.profile-card-heading p {
+  margin: 3px 0 0;
+
+  color: var(--text-muted);
+
+  font-size: 11px;
+}
+
+
+.edit-profile-button {
+  min-height: 38px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+
+  padding: 0 14px;
+
+  border:
+    1px solid
+    #ddd4ea;
+
+  border-radius: 8px;
+
+  color: #6520bb;
+  background: #fbf9fe;
+
+  font-family: inherit;
+  font-size: 11px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition:
+    background-color 0.15s ease;
+}
+
+
+.edit-profile-button:hover {
+  background: #f6f1ff;
+}
+
+
+.profile-details-grid {
+  display: grid;
+  grid-template-columns:
+    repeat(
+      2,
+      minmax(0, 1fr)
+    );
+
+  gap: 12px;
+}
+
+
+.profile-detail-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  min-width: 0;
+
+  padding: 14px;
+
+  border:
+    1px solid
+    #e6e1ee;
+
+  border-radius: 11px;
+
+  background: #fbf9fe;
+}
+
+
+.profile-detail-icon {
+  width: 38px;
+  height: 38px;
+  flex: 0 0 38px;
+
+  display: grid;
+  place-items: center;
+
+  border-radius: 10px;
+
+  color: #6d24c8;
+  background: #eee3ff;
+
+  font-size: 15px;
+}
+
+
+.profile-detail-item > div:last-child {
+  min-width: 0;
+}
+
+
+.profile-detail-item span,
+.profile-detail-item strong {
+  display: block;
+}
+
+
+.profile-detail-item span {
+  margin-bottom: 3px;
+
+  color: #9a91a4;
+
+  font-size: 9px;
+  font-weight: 600;
+}
+
+
+.profile-detail-item strong {
+  overflow-wrap: anywhere;
+
+  color: #302938;
+
+  font-size: 12px;
+  font-weight: 600;
+}
+
+
+.profile-actions {
+  display: flex;
+  justify-content: flex-end;
+
+  margin-top: 18px;
+  padding-top: 14px;
+
+  border-top:
+    1px solid
+    #eeeaf4;
+}
+
+
+.profile-logout-button {
+  min-height: 38px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+
+  padding: 0 16px;
+
+  border:
+    1px solid
+    #f0d6d6;
+
+  border-radius: 8px;
+
+  color: #c73535;
+  background: #ffffff;
+
+  font-family: inherit;
+  font-size: 11px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition:
+    background-color 0.15s ease;
+}
+
+
+.profile-logout-button:hover {
+  background: #fff1f1;
+}
+
+
+/* =====================================================
+   LEGACY SIDEBAR HELPERS
+
+   These styles are kept because some sidebar-related
+   markup may still be rendered from this component.
+===================================================== */
+
+.side-nav button {
+  position: relative;
+}
+
+
+.side-nav button.locked {
+  color: #8b8495;
+}
+
+
+.nav-lock {
+  margin-left: auto;
+
+  color: #a89cb6;
+
+  font-size: 10px;
+}
+
+
+.sidebar-spacer {
+  flex: 1;
+}
+
+
+.sidebar-login-card {
+  margin: 14px;
+  padding: 14px;
+
+  border:
+    1px solid
+    #e5dfed;
+
+  border-radius: 12px;
+
+  background: #ffffff;
+}
+
+
+.login-card-icon {
+  width: 36px;
+  height: 36px;
+
+  margin-bottom: 9px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 10px;
+
+  color: #6d24c8;
+  background: #eee3ff;
+}
+
+
+.sidebar-login-card strong {
+  color: #292238;
+
+  font-size: 12px;
+  font-weight: 700;
+}
+
+
+.sidebar-login-card p {
+  margin: 5px 0 11px;
+
+  color: var(--text-muted);
+
+  font-size: 10px;
+  line-height: 1.4;
+}
+
+
+.sidebar-login-card button {
+  width: 100%;
+  min-height: 38px;
+
+  border: none;
+  border-radius: 8px;
+
+  color: #ffffff;
+  background: var(--brand-gradient);
+
+  font-size: 11px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition:
+    background-color 0.15s ease;
+}
+
+
+.sidebar-login-card button:hover {
+  background: #551b8d;
+}
+
+
+.sidebar-profile {
+  display: grid;
+  grid-template-columns:
+    auto
+    minmax(0, 1fr)
+    auto;
+
+  align-items: center;
+  gap: 10px;
+
+  margin: 14px;
+  padding: 11px;
+
+  border:
+    1px solid
+    #e5dfed;
+
+  border-radius: 12px;
+
+  background: #ffffff;
+}
+
+
+.profile-avatar {
+  width: 35px;
+  height: 35px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  color: #ffffff;
+  background: #6920c2;
+
+  font-size: 12px;
+  font-weight: 700;
+}
+
+
+.profile-info {
+  min-width: 0;
+}
+
+
+.profile-info strong,
+.profile-info p {
+  display: block;
+
+  overflow: hidden;
+
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+
+.profile-info strong {
+  color: #292238;
+
+  font-size: 12px;
+  font-weight: 700;
+}
+
+
+.profile-info p {
+  margin: 3px 0 0;
+
+  color: var(--text-muted);
+
+  font-size: 10px;
+}
+
+
+.profile-logout {
+  padding: 4px;
+
+  border: none;
+  border-radius: 8px;
+
+  color: var(--text-muted);
+  background: transparent;
+
+  cursor: pointer;
+
+  transition:
+    color 0.15s ease,
+    background-color 0.15s ease;
+}
+
+
+.profile-logout:hover {
+  color: #c73535;
+  background: #fff1f1;
+}
+
+
+/* =====================================================
+   DARK MODE - POPUPS AND PROFILE
+===================================================== */
+
+.app-wrapper.dark-mode
+.access-popup,
+.app-wrapper.dark-mode
+.account-login-popup,
+.app-wrapper.dark-mode
+.profile-details-card {
+  color: #ffffff;
+
+  border-color:
+    rgba(255, 255, 255, 0.1);
+
+  background:
+    rgba(20, 12, 48, 0.97);
+}
+
+
+.app-wrapper.dark-mode
+.access-popup h2,
+.app-wrapper.dark-mode
+.profile-card-heading h2,
+.app-wrapper.dark-mode
+.profile-detail-item strong {
+  color: #ffffff;
+}
+
+
+.app-wrapper.dark-mode
+.access-popup p,
+.app-wrapper.dark-mode
+.profile-card-heading p,
+.app-wrapper.dark-mode
+.profile-detail-item span {
+  color: #b8afc3;
+}
+
+
+.app-wrapper.dark-mode
+.profile-page-header {
+  border-color:
+    rgba(255, 255, 255, 0.1);
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(124, 58, 237, 0.18),
+      rgba(255, 255, 255, 0.05)
+    );
+}
+
+
+.app-wrapper.dark-mode
+.profile-page-header h1 {
+  color: #ffffff;
+}
+
+
+.app-wrapper.dark-mode
+.profile-page-header
+> div:first-child
+> p:last-child {
+  color: #b8afc3;
+}
+
+
+.app-wrapper.dark-mode
+.profile-detail-item {
+  border-color:
+    rgba(255, 255, 255, 0.09);
+
+  background:
+    rgba(255, 255, 255, 0.05);
+}
+
+
+.app-wrapper.dark-mode
+.profile-card-heading,
+.app-wrapper.dark-mode
+.profile-actions {
+  border-color:
+    rgba(255, 255, 255, 0.09);
+}
+
+
+/* =====================================================
+   TABLET AND MOBILE LAYOUT
+===================================================== */
+
+@media (max-width: 1024px) {
+
+  /*
+   * Sidebar is an off-canvas drawer, so main content fills the viewport.
+   */
+  .customer-shell {
+    display: block;
+
+    min-height: 100vh;
+    padding-top: 62px;
+
+    background: #faf9fd;
+  }
+
+
+  .customer-main {
+    width: 100%;
+    margin-left: 0;
+
+    padding: 20px;
+
+    box-sizing: border-box;
+  }
+
+
+  /*
+   * Sidebar becomes an off-canvas drawer.
+   */
+  .guest-sidebar-component {
+    position: fixed;
+    z-index: 7000;
+
+    top: 62px;
+    bottom: 0;
+    left: 0;
+
+    display: block;
+
+    width: min(
+      260px,
+      84vw
+    );
+
+    overflow-x: hidden;
+    overflow-y: auto;
+
+    background: #ffffff;
+
+    box-shadow:
+      18px 0 50px
+      rgba(25, 14, 42, 0.2);
+
+    transform:
+      translateX(-105%);
+
+    transition:
+      transform 0.28s ease;
+
+    will-change: transform;
+  }
+
+
+  /*
+   * Open drawer.
+   */
+  .guest-sidebar-component.mobile-open {
+    transform:
+      translateX(0);
+  }
+
+
+  /*
+   * Drawer background overlay.
+   */
+  .mobile-sidebar-backdrop {
+    position: fixed;
+    z-index: 6500;
+
+    inset:
+      62px
+      0
+      0
+      0;
+
+    display: block;
+
+    background:
+      rgba(15, 8, 31, 0.48);
+
+    backdrop-filter: blur(3px);
+    -webkit-backdrop-filter: blur(3px);
+  }
+
+
+  /*
+   * Dark mode drawer.
+   */
+  .app-wrapper.dark-mode
+  .guest-sidebar-component {
+    background: #120b2c;
+
+    box-shadow:
+      18px 0 50px
+      rgba(0, 0, 0, 0.42);
+  }
+
+
+  .profile-details-grid {
+    grid-template-columns: 1fr;
+  }
+
+}
+
+
+/* =====================================================
+   MEDIUM MOBILE
+===================================================== */
+
+@media (max-width: 700px) {
+
+  .account-benefits-banner {
+    grid-template-columns:
+      auto
+      1fr;
+  }
+
+
+  .account-benefits-banner > button {
+    grid-column: 1 / -1;
+
+    width: 100%;
+  }
+
+
+  .profile-page-header {
+    align-items: flex-start;
+  }
+
+
+  .profile-page-header h1 {
+    font-size: 23px;
+  }
+
+
+  .profile-header-avatar {
+    width: 52px;
+    height: 52px;
+    flex-basis: 52px;
+
+    border-radius: 13px;
+
+    font-size: 18px;
+  }
+
+
+  .profile-card-heading {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+
+  .edit-profile-button {
+    width: 100%;
+  }
+
+
+  .profile-actions {
+    justify-content: stretch;
+  }
+
+
+  .profile-logout-button {
+    width: 100%;
+  }
+
+}
+
+
+/* =====================================================
+   SMALL MOBILE
+===================================================== */
+
+@media (max-width: 600px) {
+
+  .customer-main {
+    padding: 16px;
+  }
+
+
+  .guest-sidebar-component {
+    width: min(
+      320px,
+      90vw
+    );
+  }
+
+
+  .access-backdrop {
+    align-items: flex-end;
+
+    padding: 10px;
+  }
+
+
+  .access-popup {
+    max-width: 100%;
+
+    padding: 26px 20px 20px;
+
+    border-radius: 15px;
+  }
+
+
+  .account-login-popup {
+    width: 100%;
+    max-height:
+      calc(100vh - 20px);
+
+    border-radius: 15px;
+  }
+
+
+  .customer-profile-page {
+    max-width: 100%;
+  }
+
+
+  .profile-page-header {
+    padding: 16px;
+
+    border-radius: 12px;
+  }
+
+
+  .profile-page-header h1 {
+    font-size: 22px;
+  }
+
+
+  .profile-details-card {
+    padding: 16px;
+
+    border-radius: 12px;
+  }
+
+
+  .profile-detail-item {
+    padding: 12px;
+  }
+
+}
+
+
+/* =====================================================
+   VERY SMALL MOBILE
+===================================================== */
+
+@media (max-width: 420px) {
+
+  .customer-main {
+    padding: 12px;
+  }
+
+
+  .profile-page-header {
+    gap: 14px;
+  }
+
+
+  .profile-header-avatar {
+    width: 48px;
+    height: 48px;
+    flex-basis: 48px;
+
+    font-size: 17px;
+  }
+
+
+  .profile-page-header h1 {
+    font-size: 20px;
+  }
+
+
+  .access-popup h2 {
+    font-size: 18px;
+  }
+
+}

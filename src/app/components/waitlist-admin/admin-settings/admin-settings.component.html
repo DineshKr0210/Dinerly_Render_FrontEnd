@@ -1,0 +1,1730 @@
+<div class="settings-page">
+
+  <!-- =====================================================
+       COMMON HEADER
+  ====================================================== -->
+
+  <header class="settings-header">
+
+    <div class="settings-title">
+      <h1>Settings</h1>
+
+
+    </div>
+
+    <!-- <div class="header-actions">
+      <div class="restaurant-menu-wrapper" (click)="$event.stopPropagation()">
+        <button class="restaurant-btn" type="button" [class.menu-open]="showRestaurantMenu"
+          [attr.aria-expanded]="showRestaurantMenu" aria-haspopup="menu" (click)="toggleRestaurantMenu($event)">
+          <span>
+            {{
+            restaurantName
+            ? restaurantName.charAt(0)
+            : 'R'
+            }}
+          </span>
+
+          <strong>
+            {{ restaurantName }}
+          </strong>
+
+          <i class="fa-solid fa-chevron-down" [class.rotate-chevron]="
+          showRestaurantMenu
+        "></i>
+        </button>
+
+        <div class="restaurant-dropdown" *ngIf="showRestaurantMenu" role="menu">
+          <div class="restaurant-dropdown-info">
+            <div class="restaurant-dropdown-avatar">
+              {{
+              restaurantName
+              ? restaurantName.charAt(0)
+              : 'R'
+              }}
+            </div>
+
+            <div>
+              <strong>
+                {{ restaurantName }}
+              </strong>
+
+              <span>
+                Restaurant account
+              </span>
+            </div>
+          </div>
+
+          <div class="restaurant-dropdown-divider">
+          </div>
+
+          <button type="button" class="restaurant-dropdown-action logout-action" role="menuitem"
+            (click)="logoutFromMenu($event)">
+            <i class="fa-solid fa-arrow-right-from-bracket"></i>
+
+            Logout
+          </button>
+        </div>
+      </div>
+
+    </div> -->
+
+  </header>
+
+
+  <!-- =====================================================
+       PROFILE SETTINGS
+  ====================================================== -->
+
+  <ng-container *ngIf="activeTab === 'profile'">
+
+    <p class="settings-error" *ngIf="profileError">
+      {{ profileError }}
+    </p>
+
+    <ng-container *ngIf="restaurant && currentPlan">
+
+      <section class="profile-card restaurant-details-card">
+
+        <div class="profile-card-header">
+          <div class="profile-heading">
+            <div class="profile-heading-icon">
+              <i class="fa-solid fa-store"></i>
+            </div>
+
+            <div>
+              <h2>Restaurant details</h2>
+              <p>Keep your restaurant information up to date. This information will be visible to your customers.</p>
+            </div>
+          </div>
+
+          <button *ngIf="!isEditingProfile" type="button" class="edit-details-btn" (click)="startEditProfile()">
+            <i class="fa-solid fa-pen"></i>
+            Edit details
+          </button>
+
+          <div class="profile-edit-actions" *ngIf="isEditingProfile">
+            <button type="button" class="cancel-edit-btn" [disabled]="isSavingProfile" (click)="cancelEditProfile()">
+              Cancel
+            </button>
+
+            <button type="button" class="save-details-btn" [disabled]="isSavingProfile" (click)="saveProfileDetails()">
+              <i class="fa-solid" [ngClass]="isSavingProfile ? 'fa-spinner fa-spin' : 'fa-check'"></i>
+
+              {{ isSavingProfile ? 'Saving...' : 'Save changes' }}
+            </button>
+          </div>
+        </div>
+
+        <div class="restaurant-details-content">
+
+          <div class="restaurant-image-wrapper">
+
+            <img *ngIf="getRestaurantImageUrl()" [src]="getRestaurantImageUrl()" alt="Restaurant"
+              class="restaurant-image">
+
+            <div *ngIf="!getRestaurantImageUrl()" class="restaurant-image-placeholder">
+              <i class="fa-solid fa-store"></i>
+            </div>
+
+            <button *ngIf="isEditingProfile" type="button" class="restaurant-image-edit" title="Restaurant image">
+              <i class="fa-solid fa-camera"></i>
+            </button>
+
+          </div>
+
+          <div class="restaurant-info">
+
+            <div class="restaurant-info-row">
+              <strong>Name</strong>
+
+              <span *ngIf="!isEditingProfile">
+                {{ restaurant.name || '—' }}
+              </span>
+
+              <input *ngIf="isEditingProfile" type="text" [(ngModel)]="restaurant.name" placeholder="Restaurant name">
+            </div>
+
+            <div class="restaurant-info-row">
+              <strong>Email</strong>
+
+              <span *ngIf="!isEditingProfile">
+                {{ restaurant.email || '—' }}
+              </span>
+
+              <input *ngIf="isEditingProfile" type="email" [(ngModel)]="restaurant.email"
+                placeholder="Restaurant email">
+            </div>
+
+            <div class="restaurant-info-row">
+              <strong>Phone</strong>
+
+              <span *ngIf="!isEditingProfile">
+                {{ restaurant.phone || '—' }}
+              </span>
+
+              <input *ngIf="isEditingProfile" type="tel" [(ngModel)]="restaurant.phone" placeholder="Restaurant phone">
+            </div>
+
+            <div class="restaurant-info-row">
+              <strong>Address</strong>
+
+              <div class="address-value" *ngIf="!isEditingProfile">
+                <span>
+                  {{ restaurant.address || '—' }}
+                </span>
+
+                <button *ngIf="restaurant.address" type="button" class="map-link">
+                  <i class="fa-solid fa-location-dot"></i>
+                  View on map
+                </button>
+              </div>
+
+              <input *ngIf="isEditingProfile" type="text" [(ngModel)]="restaurant.address"
+                placeholder="Restaurant address">
+            </div>
+
+            <div class="restaurant-info-row">
+              <strong>Cuisine type</strong>
+
+              <span *ngIf="!isEditingProfile">
+                {{ getRestaurantCuisine() }}
+              </span>
+
+              <input *ngIf="isEditingProfile" type="text" [ngModel]="getRestaurantCuisine()"
+                (ngModelChange)="setRestaurantCuisine($event)" placeholder="Cuisine type">
+            </div>
+
+            <div class="restaurant-info-row description-row">
+              <strong>Description</strong>
+
+              <span *ngIf="!isEditingProfile">
+                {{ getRestaurantDescription() }}
+              </span>
+
+              <textarea *ngIf="isEditingProfile" rows="3" [ngModel]="getRestaurantDescription()"
+                (ngModelChange)="setRestaurantDescription($event)" placeholder="Restaurant description"></textarea>
+            </div>
+
+          </div>
+
+        </div>
+
+        <div class="profile-save-message" *ngIf="profileSaveMessage && !isEditingProfile">
+          <i class="fa-solid fa-circle-check"></i>
+          {{ profileSaveMessage }}
+        </div>
+
+      </section>
+
+
+      <section class="profile-card current-plan-card">
+
+        <div class="profile-card-header simple-header">
+          <div class="profile-heading">
+            <div class="profile-heading-icon">
+              <i class="fa-solid fa-crown"></i>
+            </div>
+
+            <div>
+              <h2>Current plan</h2>
+              <p>View your current subscription plan and usage.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="current-plan-content">
+
+          <div class="plan-highlight">
+
+            <div class="plan-highlight-info">
+              <div class="plan-name-row">
+                <strong>{{ currentPlan.name || 'Basic' }}</strong>
+
+                <span class="active-plan-badge">
+                  Active
+                </span>
+              </div>
+
+              <p>
+                Perfect for small restaurants to get started.
+              </p>
+            </div>
+
+            <button type="button" class="update-package-btn" (click)="updatePackage()">
+              Update package
+            </button>
+
+          </div>
+
+          <div class="plan-usage-grid">
+
+            <div class="plan-usage-item">
+
+              <div class="plan-usage-icon sms-icon">
+                <i class="fa-regular fa-message"></i>
+              </div>
+
+              <div>
+                <span>SMS sent this month</span>
+
+                <strong>
+                  {{ currentPlan.smssentthismonth || 0 }} / 500
+                </strong>
+              </div>
+
+            </div>
+
+            <div class="plan-usage-item">
+
+              <div class="plan-usage-icon marketing-icon">
+                <i class="fa-solid fa-bullhorn"></i>
+              </div>
+
+              <div>
+                <span>Marketing SMS sent</span>
+
+                <strong>
+                  {{ currentPlan.marketingsmssentthismonth || 0 }} / 100
+                </strong>
+              </div>
+
+            </div>
+
+            <div class="plan-usage-item">
+
+              <div class="plan-usage-icon locations-icon">
+                <i class="fa-solid fa-store"></i>
+              </div>
+
+              <div>
+                <span>Locations</span>
+
+                <strong>
+                  {{ getLocationsUsed() }} / {{ getLocationsLimit() }}
+                </strong>
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <section class="profile-card integrations-card">
+
+        <div class="profile-card-header integrations-header">
+
+          <div class="profile-heading">
+            <div class="profile-heading-icon">
+              <i class="fa-solid fa-plug"></i>
+            </div>
+
+            <div>
+              <h2>Integrations</h2>
+              <p>Connect with third-party services.</p>
+            </div>
+          </div>
+
+          <button type="button" class="manage-integrations-btn">
+            <i class="fa-solid fa-circle-info"></i>
+            Manage integrations
+          </button>
+
+        </div>
+
+        <div class="integration-list">
+
+          <div class="integration-item">
+
+            <div class="integration-logo google-logo">
+              <i class="fa-solid fa-location-dot"></i>
+            </div>
+
+            <div class="integration-details">
+              <strong>Google Maps</strong>
+
+              <span class="connected-status">
+                Connected
+              </span>
+            </div>
+
+            <i class="fa-solid fa-chevron-right integration-arrow"></i>
+
+          </div>
+
+          <div class="integration-item">
+
+            <div class="integration-logo stripe-logo">
+              <span>S</span>
+            </div>
+
+            <div class="integration-details">
+              <strong>Stripe</strong>
+
+              <span class="not-connected-status">
+                Not connected
+              </span>
+            </div>
+
+            <i class="fa-solid fa-chevron-right integration-arrow"></i>
+
+          </div>
+
+          <div class="integration-item">
+
+            <div class="integration-logo mailchimp-logo">
+              <i class="fa-solid fa-bolt"></i>
+            </div>
+
+            <div class="integration-details">
+              <strong>Mailchimp</strong>
+
+              <span class="not-connected-status">
+                Not connected
+              </span>
+            </div>
+
+            <i class="fa-solid fa-chevron-right integration-arrow"></i>
+
+          </div>
+
+          <div class="integration-item">
+
+            <div class="integration-logo twilio-logo">
+              <i class="fa-solid fa-message"></i>
+            </div>
+
+            <div class="integration-details">
+              <strong>Twilio</strong>
+
+              <span class="not-connected-status">
+                Not connected
+              </span>
+            </div>
+
+            <i class="fa-solid fa-chevron-right integration-arrow"></i>
+
+          </div>
+
+        </div>
+
+      </section>
+
+    </ng-container>
+
+  </ng-container>
+
+
+  <!-- =====================================================
+       NOTIFICATION SETTINGS
+  ====================================================== -->
+
+  <ng-container *ngIf="activeTab === 'notification'">
+
+    <p class="settings-error" *ngIf="notificationError">
+      {{ notificationError }}
+    </p>
+
+    <ng-container *ngIf="notificationConfiguration as notificationConfig">
+
+      <ng-container *ngIf="guestNotifications as guestSettings">
+
+        <ng-container *ngIf="staffNotifications as staffSettings">
+
+          <ng-container *ngIf="messageTemplates as templates">
+
+            <!-- GENERAL NOTIFICATIONS -->
+
+            <section class="settings-section">
+
+              <div class="profile-card-header">
+                <div class="profile-heading">
+                  <div class="profile-heading-icon">
+                    <i class="fa-solid fa-bell"></i>
+                  </div>
+
+                  <div>
+                    <h2>General notification settings</h2>
+                  </div>
+                </div>
+              </div>
+
+              <div class="toggle-setting-row">
+
+                <div>
+                  <strong>
+                    Send SMS notifications
+                  </strong>
+
+                  <p>
+                    Enable or disable SMS notifications.
+                  </p>
+                </div>
+
+                <label class="switch">
+
+                  <input type="checkbox" [(ngModel)]="
+                    notificationConfig
+                      .sendSmsNotifications
+                  " (ngModelChange)="
+                    updateNotificationSettings()
+                  ">
+
+                  <span></span>
+
+                </label>
+
+              </div>
+
+              <div class="toggle-setting-row">
+
+                <div>
+                  <strong>
+                    Send email notifications
+                  </strong>
+
+                  <p>
+                    Enable or disable email notifications.
+                  </p>
+                </div>
+
+                <label class="switch">
+
+                  <input type="checkbox" [(ngModel)]="
+                    notificationConfig
+                      .sendEmailNotifications
+                  " (ngModelChange)="
+                    updateNotificationSettings()
+                  ">
+
+                  <span></span>
+
+                </label>
+
+              </div>
+
+              <div class="editable-value-row">
+
+                <strong>
+                  Nightly summary email
+                </strong>
+
+                <input type="email" [(ngModel)]="
+                  notificationConfig
+                    .nightlySummaryEmail
+                " (blur)="
+                  updateNotificationSettings()
+                ">
+
+              </div>
+
+              <div class="editable-value-row">
+
+                <strong>
+                  Average service time
+                </strong>
+
+                <input type="number" min="1" [(ngModel)]="
+                  notificationConfig
+                    .averageServiceTime
+                " (blur)="
+                  updateNotificationSettings()
+                ">
+
+              </div>
+
+              <div class="editable-value-row">
+
+                <strong>Buffer time</strong>
+
+                <input type="number" min="0" [(ngModel)]="
+                  notificationConfig.bufferTime
+                " (blur)="
+                  updateNotificationSettings()
+                ">
+
+              </div>
+
+              <div class="editable-value-row">
+
+                <strong>
+                  Operating hours
+                </strong>
+
+                <input type="text" [(ngModel)]="
+                  notificationConfig.operatingHours
+                " (blur)="
+                  updateNotificationSettings()
+                ">
+
+              </div>
+
+              <div class="editable-value-row">
+
+                <strong>
+                  Maximum waitlist size
+                </strong>
+
+                <input type="number" min="1" [(ngModel)]="
+                  notificationConfig.maxWaitlistSize
+                " (blur)="
+                  updateNotificationSettings()
+                ">
+
+              </div>
+
+            </section>
+
+
+            <!-- GUEST NOTIFICATIONS -->
+
+            <section class="settings-section">
+
+              <div class="profile-card-header">
+                <div class="profile-heading">
+                  <div class="profile-heading-icon">
+                    <i class="fa-solid fa-users"></i>
+                  </div>
+
+                  <div>
+                    <h2>Guest notifications</h2>
+                  </div>
+                </div>
+              </div>
+
+              <div class="toggle-setting-row">
+
+                <div>
+                  <strong>
+                    Text guests when table is ready
+                  </strong>
+                </div>
+
+                <label class="switch">
+
+                  <input type="checkbox" [(ngModel)]="
+                    guestSettings.notifysmsenabled
+                  " (ngModelChange)="
+                    updateNotificationSettings()
+                  ">
+
+                  <span></span>
+
+                </label>
+
+              </div>
+
+              <div class="toggle-setting-row">
+
+                <div>
+                  <strong>
+                    Call guests when table is ready
+                  </strong>
+                </div>
+
+                <label class="switch">
+
+                  <input type="checkbox" [(ngModel)]="
+                    guestSettings.notifycallenabled
+                  " (ngModelChange)="
+                    updateNotificationSettings()
+                  ">
+
+                  <span></span>
+
+                </label>
+
+              </div>
+
+              <div class="toggle-setting-row">
+
+                <div>
+                  <strong>
+                    Text confirmation when guest joins
+                  </strong>
+                </div>
+
+                <label class="switch">
+
+                  <input type="checkbox" [(ngModel)]="
+                    guestSettings
+                      .joinedwaitlistsmsenabled
+                  " (ngModelChange)="
+                    updateNotificationSettings()
+                  ">
+
+                  <span></span>
+
+                </label>
+
+              </div>
+
+              <div class="toggle-setting-row">
+
+                <div>
+                  <strong>
+                    Text guests after approval
+                  </strong>
+                </div>
+
+                <label class="switch">
+
+                  <input type="checkbox" [(ngModel)]="
+                    guestSettings.approvesmsenabled
+                  " (ngModelChange)="
+                    updateNotificationSettings()
+                  ">
+
+                  <span></span>
+
+                </label>
+
+              </div>
+
+              <div class="toggle-setting-row">
+
+                <div>
+                  <strong>
+                    Auto-remove no-shows
+                  </strong>
+                </div>
+
+                <label class="switch">
+
+                  <input type="checkbox" [(ngModel)]="
+                    guestSettings
+                      .autoRemoveNoShowEnabled
+                  " (ngModelChange)="
+                    updateNotificationSettings()
+                  ">
+
+                  <span></span>
+
+                </label>
+
+              </div>
+
+              <div class="editable-value-row">
+
+                <strong>
+                  Auto-remove minutes
+                </strong>
+
+                <input type="number" min="1" [(ngModel)]="
+                  guestSettings.autoRemoveMinutes
+                " (blur)="
+                  updateNotificationSettings()
+                ">
+
+              </div>
+
+            </section>
+
+
+            <!-- MESSAGE TEMPLATES -->
+
+            <section class="settings-section">
+
+              <div class="profile-card-header">
+                <div class="profile-heading">
+                  <div class="profile-heading-icon">
+                    <i class="fa-solid fa-comment-sms"></i>
+                  </div>
+
+                  <div>
+                    <h2>Message templates</h2>
+                  </div>
+                </div>
+              </div>
+
+              <div class="setting-value-row">
+
+                <strong>
+                  SMS template
+                </strong>
+
+                <span>
+                  {{ templates.smsTemplateName }}
+                </span>
+
+              </div>
+
+              <div class="message-preview">
+                {{ templates.smsTemplatePreview }}
+              </div>
+
+              <div class="setting-value-row">
+
+                <strong>
+                  Approval SMS template
+                </strong>
+
+                <span>
+                  {{ templates.approveSmsTemplateName }}
+                </span>
+
+              </div>
+
+              <div class="message-preview">
+                {{ templates.approveSmsTemplatePreview }}
+              </div>
+
+              <div class="setting-value-row">
+
+                <strong>
+                  Notify SMS template
+                </strong>
+
+                <span>
+                  {{ templates.notifySmsTemplateName }}
+                </span>
+
+              </div>
+
+              <div class="message-preview">
+                {{ templates.notifySmsTemplatePreview }}
+              </div>
+
+              <div class="setting-value-row">
+
+                <strong>
+                  Voice template
+                </strong>
+
+                <span>
+                  {{ templates.voiceTemplateName }}
+                </span>
+
+              </div>
+
+              <div class="message-preview">
+                {{ templates.voiceTemplatePreview }}
+              </div>
+
+              <div class="editable-value-row">
+
+                <strong>Voice</strong>
+
+                <select [(ngModel)]="selectedVoice" (change)="
+                  updateNotificationSettings()
+                ">
+
+                  <option value="">
+                    Select voice
+                  </option>
+
+                  <option *ngFor="let voice of voices" [value]="voice">
+                    {{ voice | titlecase }}
+                  </option>
+
+                </select>
+
+              </div>
+
+            </section>
+
+
+            <!-- STAFF NOTIFICATIONS -->
+
+            <section class="settings-section">
+
+              <div class="profile-card-header">
+                <div class="profile-heading">
+                  <div class="profile-heading-icon">
+                    <i class="fa-solid fa-user-tie"></i>
+                  </div>
+
+                  <div>
+                    <h2>Staff notifications</h2>
+                  </div>
+                </div>
+              </div>
+
+              <div class="toggle-setting-row">
+
+                <div>
+                  <strong>
+                    Party waiting too long
+                  </strong>
+                </div>
+
+                <label class="switch">
+
+                  <input type="checkbox" [(ngModel)]="
+                    staffSettings
+                      .partyWaitingTooLong
+                  " (ngModelChange)="
+                    updateNotificationSettings()
+                  ">
+
+                  <span></span>
+
+                </label>
+
+              </div>
+
+              <div class="toggle-setting-row">
+
+                <div>
+                  <strong>
+                    Table occupied too long
+                  </strong>
+                </div>
+
+                <label class="switch">
+
+                  <input type="checkbox" [(ngModel)]="
+                    staffSettings
+                      .tableOccupiedTooLong
+                  " (ngModelChange)="
+                    updateNotificationSettings()
+                  ">
+
+                  <span></span>
+
+                </label>
+
+              </div>
+
+              <small class="save-message" *ngIf="isSavingNotifications">
+                Saving notification settings...
+              </small>
+
+              <small class="save-message" *ngIf="
+                notificationSaveMessage &&
+                !isSavingNotifications
+              ">
+                {{ notificationSaveMessage }}
+              </small>
+
+            </section>
+
+          </ng-container>
+
+        </ng-container>
+
+      </ng-container>
+
+    </ng-container>
+
+  </ng-container>
+
+
+  <!-- =====================================================
+       WAITLIST SETTINGS
+  ====================================================== -->
+
+  <ng-container *ngIf="activeTab === 'waitlist'">
+
+    <p class="settings-error" *ngIf="waitlistError">
+      {{ waitlistError }}
+    </p>
+
+    <section class="settings-section" *ngIf="waitlistRules">
+
+      <div class="profile-card-header">
+        <div class="profile-heading">
+          <div class="profile-heading-icon">
+            <i class="fa-solid fa-list-ol"></i>
+          </div>
+
+          <div>
+            <h2>Waitlist rules</h2>
+          </div>
+        </div>
+      </div>
+
+      <div class="editable-value-row">
+
+        <strong>Max party size</strong>
+
+        <input type="number" min="1" max="50" [(ngModel)]="waitlistRules.maxPartySize" (blur)="updateWaitlistSetting()">
+
+      </div>
+
+      <div class="editable-value-row">
+
+        <strong>
+          Table-ready response window
+        </strong>
+
+        <div class="input-with-suffix">
+
+          <input type="number" min="1" [(ngModel)]="
+              waitlistRules.tableReadyResponseMinutes
+            " (blur)="updateWaitlistSetting()">
+
+          <span>min</span>
+
+        </div>
+
+      </div>
+
+      <div class="toggle-setting-row">
+
+        <div>
+
+          <strong>
+            Walk-ins only
+          </strong>
+
+          <p>
+            Guests can only join the waitlist in person
+            at the restaurant.
+          </p>
+
+        </div>
+
+        <label class="switch">
+          <input type="checkbox" [(ngModel)]="
+      waitlistRules.walkInsOnly
+    " [disabled]="isSavingWaitlist" (ngModelChange)="
+      onWaitlistModeChange(
+        'WALK_IN',
+        $event
+      )
+    " />
+
+          <span></span>
+        </label>
+
+      </div>
+
+      <div class="toggle-setting-row">
+
+        <div>
+
+          <strong>
+            Pause new joins after closing time
+          </strong>
+
+          <p>
+            Stop accepting new waitlist joins after the
+            restaurant closing time.
+          </p>
+
+        </div>
+
+        <label class="switch">
+
+          <input type="checkbox" [(ngModel)]="
+              waitlistRules.pauseNewJoinsAfterClosing
+            " (ngModelChange)="updateWaitlistSetting()">
+
+          <span></span>
+
+        </label>
+
+      </div>
+
+      <div class="toggle-setting-row">
+
+        <div>
+
+          <strong>
+            Add from Google
+          </strong>
+
+          <p>
+            Allow guests to join through the restaurant's
+            Google Business Profile.
+          </p>
+
+        </div>
+
+        <label class="switch">
+
+          <input type="checkbox" [(ngModel)]="waitlistRules.allowGoogleJoin" (ngModelChange)="updateWaitlistSetting()">
+
+          <span></span>
+
+        </label>
+
+      </div>
+
+      <div class="toggle-setting-row">
+
+        <div>
+
+          <strong>
+            Accept waitlist joins online
+          </strong>
+
+          <p>
+            Accept guests through the online join link,
+            QR code or Google.
+          </p>
+
+        </div>
+
+        <label class="switch">
+          <input type="checkbox" [(ngModel)]="
+      waitlistRules.acceptOnlineJoin
+    " [disabled]="isSavingWaitlist" (ngModelChange)="
+      onWaitlistModeChange(
+        'ONLINE',
+        $event
+      )
+    " />
+
+          <span></span>
+        </label>
+
+      </div>
+
+      <button type="button" class="terms-row" (click)="openTerms()">
+
+        <strong>
+          Terms & conditions
+        </strong>
+
+        <span>›</span>
+
+      </button>
+
+      <small class="save-message" *ngIf="isSavingWaitlist">
+        Saving waitlist settings...
+      </small>
+
+      <small class="save-message" *ngIf="
+          waitlistSaveMessage &&
+          !isSavingWaitlist
+        ">
+        {{ waitlistSaveMessage }}
+      </small>
+
+    </section>
+
+  </ng-container>
+
+
+  <!-- =====================================================
+       TABLE SETTINGS
+  ====================================================== -->
+
+  <ng-container *ngIf="activeTab === 'tables'">
+
+    <section class="settings-section">
+
+      <div class="profile-card-header">
+        <div class="profile-heading">
+          <div class="profile-heading-icon">
+            <i class="fa-solid fa-table-cells"></i>
+          </div>
+
+          <div>
+            <h2>Edit tables & floor plan</h2>
+            <p>
+              Drag tables and fixtures, resize walls and the
+              bar, and set seat counts. All floor-plan editing
+              happens on the Tables page.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <button type="button" class="outline-btn floor-plan-btn" (click)="editFloorPlan()">
+        Edit Floor Plan
+      </button>
+
+    </section>
+
+
+    <!-- Floor overview -->
+
+    <section class="settings-section">
+
+      <div class="profile-card-header">
+        <div class="profile-heading">
+          <div class="profile-heading-icon">
+            <i class="fa-solid fa-map"></i>
+          </div>
+
+          <div>
+            <h2>Floor plan overview</h2>
+          </div>
+        </div>
+      </div>
+
+      <ng-container *ngIf="
+          floorOverview;
+          else floorOverviewUnavailable
+        ">
+
+        <div class="setting-value-row">
+
+          <strong>Sections</strong>
+
+          <span>
+            {{ floorOverview.sections }}
+          </span>
+
+        </div>
+
+        <div class="setting-value-row">
+
+          <strong>Total tables</strong>
+
+          <span>
+            {{ floorOverview.totalTables }}
+          </span>
+
+        </div>
+
+        <div class="setting-value-row">
+
+          <strong>Total seats</strong>
+
+          <span>
+            {{ floorOverview.totalSeats }}
+          </span>
+
+        </div>
+
+        <div class="setting-value-row">
+
+          <strong>Staff on file</strong>
+
+          <span>
+            {{ staffOnFile }}
+          </span>
+
+        </div>
+
+      </ng-container>
+
+      <ng-template #floorOverviewUnavailable>
+
+        <p class="empty-message">
+          Floor-plan overview is unavailable because
+          the floor-plan API has not been connected.
+        </p>
+
+      </ng-template>
+
+    </section>
+
+
+    <!-- Staff list -->
+
+    <section class="settings-section staff-section">
+
+      <div class="profile-card-header">
+        <div class="profile-heading">
+          <div class="profile-heading-icon">
+            <i class="fa-solid fa-user-group"></i>
+          </div>
+
+          <div>
+            <h2>Staff list</h2>
+            <p>
+              Add staff members and choose whether they are
+              currently working on the floor.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="staff-form">
+
+        <input type="text" placeholder="Staff member name" [(ngModel)]="staffName" (keyup.enter)="addStaff()">
+
+        <select [(ngModel)]="staffRole">
+
+          <option *ngFor="let role of staffRoles" [value]="role">
+
+            {{ role }}
+
+          </option>
+
+        </select>
+
+        <button type="button" class="small-primary-btn" (click)="addStaff()">
+          + Add
+        </button>
+
+      </div>
+
+      <div class="staff-list" *ngIf="
+          staffList.length;
+          else noStaff
+        ">
+
+        <article class="staff-item" *ngFor="let staff of staffList">
+
+          <div class="staff-avatar">
+            {{ getInitial(staff.name) }}
+          </div>
+
+          <div class="staff-details">
+
+            <strong>
+              {{ staff.name }}
+            </strong>
+
+            <span>
+              {{ staff.role }}
+            </span>
+
+          </div>
+
+          <button type="button" class="floor-status-btn" [class.active]="staff.onFloor" (click)="toggleFloor(staff)">
+
+            {{
+            staff.onFloor
+            ? 'On floor'
+            : '+ Floor'
+            }}
+
+          </button>
+
+          <button type="button" class="remove-staff-btn" (click)="removeStaff(staff.id)">
+            ×
+          </button>
+
+        </article>
+
+      </div>
+
+      <ng-template #noStaff>
+
+        <p class="empty-message">
+          No staff added yet.
+        </p>
+
+      </ng-template>
+
+    </section>
+
+  </ng-container>
+
+
+  <!-- =====================================================
+       HOLIDAY HOURS
+  ====================================================== -->
+
+  <ng-container *ngIf="activeTab === 'holiday'">
+
+    <p class="settings-error" *ngIf="holidayError">
+      {{ holidayError }}
+    </p>
+
+    <section class="settings-section">
+
+      <div class="profile-card-header">
+        <div class="profile-heading">
+          <div class="profile-heading-icon">
+            <i class="fa-solid fa-calendar-days"></i>
+          </div>
+
+          <div>
+            <h2>Holiday hours</h2>
+            <p>
+              Set different hours, or close entirely, for
+              holidays and special dates.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <ng-container *ngIf="
+          holidayHours.length;
+          else noHolidayHours
+        ">
+
+        <button type="button" class="holiday-row" *ngFor="let holiday of holidayHours" (click)="editHoliday(holiday)">
+
+          <strong>
+            {{ holiday.title }} —
+            {{ formatApiDate(holiday.date) }}
+          </strong>
+
+          <span *ngIf="holiday.closed">
+            Closed
+          </span>
+
+          <span *ngIf="!holiday.closed">
+            {{ holiday.openTime || '—' }}
+            –
+            {{ holiday.closeTime || '—' }}
+          </span>
+
+        </button>
+
+      </ng-container>
+
+      <ng-template #noHolidayHours>
+
+        <p class="empty-message">
+          No holiday hours have been configured.
+        </p>
+
+      </ng-template>
+
+      <button type="button" class="outline-btn add-holiday-btn" (click)="addHoliday()">
+        + Add holiday
+      </button>
+
+      <small class="save-message" *ngIf="holidaySaveMessage">
+        {{ holidaySaveMessage }}
+      </small>
+
+    </section>
+
+  </ng-container>
+
+
+  <!-- =====================================================
+       ADVANCED SETTINGS
+  ====================================================== -->
+
+  <ng-container *ngIf="activeTab === 'advanced'">
+
+    <p class="settings-error" *ngIf="advancedError">
+      {{ advancedError }}
+    </p>
+
+    <ng-container *ngIf="advancedSettings">
+
+      <section class="settings-section">
+
+        <div class="profile-card-header">
+          <div class="profile-heading">
+            <div class="profile-heading-icon">
+              <i class="fa-solid fa-sliders"></i>
+            </div>
+
+            <div>
+              <h2>Advanced settings</h2>
+            </div>
+          </div>
+        </div>
+
+        <div class="toggle-setting-row">
+
+          <div>
+
+            <strong>
+              Desktop notifications
+            </strong>
+
+            <p>
+              Enable browser desktop notifications for
+              restaurant activity.
+            </p>
+
+          </div>
+
+          <label class="switch">
+
+            <input type="checkbox" [(ngModel)]="
+                advancedSettings.desktopNotifications
+              " (ngModelChange)="
+                updateAdvancedSetting()
+              ">
+
+            <span></span>
+
+          </label>
+
+        </div>
+
+        <div class="toggle-setting-row">
+
+          <div>
+
+            <strong>
+              Keep me signed in
+            </strong>
+
+            <p>
+              Stay logged in on this browser between
+              visits.
+            </p>
+
+          </div>
+
+          <label class="switch">
+
+            <input type="checkbox" [(ngModel)]="
+                advancedSettings.keepSignedIn
+              " (ngModelChange)="
+                updateAdvancedSetting()
+              ">
+
+            <span></span>
+
+          </label>
+
+        </div>
+
+        <div class="advanced-value-row">
+
+          <strong>Language</strong>
+
+          <select class="compact-select" [(ngModel)]="advancedSettings.language" (change)="updateAdvancedSetting()">
+
+            <option *ngFor="let language of languages" [value]="language.value">
+
+              {{ language.label }}
+
+            </option>
+
+          </select>
+
+        </div>
+
+        <div class="advanced-value-row">
+
+          <strong>Time zone</strong>
+
+          <input type="text" class="compact-input" placeholder="Canada/Central" [(ngModel)]="advancedSettings.timezone"
+            (blur)="updateAdvancedSetting()">
+
+        </div>
+
+        <div class="advanced-value-row">
+
+          <strong>Server rotation</strong>
+
+          <select class="compact-select" [(ngModel)]="advancedSettings.serverAssignmentMode" (change)="updateAdvancedSetting()">
+
+            <option *ngFor="let mode of serverAssignmentModes" [value]="mode.value">
+
+              {{ mode.label }}
+
+            </option>
+
+          </select>
+
+        </div>
+
+        <small class="save-message" *ngIf="isSavingAdvanced">
+          Saving advanced settings...
+        </small>
+
+        <small class="save-message" *ngIf="
+            advancedSaveMessage &&
+            !isSavingAdvanced
+          ">
+          {{ advancedSaveMessage }}
+        </small>
+
+      </section>
+
+
+      <!-- Guest join link -->
+
+      <!-- Guest join link -->
+
+      <section class="settings-section guest-link-section" *ngIf="guestJoinLink">
+
+        <div class="profile-card-header">
+          <div class="profile-heading">
+            <div class="profile-heading-icon">
+              <i class="fa-solid fa-qrcode"></i>
+            </div>
+
+            <div>
+              <h2>Guest join link & barcode</h2>
+              <p>
+                Guests scan this QR code to join the
+                waitlist from their phone.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <p class="settings-error" *ngIf="qrCodeError">
+          {{ qrCodeError }}
+        </p>
+
+        <div class="qr-content">
+
+          <div class="qr-code">
+
+            <div class="qr-loader" *ngIf="isQrLoading">
+              Loading QR code...
+            </div>
+
+            <img *ngIf="
+          !isQrLoading &&
+          qrCodeImageUrl
+        " [src]="qrCodeImageUrl" alt="Dinerly guest join QR code">
+
+          </div>
+
+          <div class="guest-link-details">
+
+            <div class="guest-link-row">
+
+              <strong>
+                Link
+              </strong>
+
+              <span>
+                {{ guestJoinLink }}
+              </span>
+
+            </div>
+
+            <div class="guest-link-actions">
+
+              <button type="button" class="outline-btn" (click)="copyLink()">
+                Copy link
+              </button>
+
+              <button type="button" class="outline-btn" [disabled]="isQrLoading" (click)="downloadQrCode()">
+                Download QR code
+              </button>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </section>
+
+    </ng-container>
+
+  </ng-container>
+
+
+  <!-- =====================================================
+       ADD HOLIDAY MODAL
+  ====================================================== -->
+
+  <div class="holiday-form-backdrop" *ngIf="showHolidayForm">
+
+    <div class="holiday-form-modal">
+
+      <div class="holiday-modal-header">
+
+        <div>
+
+          <h3>Add holiday hours</h3>
+
+          <p>
+            Add special operating hours or mark the
+            restaurant as closed.
+          </p>
+
+        </div>
+
+        <button type="button" class="holiday-close-btn" [disabled]="isCreatingHoliday" (click)="closeHolidayForm()">
+          ×
+        </button>
+
+      </div>
+
+      <div class="holiday-form-grid">
+
+        <div class="holiday-field">
+
+          <label>
+            Holiday title
+          </label>
+
+          <input type="text" placeholder="Canada Day" [(ngModel)]="newHoliday.title">
+
+        </div>
+
+        <div class="holiday-field">
+
+          <label>Date</label>
+
+          <input type="date" [(ngModel)]="newHoliday.date">
+
+        </div>
+
+        <div class="toggle-setting-row holiday-closed-row">
+
+          <div>
+
+            <strong>
+              Restaurant closed
+            </strong>
+
+            <p>
+              Turn this on when the restaurant is closed
+              for the entire day.
+            </p>
+
+          </div>
+
+          <label class="switch">
+
+            <input type="checkbox" [(ngModel)]="newHoliday.closed">
+
+            <span></span>
+
+          </label>
+
+        </div>
+
+        <ng-container *ngIf="!newHoliday.closed">
+
+          <div class="holiday-field">
+
+            <label>
+              Opening time
+            </label>
+
+            <input type="time" [(ngModel)]="newHoliday.openTime">
+
+          </div>
+
+          <div class="holiday-field">
+
+            <label>
+              Closing time
+            </label>
+
+            <input type="time" [(ngModel)]="newHoliday.closeTime">
+
+          </div>
+
+        </ng-container>
+
+        <div class="holiday-field full-width">
+
+          <label>Notes</label>
+
+          <textarea rows="4" placeholder="Optional notes" [(ngModel)]="newHoliday.notes">
+          </textarea>
+
+        </div>
+
+      </div>
+
+      <p class="settings-error" *ngIf="holidaySaveMessage">
+        {{ holidaySaveMessage }}
+      </p>
+
+      <div class="holiday-modal-actions">
+
+        <button type="button" class="outline-btn" [disabled]="isCreatingHoliday" (click)="closeHolidayForm()">
+          Cancel
+        </button>
+
+        <button type="button" class="small-primary-btn" [disabled]="isCreatingHoliday" (click)="saveHoliday()">
+
+          {{
+          isCreatingHoliday
+          ? 'Saving...'
+          : 'Add holiday'
+          }}
+
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>

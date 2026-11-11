@@ -1,0 +1,255 @@
+<div class="locations-page">
+  <div class="page-header">
+    <div class="page-heading">
+      <h1>Locations</h1>
+      <p>Manage every restaurant location in your account</p>
+    </div>
+    <button type="button" class="add-location-button" (click)="openAddLocation()">
+      <span>+</span>
+      Add location
+    </button>
+  </div>
+
+  <div class="toast-message success-toast" *ngIf="successMessage">
+    <span class="toast-icon">✓</span>
+    <span>{{ successMessage }}</span>
+  </div>
+
+  <div class="toast-message error-toast" *ngIf="errorMessage">
+    <span class="toast-icon">!</span>
+    <span>{{ errorMessage }}</span>
+  </div>
+
+  <div class="loading-container" *ngIf="isLoading">
+    <div class="spinner"></div>
+    <span>Loading locations...</span>
+  </div>
+
+  <div class="locations-grid" *ngIf="!isLoading && locations.length > 0">
+    <div class="location-card" *ngFor="let location of locations">
+      <div class="location-card-header">
+        <span>{{ getInitials(location.name) }}</span>
+      </div>
+
+      <div class="location-card-body">
+        <h2>{{ location.name }}</h2>
+
+        <p class="location-address">
+          {{ location.address }}
+        </p>
+
+        <p class="location-phone" *ngIf="location.phoneNumber">
+          {{ location.phoneNumber }}
+        </p>
+
+        <div class="location-card-footer">
+          <span class="location-id">
+            Status: {{ location.status }}
+          </span>
+
+          <button
+            type="button"
+            class="view-details-button"
+            (click)="viewLocation(location)">
+            View details
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <button
+      type="button"
+      class="new-location-card"
+      (click)="openAddLocation()">
+      <span class="new-location-plus">+</span>
+      <span class="new-location-text">Add a new location</span>
+    </button>
+  </div>
+
+  <div class="empty-state" *ngIf="!isLoading && locations.length === 0">
+    <div class="empty-title">No locations found</div>
+    <div class="empty-description">
+      Add your first restaurant location.
+    </div>
+    <button
+      type="button"
+      class="add-location-button"
+      (click)="openAddLocation()">
+      + Add location
+    </button>
+  </div>
+
+  <div
+    class="location-modal-backdrop"
+    *ngIf="showLocationModal"
+    (click)="closeLocationModal()">
+    <div class="location-modal" (click)="$event.stopPropagation()">
+      <div class="location-modal-header">
+        <div>
+          <h2>
+            {{ isEditMode ? 'Location details' : 'Add new location' }}
+          </h2>
+          <p>
+            {{
+              isEditMode
+                ? 'View and manage restaurant information'
+                : 'Enter the restaurant location details'
+            }}
+          </p>
+        </div>
+
+        <button
+          type="button"
+          class="close-button"
+          (click)="closeLocationModal()">
+          ×
+        </button>
+      </div>
+
+      <div class="details-loading" *ngIf="isDetailsLoading">
+        <div class="spinner"></div>
+        <span>Loading location details...</span>
+      </div>
+
+      <form
+        *ngIf="!isDetailsLoading"
+        [formGroup]="locationForm"
+        (ngSubmit)="isEditMode ? updateLocation() : createLocation()">
+        <div class="location-form-grid">
+          <div class="form-group">
+            <label>Location nickname</label>
+            <input
+              type="text"
+              formControlName="name"
+              placeholder="Enter restaurant name">
+            <span class="field-error" *ngIf="isInvalid('name')">
+              Restaurant name is required.
+            </span>
+          </div>
+
+          <div class="form-group">
+            <label>Phone number</label>
+            <input
+              type="text"
+              formControlName="phoneNumber"
+              placeholder="+1 234 567 890">
+            <span class="field-error" *ngIf="isInvalid('phoneNumber')">
+              Phone number is required.
+            </span>
+          </div>
+
+          <div class="form-group">
+            <label>Address</label>
+            <input
+              type="text"
+              formControlName="address"
+              placeholder="Enter restaurant address">
+            <span class="field-error" *ngIf="isInvalid('address')">
+              Address is required.
+            </span>
+          </div>
+
+          <div class="form-group">
+            <label>Manager email</label>
+            <input
+              type="email"
+              formControlName="managerEmail"
+              placeholder="manager@example.com">
+            <span class="field-error" *ngIf="isInvalid('managerEmail')">
+              Enter a valid manager email.
+            </span>
+          </div>
+
+          <!-- <div class="form-group">
+            <label>Menu template</label>
+            <input
+              type="text"
+              formControlName="menuTemplate"
+              placeholder="Enter menu template">
+            <span class="field-error" *ngIf="isInvalid('menuTemplate')">
+              Menu template is required.
+            </span>
+          </div> -->
+
+          <div class="form-group">
+            <label>Owner name / email</label>
+            <div class="owner-fields">
+              <input
+                type="text"
+                formControlName="ownerName"
+                placeholder="Owner name">
+              <input
+                type="email"
+                formControlName="ownerEmail"
+                placeholder="Owner email">
+            </div>
+            <span class="field-error" *ngIf="isInvalid('ownerName')">
+              Owner name is required.
+            </span>
+            <span class="field-error" *ngIf="isInvalid('ownerEmail')">
+              Enter a valid owner email.
+            </span>
+          </div>
+
+          <div class="form-group">
+            <label>Seats</label>
+            <input
+              type="number"
+              formControlName="seats"
+              min="1"
+              placeholder="Number of seats">
+            <span class="field-error" *ngIf="isInvalid('seats')">
+              Seats must be at least 1.
+            </span>
+          </div>
+
+          <div class="form-group status-form-group">
+            <label>Location open</label>
+            <label class="status-switch">
+              <input
+                type="checkbox"
+                formControlName="locationOpen">
+              <span class="status-slider"></span>
+            </label>
+            <span class="status-toggle-label">
+              {{
+                locationForm.get('locationOpen')?.value
+                  ? 'On'
+                  : 'Off'
+              }}
+            </span>
+          </div>
+        </div>
+
+        <div class="location-modal-actions">
+          <button
+            *ngIf="isEditMode"
+            type="button"
+            class="performance-button"
+            (click)="viewPerformance()">
+            View performance
+          </button>
+
+          <button
+            type="button"
+            class="modal-cancel-button"
+            (click)="closeLocationModal()"
+            [disabled]="isSaving">
+            Cancel
+          </button>
+
+          <button
+            type="submit"
+            class="modal-save-button"
+            [disabled]="isSaving">
+            {{
+              isSaving
+                ? (isEditMode ? 'Saving...' : 'Creating...')
+                : (isEditMode ? 'Save changes' : 'Create new store')
+            }}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

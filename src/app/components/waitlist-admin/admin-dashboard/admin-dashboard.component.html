@@ -1,0 +1,740 @@
+<div class="dashboard-page">
+  <div class="dashboard-skeleton" *ngIf="isLoading" aria-hidden="true">
+    <div class="skeleton skeleton-eyebrow"></div>
+    <div class="skeleton skeleton-title"></div>
+    <div class="skeleton skeleton-subtitle"></div>
+
+    <div class="dashboard-skeleton-metrics">
+      <div class="skeleton skeleton-metric"></div>
+      <div class="skeleton skeleton-metric"></div>
+      <div class="skeleton skeleton-metric"></div>
+      <div class="skeleton skeleton-metric"></div>
+    </div>
+  </div>
+
+  <div class="dashboard-error" *ngIf="!isLoading && errorMessage">
+    <span>{{ errorMessage }}</span>
+    <button type="button" (click)="getDashboardData()">Retry</button>
+  </div>
+
+  <ng-container *ngIf="!isLoading && dashboardData">
+    <header class="dashboard-header">
+      <div>
+        <span class="dashboard-eyebrow">
+          Today
+        </span>
+
+        <h1>
+          Hi,
+          {{ selectedLocation?.name || dashboardData.userName || 'Admin' }}
+          👋
+        </h1>
+
+        <p>
+          Here's how
+          {{ selectedLocation?.name || 'your location' }}
+          is performing today.
+        </p>
+      </div>
+    </header>
+
+    <section class="metrics-grid">
+      <div class="metric-card">
+        <div class="metric-icon purple">
+          <i class="fa-solid fa-users"></i>
+        </div>
+        <div class="metric-content">
+          <span class="metric-label">Waitlist joins today</span>
+          <strong class="metric-value">{{ formatNumber(dashboardData.totalWaitlistJoins) }}</strong>
+          <span class="metric-comparison positive">
+            <i class="fa-solid fa-arrow-up"></i>
+            Today
+          </span>
+        </div>
+      </div>
+
+      <div class="metric-card">
+        <div class="metric-icon blue">
+          <i class="fa-solid fa-clock"></i>
+        </div>
+        <div class="metric-content">
+          <span class="metric-label">Active waitlists now</span>
+          <strong class="metric-value">{{ formatNumber(dashboardData.totalActiveWaitlists) }}</strong>
+          <span class="metric-comparison positive">
+            <i class="fa-solid fa-arrow-up"></i>
+            Currently active
+          </span>
+        </div>
+      </div>
+
+      <div class="metric-card">
+        <div class="metric-icon orange">
+          <i class="fa-solid fa-store"></i>
+        </div>
+        <div class="metric-content">
+          <span class="metric-label">Total restaurants</span>
+          <strong class="metric-value">{{ formatNumber(dashboardData.totalRestaurants) }}</strong>
+          <span class="metric-comparison positive">
+            <i class="fa-solid fa-arrow-up"></i>
+            Locations
+          </span>
+        </div>
+      </div>
+
+      <div class="metric-card">
+        <div class="metric-icon green">
+          <i class="fa-solid fa-star"></i>
+        </div>
+        <div class="metric-content">
+          <span class="metric-label">Average rating</span>
+          <strong class="metric-value rating-value">
+            {{ dashboardData.averageRating | number:'1.1-1' }}
+            <span class="rating-star">★</span>
+          </strong>
+          <span class="metric-comparison positive">
+            <i class="fa-solid fa-arrow-up"></i>
+            Average rating
+          </span>
+        </div>
+      </div>
+    </section>
+
+    <section class="middle-grid">
+
+      <!-- =====================================================
+       INSIGHTS
+       ===================================================== -->
+      <div class="panel insights-panel">
+
+        <div class="panel-header">
+
+          <div>
+
+            <h2>
+              Insights and actions
+            </h2>
+
+            <p>
+              Important updates across your locations
+            </p>
+
+          </div>
+
+        </div>
+
+
+        <!-- TABS -->
+        <div class="insight-tabs">
+
+          <button *ngFor="let tab of insightTabs" type="button" class="insight-tab" [class.active]="
+          selectedInsightType === tab
+        " (click)="selectInsightTab(tab)">
+
+            {{ tab }}
+
+          </button>
+
+        </div>
+
+
+        <!-- LOADING -->
+        <div class="insights-skeleton" *ngIf="isLoadingInsights" aria-hidden="true">
+          <div class="insights-skeleton-row" *ngFor="let row of [1, 2, 3]">
+            <div class="skeleton insights-skeleton-icon"></div>
+            <div class="insights-skeleton-text">
+              <div class="skeleton insights-skeleton-line"></div>
+              <div class="skeleton insights-skeleton-line short"></div>
+            </div>
+            <div class="skeleton insights-skeleton-value"></div>
+          </div>
+        </div>
+
+
+        <!-- INSIGHT LIST -->
+        <div class="insights-list" *ngIf="!isLoadingInsights">
+
+          <div class="insight-row" *ngFor="
+          let insight of filteredInsights
+        ">
+
+            <!-- ICON -->
+            <div class="insight-icon" [ngClass]="
+            getInsightColorClass(
+              insight.type
+            )
+          ">
+
+              <i class="fa-solid" [ngClass]="
+              getInsightIcon(
+                insight.type
+              )
+            ">
+              </i>
+
+            </div>
+
+
+            <!-- CONTENT -->
+            <div class="insight-content">
+
+              <span class="insight-tag" [ngClass]="
+              getInsightTagClass(
+                insight.type
+              )
+            ">
+
+                {{ insight.type }}
+
+              </span>
+
+
+              <h3>
+                {{ insight.title }}
+              </h3>
+
+
+              <p class="insight-description">
+                {{ insight.description }}
+              </p>
+
+
+              <p class="insight-message">
+                {{ insight.message }}
+              </p>
+
+
+              <div class="insight-meta">
+
+                <span class="insight-metric" *ngIf="insight.metric">
+
+                  {{ insight.metric }}
+
+                </span>
+
+
+                <span class="insight-priority" [class.high]="
+                insight.priority === 'HIGH'
+              " [class.medium]="
+                insight.priority === 'MEDIUM'
+              " [class.low]="
+                insight.priority === 'LOW'
+              ">
+
+                  {{ insight.priority }}
+
+                </span>
+
+
+                <span class="insight-time" *ngIf="insight.timestamp">
+
+                  {{ formatInsightTime(
+                  insight.timestamp
+                  ) }}
+
+                </span>
+
+              </div>
+
+            </div>
+
+
+            <!-- ACTION -->
+            <button type="button" class="outline-action" *ngIf="insight.actionLabel" (click)="
+            handleInsightAction(
+              insight.actionUrl
+            )
+          ">
+
+              {{ insight.actionLabel }}
+
+            </button>
+
+          </div>
+
+
+          <!-- EMPTY -->
+          <div class="insights-empty" *ngIf="
+          filteredInsights.length === 0
+        ">
+
+            <div class="insights-empty-icon">
+              <i class="fa-solid fa-lightbulb"></i>
+            </div>
+
+            <strong>
+              No insights available
+            </strong>
+
+            <span>
+              There are no
+              {{
+              selectedInsightType === 'All'
+              ? ''
+              : selectedInsightType.toLowerCase()
+              }}
+              insights right now.
+            </span>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- =====================================================
+       QUICK ACTIONS
+       ===================================================== -->
+      <div class="panel quick-actions-panel">
+
+        <div class="panel-header">
+
+          <div>
+
+            <h2>
+              Quick actions
+            </h2>
+
+            <p>
+              Frequently used actions
+            </p>
+
+          </div>
+
+        </div>
+
+
+        <div class="quick-actions">
+
+          <button type="button" class="quick-action" (click)="onQuickAction('Add location')">
+
+            <span class="quick-action-icon">
+              <i class="fa-solid fa-location-dot"></i>
+            </span>
+
+            <span>
+              Add location
+            </span>
+
+            <i class="fa-solid fa-chevron-right"></i>
+
+          </button>
+
+
+          <button type="button" class="quick-action" (click)="onQuickAction('Add menu item')">
+
+            <span class="quick-action-icon">
+              <i class="fa-solid fa-utensils"></i>
+            </span>
+
+            <span>
+              Add menu item
+            </span>
+
+            <i class="fa-solid fa-chevron-right"></i>
+
+          </button>
+
+
+          <button type="button" class="quick-action" (click)="onQuickAction('Create offer')">
+
+            <span class="quick-action-icon">
+              <i class="fa-solid fa-tag"></i>
+            </span>
+
+            <span>
+              Create offer
+            </span>
+
+            <i class="fa-solid fa-chevron-right"></i>
+
+          </button>
+
+
+          <button type="button" class="quick-action" (click)="onQuickAction('Invite staff')">
+
+            <span class="quick-action-icon">
+              <i class="fa-solid fa-user-plus"></i>
+            </span>
+
+            <span>
+              Invite staff
+            </span>
+
+            <i class="fa-solid fa-chevron-right"></i>
+
+          </button>
+
+
+          <button type="button" class="quick-action" (click)="onQuickAction('Review reports')">
+
+            <span class="quick-action-icon">
+              <i class="fa-solid fa-file-lines"></i>
+            </span>
+
+            <span>
+              Review reports
+            </span>
+
+            <i class="fa-solid fa-chevron-right"></i>
+
+          </button>
+
+        </div>
+
+      </div>
+
+    </section>
+
+    <section class="panel locations-panel">
+      <div class="locations-header">
+        <div>
+          <h2>Your locations</h2>
+          <p>Overview of all your restaurant locations</p>
+        </div>
+
+        <button type="button" class="view-all-button" (click)="viewAllLocations()">
+          View all
+        </button>
+      </div>
+
+      <div class="locations-skeleton" *ngIf="isLoadingLocations" aria-hidden="true">
+        <div class="locations-skeleton-row" *ngFor="let row of [1, 2, 3, 4]">
+          <div class="skeleton locations-skeleton-cell"></div>
+          <div class="skeleton locations-skeleton-cell"></div>
+          <div class="skeleton locations-skeleton-cell short"></div>
+          <div class="skeleton locations-skeleton-cell short"></div>
+          <div class="skeleton locations-skeleton-action"></div>
+        </div>
+      </div>
+
+      <div class="locations-list" *ngIf="!isLoadingLocations">
+        <div class="location-row location-heading">
+          <div>Location</div>
+          <div>Address</div>
+          <div>Phone</div>
+          <div>Status</div>
+          <div></div>
+        </div>
+
+        <div class="location-row" *ngFor="let location of locations">
+          <div class="location-name">
+            <span class="location-avatar">
+              {{ location.name.charAt(0) || 'L' }}
+            </span>
+            <div>
+              <strong>{{ location.name }}</strong>
+              <small>Restaurant location</small>
+            </div>
+          </div>
+
+          <div class="location-address">
+            {{ location.address }}
+          </div>
+
+          <div class="location-phone">
+            {{ location.phoneNumber }}
+          </div>
+
+          <div>
+            <span class="location-status active">
+              Active
+            </span>
+          </div>
+
+          <button type="button" class="manage-button" (click)="manageLocation(location)">
+            Manage
+            <i class="fa-solid fa-chevron-right"></i>
+          </button>
+        </div>
+
+        <div class="empty-locations" *ngIf="locations.length === 0">
+          No locations available.
+        </div>
+      </div>
+    </section>
+  </ng-container>
+</div>
+
+<div class="dashboard-message success-message" *ngIf="successMessage">
+  {{ successMessage }}
+</div>
+
+<div class="dashboard-message error-message" *ngIf="errorMessage">
+  {{ errorMessage }}
+</div>
+
+<!-- LOCATION MODAL -->
+<div class="location-modal-backdrop" *ngIf="showLocationModal" (click)="closeLocationModal()">
+  <div class="location-modal" (click)="$event.stopPropagation()">
+    <div class="location-modal-header">
+      <div>
+        <h2>{{ isEditMode ? 'Location details' : 'Add new location' }}</h2>
+        <p>{{ isEditMode ? 'View and manage restaurant information' : 'Enter the restaurant location details' }}</p>
+      </div>
+
+      <button type="button" class="close-button" (click)="closeLocationModal()">×</button>
+    </div>
+
+    <div class="details-skeleton" *ngIf="isDetailsLoading" aria-hidden="true">
+      <div class="details-skeleton-field" *ngFor="let field of [1, 2, 3, 4]">
+        <div class="skeleton details-skeleton-label"></div>
+        <div class="skeleton details-skeleton-input"></div>
+      </div>
+    </div>
+
+    <form *ngIf="!isDetailsLoading" [formGroup]="locationForm"
+      (ngSubmit)="isEditMode ? updateLocation() : createLocation()">
+      <div class="location-form-grid">
+        <div class="form-group">
+          <label>Location nickname</label>
+          <input type="text" formControlName="name" placeholder="Enter restaurant name">
+          <span class="field-error" *ngIf="isInvalid(locationForm, 'name')">Restaurant name is required.</span>
+        </div>
+
+        <div class="form-group">
+          <label>Phone number</label>
+          <input type="text" formControlName="phoneNumber" placeholder="+1 234 567 890">
+          <span class="field-error" *ngIf="isInvalid(locationForm, 'phoneNumber')">Phone number is required.</span>
+        </div>
+
+        <div class="form-group">
+          <label>Address</label>
+          <input type="text" formControlName="address" placeholder="Enter restaurant address">
+          <span class="field-error" *ngIf="isInvalid(locationForm, 'address')">Address is required.</span>
+        </div>
+
+        <div class="form-group">
+          <label>Manager email</label>
+          <input type="email" formControlName="managerEmail" placeholder="manager@example.com">
+          <span class="field-error" *ngIf="isInvalid(locationForm, 'managerEmail')">Enter a valid manager email.</span>
+        </div>
+
+        <div class="form-group">
+          <label>Menu template</label>
+          <input type="text" formControlName="menuTemplate" placeholder="Enter menu template">
+          <span class="field-error" *ngIf="isInvalid(locationForm, 'menuTemplate')">Menu template is required.</span>
+        </div>
+
+        <div class="form-group">
+          <label>Owner name / email</label>
+          <div class="owner-fields">
+            <input type="text" formControlName="ownerName" placeholder="Owner name">
+            <input type="email" formControlName="ownerEmail" placeholder="Owner email">
+          </div>
+          <span class="field-error" *ngIf="isInvalid(locationForm, 'ownerName')">Owner name is required.</span>
+          <span class="field-error" *ngIf="isInvalid(locationForm, 'ownerEmail')">Enter a valid owner email.</span>
+        </div>
+
+        <div class="form-group">
+          <label>Seats</label>
+          <input type="number" formControlName="seats" min="1" placeholder="Number of seats">
+          <span class="field-error" *ngIf="isInvalid(locationForm, 'seats')">Seats must be at least 1.</span>
+        </div>
+
+        <div class="form-group status-form-group">
+          <label>Location open</label>
+          <label class="status-switch">
+            <input type="checkbox" formControlName="locationOpen">
+            <span class="status-slider"></span>
+          </label>
+          <span class="status-toggle-label">
+            {{ locationForm.get('locationOpen')?.value ? 'On' : 'Off' }}
+          </span>
+        </div>
+      </div>
+
+      <div class="location-modal-actions">
+        <button type="button" class="modal-cancel-button" (click)="closeLocationModal()" [disabled]="isSaving">
+          Cancel
+        </button>
+
+        <button type="submit" class="modal-save-button" [disabled]="isSaving">
+          {{ isSaving ? (isEditMode ? 'Saving...' : 'Creating...') : (isEditMode ? 'Save changes' : 'Create new store')
+          }}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- MENU MODAL -->
+<div class="menu-modal-backdrop" *ngIf="showDishModal" (click)="closeDishModal()">
+  <div class="menu-modal dish-modal" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <div>
+        <h2>Add new dish</h2>
+        <p>Add a new item to the selected restaurant</p>
+      </div>
+      <button type="button" class="close-button" (click)="closeDishModal()">×</button>
+    </div>
+
+    <form [formGroup]="dishForm" (ngSubmit)="createDish()">
+      <div class="form-grid">
+        <div class="form-group full-width">
+          <label>Dish name *</label>
+          <input type="text" formControlName="dishName" placeholder="Enter dish name">
+          <span class="field-error" *ngIf="isInvalid(dishForm, 'dishName')">Dish name is required.</span>
+        </div>
+
+        <div class="form-group">
+          <label>Restaurant *</label>
+        </div>
+
+        <div class="form-group">
+          <label>Category *</label>
+          <select formControlName="categoryName">
+            <option value="" disabled>Select category</option>
+            <option *ngFor="let category of categories" [value]="category.name">
+              {{ category.name }}
+            </option>
+          </select>
+          <span class="field-error" *ngIf="isInvalid(dishForm, 'categoryName')">Category is required.</span>
+        </div>
+
+        <div class="form-group">
+          <label>Types *</label>
+          <div class="type-options">
+            <label class="type-checkbox" *ngFor="let type of availableTypes">
+              <input type="checkbox" [checked]="dishForm.get('typeNames')?.value?.includes(type)"
+                (change)="onTypeChange(type, $event)">
+              <span>{{ type }}</span>
+            </label>
+          </div>
+          <span class="field-error" *ngIf="isInvalid(dishForm, 'typeNames')">Select at least one type.</span>
+        </div>
+
+        <div class="form-group">
+          <label>Price *</label>
+          <input type="number" formControlName="price" min="0" step="0.01" placeholder="0.00">
+          <span class="field-error" *ngIf="isInvalid(dishForm, 'price')">Price is required.</span>
+        </div>
+
+        <div class="form-group">
+          <label>Calories</label>
+          <input type="number" formControlName="calories" min="0" placeholder="0">
+        </div>
+
+        <div class="form-group full-width">
+          <label>Description *</label>
+          <textarea rows="3" formControlName="description" placeholder="Describe the dish"></textarea>
+          <span class="field-error" *ngIf="isInvalid(dishForm, 'description')">Description is required.</span>
+        </div>
+
+        <div class="form-group full-width">
+          <label>Image</label>
+          <label class="upload-box">
+            <input type="file" accept="image/*" (change)="onImageSelected($event)">
+            <span class="upload-icon">↑</span>
+            <span class="upload-title">Upload image</span>
+            <span class="upload-description">PNG, JPG or JPEG</span>
+          </label>
+
+          <div class="image-preview" *ngIf="imagePreview">
+            <img [src]="imagePreview" alt="Dish preview">
+            <span>{{ selectedImage?.name || 'Current image' }}</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-actions">
+        <button type="button" class="cancel-button" (click)="closeDishModal()" [disabled]="isSaving">
+          Cancel
+        </button>
+        <button type="submit" class="primary-modal-button" [disabled]="isSaving">
+          {{ isSaving ? 'Creating...' : 'Create dish' }}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- OFFER MODAL -->
+<div class="modal-backdrop" *ngIf="showOfferModal" (click)="closeOfferModal()">
+  <div class="offer-modal" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <div>
+        <h2>Create offer</h2>
+        <p>Create a new coupon or deal</p>
+      </div>
+      <button type="button" class="close-button" (click)="closeOfferModal()">×</button>
+    </div>
+
+    <form [formGroup]="offerForm" (ngSubmit)="createOffer()">
+      <div class="form-group">
+        <label>Offer name *</label>
+        <input type="text" formControlName="name" placeholder="Example: Happy Hour Special">
+        <span class="field-error" *ngIf="isInvalid(offerForm, 'name')">Offer name is required.</span>
+      </div>
+
+      <div class="form-group">
+        <label>Location *</label>
+        <select formControlName="locationId">
+          <option *ngFor="let location of locations" [ngValue]="location.id">
+            {{ location.name }}
+          </option>
+        </select>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>Start date *</label>
+          <input type="date" formControlName="startDate">
+        </div>
+        <div class="form-group">
+          <label>End date *</label>
+          <input type="date" formControlName="endDate">
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>Status *</label>
+          <select formControlName="status">
+            <option value="ACTIVE">Active</option>
+            <option value="INACTIVE">Inactive</option>
+            <option value="SCHEDULED">Scheduled</option>
+            <option value="EXPIRED">Expired</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Discount value *</label>
+          <input type="number" min="0" step="0.01" formControlName="discountValue" placeholder="20">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Discount label *</label>
+        <input type="text" formControlName="discountLabel" placeholder="20% off appetizers">
+      </div>
+
+      <div class="form-group">
+        <label>Description *</label>
+        <textarea rows="4" formControlName="description" placeholder="Describe the offer"></textarea>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>Photo URL</label>
+          <input type="url" formControlName="photoUrl" placeholder="https://example.com/offer.jpg">
+        </div>
+
+        <div class="form-group">
+          <label>Per user limit *</label>
+          <input type="number" min="1" formControlName="perUserLimit" placeholder="5">
+        </div>
+      </div>
+
+      <div class="modal-actions">
+        <button type="button" class="cancel-button" (click)="closeOfferModal()" [disabled]="isSaving">
+          Cancel
+        </button>
+
+        <button type="submit" class="primary-modal-button" [disabled]="isSaving">
+          {{ isSaving ? 'Creating...' : 'Create offer' }}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

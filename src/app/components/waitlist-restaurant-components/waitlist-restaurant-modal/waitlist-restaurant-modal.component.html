@@ -1,0 +1,250 @@
+<app-dinerly-loader *ngIf="isLoading"></app-dinerly-loader>
+
+
+<div class="restaurant-modal-backdrop" *ngIf="visible && !isLoading">
+
+  <div class="restaurant-modal-container">
+
+    <div class="modal-header">
+
+      <h2 class="modal-title">
+        Add guest to waitlist
+      </h2>
+
+      <button type="button" class="close-btn" (click)="close()" aria-label="Close">
+
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <line x1="18" y1="6" x2="6" y2="18" />
+
+          <line x1="6" y1="6" x2="18" y2="18" />
+        </svg>
+
+      </button>
+
+    </div>
+
+
+    <form [formGroup]="form" (ngSubmit)="submit()">
+
+      <div class="form-row">
+
+        <!-- Guest name -->
+        <div class="form-col">
+
+          <label class="form-label" for="guestName">
+            Guest name
+          </label>
+
+          <input id="guestName" class="form-input" formControlName="name" placeholder="Last name or party name"
+            [class.error]="
+              form.get('name')?.invalid &&
+              form.get('name')?.touched
+            ">
+
+          <span class="error-msg" *ngIf="
+              form.get('name')?.invalid &&
+              form.get('name')?.touched
+            ">
+            Name is required
+          </span>
+
+        </div>
+
+
+        <!-- Phone number -->
+        <div class="form-col">
+
+          <label class="form-label" for="phone">
+            Phone number
+          </label>
+
+
+          <div class="restaurant-phone-box" [class.error]="
+              form.get('phone')?.invalid &&
+              form.get('phone')?.touched
+            ">
+
+            <div class="country-code-selector">
+
+              <span class="selected-country-flag">
+                {{ selectedCountry.flag }}
+              </span>
+
+              <select formControlName="phoneCountry" aria-label="Select phone country code"
+                (change)="onPhoneCountryChange()">
+
+                <option *ngFor="
+                    let country of countries
+                  " [value]="country.iso">
+                  {{ country.flag }}
+                  {{ country.dialCode }}
+                  —
+                  {{ country.name }}
+                </option>
+
+              </select>
+
+              <svg class="country-chevron" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                stroke-width="3">
+                <polyline points="6 9 12 15 18 9"></polyline>
+              </svg>
+
+            </div>
+
+
+            <span class="phone-field-divider"></span>
+
+
+            <span class="selected-dial-code">
+              {{ selectedCountry.dialCode }}
+            </span>
+
+
+            <input id="phone" class="phone-number-input" type="tel" inputmode="numeric" autocomplete="tel-national"
+              formControlName="phone" [placeholder]="
+                selectedCountry.placeholder
+              " [attr.maxlength]="
+                selectedCountry.maxLength
+              " (input)="onPhoneInput($event)">
+
+          </div>
+
+
+          <span class="error-msg" *ngIf="
+              form.get('phone')
+                ?.hasError('required') &&
+              form.get('phone')?.touched
+            ">
+            Phone number is required
+          </span>
+
+
+          <span class="error-msg" *ngIf="
+              form.get('phone')
+                ?.hasError('pattern') &&
+              form.get('phone')?.touched
+            ">
+            Enter a valid phone number for
+            {{ selectedCountry.name }}
+          </span>
+
+        </div>
+
+      </div>
+
+
+      <div class="form-row">
+
+        <div class="form-col">
+
+          <label class="form-label" for="partySize">
+            Party size
+          </label>
+
+          <input id="partySize" class="form-input" formControlName="partySize" type="number" min="1" max="50">
+
+        </div>
+
+
+        <div class="form-col">
+
+          <label class="form-label" for="preference">
+            Seating preference
+          </label>
+
+          <select id="preference" class="form-select" formControlName="preference">
+
+            <option *ngFor="
+                let pref of preferences
+              " [value]="pref">
+              {{ pref }}
+            </option>
+
+          </select>
+
+        </div>
+
+      </div>
+
+
+      <div class="tags-section">
+
+        <span class="form-label">
+          Waiting Time
+        </span>
+
+        <div class="time-options">
+
+          <button *ngFor="
+              let time of waitTimeOptions
+            " type="button" [class.active]="
+              selectedWaitTime === time
+            " (click)="
+              selectedWaitTime = time
+            ">
+            {{ time }} min
+          </button>
+
+        </div>
+
+      </div>
+
+
+      <div class="tags-section">
+
+        <label class="form-label">
+          Waiting Queue in list
+
+          <span>
+            {{ waitingGuests.length }}
+          </span>
+        </label>
+
+        <button type="button" class="btn-load" (click)="loadWaitingGuests()">
+          Load Waiting Queue
+        </button>
+
+      </div>
+
+
+      <div class="form-col" style="margin-bottom: 0;">
+
+        <label class="form-label" for="notes">
+          Notes
+        </label>
+
+        <textarea id="notes" class="form-textarea" formControlName="notes" placeholder="Any special requests..."
+          rows="2"></textarea>
+
+      </div>
+
+
+      <div class="modal-footer">
+
+        <button type="button" class="btn-cancel" (click)="close()">
+          Cancel
+        </button>
+
+
+        <button type="submit" class="btn-add" [disabled]="
+            form.invalid ||
+            isLoading
+          ">
+
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <line x1="12" y1="5" x2="12" y2="19" />
+
+            <line x1="5" y1="12" x2="19" y2="12" />
+          </svg>
+
+          Add to waitlist
+
+        </button>
+
+      </div>
+
+    </form>
+
+  </div>
+
+</div>

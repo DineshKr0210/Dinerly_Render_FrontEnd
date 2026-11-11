@@ -1,0 +1,161 @@
+<div class="invitation-page">
+  <div class="invitation-card">
+    <div class="invitation-header">
+      <h1>Dinerly</h1>
+      <p>Staff invitation</p>
+    </div>
+
+    <div
+      class="loading-state"
+      *ngIf="isVerifying">
+      <div class="spinner"></div>
+      <p>Verifying your invitation...</p>
+    </div>
+
+    <div
+      class="error-state"
+      *ngIf="!isVerifying && !isVerified">
+      <div class="error-icon">!</div>
+
+      <h2>Invitation unavailable</h2>
+
+      <p>
+        {{ errorMessage }}
+      </p>
+
+      <button
+        type="button"
+        class="login-button"
+        (click)="goToLogin()">
+        Go to login
+      </button>
+    </div>
+
+    <div
+      class="invitation-content"
+      *ngIf="!isVerifying && isVerified">
+      <div class="verified-message">
+        <div class="verified-icon">✓</div>
+
+        <div>
+          <strong>Invitation verified</strong>
+          <span>
+            {{ invitationMessage }}
+          </span>
+        </div>
+      </div>
+
+      <h2>Accept invitation</h2>
+
+      <p class="welcome-text">
+        Welcome,
+        <strong>{{ staffName }}</strong>.
+      </p>
+
+      <p>
+        You have been invited to join
+        <strong>{{ restaurantName }}</strong>
+        as a staff member.
+      </p>
+
+      <div class="staff-details">
+        <div>
+          <span>Name</span>
+          <strong>{{ staffName }}</strong>
+        </div>
+
+        <div>
+          <span>Email</span>
+          <strong>{{ staffEmail }}</strong>
+        </div>
+      </div>
+
+      <div
+        class="success-message"
+        *ngIf="successMessage && !passwordSet">
+        {{ successMessage }}
+      </div>
+
+      <div
+        class="error-message"
+        *ngIf="errorMessage">
+        {{ errorMessage }}
+      </div>
+
+      <div
+        class="password-success"
+        *ngIf="passwordSet">
+        <div class="password-success-icon">✓</div>
+
+        <h2>Password set successfully</h2>
+
+        <p>
+          Your staff account is now active.
+        </p>
+
+        <button
+          type="button"
+          class="login-button"
+          (click)="goToLogin()">
+          Go to login
+        </button>
+      </div>
+
+      <form
+        *ngIf="!passwordSet"
+        [formGroup]="passwordForm"
+        (ngSubmit)="setPassword()">
+
+        <div class="form-group">
+          <label>Password *</label>
+
+          <input
+            type="password"
+            formControlName="password"
+            placeholder="Enter password"
+            autocomplete="new-password">
+
+          <span
+            class="field-error"
+            *ngIf="isInvalid('password')">
+            Password must be at least 8 characters.
+          </span>
+        </div>
+
+        <div class="form-group">
+          <label>Confirm password *</label>
+
+          <input
+            type="password"
+            formControlName="confirmPassword"
+            placeholder="Confirm password"
+            autocomplete="new-password">
+
+          <span
+            class="field-error"
+            *ngIf="
+              isInvalid('confirmPassword') ||
+              passwordsDoNotMatch()
+            ">
+            Passwords do not match.
+          </span>
+        </div>
+
+        <button
+          type="submit"
+          class="submit-button"
+          [disabled]="isSaving">
+
+          <span *ngIf="!isSaving">
+            Set password & activate account
+          </span>
+
+          <span *ngIf="isSaving">
+            Setting password...
+          </span>
+
+        </button>
+      </form>
+    </div>
+  </div>
+</div>

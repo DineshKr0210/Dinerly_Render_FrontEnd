@@ -1,0 +1,52 @@
+/* Dark theme tokens. Applied when <html data-theme="dark"> is set by ThemeService. */
+
+html[data-theme="dark"] {
+  color-scheme: dark;
+
+  /* Palette matched to the reference screenshot: near-black, slightly purple-tinted. */
+  --dk-bg: #0b0b11;
+  --dk-page: #0b0b11;
+  --dk-surface: #13131b;
+  --dk-surface-2: #1a1a24;
+  --dk-surface-3: #23232f;
+  --dk-sunken: #0e0e15;
+  --dk-border: #24242f;
+  --dk-border-strong: #353543;
+
+  --dk-text: #f4f4f8;
+  --dk-text-2: #c9c9d4;
+  --dk-text-3: #8d8d9c;
+
+  --dk-brand: #a78bfa;
+  --dk-brand-strong: #7c3aed;
+  --dk-brand-soft: rgba(124, 58, 237, 0.2);
+
+  --dk-success: #34d399;
+  --dk-success-soft: rgba(52, 211, 153, 0.14);
+  --dk-danger: #f87171;
+  --dk-danger-soft: rgba(248, 113, 113, 0.14);
+  --dk-warning: #fbbf24;
+  --dk-warning-soft: rgba(251, 191, 36, 0.14);
+  --dk-info: #60a5fa;
+  --dk-info-soft: rgba(96, 165, 250, 0.14);
+
+  --text-muted: #8d8d9c;
+  --brand-soft: rgba(124, 58, 237, 0.2);
+  --brand-gradient: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+  --focus-ring: 0 0 0 3px rgba(167, 139, 250, 0.3);
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.5);
+  --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.5);
+  --shadow-lg: 0 20px 48px rgba(0, 0, 0, 0.6);
+
+  scrollbar-color: #353543 transparent;
+}
+
+html[data-theme="dark"] body {
+  background-color: var(--dk-bg);
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] ::selection {
+  background: rgba(157, 108, 240, 0.4);
+  color: #ffffff;
+}

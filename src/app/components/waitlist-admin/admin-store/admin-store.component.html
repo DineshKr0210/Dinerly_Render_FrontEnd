@@ -1,0 +1,398 @@
+<div class="availability-page">
+  <div class="page-header">
+    <div>
+      <h1>Store availability</h1>
+      <p>Hours and open/closed status per location</p>
+    </div>
+  </div>
+
+  <div class="error-message" *ngIf="errorMessage">
+    <span class="material-icons">error_outline</span>
+    {{ errorMessage }}
+  </div>
+
+  <div class="success-message" *ngIf="successMessage">
+    <span class="material-icons">check_circle</span>
+    {{ successMessage }}
+  </div>
+
+  <div
+    class="availability-card regular-hours"
+    *ngIf="!loadingLocations">
+    <div class="card-title">
+      <div>
+        <h2>Regular hours</h2>
+        <p>Weekly opening hours and store status</p>
+      </div>
+    </div>
+
+    <div
+      class="regular-loading"
+      *ngIf="loadingAvailability">
+      <div class="spinner"></div>
+      Loading regular hours...
+    </div>
+
+    <div
+      class="regular-list"
+      *ngIf="
+        !loadingAvailability &&
+        regularHours.length > 0
+      ">
+      <div
+        class="regular-row"
+        *ngFor="let hour of regularHours">
+        <div class="regular-day">
+          {{ hour.day }}
+        </div>
+
+        <div class="regular-time">
+          <span *ngIf="hour.enabled">
+            {{ formatTime(hour.open) }}
+          </span>
+
+          <span
+            class="closed-value"
+            *ngIf="!hour.enabled">
+            Closed
+          </span>
+        </div>
+
+        <div class="regular-time">
+          <span *ngIf="hour.enabled">
+            {{ formatTime(hour.close) }}
+          </span>
+
+          <span
+            class="closed-value"
+            *ngIf="!hour.enabled">
+            —
+          </span>
+        </div>
+
+        <div class="regular-status">
+          <button
+            type="button"
+            class="availability-toggle"
+            [class.on]="hour.enabled"
+            [class.off]="!hour.enabled"
+            [attr.aria-pressed]="hour.enabled"
+            (click)="openToggleModal(hour)">
+            <span class="toggle-text">
+              {{ hour.enabled ? 'On' : 'Off' }}
+            </span>
+            <span class="toggle-knob"></span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div
+      class="empty-regular"
+      *ngIf="
+        !loadingAvailability &&
+        regularHours.length === 0
+      ">
+      <span class="material-icons">
+        schedule
+      </span>
+      <h3>No regular hours</h3>
+      <p>
+        Regular hours are not available for this location.
+      </p>
+    </div>
+  </div>
+
+  <div
+    class="availability-card"
+    *ngIf="!loadingLocations">
+    <div class="special-header">
+      <div>
+        <h2>Upcoming special hours</h2>
+        <p>
+          Holiday and special opening hours for
+          {{ getSelectedLocation()?.name }}
+        </p>
+      </div>
+
+      <button
+        type="button"
+        class="add-button"
+        (click)="openAddModal()"
+        [disabled]="
+          loadingLocations ||
+          selectedRestaurantId === null
+        ">
+        + Add special
+      </button>
+    </div>
+
+    <div
+      class="loading"
+      *ngIf="loadingHolidayHours">
+      <div class="spinner"></div>
+      Loading special hours...
+    </div>
+
+    <div
+      class="special-list"
+      *ngIf="
+        !loadingHolidayHours &&
+        holidayHours.length > 0
+      ">
+      <div
+        class="special-row"
+        *ngFor="let holiday of holidayHours">
+        <div class="special-date">
+          <strong>
+            {{ formatDate(holiday.date) }}
+          </strong>
+          <span>
+            {{ holiday.title }}
+          </span>
+        </div>
+
+        <div class="special-time">
+          <ng-container *ngIf="!holiday.closed">
+            {{ formatTime(holiday.openTime) }}
+            <span>–</span>
+            {{ formatTime(holiday.closeTime) }}
+          </ng-container>
+
+          <span
+            class="closed-text"
+            *ngIf="holiday.closed">
+            Closed
+          </span>
+        </div>
+
+        <div class="special-notes">
+          {{ holiday.notes || '—' }}
+        </div>
+
+        <div>
+          <span
+            class="status-pill"
+            [class.closed]="holiday.closed"
+            [class.open]="!holiday.closed">
+            {{
+              holiday.closed
+                ? 'Closed'
+                : 'Open'
+            }}
+          </span>
+        </div>
+
+        <div>
+          <button
+            type="button"
+            class="edit-button"
+            (click)="openEditModal(holiday)">
+            Edit
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div
+      class="empty-special"
+      *ngIf="
+        !loadingHolidayHours &&
+        holidayHours.length === 0
+      ">
+      <span class="material-icons">
+        event_available
+      </span>
+      <h3>No special hours</h3>
+      <p>
+        No holiday or special hours have been added
+        for this location.
+      </p>
+    </div>
+  </div>
+
+  <div
+    class="loading"
+    *ngIf="loadingLocations">
+    <div class="spinner"></div>
+    Loading locations...
+  </div>
+
+  <!-- TOGGLE CONFIRMATION MODAL -->
+
+  <div
+    class="modal-backdrop"
+    *ngIf="showToggleModal"
+    (click)="closeToggleModal()">
+    <div
+      class="toggle-modal"
+      (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h2>{{ getToggleTitle() }}</h2>
+
+        <button
+          type="button"
+          class="close-button"
+          (click)="closeToggleModal()">
+          ×
+        </button>
+      </div>
+
+      <div class="toggle-modal-body">
+        <div class="toggle-info-box">
+          <span>Restaurant</span>
+          <strong>
+            {{ getSelectedLocation()?.name }}
+          </strong>
+        </div>
+
+        <div class="toggle-info-box">
+          <span>Holiday hour</span>
+          <strong>
+            {{
+              pendingHolidayHour?.title ||
+              pendingRegularHour?.day
+            }}
+          </strong>
+        </div>
+
+        <p class="toggle-confirm-text">
+          {{
+            toggleTargetEnabled
+              ? 'Do you want to turn this store on for this day?'
+              : 'Do you want to turn this store off for this day?'
+          }}
+        </p>
+      </div>
+
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="cancel-button"
+          (click)="closeToggleModal()"
+          [disabled]="saving">
+          Cancel
+        </button>
+
+        <button
+          type="button"
+          class="save-button"
+          [class.turn-off]="!toggleTargetEnabled"
+          (click)="confirmToggle()"
+          [disabled]="saving">
+          {{
+            saving
+              ? 'Saving...'
+              : getToggleButtonText()
+          }}
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ADD / EDIT SPECIAL HOURS MODAL -->
+
+  <div
+    class="modal-backdrop"
+    *ngIf="showModal"
+    (click)="closeModal()">
+    <div
+      class="store-modal"
+      (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h2>
+          {{
+            editingHolidayHour
+              ? 'Edit special hours'
+              : 'Add special hours'
+          }}
+        </h2>
+
+        <button
+          type="button"
+          class="close-button"
+          (click)="closeModal()">
+          ×
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <div class="form-group">
+          <label>Date</label>
+          <input
+            type="date"
+            [(ngModel)]="form.date" />
+        </div>
+
+        <div class="form-group">
+          <label>Title</label>
+          <input
+            type="text"
+            [(ngModel)]="form.title"
+            placeholder="e.g. Christmas Day" />
+        </div>
+
+        <div class="closed-toggle">
+          <label>Closed</label>
+          <input
+            type="checkbox"
+            [(ngModel)]="form.closed" />
+        </div>
+
+        <div
+          class="time-row"
+          *ngIf="!form.closed">
+          <div class="form-group">
+            <label>Open time</label>
+            <input
+              type="time"
+              [(ngModel)]="form.openTime" />
+          </div>
+
+          <div class="form-group">
+            <label>Close time</label>
+            <input
+              type="time"
+              [(ngModel)]="form.closeTime" />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Notes</label>
+          <textarea
+            [(ngModel)]="form.notes"
+            rows="3"
+            placeholder="Optional notes"></textarea>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="cancel-button"
+          (click)="closeModal()"
+          [disabled]="saving">
+          Cancel
+        </button>
+
+        <button
+          type="button"
+          class="save-button"
+          (click)="saveHolidayHour()"
+          [disabled]="saving">
+          <span *ngIf="!saving">
+            {{
+              editingHolidayHour
+                ? 'Update'
+                : 'Add special'
+            }}
+          </span>
+
+          <span *ngIf="saving">
+            Saving...
+          </span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,701 @@
+<div class="modal-backdrop">
+  <div class="modal-container">
+
+    <button class="close-btn" type="button" (click)="close()">
+      ✕
+    </button>
+
+    <!-- JOIN WAITLIST -->
+    <ng-container *ngIf="type === 'join'">
+
+      <form [formGroup]="waitlistForm" (ngSubmit)="submitJoinWaitlist()">
+
+        <div class="modal-header">
+
+          <div class="header-icon">
+            <i class="fa-solid fa-user" style="color: rgb(177, 151, 252);"></i>
+          </div>
+
+          <div>
+            <h2>Join the Waitlist</h2>
+
+            <p>
+              We'll text you when your table is ready.
+            </p>
+          </div>
+
+        </div>
+
+        <!-- Restaurant -->
+        <div class="field restaurant-field">
+
+          <label>
+            Restaurant
+          </label>
+
+          <!-- QR scanned restaurant -->
+          <div class="restaurant-unavailable-notice" *ngIf="
+    lockRestaurantSelection &&
+    selectedRestaurant &&
+    !canSelectedRestaurantAcceptOnlineJoin
+  ">
+            <i class="fa-solid fa-circle-exclamation"></i>
+
+            <div>
+              <strong>
+                Online joining is currently unavailable
+              </strong>
+
+              <p>
+                This restaurant is not accepting online
+                waitlist requests right now.
+              </p>
+            </div>
+          </div>
+
+          <!-- Normal restaurant dropdown -->
+          <div class="restaurant-select-box" *ngIf="!lockRestaurantSelection">
+
+            <i class="fa-solid fa-house"></i>
+
+            <select formControlName="restaurantId" [disabled]="isRestaurantLoading">
+
+              <option *ngIf="isRestaurantLoading" [ngValue]="null" disabled>
+                Loading restaurants...
+              </option>
+
+              <option *ngFor="let restaurant of restaurants" [ngValue]="restaurant.id" [disabled]="
+      !canRestaurantAcceptOnlineJoin(
+        restaurant
+      )
+    ">
+                {{ getRestaurantOptionText(restaurant) }}
+              </option>
+
+            </select>
+
+            <i class="fa-solid fa-chevron-down chevron"></i>
+
+          </div>
+
+          <small class="error" *ngIf="
+              waitlistForm.get('restaurantId')?.invalid &&
+              waitlistForm.get('restaurantId')?.touched
+            ">
+            Restaurant is required
+          </small>
+
+        </div>
+
+        <!-- Name and phone -->
+        <div class="form-grid">
+
+          <div class="field">
+
+            <label>
+              Your name
+            </label>
+
+            <div class="input-box">
+
+              <input type="text" formControlName="name" placeholder="Enter your name">
+
+            </div>
+
+            <small class="error" *ngIf="
+                waitlistForm.get('name')?.invalid &&
+                waitlistForm.get('name')?.touched
+              ">
+              Name is required
+            </small>
+
+          </div>
+
+          <div class="field">
+
+            <label>
+              Phone number (for SMS)
+            </label>
+
+            <div class="input-box phone-box">
+
+              <div class="country-code-select">
+
+                <select formControlName="phoneCountry" aria-label="Select country code"
+                  (change)="onPhoneCountryChange('join')">
+
+                  <option *ngFor="let country of countries" [value]="country.iso">
+                    {{ country.flag }}
+                    {{ country.dialCode }}
+                    {{ country.name }}
+                  </option>
+
+                </select>
+
+                <span class="selected-country-flag">{{ selectedJoinCountry.flag }}</span>
+
+                <i class="fa-solid fa-chevron-down"></i>
+
+              </div>
+
+
+              <div class="phone-divider"></div>
+
+
+              <span class="selected-dial-code">
+                {{ selectedJoinCountry.dialCode }}
+              </span>
+
+
+              <input type="tel" inputmode="numeric" autocomplete="tel-national" formControlName="phone"
+                [placeholder]="selectedJoinCountry.placeholder" [attr.maxlength]="selectedJoinCountry.maxLength"
+                (input)="onPhoneInput($event, 'join')">
+
+            </div>
+
+            <small class="error" *ngIf="
+    waitlistForm.get('phone')?.invalid &&
+    waitlistForm.get('phone')?.touched
+  ">
+              Enter a valid phone number for
+              {{ selectedJoinCountry.name }}
+            </small>
+
+          </div>
+
+        </div>
+
+        <!-- Party size -->
+        <div class="party-section">
+
+          <div class="field">
+
+            <label>
+              Party size
+            </label>
+
+            <!-- Desktop -->
+            <div class="party-buttons desktop-party">
+
+              <button *ngFor="let size of partySize" type="button" [class.active]="
+                  waitlistForm.get('partySize')?.value === size
+                " (click)="selectPartySize(size)">
+                {{ size }}
+              </button>
+
+            </div>
+
+            <!-- Mobile / Tablet picker -->
+            <button type="button" class="party-select-box mobile-party" (click)="openPartyPicker()">
+
+              <i class="fa-solid fa-user-group"></i>
+
+              <span>
+                {{
+                waitlistForm.get('partySize')?.value
+                }}
+                Guests
+              </span>
+
+              <i class="fa-solid fa-chevron-down"></i>
+
+            </button>
+
+          </div>
+
+        </div>
+
+        <!-- Mobile party picker -->
+        <div class="party-picker-backdrop" *ngIf="showPartyPicker">
+
+          <div class="party-picker-modal">
+
+            <div class="picker-header">
+
+              <button type="button" (click)="closePartyPicker()">
+                Cancel
+              </button>
+
+              <strong>
+                Party Size
+              </strong>
+
+              <button type="button" (click)="confirmPartyPicker()">
+                Done
+              </button>
+
+            </div>
+
+            <div class="ios-picker">
+
+              <div class="picker-highlight"></div>
+
+              <div class="picker-column">
+
+                <button type="button" *ngFor="let size of partySize" [class.active]="tempPartySize === size"
+                  (click)="tempPartySize = size">
+                  {{ size }}
+                </button>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- Seating preference -->
+        <div class="field">
+
+          <label>
+            Seating preference
+            <span>(Optional)</span>
+          </label>
+
+          <div class="preference-grid">
+
+            <button type="button" class="preference-card" [class.active]="
+                waitlistForm.get('preference')?.value === 'INDOOR'
+              " (click)="
+                waitlistForm.patchValue({
+                  preference: 'INDOOR'
+                })
+              ">
+              🏠 Indoor
+              <span>✓</span>
+            </button>
+
+            <button type="button" class="preference-card" [class.active]="
+                waitlistForm.get('preference')?.value === 'OUTDOOR'
+              " (click)="
+                waitlistForm.patchValue({
+                  preference: 'OUTDOOR'
+                })
+              ">
+              ☀️ Outdoor
+              <span>✓</span>
+            </button>
+
+            <button type="button" class="preference-card" [class.active]="
+                waitlistForm.get('preference')?.value === 'NO_PREFERENCE'
+              " (click)="
+                waitlistForm.patchValue({
+                  preference: 'NO_PREFERENCE'
+                })
+              ">
+              🪑 No preference
+              <span>✓</span>
+            </button>
+
+          </div>
+
+        </div>
+
+        <!-- Special request -->
+        <div class="field">
+
+          <label>
+            Special requests
+            <span>(Optional)</span>
+          </label>
+
+          <div class="input-box">
+
+            <input type="text" formControlName="notes"
+              placeholder="Any special requests? (e.g. high chair, wheelchair access)">
+
+          </div>
+
+        </div>
+
+        <!-- Marketing SMS Consent -->
+        <div class="marketing-consent">
+
+          <div class="marketing-consent-content">
+
+            <div class="marketing-consent-text">
+
+              <strong>
+                Sent SMS for Marketing Consent
+              </strong>
+
+              <span>
+                Receive promotional offers and marketing
+                updates from the restaurant via SMS.
+              </span>
+
+            </div>
+
+            <label class="toggle-switch">
+
+              <input type="checkbox" formControlName="marketingSmsConsent">
+
+              <span class="toggle-slider"></span>
+
+            </label>
+
+          </div>
+
+        </div>
+
+        <!-- Actions -->
+        <div class="actions">
+
+          <button type="button" class="btn-cancel" (click)="close()">
+            Cancel
+          </button>
+
+          <div class="submit-wrap">
+
+            <button type="submit" class="btn-primary" [disabled]="
+    isSubmitting ||
+    isWaitStatusLoading
+  ">
+              {{
+              isSubmitting
+              ? 'Joining...'
+              : isWaitStatusLoading
+              ? 'Checking wait time...'
+              : 'Join Waitlist'
+              }}
+
+              <span>→</span>
+            </button>
+
+            <small>
+              You'll receive SMS updates about your wait time.
+            </small>
+
+          </div>
+
+        </div>
+
+      </form>
+
+    </ng-container>
+
+    <!-- CHECK STATUS -->
+    <ng-container *ngIf="type === 'status'">
+
+      <form [formGroup]="statusForm" (ngSubmit)="checkStatus()">
+
+        <div class="modal-header">
+
+          <div class="header-icon">
+            🔍
+          </div>
+
+          <div>
+
+            <h2>
+              Check your status
+            </h2>
+
+            <p>
+              Enter the phone number used when joining.
+            </p>
+
+          </div>
+
+        </div>
+
+        <!-- Restaurant for status -->
+        <div class="field restaurant-field">
+
+          <label>
+            Restaurant
+          </label>
+
+          <!-- QR scanned restaurant -->
+          <div class="restaurant-select-box locked" *ngIf="
+              lockRestaurantSelection &&
+              selectedRestaurant
+            ">
+
+            <i class="fa-solid fa-house"></i>
+
+            <div class="locked-restaurant-text">
+
+              <strong>
+                {{ selectedRestaurant.name }}
+              </strong>
+
+              <small *ngIf="selectedRestaurant.address">
+                {{ selectedRestaurant.address }}
+              </small>
+
+            </div>
+
+          </div>
+
+          <!-- Normal dropdown -->
+          <div class="restaurant-select-box" *ngIf="!lockRestaurantSelection">
+
+            <i class="fa-solid fa-house"></i>
+
+            <select formControlName="restaurantId" [disabled]="isRestaurantLoading">
+
+              <option *ngFor="let restaurant of restaurants" [ngValue]="restaurant.id">
+                {{ restaurant.name }}
+                —
+                {{ restaurant.address }}
+              </option>
+
+            </select>
+
+            <i class="fa-solid fa-chevron-down chevron"></i>
+
+          </div>
+
+        </div>
+
+        <div class="field">
+
+          <label>
+            Phone number
+          </label>
+
+          <div class="input-box phone-box">
+
+            <div class="country-code-select">
+
+              <select formControlName="phoneCountry" aria-label="Select country code"
+                (change)="onPhoneCountryChange('status')">
+
+                <option *ngFor="let country of countries" [value]="country.iso">
+                  {{ country.flag }}
+                  {{ country.dialCode }}
+                  {{ country.name }}
+                </option>
+
+              </select>
+
+              <span class="selected-country-flag">{{ selectedStatusCountry.flag }}</span>
+
+              <i class="fa-solid fa-chevron-down"></i>
+
+            </div>
+
+
+            <div class="phone-divider"></div>
+
+
+            <span class="selected-dial-code">
+              {{ selectedStatusCountry.dialCode }}
+            </span>
+
+
+            <input type="tel" inputmode="numeric" autocomplete="tel-national" formControlName="phoneNumber"
+              [placeholder]="selectedStatusCountry.placeholder" [attr.maxlength]="selectedStatusCountry.maxLength"
+              (input)="onPhoneInput($event, 'status')">
+
+          </div>
+
+          <small class="error" *ngIf="
+    statusForm.get('phoneNumber')?.invalid &&
+    statusForm.get('phoneNumber')?.touched
+  ">
+            Enter a valid phone number for
+            {{ selectedStatusCountry.name }}
+          </small>
+
+        </div>
+
+        <div class="actions">
+
+          <button type="button" class="btn-cancel" (click)="close()">
+            Cancel
+          </button>
+
+          <div class="submit-wrap">
+
+            <button type="submit" class="btn-primary" [disabled]="isSubmitting">
+              {{
+              isSubmitting
+              ? 'Checking...'
+              : 'Look up'
+              }}
+
+              <span>→</span>
+            </button>
+
+          </div>
+
+        </div>
+
+      </form>
+
+    </ng-container>
+
+  </div>
+</div>
+
+<!-- WAIT CONFIRM POPUP -->
+<!-- WAIT / RESTAURANT AVAILABILITY POPUP -->
+<div class="wait-confirm-backdrop" *ngIf="showWaitConfirmPopup">
+
+  <div class="wait-confirm-popup" [class.restaurant-unavailable-popup]="
+      isOnlineJoinDisabledPopup
+    ">
+
+    <button type="button" class="wait-confirm-close" (click)="cancelWaitConfirm()">
+      ✕
+    </button>
+
+
+    <!-- ONLINE JOIN DISABLED -->
+    <ng-container *ngIf="
+        isOnlineJoinDisabledPopup;
+        else waitConfirmationContent
+      ">
+
+      <div class="wait-confirm-icon unavailable-icon">
+
+        <i class="fa-solid fa-store-slash"></i>
+
+      </div>
+
+
+      <h2>
+        {{
+        selectedRestaurant?.name ||
+        'Selected Restaurant'
+        }}
+      </h2>
+
+
+      <h4>
+        Online waitlist unavailable
+      </h4>
+
+
+      <p class="unavailable-message">
+        This restaurant is currently not
+        accepting online waitlist requests.
+      </p>
+
+
+      <ng-container *ngIf="selectedRestaurant as restaurant">
+
+        <div class="restaurant-hours-box">
+
+          <div *ngIf="restaurant.openTime">
+
+            <span>Opening time</span>
+
+            <strong>
+              {{ restaurant.openTime }}
+            </strong>
+
+          </div>
+
+
+          <div *ngIf="restaurant.closeTime">
+
+            <span>Closing time</span>
+
+            <strong>
+              {{ restaurant.closeTime }}
+            </strong>
+
+          </div>
+
+        </div>
+
+      </ng-container>
+
+
+      <p class="nearby-message">
+        Please visit the restaurant directly
+        or select another nearby restaurant.
+      </p>
+
+
+      <div class="wait-confirm-actions single-action">
+
+        <button type="button" class="wait-join-btn" (click)="closeUnavailableRestaurantPopup()">
+          Choose another restaurant
+        </button>
+
+      </div>
+
+    </ng-container>
+
+
+    <!-- WAIT CONFIRMATION -->
+    <ng-template #waitConfirmationContent>
+
+      <div class="wait-confirm-icon">
+
+        <i class="fa-solid fa-clock"></i>
+
+      </div>
+
+
+      <h2>
+        {{
+        selectedRestaurant?.name ||
+        'Selected Restaurant'
+        }}
+      </h2>
+
+
+      <h4>
+        Estimated Wait Time
+      </h4>
+
+
+      <div class="wait-info-box">
+
+        <div>
+
+          <span>
+            Parties Waiting
+          </span>
+
+          <h3>
+            {{ partiesWaiting }}
+          </h3>
+
+        </div>
+
+
+        <div>
+
+          <span>
+            Estimated Wait
+          </span>
+
+          <h3>
+            {{ waitMinutes }} min
+          </h3>
+
+        </div>
+
+      </div>
+
+
+      <p class="wait-question">
+        Is this wait time okay for you?
+      </p>
+
+
+      <div class="wait-confirm-actions">
+
+        <button type="button" class="wait-cancel-btn" (click)="cancelWaitConfirm()">
+          No, Cancel
+        </button>
+
+
+        <button type="button" class="wait-join-btn" (click)="confirmWaitAndJoin()">
+          Yes, Join
+        </button>
+
+      </div>
+
+    </ng-template>
+
+  </div>
+
+</div>

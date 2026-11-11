@@ -1,0 +1,1526 @@
+<div *ngIf="isInitialLoading" class="active-list-skeleton" aria-busy="true" aria-label="Loading waitlist">
+  <div class="active-list-skeleton-row" *ngFor="let row of [1, 2, 3, 4]">
+    <div class="skeleton skeleton-avatar"></div>
+    <div class="active-list-skeleton-text">
+      <div class="skeleton skeleton-name"></div>
+      <div class="skeleton skeleton-meta"></div>
+    </div>
+  </div>
+</div>
+<div *ngIf="!isInitialLoading" class="live-waitlist-page">
+
+  <section class="page-intro">
+    <div class="page-heading">
+      <h1>Waitlist</h1>
+      <p>Manage your restaurant's waitlist.</p>
+    </div>
+
+    <button class="primary-btn" type="button" (click)="modalService.open()">
+      <i class="fa-solid fa-user-plus"></i>
+      Add Guest
+    </button>
+  </section>
+
+  <section class="request-banner" *ngIf="latestPendingGuest">
+
+    <div class="request-info">
+      <div class="request-icon">
+        <i class="fa-regular fa-calendar-days"></i>
+      </div>
+
+      <div>
+        <p>NEW WAITLIST REQUEST</p>
+        <h2>
+          {{ latestPendingGuest.guestName }} — party of {{ latestPendingGuest.partySize }}
+        </h2>
+        <span>
+          {{ latestPendingGuest.guestPhone }}
+        </span>
+      </div>
+    </div>
+
+    <div class="request-actions">
+      <button class="decline-btn" type="button" (click)=" removequeue(latestPendingGuest)">
+        <i class="fa-solid fa-xmark"></i>
+        Decline
+      </button>
+
+      <button class="approve-btn" type="button" (click)="openPendingGuest(latestPendingGuest)">
+        <i class="fa-solid fa-check"></i>
+        Approve
+      </button>
+    </div>
+
+  </section>
+
+  <section class="stats-grid">
+
+    <div class="stat-card stat-card-purple">
+      <div class="stat-icon stat-icon-purple">
+        <i class="fa-solid fa-user-group"></i>
+      </div>
+
+      <div class="stat-value-block">
+        <h2>{{ dashboardData.totalWaiting }}</h2>
+        <p>parties waiting</p>
+      </div>
+    </div>
+
+    <div class="stat-card stat-card-amber">
+      <div class="stat-icon stat-icon-amber">
+        <i class="fa-regular fa-clock"></i>
+      </div>
+
+      <div class="stat-value-block">
+        <h2>~{{ dashboardData.averageWaitTime }} min</h2>
+        <p>average wait tonight</p>
+      </div>
+    </div>
+
+    <div class="stat-card stat-card-lilac">
+      <div class="stat-icon stat-icon-lilac">
+        <i class="fa-solid fa-chair"></i>
+      </div>
+
+      <div class="stat-value-block table-stat-block">
+        <h2>{{ tableStats.open }}/{{ tableStats.total }}</h2>
+        <p>tables open</p>
+
+
+      </div>
+    </div>
+
+    <div class="stat-card stat-card-green">
+      <div class="stat-icon stat-icon-green">
+        <i class="fa-solid fa-check"></i>
+      </div>
+
+      <div class="stat-value-block">
+        <h2>{{ dashboardData.seatedToday }}</h2>
+        <p>seated today</p>
+      </div>
+    </div>
+
+  </section>
+
+  <section class="current-waitlist-panel">
+    <div class="panel-header">
+      <div class="panel-heading-left">
+        <h2>Current Waitlist</h2>
+        <span>{{ liveWaitlistGuests.length }} guests</span>
+      </div>
+
+      <!-- <div class="panel-tools">
+        <div class="table-search-shell">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <input type="text" placeholder="Search guests..." aria-label="Search waitlist" />
+        </div>
+
+        <button class="ghost-btn" type="button">
+          All Status
+          <i class="fa-solid fa-chevron-down"></i>
+        </button>
+
+        <button class="ghost-btn" type="button">
+          Newest First
+          <i class="fa-solid fa-chevron-down"></i>
+        </button>
+      </div> -->
+    </div>
+
+    <div class="waitlist-table-body">
+      <div class="table-row header-row">
+        <span>Guest</span>
+        <span>Party Size</span>
+        <span>Wait Time</span>
+        <span>Preference</span>
+        <span>Actions</span>
+      </div>
+
+      <!-- <div class="table-row guest-row" *ngFor="let guest of liveWaitlistGuests; let i = index; trackBy: trackByGuest">
+        <span class="queue-number">#{{ guest.position || i + 1 }}</span>
+
+        <div class="guest-name-block">
+          <div class="guest-avatar-mini">{{ getGuestInitials(guest.guestName) }}</div>
+          <div class="guest-meta-compact">
+            <strong>{{ guest.guestName }}</strong>
+            <small>{{ guest.guestPhone }}</small>
+          </div>
+        </div>
+
+        <span>{{ guest.partySize }}</span>
+        <span>{{ guest.estimatedWaitTime || 0 }} min</span>
+        <span>{{ guest.preference || 'No Preference' }}</span>
+
+        <span class="status-pill" [ngClass]="(guest.status || '').toLowerCase()">
+          {{ getStatusLabel(guest.status) }}
+        </span>
+
+        <div class="row-actions">
+          <button type="button" class="mini-action-btn notify" *ngIf="guest.status === 'WAITING'" (click)="notifyGuest(guest)">
+            Notify
+          </button>
+          <button type="button" class="mini-action-btn seat" *ngIf="guest.status === 'NOTIFIED'" (click)="openAvailableTableModal(guest)">
+            Seat
+          </button>
+          <button type="button" class="mini-action-btn secondary" *ngIf="guest.status === 'WAITING' || guest.status === 'NOTIFIED'">
+            SMS
+          </button>
+        </div>
+      </div> -->
+
+      <section class="guest-list">
+
+        <div class="guest-row" *ngFor="
+    let guest of liveWaitlistGuests;
+    trackBy: trackByGuest
+  " [ngClass]="[
+    'status-' + (guest.status || '').toLowerCase(),
+
+    recentChangedGuestId === guest.id
+      ? 'row-changed'
+      : '',
+
+    shakingGuestIds.has(guest.id)
+      ? 'customer-reply-shake'
+      : ''
+  ]">
+
+          <!-- PARTY -->
+          <div class="party-cell">
+            <div class="guest-avatar">
+              {{ getGuestInitials(guest.guestName) }}
+            </div>
+
+            <div class="guest-info">
+              <div class="guest-name-line">
+                <strong>{{ guest.guestName }}</strong>
+
+                <span [ngClass]="'status-chip ' + (guest.status || '').toLowerCase()">
+                  {{ guest.status === 'WAITING' ? 'Waiting' : guest.status === 'NOTIFIED' ? 'Notified' : guest.status
+                  ===
+                  'SEATED' ? 'Seated' : '' }}
+                </span>
+              </div>
+
+              <p>{{ guest.notes }} . {{ guest.guestPhone }}</p>
+
+              <ng-container *ngIf="
+    guest.status === 'NOTIFIED' &&
+    hasCustomerReply(guest)
+  ">
+                <ng-container *ngIf="
+    getVisibleReply(guest)
+      as visibleReply
+  ">
+                  <button type="button" class="reply-preview" [ngClass]="
+      getReplyViewClass(visibleReply)
+    " (click)="
+      openFullReplyPopup(
+        guest,
+        visibleReply,
+        $event
+      )
+    " title="Click to view full response">
+                    <div class="reply-slide-content" [attr.data-rotation]="
+        replyRotationIndex
+      ">
+                      <div class="reply-source-icon">
+                        <i *ngIf="
+            visibleReply.source === 'SMS'
+          " class="fa-solid fa-comment-sms"></i>
+
+                        <i *ngIf="
+            visibleReply.source === 'VOICE'
+          " class="fa-solid fa-phone-volume"></i>
+                      </div>
+
+                      <div class="reply-preview-text">
+                        <span class="reply-source-label">
+                          {{
+                          visibleReply.source === 'VOICE'
+                          ? 'Call response'
+                          : 'SMS response'
+                          }}
+                        </span>
+
+                        <strong>
+                          {{ visibleReply.text }}
+                        </strong>
+                      </div>
+
+                      <div class="reply-preview-right">
+                        <div class="reply-rotation-icon" *ngIf="
+            getGuestReplies(guest).length > 1
+          " title="SMS and call responses">
+                          <i class="fa-solid fa-arrows-rotate"></i>
+                        </div>
+
+                        <!-- <i class="fa-solid fa-up-right-from-square reply-open-icon"></i> -->
+                      </div>
+                    </div>
+                  </button>
+                </ng-container>
+              </ng-container>
+            </div>
+          </div>
+
+          <!-- SIZE -->
+          <div class="size-cell">
+            {{ guest.partySize }}
+          </div>
+
+
+          <!-- WAIT -->
+          <div class="wait-cell">
+            <strong>{{ guest.estimatedWaitTime || '-' }} min</strong>
+            <p>joined {{ formatTime(guest.joinedAt || guest.approvedAt) }}</p>
+          </div>
+
+          <!-- STATUS / PREFERENCE -->
+          <div class="status-cell">
+            <i [ngClass]="getPreferenceIcon(guest.preference)"></i>
+            {{ getPreferenceLabel(guest.preference) }}
+          </div>
+
+          <!-- ACTIONS -->
+          <div class="action-cell" (click)="$event.stopPropagation()">
+
+            <button class="notify-action" type="button" *ngIf="guest.status === 'WAITING'" (click)="notifyGuest(guest)">
+              <i class="fa-regular fa-paper-plane"></i>
+              Notify
+            </button>
+
+            <div class="contact-action-wrapper">
+
+              <button class="action-btn call" type="button" *ngIf="guest.status === 'NOTIFIED'"
+                (click)="toggleContactActions(guest, $event)">
+                <i class="fa-solid fa-phone-volume" style="color: #5b32e1;"></i>
+              </button>
+
+              <div class="contact-tooltip" *ngIf="selectedContactGuestId === guest.id"
+                (click)="$event.stopPropagation()">
+
+                <button type="button" class="tooltip-action call-option" (click)="openCallingPopup(guest)">
+                  <i class="fa-solid fa-phone"></i>
+                  Call
+                </button>
+
+                <button type="button" class="tooltip-action sms-option" [disabled]="isSendingSms"
+                  (click)="openSmsPopup(guest, $event)">
+                  <i class="fa-solid fa-comment-sms"></i>
+                  SMS
+                </button>
+
+              </div>
+
+            </div>
+
+            <button class="action-btn sms" type="button" *ngIf="
+      guest.status === 'WAITING' ||
+      guest.status === 'NOTIFIED'
+    " (click)="openAvailableTableModal(guest)">
+              <i class="fa-solid fa-check" style="color: #008e10;"></i>
+            </button>
+
+            <button class="action-btn cancel" type="button" *ngIf="
+      guest.status === 'WAITING' ||
+      guest.status === 'NOTIFIED'
+    " (click)="openLeaveConfirm(guest)">
+              <i class="fa-solid fa-x" style="color: rgb(255, 0, 0);"></i>
+            </button>
+
+          </div>
+
+        </div>
+
+      </section>
+
+      <div class="tablet-section-header">GUEST DETAILS</div>
+      <section class="tablet-guest-list" *ngIf="liveWaitlistGuests.length">
+        <div class="tablet-guest-card" *ngFor="let guest of liveWaitlistGuests; trackBy: trackByGuest; let i = index"
+          [class.expanded]="isTabletAccordionOpen('current', guest.id)"
+          [attr.aria-expanded]="isTabletAccordionOpen('current', guest.id)"
+          tabindex="0"
+          role="button"
+          (click)="toggleTabletAccordion('current', guest.id)"
+          (keydown.enter)="toggleTabletAccordion('current', guest.id)"
+          (keydown.space)="$event.preventDefault(); toggleTabletAccordion('current', guest.id)">
+          <div class="tablet-guest-summary">
+            <div class="tablet-guest-main">
+              <span class="tablet-order">#{{ i + 1 }}</span>
+              <div class="tablet-guest-meta">
+                <div class="tablet-guest-header">
+                  <strong>{{ guest.guestName }}</strong>
+                  <span class="status-pill" [ngClass]="(guest.status || '').toLowerCase()">
+                    {{ getStatusLabel(guest.status) }}
+                  </span>
+                </div>
+                <span>Party Size: {{ guest.partySize }}</span>
+              </div>
+            </div>
+
+            <div class="tablet-guest-action-wrap">
+              <div class="tablet-guest-actions">
+                <button class="tablet-quick-btn notify" type="button" *ngIf="guest.status === 'WAITING'"
+                  (click)="notifyGuest(guest); $event.stopPropagation()">
+                  <i class="fa-regular fa-paper-plane"></i> Notify
+                </button>
+
+                <div class="contact-action-wrapper" *ngIf="guest.status === 'NOTIFIED'">
+                  <button class="tablet-quick-btn" type="button"
+                    (click)="toggleContactActions(guest, $event)">
+                    <i class="fa-solid fa-phone-volume" style="color: #5b32e1;"></i>
+                  </button>
+
+                  <div class="contact-tooltip" *ngIf="selectedContactGuestId === guest.id"
+                    (click)="$event.stopPropagation()">
+                    <button type="button" class="tooltip-action call-option" (click)="openCallingPopup(guest)">
+                      <i class="fa-solid fa-phone"></i>
+                      Call
+                    </button>
+
+                    <button type="button" class="tooltip-action sms-option" [disabled]="isSendingSms"
+                      (click)="openSmsPopup(guest, $event)">
+                      <i class="fa-solid fa-comment-sms"></i>
+                      SMS
+                    </button>
+                  </div>
+                </div>
+
+                <button class="tablet-quick-btn-seat seat" type="button" *ngIf="guest.status === 'NOTIFIED' || guest.status === 'WAITING'"
+                  (click)="openAvailableTableModal(guest); $event.stopPropagation()">
+                  <i class="fa-solid fa-check" style="color: #008e10;"></i>
+                </button>
+
+                <button class="tablet-quick-btn-cancel cancel" type="button" *ngIf="guest.status === 'WAITING' || guest.status === 'NOTIFIED'"
+                  (click)="openLeaveConfirm(guest); $event.stopPropagation()">
+                  <i class="fa-solid fa-x" style="color: rgb(255, 0, 0);"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="tablet-guest-details" *ngIf="isTabletAccordionOpen('current', guest.id)">
+            <div class="tablet-detail-row">
+              <span>Phone</span>
+              <strong>{{ guest.guestPhone }}</strong>
+            </div>
+            <div class="tablet-detail-row">
+              <span>Wait Time</span>
+              <strong>{{ guest.estimatedWaitTime || 0 }} min</strong>
+            </div>
+            <div class="tablet-detail-row">
+              <span>Joined</span>
+              <strong>{{ formatTime(guest.joinedAt || guest.approvedAt) }}</strong>
+            </div>
+            <div class="tablet-detail-row">
+              <span>Preference</span>
+              <strong>{{ getPreferenceLabel(guest.preference) }}</strong>
+            </div>
+            <div class="tablet-detail-row" *ngIf="guest.notes">
+              <span>Notes</span>
+              <strong>{{ guest.notes }}</strong>
+            </div>
+
+            <div class="tablet-detail-row full-width" *ngIf="guest.status === 'NOTIFIED' && hasCustomerReply(guest)">
+              <span>Customer reply</span>
+              <div class="tablet-reply-preview-wrap" *ngIf="getVisibleReply(guest) as visibleReply">
+                <button type="button" class="reply-preview" [ngClass]="getReplyViewClass(visibleReply)"
+                  (click)="openFullReplyPopup(guest, visibleReply, $event)" title="Click to view full response">
+                  <div class="reply-slide-content" [attr.data-rotation]="replyRotationIndex">
+                    <div class="reply-source-icon">
+                      <i *ngIf="visibleReply.source === 'SMS'" class="fa-solid fa-comment-sms"></i>
+                      <i *ngIf="visibleReply.source === 'VOICE'" class="fa-solid fa-phone-volume"></i>
+                    </div>
+
+                    <div class="reply-preview-text">
+                      <span class="reply-source-label">
+                        {{ visibleReply.source === 'VOICE' ? 'Call response' : 'SMS response' }}
+                      </span>
+                      <strong>{{ visibleReply.text }}</strong>
+                    </div>
+
+                    <div class="reply-preview-right" *ngIf="getGuestReplies(guest).length > 1">
+                      <div class="reply-rotation-icon" title="SMS and call responses">
+                        <i class="fa-solid fa-arrows-rotate"></i>
+                      </div>
+                    </div>
+                  </div>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div class="waitlist-empty-state" *ngIf="liveWaitlistGuests.length === 0">
+        <div class="empty-illustration">
+          <div class="illustration-avatar">
+            <i class="fa-solid fa-user-group"></i>
+          </div>
+        </div>
+
+        <h3>Your waitlist is clear.</h3>
+        <p>New guest requests will appear here.</p>
+
+        <button class="primary-btn small-btn" type="button" (click)="modalService.open()">
+          <i class="fa-solid fa-user-plus"></i>
+          Add Your First Guest
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <section class="lower-grid">
+    <div class="info-card seated-card">
+      <div class="info-card-header">
+        <div class="info-card-title">
+          <i class="fa-solid fa-user-check"></i>
+          <h3>Seated Guests ({{ activeSeatedGuests.length }})</h3>
+        </div>
+
+      </div>
+
+      <div class="info-card-table">
+        <div class="info-row header-row">
+          <span>#</span>
+          <span>Guest</span>
+          <span>Party Size</span>
+          <span>Seated At</span>
+          <span>Actions</span>
+        </div>
+
+        <div class="info-row data-row" *ngFor="let guest of activeSeatedGuests.slice(0, 3); trackBy: trackByGuest; let i = index">
+          <span>{{ i + 1 }}</span>
+          <div class="guest-name-block">
+            <strong>{{ guest.guestName }}</strong>
+            <small *ngIf="guest.tableName">Table {{ guest.tableName }}</small>
+          </div>
+          <span>{{ guest.partySize }}</span>
+          <strong>{{ formatTime(guest.seatedAt) }}</strong>
+
+          <div class="inline-action-stack">
+            <button type="button" class="inline-link" (click)="openEditSeatedGuestModal(guest)">Edit</button>
+            <button type="button" class="inline-link complete-link" [disabled]="completingGuestId === guest.id" (click)="completeSeatedGuest(guest)">
+              {{ completingGuestId === guest.id ? 'Completing...' : 'Complete' }}
+            </button>
+          </div>
+        </div>
+
+        <div class="tablet-section-header">GUEST DETAILS</div>
+        <div class="tablet-info-card-list" *ngIf="activeSeatedGuests.length">
+          <div class="tablet-guest-card" *ngFor="let guest of activeSeatedGuests; trackBy: trackByGuest; let i = index"
+            [class.expanded]="isTabletAccordionOpen('seated', guest.id)"
+            [attr.aria-expanded]="isTabletAccordionOpen('seated', guest.id)"
+            tabindex="0"
+            role="button"
+            (click)="toggleTabletAccordion('seated', guest.id)"
+            (keydown.enter)="toggleTabletAccordion('seated', guest.id)"
+            (keydown.space)="$event.preventDefault(); toggleTabletAccordion('seated', guest.id)">
+            <div class="tablet-guest-summary">
+              <div class="tablet-guest-main">
+                <span class="tablet-order">#{{ i + 1 }}</span>
+                <div class="tablet-guest-meta">
+                  <strong>{{ guest.guestName }}</strong>
+                  <span>Party Size: {{ guest.partySize }}</span>
+                </div>
+              </div>
+
+              <div class="tablet-guest-action-wrap">
+                <div class="tablet-guest-actions">
+                  <button type="button" class="tablet-quick-btn" (click)="openEditSeatedGuestModal(guest); $event.stopPropagation()">Edit</button>
+                  <button type="button" class="tablet-quick-btn complete" [disabled]="completingGuestId === guest.id"
+                    (click)="completeSeatedGuest(guest); $event.stopPropagation()">
+                    {{ completingGuestId === guest.id ? 'Completing...' : 'Complete' }}
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div class="tablet-guest-details" *ngIf="isTabletAccordionOpen('seated', guest.id)">
+              <div class="tablet-detail-row">
+                <span>Phone</span>
+                <strong>{{ guest.guestPhone }}</strong>
+              </div>
+              <div class="tablet-detail-row">
+                <span>Seated At</span>
+                <strong>{{ formatTime(guest.seatedAt) }}</strong>
+              </div>
+              <div class="tablet-detail-row">
+                <span>Table</span>
+                <strong>{{ guest.tableName || 'Not assigned' }}</strong>
+              </div>
+              <div class="tablet-detail-row">
+                <span>Party Size</span>
+                <strong>{{ guest.partySize }}</strong>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="info-empty-state" *ngIf="activeSeatedGuests.length === 0">
+          <div class="mini-empty-illustration">
+            <i class="fa-solid fa-chair"></i>
+          </div>
+          <p>No guests seated yet.</p>
+          <small>Guests you seat will appear here.</small>
+        </div>
+      </div>
+    </div>
+
+    <div class="info-card completed-card">
+      <div class="info-card-header">
+        <div class="info-card-title">
+          <i class="fa-solid fa-circle-check"></i>
+          <h3>Completed Guests ({{ completedGuests.length }})</h3>
+        </div>
+
+        
+      </div>
+
+      <div class="info-card-table">
+        <div class="info-row header-row">
+          <span>#</span>
+          <span>Guest</span>
+          <span>Party Size</span>
+          <span>Completed At</span>
+          <span>Status</span>
+        </div>
+
+        <div class="info-row data-row" *ngFor="let guest of completedGuests.slice(0, 3); trackBy: trackByGuest; let i = index">
+          <span>{{ i + 1 }}</span>
+          <div class="guest-name-block">
+            <strong>{{ guest.guestName }}</strong>
+            <small *ngIf="guest.tableName">Table {{ guest.tableName }}</small>
+          </div>
+          <span>{{ guest.partySize }}</span>
+          <strong>{{ formatTime(guest.seatedAt) }}</strong>
+          <button type="button" class="inline-link completed-pill" disabled>Completed</button>
+        </div>
+
+        <div class="tablet-section-header">GUEST DETAILS</div>
+        <div class="tablet-info-card-list" *ngIf="completedGuests.length">
+          <div class="tablet-guest-card" *ngFor="let guest of completedGuests; trackBy: trackByGuest; let i = index"
+            [class.expanded]="isTabletAccordionOpen('completed', guest.id)"
+            [attr.aria-expanded]="isTabletAccordionOpen('completed', guest.id)"
+            tabindex="0"
+            role="button"
+            (click)="toggleTabletAccordion('completed', guest.id)"
+            (keydown.enter)="toggleTabletAccordion('completed', guest.id)"
+            (keydown.space)="$event.preventDefault(); toggleTabletAccordion('completed', guest.id)">
+            <div class="tablet-guest-summary">
+              <div class="tablet-guest-main">
+                <span class="tablet-order">#{{ i + 1 }}</span>
+                <div class="tablet-guest-meta">
+                  <strong>{{ guest.guestName }}</strong>
+                  <span>Party Size: {{ guest.partySize }}</span>
+                </div>
+              </div>
+
+              <div class="tablet-guest-action-wrap">
+                <div class="tablet-guest-actions">
+                  <button type="button" class="tablet-quick-btn complete" disabled>Completed</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="tablet-guest-details" *ngIf="isTabletAccordionOpen('completed', guest.id)">
+              <div class="tablet-detail-row">
+                <span>Phone</span>
+                <strong>{{ guest.guestPhone }}</strong>
+              </div>
+              <div class="tablet-detail-row">
+                <span>Completed At</span>
+                <strong>{{ formatTime(guest.seatedAt) }}</strong>
+              </div>
+              <div class="tablet-detail-row">
+                <span>Table</span>
+                <strong>{{ guest.tableName || 'Not assigned' }}</strong>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="info-empty-state" *ngIf="completedGuests.length === 0">
+          <div class="mini-empty-illustration green">
+            <i class="fa-solid fa-check"></i>
+          </div>
+          <p>No completed guests yet.</p>
+          <small>Completed guest requests will appear here.</small>
+        </div>
+      </div>
+    </div>
+
+    <div class="info-card cancelled-card full-width">
+      <div class="info-card-header">
+        <div class="info-card-title">
+          <i class="fa-solid fa-circle-xmark"></i>
+          <h3>Cancelled Guests ({{ cancelledGuests.length }})</h3>
+        </div>
+      </div>
+
+      <div class="info-card-table">
+        <div class="info-row header-row">
+          <span>#</span>
+          <span>Guest</span>
+          <span>Party Size</span>
+          <span>Cancelled At</span>
+          <span>Actions</span>
+        </div>
+
+        <div class="info-row data-row" *ngFor="let guest of cancelledGuests.slice(0, 3); trackBy: trackByGuest; let i = index">
+          <span>{{ i + 1 }}</span>
+          <div class="guest-name-block">
+            <strong>{{ guest.guestName }}</strong>
+            <small *ngIf="guest.guestPhone">{{ guest.guestPhone }}</small>
+          </div>
+          <span>{{ guest.partySize }}</span>
+          <strong>{{ formatTime(guest.joinedAt) }}</strong>
+          <button type="button" class="inline-link">View</button>
+        </div>
+
+        <div class="tablet-section-header">GUEST DETAILS</div>
+        <div class="tablet-info-card-list" *ngIf="cancelledGuests.length">
+          <div class="tablet-guest-card" *ngFor="let guest of cancelledGuests; trackBy: trackByGuest; let i = index"
+            [class.expanded]="isTabletAccordionOpen('cancelled', guest.id)"
+            [attr.aria-expanded]="isTabletAccordionOpen('cancelled', guest.id)"
+            tabindex="0"
+            role="button"
+            (click)="toggleTabletAccordion('cancelled', guest.id)"
+            (keydown.enter)="toggleTabletAccordion('cancelled', guest.id)"
+            (keydown.space)="$event.preventDefault(); toggleTabletAccordion('cancelled', guest.id)">
+            <div class="tablet-guest-summary">
+              <div class="tablet-guest-main">
+                <span class="tablet-order">#{{ i + 1 }}</span>
+                <div class="tablet-guest-meta">
+                  <strong>{{ guest.guestName }}</strong>
+                  <span>Party Size: {{ guest.partySize }}</span>
+                </div>
+              </div>
+
+              <div class="tablet-guest-action-wrap">
+                <div class="tablet-guest-actions">
+                  <button type="button" class="tablet-quick-btn" (click)="$event.stopPropagation()">View</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="tablet-guest-details" *ngIf="isTabletAccordionOpen('cancelled', guest.id)">
+              <div class="tablet-detail-row">
+                <span>Phone</span>
+                <strong>{{ guest.guestPhone }}</strong>
+              </div>
+              <div class="tablet-detail-row">
+                <span>Cancelled At</span>
+                <strong>{{ formatTime(guest.joinedAt) }}</strong>
+              </div>
+              <div class="tablet-detail-row">
+                <span>Notes</span>
+                <strong>{{ guest.notes || 'Not provided' }}</strong>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="info-empty-state" *ngIf="cancelledGuests.length === 0">
+          <div class="mini-empty-illustration red">
+            <i class="fa-solid fa-xmark"></i>
+          </div>
+          <p>No cancelled guests yet.</p>
+          <small>Cancelled guest requests will appear here.</small>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<section class="history-summary-grid" *ngIf="false">
+
+  <!-- SEATED -->
+  <div class="summary-card seated-card">
+    <h3>Seated ({{ seatedGuests.length }})</h3>
+
+    <div class="summary-header">
+      <span>#</span>
+      <span>Guest</span>
+      <span>Party size</span>
+      <span>Seated at</span>
+      <span>Actions</span>
+    </div>
+
+    <div class="summary-row" *ngFor="let guest of seatedGuests.slice(0, 3); let i = index">
+      <span>{{ i + 1 }}</span>
+
+      <div>
+        <strong>{{ guest.guestName }}</strong>
+
+        <p *ngIf="guest.tableName">
+
+          Table No: {{ guest.tableName }}
+
+        </p>
+      </div>
+
+      <span style="text-align: center;"> {{ guest.partySize }}</span>
+
+      <strong>{{ formatTime(guest.seatedAt) }}</strong>
+
+      <button class="restore-action-btn" type="button" *ngIf=" guest.status === 'SEATED'"
+        (click)="openEditSeatedGuestModal(guest)">
+        Edit
+      </button>
+    </div>
+
+  </div>
+
+  <!-- CANCELLED -->
+  <div class="summary-card cancelled-card">
+    <h3>Cancelled ({{ cancelledGuests.length }})</h3>
+
+    <div class="summary-header cancelled">
+      <span>#</span>
+      <span>Guest</span>
+      <span>Party size</span>
+      <span>Cancelled at</span>
+      <span>Action</span>
+    </div>
+
+    <div class="summary-row" *ngFor="let guest of cancelledGuests.slice(0, 3); let i = index">
+      <span>{{ i + 1 }}</span>
+
+      <div>
+        <strong>{{ guest.guestName }}</strong>
+        <p>{{ guest.guestPhone }}</p>
+      </div>
+
+      <span>👥 {{ guest.partySize }}</span>
+
+      <strong>
+
+        {{ formatTime(guest.joinedAt) }}
+
+      </strong>
+
+      <div class="summary-actions">
+
+        <button class="restore-action-btn" type="button" *ngIf=" guest.status === 'CANCELLED'"
+          (click)="openRestoremethod(guest)">
+          Restore
+        </button>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+
+<!-- PENDING / DECLINE POPUP -->
+
+<!-- offer validation -->
+
+
+<!-- PENDING / DECLINE POPUP -->
+<div class="modal-backdrop" *ngIf="showGuestPopup">
+  <div class="guest-modal" *ngIf="selectedGuest">
+
+    <div class="modal-title-row">
+      <h2>Pending Guest</h2>
+      <button type="button" class="close-modal" (click)="closeGuestPopup()">×</button>
+    </div>
+
+    <div class="guest-preview">
+      <div class="guest-avatar large">
+        {{ getGuestInitials(selectedGuest.guestName) }}
+      </div>
+
+      <div>
+        <h3>{{ selectedGuest.guestName }}</h3>
+        <p>{{ selectedGuest.guestPhone }}</p>
+      </div>
+    </div>
+
+    <div class="detail-grid">
+      <div>
+        <span>Party size</span>
+        <b>{{ selectedGuest.partySize }}</b>
+      </div>
+
+      <div>
+        <span>Preference</span>
+        <b>{{ selectedGuest.preference || '-' }}</b>
+      </div>
+
+      <div>
+        <span>Notes</span>
+        <b>{{ selectedGuest.notes || '-' }}</b>
+      </div>
+    </div>
+
+    <ng-container *ngIf="!showRejectReason">
+      <label class="time-label">Select wait time</label>
+
+      <div class="time-options">
+        <button type="button" *ngFor="let time of waitTimeOptions" [class.active]="selectedWaitTime === time"
+          (click)="selectedWaitTime = time">
+          {{ time }} min
+        </button>
+      </div>
+    </ng-container>
+
+    <div class="reject-box" *ngIf="showRejectReason">
+      <label>Decline reason</label>
+      <textarea [(ngModel)]="rejectReason" placeholder="Enter reason..."></textarea>
+    </div>
+
+    <div class="modal-actions">
+      <button type="button" class="cancel-btn" (click)="closeGuestPopup()">
+        Cancel
+      </button>
+
+      <button type="button" class="delete-btn" *ngIf="!showRejectReason" (click)="showRejectBox()">
+        Decline
+      </button>
+
+      <button type="button" class="delete-btn" *ngIf="showRejectReason" [disabled]="isRejecting"
+        (click)="rejectSelectedGuest()">
+        {{ isRejecting ? 'Sending...' : 'Send Reason' }}
+      </button>
+
+      <button type="button" class="modal-approve-btn" *ngIf="!showRejectReason" [disabled]="isApproving"
+        (click)="approveSelectedGuest()">
+        {{ isApproving ? 'Approving...' : 'Approve' }}
+      </button>
+    </div>
+
+  </div>
+</div>
+
+<!-- SEAT TABLE POPUP -->
+<div class="modal-backdrop" *ngIf="showTable">
+  <div class="guest-modal" *ngIf="selectedGuest">
+    <div class="modal-title-row">
+      <h2>Seat Guest</h2>
+      <button type="button" class="close-modal" (click)="closeAvailableTableModal()">×</button>
+    </div>
+    <p class="muted">Select available table for {{ selectedGuest.guestName }}</p>
+    <div class="table-options">
+      <button type="button" *ngFor="let table of seatModalTables" [class.active]="selectedTable?.id === table.id"
+        (click)="selectedTable = table">
+        {{ table.tableNumber }} · {{ table.capacity }} seats
+      </button>
+    </div>
+    <p class="muted" *ngIf="seatModalTables.length === 0">
+      {{ seatTableAvailabilityMessage || 'Table is not available, wait for some times.' }}
+    </p>
+    <div class="server-assignment-section" *ngIf="seatModalTables.length > 0">
+      <div class="server-section-heading">
+        <h3>Server Assignment</h3>
+        <span class="assignment-badge" *ngIf="!assignServerManually">Automatic</span>
+        <span class="assignment-badge manual" *ngIf="assignServerManually">Manual</span>
+      </div>
+      <div class="server-toggle-row">
+        <div>
+          <strong>Assign Server Manually</strong>
+          <p>Choose a specific server instead of the next server in rotation.</p>
+        </div>
+        <label class="server-toggle">
+          <input type="checkbox" [checked]="assignServerManually" (change)="onManualAssignmentToggle($event)">
+          <span class="server-toggle-slider"></span>
+        </label>
+      </div>
+      <div class="available-server-card" *ngIf="!assignServerManually">
+        <div class="server-avatar">{{ nextUpServer?.name?.charAt(0) || '?' }}</div>
+        <div class="server-details">
+          <span class="server-label">Available Server · Next Up</span>
+          <strong *ngIf="nextUpServer">{{ nextUpServer.name }}</strong>
+          <span class="server-status" *ngIf="nextUpServer">Next in server rotation</span>
+          <span class="server-status" *ngIf="!nextUpServer && !isLoadingServers">No next server is currently
+            available.</span>
+          <span class="server-status" *ngIf="isLoadingServers">Loading available server...</span>
+        </div>
+        <span class="next-up-badge" *ngIf="nextUpServer">NEXT UP</span>
+      </div>
+      <div class="manual-server-list" *ngIf="assignServerManually">
+        <p class="server-list-label">Select a server</p>
+        <div class="server-skeleton-list" *ngIf="isLoadingServers" aria-busy="true">
+          <div class="server-skeleton-row" *ngFor="let row of [1, 2, 3]">
+            <div class="skeleton server-skeleton-avatar"></div>
+            <div class="server-skeleton-text">
+              <div class="skeleton skeleton-name"></div>
+              <div class="skeleton skeleton-meta"></div>
+            </div>
+          </div>
+        </div>
+        <ng-container *ngIf="!isLoadingServers">
+          <button type="button" class="manual-server-option" *ngFor="let server of servers"
+            [class.active]="selectedServerId === server.staffId" [disabled]="!server.onFloor"
+            (click)="selectedServerId = server.staffId">
+            <div class="server-avatar">{{ server.name.charAt(0) }}</div>
+            <div class="server-details">
+              <strong>{{ server.name }}</strong>
+              <span class="server-status">{{ server.onFloor ? 'On floor' : 'Off floor' }} · {{ server.currentTableCount
+                }} tables</span>
+            </div>
+            <span class="server-selected" *ngIf="selectedServerId === server.staffId">✓</span>
+            <span class="server-unavailable" *ngIf="!server.onFloor">Unavailable</span>
+          </button>
+          <p class="server-empty" *ngIf="servers.length === 0">No servers were found.</p>
+        </ng-container>
+      </div>
+    </div>
+    <div class="modal-actions seat-modal-actions" [class.single-action]="seatModalTables.length === 0">
+      <button type="button" class="cancel-btn" (click)="closeAvailableTableModal()">Cancel</button>
+      <button type="button" class="modal-approve-btn" *ngIf="seatModalTables.length > 0"
+        [disabled]="isSeatButtonDisabled || isLoading" (click)="seatGuest()">
+
+        <i class="fa-solid" [ngClass]="isSeating ? 'fa-spinner fa-spin' : 'fa-check'">
+        </i>
+
+        {{ isSeating ? 'Seating...' : 'Seat Guest' }}
+
+      </button>
+    </div>
+  </div>
+</div>
+
+
+
+
+<!-- cancel pop up -->
+<div class="modal-backdrop" *ngIf="showLeaveConfirm">
+
+  <div class="leave-modal">
+    <h2>Remove Person from Waitlist</h2>
+
+    <p>Do you want to remove the user from the waitlist?</p>
+
+    <div class="actions">
+      <button class="btn-cancel" type="button" (click)="closeLeaveConfirm()">No</button>
+
+      <button class="btn-danger" type="button" [disabled]="isLeaving" (click)="confirmLeaveWaitlist()">
+        {{ isLeaving ? 'Cancelling...' : 'Yes, cancel' }}
+      </button>
+    </div>
+  </div>
+
+</div>
+
+
+<!-- Calling Popup -->
+<!-- CALL IN PROGRESS FLOATING BUTTON -->
+<div class="active-call-floating" *ngIf="isCallInProgress && !showCallingPopup">
+  <div class="active-call-floating-info">
+    <span class="active-call-dot"></span>
+
+    <div>
+      <strong>Call in progress</strong>
+
+      <small>
+        {{ callingGuest?.guestName || 'Customer' }}
+      </small>
+    </div>
+  </div>
+
+  <button type="button" class="show-call-btn" (click)="showActiveCallingPopup()">
+    <i class="fa-solid fa-phone-volume"></i>
+    Show
+  </button>
+</div>
+
+
+<!-- CALLING POPUP -->
+<div class="calling-popup-backdrop" *ngIf="showCallingPopup" (click)="hideCallingPopup()">
+  <div class="calling-popup" (click)="$event.stopPropagation()">
+
+    <button type="button" class="close-calling-popup" (click)="hideCallingPopup()" aria-label="Hide calling popup"
+      title="Hide">
+      <i class="fa-solid fa-minus"></i>
+    </button>
+
+    <div class="calling-icon" [class.calling-icon-waiting]="callRequestStarted">
+      <i class="fa-solid fa-phone-volume"></i>
+    </div>
+
+    <p class="calling-label">
+      {{
+      callRequestStarted
+      ? 'Waiting for customer response'
+      : 'Connecting call'
+      }}
+    </p>
+
+    <h3>
+      {{ callingGuest?.guestName }}
+    </h3>
+
+    <p class="calling-phone">
+      {{ callingGuest?.guestPhone }}
+    </p>
+
+    <div class="calling-animation">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+
+    <p class="calling-status-text">
+      {{
+      callRequestStarted
+      ? 'The call is running in the background. You can hide this window and continue working.'
+      : 'Starting the call...'
+      }}
+    </p>
+
+    <button type="button" class="hide-call-btn" (click)="hideCallingPopup()">
+      <i class="fa-solid fa-eye-slash"></i>
+
+      Hide & Continue Working
+    </button>
+
+  </div>
+</div>
+
+
+
+<!-- show edit customer modal -->
+
+<div class="modal-backdrop" *ngIf="
+    showEditSeatedGuestModal &&
+    selectedSeatedGuest
+  " (click)="closeEditSeatedGuestModal()">
+
+  <div class="guest-modal edit-seated-modal" (click)="$event.stopPropagation()">
+
+    <div class="modal-title-row">
+
+      <div>
+        <h3 class="muted">
+          Update party size and seating for
+          {{ selectedSeatedGuest.guestName }}
+        </h3>
+      </div>
+
+      <button type="button" class="close-modal" [disabled]="isUpdatingSeatedGuest"
+        (click)="closeEditSeatedGuestModal()">
+        ×
+      </button>
+
+    </div>
+
+    <!-- Current details -->
+
+    <div class="current-seating-card">
+
+      <div class="current-seating-icon">
+        <i class="fa-solid fa-chair"></i>
+      </div>
+
+      <div>
+        <span>Currently seated</span>
+
+        <strong>
+          {{ currentSeatedPartySize }}
+          guest{{
+          currentSeatedPartySize === 1
+          ? ''
+          : 's'
+          }}
+        </strong>
+
+        <p>
+          Table:
+          {{
+          selectedSeatedGuest.tableName ||
+          'Not assigned'
+          }}
+        </p>
+      </div>
+
+    </div>
+
+    <!-- Additional guests -->
+
+    <div class="edit-form-section">
+
+      <label>
+        Additional guests arriving
+      </label>
+
+      <div class="guest-count-picker">
+
+        <button type="button" (click)="decreaseAdditionalGuests()" [disabled]="
+            additionalGuestCount <= 0 ||
+            isUpdatingSeatedGuest
+          ">
+          −
+        </button>
+
+        <input type="number" min="0" [(ngModel)]="additionalGuestCount" (ngModelChange)="
+            onAdditionalGuestCountChange()
+          " [disabled]="isUpdatingSeatedGuest" />
+
+        <button type="button" (click)="increaseAdditionalGuests()" [disabled]="isUpdatingSeatedGuest">
+          +
+        </button>
+
+      </div>
+
+      <div class="party-size-summary">
+
+        <span>Existing guests</span>
+        <strong>
+          {{ currentSeatedPartySize }}
+        </strong>
+
+        <span>Additional guests</span>
+        <strong>
+          {{ additionalGuestCount }}
+        </strong>
+
+        <span class="total-party-label">
+          Total required seats
+        </span>
+
+        <strong class="total-party-value">
+          {{ requiredPartyCapacity }}
+        </strong>
+
+      </div>
+
+    </div>
+
+    <!-- Action selection -->
+
+    <div class="edit-form-section">
+
+      <label>
+        What would you like to do?
+      </label>
+
+      <div class="seated-edit-options">
+
+        <button type="button" [class.active]="
+            editSeatedAction === 'RESEAT'
+          " (click)="
+            editSeatedAction = 'RESEAT'
+          ">
+          <i class="fa-solid fa-chair"></i>
+
+          Move to larger table
+        </button>
+
+        <button type="button" [class.active]="
+            editSeatedAction === 'WAITING'
+          " (click)="
+            editSeatedAction = 'WAITING';
+            selectedEditTable = null
+          ">
+          <i class="fa-regular fa-clock"></i>
+
+          Move back to waiting
+        </button>
+
+      </div>
+
+    </div>
+
+    <!-- Re-seat option -->
+
+    <div class="edit-form-section" *ngIf="editSeatedAction === 'RESEAT'">
+
+      <div class="section-title-line">
+
+        <label>
+          Available tables for
+          {{ requiredPartyCapacity }} guests
+        </label>
+
+        <span>
+          {{ suitableOpenTables.length }}
+          available
+        </span>
+
+      </div>
+
+      <div class="table-options edit-table-options" *ngIf="suitableOpenTables.length > 0">
+
+        <button type="button" *ngFor="
+            let table of suitableOpenTables
+          " [class.active]="
+            selectedEditTable?.id === table.id
+          " (click)="selectedEditTable = table">
+
+          <span class="table-number">
+            {{ table.tableNumber }}
+          </span>
+
+          <span class="table-capacity">
+            <i class="fa-solid fa-user-group"></i>
+
+            {{ table.capacity }} seats
+          </span>
+
+        </button>
+
+      </div>
+
+      <div class="no-table-available" *ngIf="suitableOpenTables.length === 0">
+
+        <i class="fa-solid fa-circle-exclamation"></i>
+
+        <div>
+          <strong>
+            No table currently has
+            {{ requiredPartyCapacity }} seats
+          </strong>
+
+          <p>
+            Move the guest back to waiting and
+            provide an estimated waiting time.
+          </p>
+        </div>
+
+        <button type="button" (click)="
+            editSeatedAction = 'WAITING'
+          ">
+          Add waiting time
+        </button>
+
+      </div>
+
+    </div>
+
+    <!-- Waiting option -->
+
+    <div class="edit-form-section" *ngIf="editSeatedAction === 'WAITING'">
+
+      <label for="editWaitingMinutes">
+        Estimated waiting time
+      </label>
+
+      <div class="waiting-time-input">
+
+        <input id="editWaitingMinutes" type="number" min="1" max="240" placeholder="Example: 15"
+          [(ngModel)]="editWaitingMinutes" [disabled]="isUpdatingSeatedGuest" />
+
+        <span>minutes</span>
+
+      </div>
+
+      <p class="waiting-help-text">
+        The party size will be updated to
+        {{ requiredPartyCapacity }} and the guest
+        will appear in the live waiting list.
+      </p>
+
+    </div>
+
+    <!-- Footer -->
+
+    <div class="modal-actions">
+
+      <button type="button" class="cancel-btn" [disabled]="isUpdatingSeatedGuest" (click)="closeEditSeatedGuestModal()">
+        Cancel
+      </button>
+
+      <button type="button" class="modal-approve-btn" [disabled]="
+          isUpdatingSeatedGuest ||
+          additionalGuestCount <= 0 ||
+          (
+            editSeatedAction === 'RESEAT' &&
+            !selectedEditTable
+          ) ||
+          (
+            editSeatedAction === 'WAITING' &&
+            (
+              !editWaitingMinutes ||
+              editWaitingMinutes <= 0
+            )
+          )
+        " (click)="submitSeatedGuestEdit()">
+
+        <i class="fa-solid" [ngClass]="
+            isUpdatingSeatedGuest
+              ? 'fa-spinner fa-spin'
+              : editSeatedAction === 'RESEAT'
+              ? 'fa-chair'
+              : 'fa-clock'
+          "></i>
+
+        {{
+        isUpdatingSeatedGuest
+        ? 'Updating...'
+        : editSeatedAction === 'RESEAT'
+        ? 'Seat at New Table'
+        : 'Move to Waiting'
+        }}
+
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<!-- Full customer response popup -->
+<!-- Full customer response popup -->
+<div class="full-reply-backdrop" *ngIf="
+    showFullReplyPopup &&
+    selectedFullReply &&
+    selectedFullReplyGuest
+  " (click)="closeFullReplyPopup()">
+  <div class="full-reply-popup" [ngClass]="
+      getReplyViewClass(
+        selectedFullReply
+      )
+    " (click)="$event.stopPropagation()">
+    <button type="button" class="full-reply-close" aria-label="Close full response" (click)="closeFullReplyPopup()">
+      <i class="fa-solid fa-xmark"></i>
+    </button>
+
+    <div class="full-reply-slide" [attr.data-reply-index]="
+        selectedFullReplyIndex
+      ">
+
+
+      <div class="full-reply-message">
+        <span>
+          {{
+          selectedFullReply.source ===
+          'VOICE'
+          ? 'Phone reply'
+          : 'Text message'
+          }}
+        </span>
+
+        <p>
+          {{ selectedFullReply.text }}
+        </p>
+      </div>
+
+
+    </div>
+
+
+  </div>
+</div>
+
+
+<!-- CUSTOM SMS POPUP -->
+<div class="sms-popup-backdrop" *ngIf="showSmsPopup" (click)="closeSmsPopup()">
+  <div class="sms-popup" (click)="$event.stopPropagation()">
+
+    <!-- Close button -->
+    <button type="button" class="close-sms-popup" aria-label="Close SMS popup" [disabled]="isSendingSms"
+      (click)="closeSmsPopup()">
+      <i class="fa-solid fa-xmark"></i>
+    </button>
+
+    <!-- Header -->
+    <div class="sms-popup-header">
+      <div class="sms-popup-icon">
+        <i class="fa-solid fa-comment-sms"></i>
+      </div>
+
+      <div>
+        <span>Send SMS</span>
+
+        <h2>
+          {{ selectedSmsGuest?.guestName || 'Guest' }}
+        </h2>
+
+        <p>
+          {{ selectedSmsGuest?.guestPhone || '-' }}
+        </p>
+      </div>
+    </div>
+
+    <!-- Message input -->
+    <div class="sms-message-field">
+
+      <label for="customSmsMessage">
+        Message
+      </label>
+
+      <textarea id="customSmsMessage" name="customSmsMessage" rows="5" maxlength="250"
+        placeholder="Enter the message you want to send..." [(ngModel)]="customSmsMessage" [disabled]="isSendingSms"
+        [class.sms-input-error]="
+          smsFormSubmitted &&
+          !customSmsMessage.trim()
+        "></textarea>
+
+      <div class="sms-field-footer">
+        <small class="sms-error-message" *ngIf="
+            smsFormSubmitted &&
+            !customSmsMessage.trim()
+          ">
+          Message is required.
+        </small>
+
+        <small *ngIf="
+            !smsFormSubmitted ||
+            customSmsMessage.trim()
+          ">
+          The guest will receive this message by SMS.
+        </small>
+
+        <span>
+          {{ customSmsMessage.length }}/250
+        </span>
+      </div>
+
+    </div>
+
+    <!-- Optional quick messages -->
+    <div class="quick-message-section">
+      <label>Quick messages</label>
+
+      <div class="quick-message-options">
+
+        <button type="button" [disabled]="isSendingSms" (click)="selectQuickSmsMessage('TABLE_READY')">
+          Table ready
+        </button>
+
+        <button type="button" [disabled]="isSendingSms" (click)="selectQuickSmsMessage('WAIT_5_MINUTES')">
+          Wait 5 minutes
+        </button>
+
+        <button type="button" [disabled]="isSendingSms" (click)="selectQuickSmsMessage('PLEASE_CONFIRM')">
+          Please confirm
+        </button>
+
+      </div>
+    </div>
+
+    <!-- Actions -->
+    <div class="sms-popup-actions">
+
+      <button type="button" class="sms-cancel-btn" [disabled]="isSendingSms" (click)="closeSmsPopup()">
+        Cancel
+      </button>
+
+      <button type="button" class="sms-send-btn" [disabled]="
+          isSendingSms ||
+          !customSmsMessage.trim()
+        " (click)="sendCustomSms()">
+        <i class="fa-solid" [ngClass]="
+            isSendingSms
+              ? 'fa-spinner fa-spin'
+              : 'fa-paper-plane'
+          "></i>
+
+        {{
+        isSendingSms
+        ? 'Sending...'
+        : 'Send SMS'
+        }}
+      </button>
+
+    </div>
+
+  </div>
+</div>

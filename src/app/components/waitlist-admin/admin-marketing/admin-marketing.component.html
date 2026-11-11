@@ -1,0 +1,721 @@
+<div class="marketing-page">
+  <div class="page-header">
+    <div>
+      <h1>Marketing</h1>
+      <p>Run campaigns to bring in new guests and re-engage regulars</p>
+    </div>
+    <button type="button" class="create-button" (click)="openCreateCampaign()" [disabled]="selectedLocationId === null">
+      + Create campaign
+    </button>
+  </div>
+
+  <div class="error-message" *ngIf="errorMessage">
+    <span class="material-icons">error_outline</span>
+    {{ errorMessage }}
+  </div>
+
+  <div class="success-message" *ngIf="successMessage">
+    <span class="material-icons">check_circle</span>
+    {{ successMessage }}
+  </div>
+
+  <div class="summary-grid">
+    <div class="summary-card">
+      <div class="summary-icon purple">
+        <span class="material-icons">campaign</span>
+      </div>
+      <div class="summary-content">
+        <div class="summary-value">
+          <ng-container *ngIf="!loadingSummary">
+            {{ summary?.activeCampaigns ?? '—' | number }}
+          </ng-container>
+          <span *ngIf="loadingSummary">...</span>
+        </div>
+        <div class="summary-label">Active campaigns</div>
+        <div class="summary-trend positive">
+          +{{ summary?.activeCampaignsTrendPercent ?? 0 }}% vs last month
+        </div>
+      </div>
+    </div>
+
+    <div class="summary-card">
+      <div class="summary-icon blue">
+        <span class="material-icons">people_outline</span>
+      </div>
+      <div class="summary-content">
+        <div class="summary-value">
+          <ng-container *ngIf="!loadingSummary">
+            {{ summary?.guestsReached ?? '—' | number }}
+          </ng-container>
+          <span *ngIf="loadingSummary">...</span>
+        </div>
+        <div class="summary-label">Guests reached (30d)</div>
+        <div class="summary-trend positive">
+          +{{ summary?.guestsReachedPercent ?? 0 }}% vs prior period
+        </div>
+      </div>
+    </div>
+
+    <div class="summary-card">
+      <div class="summary-icon orange">
+        <span class="material-icons">confirmation_number</span>
+      </div>
+      <div class="summary-content">
+        <div class="summary-value">
+          <ng-container *ngIf="!loadingSummary">
+            {{ summary?.redemptions ?? '—' | number }}
+          </ng-container>
+          <span *ngIf="loadingSummary">...</span>
+        </div>
+        <div class="summary-label">Redemptions from campaigns</div>
+        <div class="summary-trend positive">
+          +{{ summary?.redemptionsTrendPercent ?? 0 }}% vs last month
+        </div>
+      </div>
+    </div>
+
+    <div class="summary-card">
+      <div class="summary-icon green">
+        <span class="material-icons">payments</span>
+      </div>
+      <div class="summary-content">
+        <div class="summary-value">
+          <ng-container *ngIf="!loadingSummary">
+            {{ formatCurrency(summary?.spendThisMonth) }}
+          </ng-container>
+          <span *ngIf="loadingSummary">...</span>
+        </div>
+        <div class="summary-label">Spend this month</div>
+        <div class="summary-trend" [class.negative]="(summary?.spendTrendPercent ?? 0) < 0">
+          {{ summary?.spendTrendPercent ?? 0 }}% vs last month
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="marketing-tabs">
+    <button type="button" class="marketing-tab" [class.active]="activeTab === 'campaigns'"
+      (click)="setActiveTab('campaigns')">
+      Campaigns
+    </button>
+
+    <button type="button" class="marketing-tab" [class.active]="activeTab === 'templates'"
+      (click)="setActiveTab('templates')">
+      Templates
+    </button>
+  </div>
+
+  <div class="section-card" *ngIf="activeTab === 'campaigns'">
+
+    <div class="section-header">
+      <div>
+        <h2>Campaigns</h2>
+        <p>
+          Marketing campaigns for
+          {{ getSelectedLocation()?.name || 'selected location' }}
+        </p>
+      </div>
+
+      <div class="campaign-filters">
+        <select [(ngModel)]="selectedStatus" (ngModelChange)="onCampaignFilterChange()">
+          <option value="">All statuses</option>
+          <option value="ACTIVE">Active</option>
+          <option value="DRAFT">Draft</option>
+          <option value="SCHEDULED">Scheduled</option>
+          <option value="COMPLETED">Completed</option>
+        </select>
+
+        <select [(ngModel)]="selectedChannel" (ngModelChange)="onCampaignFilterChange()">
+          <option value="">All channels</option>
+          <option value="SMS">SMS</option>
+          <option value="EMAIL">Email</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="loading" *ngIf="loadingCampaigns">
+      <div class="spinner"></div>
+      Loading campaigns...
+    </div>
+
+    <div class="campaign-list" *ngIf="!loadingCampaigns && campaigns.length > 0">
+
+      <div class="campaign-row" *ngFor="let campaign of campaigns" (click)="openCampaign(campaign)">
+
+        <div class="campaign-icon">
+          <span class="material-icons">campaign</span>
+        </div>
+
+        <div class="campaign-main">
+          <div class="campaign-title">
+            {{ campaign.name }}
+          </div>
+          <div class="campaign-message">
+            {{ campaign.message || '-' }}
+          </div>
+        </div>
+
+        <div class="campaign-channel">
+          {{ getCampaignChannel(campaign) }}
+        </div>
+
+        <div class="campaign-reach">
+          {{ campaign.reach | number }}
+        </div>
+
+        <div class="campaign-redemptions">
+          {{ campaign.redemptions | number }}
+        </div>
+
+        <div class="campaign-date">
+          {{ campaign.dateRangeDisplay || formatDate(campaign.scheduledAt) }}
+        </div>
+
+        <div>
+          <span class="status-badge" [class.active]="getStatusClass(campaign.status) === 'active'"
+            [class.scheduled]="getStatusClass(campaign.status) === 'scheduled'"
+            [class.completed]="getStatusClass(campaign.status) === 'completed'"
+            [class.draft]="getStatusClass(campaign.status) === 'draft'">
+            {{ campaign.status }}
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <div class="empty-state" *ngIf="
+        !loadingCampaigns &&
+        campaigns.length === 0 &&
+        !errorMessage
+      ">
+      <span class="material-icons">campaign</span>
+      <h3>No campaigns found</h3>
+      <p>Create a campaign for this location to get started.</p>
+    </div>
+
+    <div class="pagination" *ngIf="
+        !loadingCampaigns &&
+        campaigns.length > 0 &&
+        totalPages > 1
+      ">
+      <button type="button" class="pagination-button" (click)="previousPage()" [disabled]="currentPage === 0">
+        Previous
+      </button>
+
+      <span class="pagination-info">
+        Page {{ getCurrentPageDisplay() }} of {{ totalPages }}
+      </span>
+
+      <button type="button" class="pagination-button" (click)="nextPage()" [disabled]="currentPage + 1 >= totalPages">
+        Next
+      </button>
+    </div>
+  </div>
+
+  <div class="section-card" *ngIf="activeTab === 'templates'">
+
+    <div class="section-header">
+      <div>
+        <h2>Marketing templates</h2>
+        <p>Templates available for your marketing campaigns</p>
+      </div>
+
+      <button type="button" class="create-button" (click)="openCreateTemplate()">
+        + Create template
+      </button>
+    </div>
+
+    <div class="loading" *ngIf="loadingTemplates">
+      <div class="spinner"></div>
+      Loading templates...
+    </div>
+
+    <div class="template-grid" *ngIf="
+        !loadingTemplates &&
+        templates.length > 0
+      ">
+
+      <div class="template-card" *ngFor="let template of templates">
+
+        <div class="template-card-top">
+          <div>
+            <span class="template-type">
+              {{ template.templateType }}
+            </span>
+
+            <h3>
+              Template #{{ template.id }}
+            </h3>
+          </div>
+
+          <div class="template-actions">
+            <button type="button" class="action-button" (click)="openEditTemplate(template)">
+              Edit
+            </button>
+
+            <button type="button" class="delete-button" (click)="deleteTemplate(template)"
+              [disabled]="deletingTemplate">
+              Delete
+            </button>
+          </div>
+        </div>
+
+        <p class="template-description">
+          {{ template.description || 'No description' }}
+        </p>
+
+        <div class="template-message">
+          {{ template.messageTemplate || 'No message template' }}
+        </div>
+
+        <div class="template-footer">
+          <span>
+            Created {{ formatDate(template.createdAt) }}
+          </span>
+
+          <span>
+            Updated {{ formatDate(template.updatedAt) }}
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <div class="empty-state" *ngIf="
+        !loadingTemplates &&
+        templates.length === 0 &&
+        !errorMessage
+      ">
+      <span class="material-icons">description</span>
+      <h3>No templates found</h3>
+      <p>No marketing templates are available.</p>
+    </div>
+  </div>
+
+  <div class="modal-backdrop" *ngIf="showCampaignModal" (click)="closeCampaignModal()">
+
+    <div class="campaign-modal" (click)="$event.stopPropagation()">
+
+      <div class="modal-header">
+        <div>
+          <h2>
+            <ng-container *ngIf="campaignModalMode === 'details'">
+              Campaign details
+            </ng-container>
+
+            <ng-container *ngIf="campaignModalMode === 'edit'">
+              {{ editingCampaign ? 'Edit campaign' : 'Create campaign' }}
+            </ng-container>
+
+            <ng-container *ngIf="campaignModalMode === 'send'">
+              Send campaign
+            </ng-container>
+          </h2>
+
+          <p *ngIf="selectedCampaign">
+            {{ selectedCampaign.name }}
+          </p>
+        </div>
+
+        <button type="button" class="close-button" (click)="closeCampaignModal()">
+          ×
+        </button>
+      </div>
+
+      <div class="modal-body" *ngIf="
+          campaignModalMode === 'details' &&
+          loadingCampaignDetails
+        ">
+        <div class="loading modal-loading">
+          <div class="spinner"></div>
+          Loading campaign details...
+        </div>
+      </div>
+
+      <div class="modal-body" *ngIf="
+          campaignModalMode === 'details' &&
+          !loadingCampaignDetails &&
+          selectedCampaign
+        ">
+
+        <div class="campaign-detail-header">
+          <div class="detail-campaign-icon">
+            <span class="material-icons">campaign</span>
+          </div>
+
+          <div>
+            <h3>{{ selectedCampaign.name }}</h3>
+            <span class="status-badge" [class.active]="getStatusClass(selectedCampaign.status) === 'active'"
+              [class.scheduled]="getStatusClass(selectedCampaign.status) === 'scheduled'"
+              [class.completed]="getStatusClass(selectedCampaign.status) === 'completed'"
+              [class.draft]="getStatusClass(selectedCampaign.status) === 'draft'">
+              {{ selectedCampaign.status }}
+            </span>
+          </div>
+        </div>
+
+        <div class="detail-grid">
+          <div class="detail-item">
+            <span>Channel</span>
+            <strong>{{ getCampaignChannel(selectedCampaign) }}</strong>
+          </div>
+
+          <div class="detail-item">
+            <span>Audience</span>
+            <strong>{{ selectedCampaign.audience }}</strong>
+          </div>
+
+          <div class="detail-item">
+            <span>Reach</span>
+            <strong>{{ selectedCampaign.reach | number }}</strong>
+          </div>
+
+          <div class="detail-item">
+            <span>Sent</span>
+            <strong>{{ selectedCampaign.sentCount | number }}</strong>
+          </div>
+
+          <div class="detail-item">
+            <span>Redemptions</span>
+            <strong>{{ selectedCampaign.redemptions | number }}</strong>
+          </div>
+
+          <div class="detail-item">
+            <span>Codes generated</span>
+            <strong>{{ selectedCampaign.codesGenerated | number }}</strong>
+          </div>
+
+          <div class="detail-item">
+            <span>Scheduled</span>
+            <strong>
+              {{ formatDateTime(selectedCampaign.scheduledAt) }}
+            </strong>
+          </div>
+
+          <div class="detail-item">
+            <span>End date</span>
+            <strong>
+              {{ formatDateTime(selectedCampaign.endDate) }}
+            </strong>
+          </div>
+        </div>
+
+        <div class="detail-message">
+          <label>Message</label>
+          <div>
+            {{ selectedCampaign.message }}
+          </div>
+        </div>
+
+        <div class="redemption-code-box" *ngIf="selectedCampaign.hasRedemptionCode">
+          <span>Redemption code</span>
+          <strong>{{ selectedCampaign.redemptionCode }}</strong>
+        </div>
+      </div>
+
+      <div class="modal-body" *ngIf="campaignModalMode === 'edit'">
+
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Campaign name</label>
+            <input type="text" [(ngModel)]="campaignForm.name" placeholder="Campaign name">
+          </div>
+
+          <div class="form-group">
+            <label>Restaurant ID</label>
+            <input type="number" [(ngModel)]="campaignForm.restaurantId">
+          </div>
+
+          <div class="form-group">
+            <label>Template</label>
+            <select [(ngModel)]="campaignForm.templateId">
+
+              <option [ngValue]="0">
+                Select template
+              </option>
+
+              <option *ngFor="let template of templates" [ngValue]="template.id">
+                #{{ template.id }} - {{ template.templateType }}
+              </option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>Channel</label>
+            <select [(ngModel)]="campaignForm.channel">
+              <option value="SMS">SMS</option>
+              <option value="EMAIL">Email</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>Audience</label>
+            <select [(ngModel)]="campaignForm.audience">
+              <option value="ALL">All</option>
+              <option value="RECENT">Recent guests</option>
+              <option value="LAPSED">Lapsed guests</option>
+              <option value="GOLD_PLATINUM">Gold + Platinum</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>Scheduled date and time</label>
+            <input type="datetime-local" [(ngModel)]="campaignForm.scheduledAt">
+          </div>
+
+          <div class="form-group">
+            <label>End date and time</label>
+            <input type="datetime-local" [(ngModel)]="campaignForm.endDate">
+          </div>
+
+          <div class="form-group redemption-toggle">
+            <label>Redemption code</label>
+
+            <label class="checkbox-row">
+              <input type="checkbox" [(ngModel)]="campaignForm.hasRedemptionCode">
+              <span>Generate/use redemption code</span>
+            </label>
+          </div>
+
+          <div class="form-group" *ngIf="campaignForm.hasRedemptionCode">
+            <label>Redemption code</label>
+            <input type="text" [(ngModel)]="campaignForm.redemptionCode" placeholder="e.g. BROTPIZZA40">
+          </div>
+
+          <div class="form-group full-width">
+            <label>Message</label>
+            <textarea [(ngModel)]="campaignForm.message" rows="7" placeholder="Campaign message">
+            </textarea>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-body" *ngIf="campaignModalMode === 'send'">
+
+        <div class="send-summary">
+          <div>
+            <strong>{{ selectedCampaign?.name }}</strong>
+            <span>
+              Select customers to receive this campaign
+            </span>
+          </div>
+
+          <div class="selected-count">
+            {{ selectedCustomerPhones.length }} selected
+          </div>
+        </div>
+
+        <div class="customer-select-all" *ngIf="!loadingCustomers && customers.length">
+
+          <label class="checkbox-row">
+            <input type="checkbox" [(ngModel)]="selectAllCustomers" (ngModelChange)="toggleSelectAllCustomers()">
+
+            <span>Select all customers on this page</span>
+          </label>
+        </div>
+
+        <div class="loading customer-loading" *ngIf="loadingCustomers">
+          <div class="spinner"></div>
+          Loading customers...
+        </div>
+
+        <div class="customer-list" *ngIf="
+            !loadingCustomers &&
+            customers.length > 0
+          ">
+
+          <div class="customer-row" *ngFor="let customer of customers">
+
+            <label class="customer-checkbox">
+              <input type="checkbox" [checked]="isCustomerSelected(customer.contact)"
+                (change)="toggleCustomer(customer)">
+
+              <div class="customer-info">
+                <strong>{{ customer.guest }}</strong>
+                <span>{{ customer.contact }}</span>
+              </div>
+
+              <span class="customer-status">
+                {{ customer.status }}
+              </span>
+            </label>
+          </div>
+        </div>
+
+        <div class="empty-state compact" *ngIf="
+            !loadingCustomers &&
+            customers.length === 0
+          ">
+          <span class="material-icons">people_outline</span>
+          <h3>No customers found</h3>
+          <p>No customers are available for this restaurant.</p>
+        </div>
+
+        <div class="pagination customer-pagination" *ngIf="
+            !loadingCustomers &&
+            customers.length > 0 &&
+            customerTotalPages > 1
+          ">
+
+          <button type="button" class="pagination-button" (click)="customerPreviousPage()"
+            [disabled]="customerCurrentPage === 0">
+            Previous
+          </button>
+
+          <span class="pagination-info">
+            Page
+            {{ getCustomerPageDisplay() }}
+            of
+            {{ customerTotalPages }}
+          </span>
+
+          <button type="button" class="pagination-button" (click)="customerNextPage()" [disabled]="
+              customerCurrentPage + 1 >= customerTotalPages
+            ">
+            Next
+          </button>
+        </div>
+      </div>
+
+      <div class="modal-footer" *ngIf="campaignModalMode === 'details'">
+
+        <button type="button" class="cancel-button" (click)="closeCampaignModal()">
+          Close
+        </button>
+
+        <button type="button" class="secondary-modal-button" (click)="startEditCampaign()">
+          Edit
+        </button>
+
+        <button type="button" class="secondary-modal-button" (click)="openSendCampaign()">
+          Send
+        </button>
+
+        <button type="button" class="save-button" (click)="publishSelectedCampaign()" [disabled]="publishingCampaign">
+
+          {{
+          publishingCampaign
+          ? 'Publishing...'
+          : 'Publish'
+          }}
+        </button>
+      </div>
+
+      <div class="modal-footer" *ngIf="campaignModalMode === 'edit'">
+
+        <button type="button" class="cancel-button" (click)="
+            selectedCampaign
+              ? campaignModalMode = 'details'
+              : closeCampaignModal()
+          " [disabled]="savingCampaign">
+          Cancel
+        </button>
+
+        <button type="button" class="save-button" (click)="saveCampaign()" [disabled]="savingCampaign">
+
+          {{
+          savingCampaign
+          ? 'Saving...'
+          : editingCampaign
+          ? 'Update campaign'
+          : 'Create campaign'
+          }}
+        </button>
+      </div>
+
+      <div class="modal-footer" *ngIf="campaignModalMode === 'send'">
+
+        <button type="button" class="cancel-button" (click)="campaignModalMode = 'details'"
+          [disabled]="sendingCampaign">
+          Back
+        </button>
+
+        <button type="button" class="save-button" (click)="sendCampaign()" [disabled]="
+            sendingCampaign ||
+            selectedCustomerPhones.length === 0
+          ">
+
+          {{
+          sendingCampaign
+          ? 'Sending...'
+          : 'Send campaign'
+          }}
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-backdrop" *ngIf="showTemplateModal" (click)="closeTemplateModal()">
+
+    <div class="template-modal" (click)="$event.stopPropagation()">
+
+      <div class="modal-header">
+        <div>
+          <h2>
+            {{
+            editingTemplate
+            ? 'Edit template'
+            : 'Create template'
+            }}
+          </h2>
+
+          <p *ngIf="editingTemplate">
+            Template #{{ editingTemplate.id }}
+          </p>
+
+          <p *ngIf="!editingTemplate">
+            Create a reusable marketing message template
+          </p>
+        </div>
+
+        <button type="button" class="close-button" (click)="closeTemplateModal()">
+          ×
+        </button>
+      </div>
+
+      <div class="modal-body">
+
+        <div class="form-group">
+          <label>Template type</label>
+
+          <input type="text" [(ngModel)]="templateForm.templateType" [disabled]="!!editingTemplate"
+            placeholder="e.g. PROMOTION">
+        </div>
+
+        <div class="form-group">
+          <label>Message template</label>
+
+          <textarea [(ngModel)]="templateForm.messageTemplate" rows="6" placeholder="Hi {guestName}, ...">
+        </textarea>
+        </div>
+
+        <div class="form-group">
+          <label>Description</label>
+
+          <textarea [(ngModel)]="templateForm.description" rows="4" placeholder="Template description">
+        </textarea>
+        </div>
+
+      </div>
+
+      <div class="modal-footer">
+
+        <button type="button" class="cancel-button" (click)="closeTemplateModal()" [disabled]="savingTemplate">
+          Cancel
+        </button>
+
+        <button type="button" class="save-button" (click)="saveTemplate()" [disabled]="savingTemplate">
+
+          {{
+          savingTemplate
+          ? 'Saving...'
+          : editingTemplate
+          ? 'Update template'
+          : 'Create template'
+          }}
+
+        </button>
+
+      </div>
+
+    </div>
+  </div>
+</div>

@@ -1,0 +1,906 @@
+/* =====================================================
+   GUEST PORTAL: PREMIUM DARK THEME (guest-a)
+   Overrides for light colours in the guest portal.
+   Every selector mirrors its source chain under
+   html[data-theme="dark"]. Colour properties only.
+===================================================== */
+
+
+/* waitlist-navbar */
+
+html[data-theme="dark"] app-waitlist-navbar {
+  background: var(--dk-bg);
+}
+
+html[data-theme="dark"] .navbar-restaurant {
+  border-color: var(--dk-border);
+  background: var(--dk-surface-2);
+}
+
+html[data-theme="dark"] .navbar-restaurant:hover {
+  background: var(--dk-surface-3);
+}
+
+html[data-theme="dark"] .restaurant-navbar-details strong {
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .mobile-menu-button,
+html[data-theme="dark"] .navbar-icon-button {
+  border-color: var(--dk-border);
+  color: var(--dk-brand);
+  background: var(--dk-surface-2);
+}
+
+html[data-theme="dark"] .mobile-menu-button:hover,
+html[data-theme="dark"] .navbar-icon-button:hover {
+  color: var(--dk-brand);
+  background: var(--dk-surface-3);
+}
+
+html[data-theme="dark"] .theme-button {
+  color: var(--dk-brand);
+}
+
+html[data-theme="dark"] .notification-dot {
+  border-color: var(--dk-bg);
+  background: var(--dk-danger);
+}
+
+html[data-theme="dark"] .navbar-profile {
+  border-color: var(--dk-border);
+  color: var(--dk-text);
+  background: var(--dk-surface);
+}
+
+html[data-theme="dark"] .navbar-profile.open,
+html[data-theme="dark"] .navbar-profile:hover {
+  border-color: var(--dk-border-strong);
+  background: var(--dk-surface-2);
+}
+
+html[data-theme="dark"] .navbar-profile-name {
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .navbar-profile-menu {
+  border-color: var(--dk-border);
+  background: var(--dk-surface);
+  box-shadow: var(--shadow-md);
+}
+
+html[data-theme="dark"] .profile-menu-header strong {
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .profile-menu-divider {
+  background: var(--dk-border);
+}
+
+html[data-theme="dark"] .navbar-profile-menu > button {
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .navbar-profile-menu > button:hover {
+  color: var(--dk-brand);
+  background: var(--dk-surface-3);
+}
+
+html[data-theme="dark"] .logout-menu-button,
+html[data-theme="dark"] .logout-menu-button:hover {
+  color: var(--dk-danger);
+}
+
+html[data-theme="dark"] .logout-menu-button:hover {
+  background: var(--dk-danger-soft);
+}
+
+
+/* waitlist-user-component (guest shell) */
+
+/* .app-wrapper.dark-mode keeps its background image. This only sets the base colour. */
+html[data-theme="dark"] .app-wrapper,
+html[data-theme="dark"] .app-wrapper.light-mode {
+  background-color: var(--dk-bg);
+}
+
+/* .app-wrapper.dark-mode .customer-shell stays transparent over the image. */
+html[data-theme="dark"] .customer-shell {
+  background: var(--dk-bg);
+}
+
+html[data-theme="dark"] .access-popup,
+html[data-theme="dark"] .account-login-popup {
+  background: var(--dk-surface);
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .access-close {
+  color: var(--dk-text-2);
+  background: var(--dk-surface-2);
+}
+
+html[data-theme="dark"] .access-close:hover {
+  color: var(--dk-text);
+  background: var(--dk-brand-soft);
+}
+
+html[data-theme="dark"] .access-icon,
+html[data-theme="dark"] .benefit-icon,
+html[data-theme="dark"] .profile-detail-icon,
+html[data-theme="dark"] .login-card-icon {
+  color: var(--dk-brand);
+  background: var(--dk-brand-soft);
+}
+
+html[data-theme="dark"] .cancelled-icon {
+  color: var(--dk-danger);
+  background: var(--dk-danger-soft);
+}
+
+html[data-theme="dark"] .access-popup h2,
+html[data-theme="dark"] .benefit-content h3,
+html[data-theme="dark"] .profile-page-header h1,
+html[data-theme="dark"] .profile-card-heading h2,
+html[data-theme="dark"] .profile-detail-item strong,
+html[data-theme="dark"] .sidebar-login-card strong,
+html[data-theme="dark"] .profile-info strong {
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .account-benefits-banner {
+  border-color: var(--dk-border);
+  background: var(--dk-surface);
+}
+
+html[data-theme="dark"] .profile-page-header {
+  border-color: var(--dk-border);
+  background: var(--dk-surface);
+}
+
+html[data-theme="dark"] .profile-page-eyebrow,
+html[data-theme="dark"] .profile-detail-item span {
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .profile-details-card {
+  border-color: var(--dk-border);
+  background: var(--dk-surface);
+}
+
+html[data-theme="dark"] .profile-card-heading,
+html[data-theme="dark"] .profile-actions {
+  border-color: var(--dk-border);
+}
+
+html[data-theme="dark"] .edit-profile-button {
+  border-color: var(--dk-border-strong);
+  color: var(--dk-brand);
+  background: var(--dk-surface-2);
+}
+
+html[data-theme="dark"] .edit-profile-button:hover {
+  background: var(--dk-surface-3);
+}
+
+html[data-theme="dark"] .profile-detail-item {
+  border-color: var(--dk-border);
+  background: var(--dk-surface-2);
+}
+
+html[data-theme="dark"] .profile-detail-item strong {
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .profile-logout-button {
+  border-color: var(--dk-danger-soft);
+  color: var(--dk-danger);
+  background: var(--dk-surface);
+}
+
+html[data-theme="dark"] .profile-logout-button:hover,
+html[data-theme="dark"] .profile-logout:hover {
+  background: var(--dk-danger-soft);
+}
+
+html[data-theme="dark"] .profile-logout:hover {
+  color: var(--dk-danger);
+}
+
+html[data-theme="dark"] .side-nav button.locked {
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .nav-lock {
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .sidebar-login-card,
+html[data-theme="dark"] .sidebar-profile {
+  border-color: var(--dk-border);
+  background: var(--dk-surface);
+}
+
+@media (max-width: 1024px) {
+
+  html[data-theme="dark"] .customer-shell {
+    background: var(--dk-bg);
+  }
+
+  html[data-theme="dark"] .guest-sidebar-component {
+    background: var(--dk-surface);
+    box-shadow: var(--shadow-lg);
+  }
+
+}
+
+
+/* waitlist-user-sidebar */
+
+html[data-theme="dark"] .customer-sidebar {
+  background: var(--dk-surface);
+  border-right-color: var(--dk-border);
+  color: var(--dk-text);
+}
+
+
+html[data-theme="dark"] .brand h2 {
+  color: var(--dk-brand);
+}
+
+html[data-theme="dark"] .section-label {
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .side-nav button {
+  color: var(--dk-text-2);
+}
+
+html[data-theme="dark"] .side-nav button:hover {
+  background: var(--dk-surface-3);
+  color: var(--dk-brand);
+}
+
+html[data-theme="dark"] .side-nav button.active {
+  background: var(--dk-brand-soft);
+  color: var(--dk-brand);
+}
+
+html[data-theme="dark"] .nav-lock,
+html[data-theme="dark"] .profile-arrow,
+html[data-theme="dark"] .sidebar-footer i {
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .sidebar-login-card {
+  border-color: var(--dk-border);
+  background: var(--dk-surface-2);
+}
+
+html[data-theme="dark"] .login-card-icon,
+html[data-theme="dark"] .compact-user-avatar {
+  background: var(--dk-brand-soft);
+  color: var(--dk-brand);
+}
+
+html[data-theme="dark"] .login-card-content strong {
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .compact-user-card {
+  border-color: var(--dk-border);
+  background: var(--dk-surface);
+}
+
+html[data-theme="dark"] .compact-user-content strong {
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .sidebar-footer {
+  border-top-color: var(--dk-border);
+}
+
+
+/* waitlist-user-menu */
+
+html[data-theme="dark"] .food-eyebrow {
+  color: var(--dk-brand);
+}
+
+html[data-theme="dark"] .food-header h1,
+html[data-theme="dark"] .food-body h3 {
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .food-search {
+  border-color: var(--dk-border);
+  background: var(--dk-surface);
+  box-shadow: var(--shadow-sm);
+}
+
+html[data-theme="dark"] .food-search:focus-within {
+  border-color: var(--dk-brand);
+  box-shadow: 0 0 0 3px var(--dk-brand-soft);
+}
+
+html[data-theme="dark"] .food-search > i {
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .food-search input {
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .food-search input::placeholder {
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .clear-search {
+  color: var(--dk-text-3);
+  background: var(--dk-surface-3);
+}
+
+html[data-theme="dark"] .food-categories button {
+  border-color: var(--dk-border);
+  color: var(--dk-text);
+  background: var(--dk-surface);
+  box-shadow: var(--shadow-sm);
+}
+
+html[data-theme="dark"] .food-categories button:hover {
+  border-color: var(--dk-border-strong);
+  color: var(--dk-brand);
+}
+
+/* Solid purple active pill keeps white text. */
+html[data-theme="dark"] .food-categories button.active {
+  border-color: var(--dk-brand-strong);
+  background: var(--dk-brand-strong);
+}
+
+html[data-theme="dark"] .food-card,
+html[data-theme="dark"] .menu-skeleton-card {
+  border-color: var(--dk-border);
+  background: var(--dk-surface);
+}
+
+html[data-theme="dark"] .food-card:hover {
+  border-color: var(--dk-border-strong);
+}
+
+html[data-theme="dark"] .food-image {
+  background: var(--dk-surface-2);
+}
+
+html[data-theme="dark"] .food-img {
+  border-color: var(--dk-surface-2);
+  background: var(--dk-surface-3);
+  box-shadow: var(--shadow-md);
+}
+
+html[data-theme="dark"] .food-price {
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .food-meta {
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .food-meta i {
+  color: var(--dk-brand);
+}
+
+html[data-theme="dark"] .menu-state {
+  border-color: var(--dk-border-strong);
+  color: var(--dk-text-3);
+  background: var(--dk-surface);
+}
+
+html[data-theme="dark"] .menu-state > i {
+  color: var(--dk-brand);
+  background: var(--dk-brand-soft);
+}
+
+html[data-theme="dark"] .menu-state h3 {
+  color: var(--dk-text);
+}
+
+
+/* waitlist-user-hero */
+
+html[data-theme="dark"] .restaurant-hero {
+  background: var(--dk-surface-2);
+}
+
+html[data-theme="dark"] .restaurant-title h1 {
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .restaurant-title p {
+  color: var(--dk-text-2);
+}
+
+html[data-theme="dark"] .stat {
+  border-color: var(--dk-border);
+  color: var(--dk-text);
+  background: var(--dk-surface);
+}
+
+html[data-theme="dark"] .stat.purple {
+  color: var(--dk-brand);
+  background: var(--dk-brand-soft);
+}
+
+
+/* waitlist-user-home */
+
+html[data-theme="dark"] .location-pill {
+  border-color: var(--dk-border);
+  color: var(--dk-brand);
+  background: var(--dk-surface);
+}
+
+html[data-theme="dark"] .restaurant-search {
+  border-color: var(--dk-border);
+  background: var(--dk-surface);
+}
+
+html[data-theme="dark"] .restaurant-search i {
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .restaurant-search input {
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .restaurant-search input::placeholder {
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .profile-button {
+  border-color: var(--dk-border);
+  color: var(--dk-brand);
+  background: var(--dk-surface);
+}
+
+html[data-theme="dark"] .home-hero {
+  border-color: var(--dk-border);
+  color: var(--dk-text);
+  background: var(--dk-surface);
+}
+
+html[data-theme="dark"] .hero-brand {
+  color: var(--dk-brand);
+}
+
+html[data-theme="dark"] .hero-content p {
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .hero-restaurant-item {
+  border-color: var(--dk-border);
+  background: var(--dk-surface-2);
+}
+
+html[data-theme="dark"] .hero-restaurant-item span {
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .login-offers-card {
+  border-color: var(--dk-border);
+  background: var(--dk-surface-2);
+}
+
+html[data-theme="dark"] .login-offers-content h3 {
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .login-offers-content p {
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .section-heading h2 {
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .section-heading button {
+  color: var(--dk-brand);
+}
+
+html[data-theme="dark"] .featured-deal {
+  border-color: var(--dk-border);
+  color: var(--dk-text);
+  background: var(--dk-surface);
+}
+
+html[data-theme="dark"] .featured-deal small,
+html[data-theme="dark"] .featured-deal p {
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .featured-deal button {
+  border-color: var(--dk-border);
+  color: var(--dk-brand);
+  background: var(--dk-surface-2);
+}
+
+html[data-theme="dark"] .offer-gold {
+  color: var(--dk-text);
+  background: linear-gradient(120deg, var(--dk-warning-soft), var(--dk-surface));
+}
+
+html[data-theme="dark"] .offer-purple {
+  color: var(--dk-text);
+  background: linear-gradient(120deg, var(--dk-brand-soft), var(--dk-surface));
+}
+
+html[data-theme="dark"] .restaurant-logo-card strong {
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .restaurant-logo-card span {
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .category-filter button {
+  border-color: var(--dk-border);
+  color: var(--dk-text-2);
+  background: var(--dk-surface);
+}
+
+/* Solid purple active pill keeps white text. */
+html[data-theme="dark"] .category-filter button.active {
+  border-color: var(--dk-brand-strong);
+  background: var(--dk-brand-strong);
+}
+
+html[data-theme="dark"] .restaurant-card {
+  border-color: var(--dk-border);
+  background: var(--dk-surface);
+}
+
+html[data-theme="dark"] .plate-image {
+  border-color: var(--dk-surface-2);
+  background: var(--dk-surface-3);
+  box-shadow:
+    inset 0 0 0 3px var(--dk-border),
+    0 5px 13px rgba(0, 0, 0, 0.38);
+}
+
+html[data-theme="dark"] .plate-image span {
+  border-color: var(--dk-border);
+}
+
+html[data-theme="dark"] .restaurant-card h3 {
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .restaurant-card p,
+html[data-theme="dark"] .restaurant-rating small,
+html[data-theme="dark"] .restaurant-footer > span {
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .wait-status.busy {
+  color: var(--dk-warning);
+  background: var(--dk-warning-soft);
+}
+
+html[data-theme="dark"] .wait-status.no_wait {
+  color: var(--dk-success);
+  background: var(--dk-success-soft);
+}
+
+html[data-theme="dark"] .restaurant-tags span {
+  color: var(--dk-brand);
+  background: var(--dk-brand-soft);
+}
+
+html[data-theme="dark"] .account-benefits-banner {
+  border-color: var(--dk-border);
+  background: var(--dk-surface);
+}
+
+html[data-theme="dark"] .account-benefits-banner h3 {
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .account-benefits-banner p {
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .clear-search {
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .clear-search:hover {
+  background: var(--dk-surface-3);
+}
+
+html[data-theme="dark"] .empty-state {
+  border-color: var(--dk-border-strong);
+  color: var(--dk-text-3);
+  background: var(--dk-surface);
+}
+
+html[data-theme="dark"] .empty-state h3 {
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .empty-state i {
+  color: var(--dk-brand);
+  background: var(--dk-brand-soft);
+}
+
+html[data-theme="dark"] .error-state {
+  border-color: var(--dk-danger-soft);
+  color: var(--dk-danger);
+  background: var(--dk-danger-soft);
+}
+
+html[data-theme="dark"] .food-search-card {
+  border-color: var(--dk-border);
+  background: var(--dk-surface);
+}
+
+/* Flat dark well for food images, no oval shape. */
+html[data-theme="dark"] .food-search-image {
+  background: var(--dk-surface-2);
+}
+
+html[data-theme="dark"] .food-search-body h3 {
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .food-search-body p {
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .food-search-body strong {
+  color: var(--dk-brand);
+}
+
+/* waitlist-waiting-screen */
+html[data-theme="dark"] .queue-card {
+  background: var(--dk-surface);
+  border-color: var(--dk-border);
+}
+
+html[data-theme="dark"] .small-title,
+html[data-theme="dark"] .big-time,
+html[data-theme="dark"] .ready-title {
+  color: var(--dk-brand);
+}
+
+html[data-theme="dark"] .queue-card h2,
+html[data-theme="dark"] .mini-stats h3,
+html[data-theme="dark"] .info-card h3,
+html[data-theme="dark"] .details-card h3,
+html[data-theme="dark"] .details-card b,
+html[data-theme="dark"] .reward-card,
+html[data-theme="dark"] .leave-modal h2,
+html[data-theme="dark"] .message-modal-header h2,
+html[data-theme="dark"] .review-header h2,
+html[data-theme="dark"] .review-success-card h2,
+html[data-theme="dark"] .embedded-review-success h2,
+html[data-theme="dark"] .embedded-review .review-header h2,
+html[data-theme="dark"] .field-title,
+html[data-theme="dark"] .step p,
+html[data-theme="dark"] .form-field label,
+html[data-theme="dark"] .edit-btn,
+html[data-theme="dark"] .choice-button {
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .step span {
+  background: var(--dk-surface-3);
+  color: var(--dk-text-2);
+}
+
+html[data-theme="dark"] .details-card div,
+html[data-theme="dark"] .review-header {
+  border-bottom-color: var(--dk-border);
+}
+
+html[data-theme="dark"] .line,
+html[data-theme="dark"] .or-divider span {
+  background: var(--dk-border);
+}
+
+html[data-theme="dark"] .mini-stats div {
+  background: var(--dk-surface);
+}
+
+html[data-theme="dark"] .mini-stats p,
+html[data-theme="dark"] .time-label,
+html[data-theme="dark"] .select-wrapper i,
+html[data-theme="dark"] .details-card span,
+html[data-theme="dark"] .field-footer,
+html[data-theme="dark"] .or-divider p,
+html[data-theme="dark"] .review-footer p {
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .edit-btn {
+  background: var(--dk-surface-2);
+  border-color: var(--dk-border);
+}
+
+html[data-theme="dark"] .cancel-btn {
+  background: var(--dk-surface);
+  border-color: var(--dk-danger);
+  color: var(--dk-danger);
+}
+
+html[data-theme="dark"] .cancel-btn:hover {
+  background: var(--dk-danger-soft);
+}
+
+html[data-theme="dark"] .text-alert {
+  background: var(--dk-brand-soft);
+}
+
+html[data-theme="dark"] .text-alert h3,
+html[data-theme="dark"] .info-card i,
+html[data-theme="dark"] .review-eyebrow,
+html[data-theme="dark"] .embedded-review-success h3,
+html[data-theme="dark"] .review-success-card h3,
+html[data-theme="dark"] .small-title {
+  color: var(--dk-brand);
+}
+
+html[data-theme="dark"] .text-alert p,
+html[data-theme="dark"] .info-card p,
+html[data-theme="dark"] .reward-card p,
+html[data-theme="dark"] .leave-modal p,
+html[data-theme="dark"] .message-modal-header p,
+html[data-theme="dark"] .review-header p,
+html[data-theme="dark"] .review-success-card p,
+html[data-theme="dark"] .embedded-review-success p,
+html[data-theme="dark"] .embedded-review .review-header p {
+  color: var(--dk-text-2);
+}
+
+html[data-theme="dark"] .alert-icon,
+html[data-theme="dark"] .info-card,
+html[data-theme="dark"] .details-card,
+html[data-theme="dark"] .review-card,
+html[data-theme="dark"] .review-success-card,
+html[data-theme="dark"] .embedded-review,
+html[data-theme="dark"] .rating-button,
+html[data-theme="dark"] .choice-button,
+html[data-theme="dark"] .btn-cancel,
+html[data-theme="dark"] .leave-modal,
+html[data-theme="dark"] .message-modal,
+html[data-theme="dark"] .review-header {
+  background: var(--dk-surface);
+}
+
+html[data-theme="dark"] .info-card,
+html[data-theme="dark"] .details-card,
+html[data-theme="dark"] .review-card,
+html[data-theme="dark"] .review-success-card,
+html[data-theme="dark"] .embedded-review,
+html[data-theme="dark"] .rating-button,
+html[data-theme="dark"] .choice-button,
+html[data-theme="dark"] .review-section,
+html[data-theme="dark"] .btn-cancel,
+html[data-theme="dark"] .menu-btn,
+html[data-theme="dark"] .queue-card {
+  border-color: var(--dk-border);
+}
+
+html[data-theme="dark"] .alert-icon {
+  color: var(--dk-brand);
+}
+
+html[data-theme="dark"] .menu-btn,
+html[data-theme="dark"] .btn-cancel,
+html[data-theme="dark"] .review-close {
+  color: var(--dk-brand);
+}
+
+html[data-theme="dark"] .menu-btn {
+  background: var(--dk-surface-2);
+  border-color: var(--dk-border);
+}
+
+html[data-theme="dark"] .review-close {
+  background: var(--dk-surface-2);
+}
+
+html[data-theme="dark"] .reward-card {
+  background: var(--dk-brand-soft);
+  border-color: var(--dk-border);
+}
+
+html[data-theme="dark"] .leave-modal,
+html[data-theme="dark"] .message-modal {
+  background: var(--dk-surface);
+}
+
+html[data-theme="dark"] .message-icon {
+  background: var(--dk-brand-soft);
+  color: var(--dk-brand);
+}
+
+html[data-theme="dark"] .select-wrapper select,
+html[data-theme="dark"] .form-field textarea,
+html[data-theme="dark"] .review-textarea {
+  background: var(--dk-sunken);
+  border-color: var(--dk-border);
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .form-field textarea::placeholder,
+html[data-theme="dark"] .review-textarea::placeholder {
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .select-wrapper select:hover,
+html[data-theme="dark"] .form-field textarea:hover {
+  border-color: var(--dk-border-strong);
+}
+
+html[data-theme="dark"] .select-wrapper select:focus,
+html[data-theme="dark"] .form-field textarea:focus,
+html[data-theme="dark"] .review-textarea:focus {
+  border-color: var(--dk-brand);
+}
+
+html[data-theme="dark"] .field-error,
+html[data-theme="dark"] .select-wrapper.field-error select,
+html[data-theme="dark"] .form-field textarea.field-error {
+  border-color: var(--dk-danger);
+}
+
+html[data-theme="dark"] .validation-message,
+html[data-theme="dark"] .review-error {
+  background: var(--dk-danger-soft);
+  border-color: var(--dk-danger);
+  color: var(--dk-danger);
+}
+
+html[data-theme="dark"] .btn-cancel {
+  background: var(--dk-surface);
+  color: var(--dk-brand);
+}
+
+html[data-theme="dark"] .rating-button,
+html[data-theme="dark"] .choice-button {
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .rating-button:hover,
+html[data-theme="dark"] .rating-button.selected,
+html[data-theme="dark"] .choice-button:hover,
+html[data-theme="dark"] .choice-button.selected {
+  border-color: var(--dk-brand);
+  background: var(--dk-brand-soft);
+  color: var(--dk-brand);
+}
+
+html[data-theme="dark"] .confirmation-sent-message,
+html[data-theme="dark"] .success-icon,
+html[data-theme="dark"] .embedded-review-success .success-icon {
+  background: var(--dk-success-soft);
+  color: var(--dk-success);
+}
+
+html[data-theme="dark"] .confirmation-sent-message {
+  border-color: var(--dk-success);
+  color: var(--dk-success);
+}
+
+html[data-theme="dark"] .embedded-review-success {
+  background: var(--dk-surface);
+  border-color: var(--dk-success);
+}
+
+html[data-theme="dark"] .review-success-card {
+  background: var(--dk-surface);
+}
+
+html[data-theme="dark"] .btn-cancel:hover:not(:disabled) {
+  background: var(--dk-surface-3);
+}

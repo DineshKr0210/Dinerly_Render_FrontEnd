@@ -1,0 +1,530 @@
+<div class="menu-page">
+  <header class="menu-header">
+    <div>
+      <h1>Menu management</h1>
+      <p>Edit menu items by location and category</p>
+    </div>
+
+    <div class="menu-header-actions">
+      <button
+        type="button"
+        class="secondary-add-button"
+        (click)="openAddCategory()">
+        + Add category
+      </button>
+
+      <button
+        type="button"
+        class="primary-add-button"
+        (click)="openAddDish()">
+        + Add item
+      </button>
+    </div>
+  </header>
+
+  <div class="toast success-toast" *ngIf="successMessage">
+    <span class="toast-icon">✓</span>
+    {{ successMessage }}
+  </div>
+
+  <div class="toast error-toast" *ngIf="errorMessage">
+    <span class="toast-icon">!</span>
+    {{ errorMessage }}
+  </div>
+
+  <!-- <div
+    class="location-selector"
+    *ngIf="!isLocationsLoading && locations.length > 0">
+
+    <select
+      [value]="selectedLocationId"
+      (change)="onLocationChange($event)">
+
+      <option
+        *ngFor="let location of locations"
+        [value]="location.id">
+        {{ location.name }}
+      </option>
+    </select>
+
+    <span class="location-selector-arrow">▾</span>
+  </div> -->
+
+  <div class="page-loading" *ngIf="isLocationsLoading">
+    <div class="spinner"></div>
+    Loading restaurants...
+  </div>
+
+  <div
+    class="page-loading"
+    *ngIf="!isLocationsLoading && isMenuLoading">
+    <div class="spinner"></div>
+    Loading menu...
+  </div>
+
+  <div
+    class="menu-content"
+    *ngIf="!isLocationsLoading && !isMenuLoading && selectedLocation">
+
+    <section
+      class="category-section"
+      [class.category-inactive]="isCategoryInactive(category)"
+      *ngFor="let category of categories">
+
+      <div class="category-header">
+        <div class="category-title-wrapper">
+          <h2>{{ category.name }}</h2>
+
+          <span
+            class="category-status"
+            *ngIf="isCategoryInactive(category)">
+            Inactive
+          </span>
+
+          <ng-container *ngIf="!isCategoryInactive(category)">
+            <button
+              type="button"
+              class="category-edit-button"
+              (click)="editCategory(category)">
+              Edit
+            </button>
+
+            <button
+              type="button"
+              class="category-delete-button"
+              (click)="deleteCategory(category)">
+              Delete
+            </button>
+          </ng-container>
+
+          <button
+            *ngIf="isCategoryInactive(category)"
+            type="button"
+            class="category-restore-button"
+            (click)="restoreCategory(category)">
+            Restore
+          </button>
+        </div>
+
+        <button
+          *ngIf="!isCategoryInactive(category)"
+          type="button"
+          class="category-add-button"
+          (click)="openAddDishForCategory(category)">
+          + Add item
+        </button>
+      </div>
+
+      <div class="dishes-list">
+        <div
+          class="dish-row"
+          *ngFor="let dish of category.dishes"
+          [class.deleted]="isDishInactive(dish)">
+
+          <div class="dish-image">
+            <img
+              [src]="dish.imageUrl"
+              [alt]="dish.name"
+              class="food-img loading"
+              loading="lazy"
+              decoding="async"
+              (load)="onImageLoad($event)"
+              (error)="onImageError($event)">
+          </div>
+
+          <div class="dish-name">
+            {{ dish.name }}
+          </div>
+
+          <div class="dish-price">
+            {{ dish.price | currency }}
+          </div>
+
+          <div class="dish-status">
+            <span
+              class="availability-pill"
+              [class.unavailable]="isDishInactive(dish)">
+              {{ isDishInactive(dish) ? 'Inactive' : 'Available' }}
+            </span>
+          </div>
+
+          <div class="dish-actions">
+            <ng-container *ngIf="!isDishInactive(dish)">
+              <button
+                type="button"
+                class="edit-button"
+                (click)="editDish(dish, category)">
+                Edit
+              </button>
+
+              <button
+                type="button"
+                class="delete-button"
+                (click)="deleteDish(dish)">
+                Delete
+              </button>
+            </ng-container>
+
+            <button
+              *ngIf="isDishInactive(dish)"
+              type="button"
+              class="restore-button"
+              (click)="restoreDish(dish)">
+              Restore
+            </button>
+          </div>
+        </div>
+
+        <div
+          class="empty-category"
+          *ngIf="category.dishes.length === 0">
+
+          No dishes in this category.
+
+          <button
+            *ngIf="!isCategoryInactive(category)"
+            type="button"
+            (click)="openAddDishForCategory(category)">
+            Add item
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <div
+      class="empty-menu"
+      *ngIf="categories.length === 0">
+
+      <div class="empty-menu-title">
+        No menu categories found
+      </div>
+
+      <div class="empty-menu-description">
+        No categories are available for this restaurant.
+      </div>
+
+      <button
+        type="button"
+        class="primary-add-button empty-add-button"
+        (click)="openAddCategory()">
+        + Add category
+      </button>
+    </div>
+  </div>
+
+  <div
+    class="empty-menu"
+    *ngIf="!isLocationsLoading && locations.length === 0">
+
+    <div class="empty-menu-title">
+      No restaurants found
+    </div>
+
+    <div class="empty-menu-description">
+      No restaurant locations are available.
+    </div>
+  </div>
+
+  <div
+    class="menu-modal-backdrop"
+    *ngIf="showDishModal"
+    (click)="closeDishModal()">
+
+    <div
+      class="menu-modal dish-modal"
+      (click)="$event.stopPropagation()">
+
+      <div class="modal-header">
+        <div>
+          <h2>
+            {{ isDishEditMode ? 'Edit dish' : 'Add new dish' }}
+          </h2>
+
+          <p>
+            {{
+              isDishEditMode
+                ? 'Update the dish information'
+                : 'Add a new item to the selected restaurant'
+            }}
+          </p>
+        </div>
+
+        <button
+          type="button"
+          class="close-button"
+          (click)="closeDishModal()">
+          ×
+        </button>
+      </div>
+
+      <form
+        [formGroup]="dishForm"
+        (ngSubmit)="isDishEditMode ? updateDish() : createDish()">
+
+        <div class="form-grid">
+          <div class="form-group full-width">
+            <label>Dish name *</label>
+
+            <input
+              type="text"
+              formControlName="dishName"
+              placeholder="Enter dish name">
+
+            <span
+              class="field-error"
+              *ngIf="isInvalid(dishForm, 'dishName')">
+              Dish name is required.
+            </span>
+          </div>
+
+          <div class="form-group">
+            <label>Category *</label>
+
+            <select formControlName="categoryName">
+              <option value="" disabled>
+                Select category
+              </option>
+
+              <option
+                *ngFor="let category of categories"
+                [value]="category.name"
+                [disabled]="isCategoryInactive(category)">
+                {{ category.name }}
+              </option>
+            </select>
+
+            <span
+              class="field-error"
+              *ngIf="isInvalid(dishForm, 'categoryName')">
+              Category is required.
+            </span>
+          </div>
+
+          <div class="form-group">
+            <label>Type *</label>
+
+            <select formControlName="typeName">
+              <option value="" disabled>
+                Select type
+              </option>
+
+              <option
+                *ngFor="let type of availableTypes"
+                [value]="type">
+                {{ type }}
+              </option>
+            </select>
+
+            <span
+              class="field-error"
+              *ngIf="isInvalid(dishForm, 'typeName')">
+              Type is required.
+            </span>
+          </div>
+
+          <div class="form-group">
+            <label>Price *</label>
+
+            <input
+              type="number"
+              formControlName="price"
+              min="0"
+              step="0.01"
+              placeholder="0.00">
+
+            <span
+              class="field-error"
+              *ngIf="isInvalid(dishForm, 'price')">
+              Price is required.
+            </span>
+          </div>
+
+          <div class="form-group">
+            <label>Calories</label>
+
+            <input
+              type="number"
+              formControlName="calories"
+              min="0"
+              placeholder="0">
+          </div>
+
+          <div class="form-group full-width">
+            <label>Description *</label>
+
+            <textarea
+              rows="3"
+              formControlName="description"
+              placeholder="Describe the dish">
+            </textarea>
+
+            <span
+              class="field-error"
+              *ngIf="isInvalid(dishForm, 'description')">
+              Description is required.
+            </span>
+          </div>
+
+          <div class="form-group full-width">
+            <label>Image</label>
+
+            <label class="upload-box">
+              <input
+                type="file"
+                accept="image/*"
+                (change)="onImageSelected($event)">
+
+              <span class="upload-icon">↑</span>
+              <span class="upload-title">Upload image</span>
+
+              <span class="upload-description">
+                PNG, JPG or JPEG
+              </span>
+            </label>
+
+            <div
+              class="image-preview"
+              *ngIf="imagePreview">
+
+              <img
+                [src]="imagePreview"
+                alt="Dish preview">
+
+              <span>
+                {{ selectedImage?.name || 'Current image' }}
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-actions">
+          <button
+            type="button"
+            class="cancel-button"
+            (click)="closeDishModal()"
+            [disabled]="isSaving">
+            Cancel
+          </button>
+
+          <button
+            type="submit"
+            class="primary-modal-button"
+            [disabled]="isSaving">
+
+            {{
+              isSaving
+                ? 'Saving...'
+                : (
+                  isDishEditMode
+                    ? 'Save changes'
+                    : 'Create dish'
+                )
+            }}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div
+    class="menu-modal-backdrop"
+    *ngIf="showCategoryModal"
+    (click)="closeCategoryModal()">
+
+    <div
+      class="menu-modal category-modal"
+      (click)="$event.stopPropagation()">
+
+      <div class="modal-header">
+        <div>
+          <h2>
+            {{
+              isCategoryEditMode
+                ? 'Edit category'
+                : 'Add new category'
+            }}
+          </h2>
+
+          <p>
+            {{
+              isCategoryEditMode
+                ? 'Update category information'
+                : 'Add a new menu category'
+            }}
+          </p>
+        </div>
+
+        <button
+          type="button"
+          class="close-button"
+          (click)="closeCategoryModal()">
+          ×
+        </button>
+      </div>
+
+      <form
+        [formGroup]="categoryForm"
+        (ngSubmit)="isCategoryEditMode ? updateCategory() : createCategory()">
+
+        <div class="form-grid">
+          <div class="form-group full-width">
+            <label>Category name *</label>
+
+            <input
+              type="text"
+              formControlName="name"
+              placeholder="Category name">
+
+            <span
+              class="field-error"
+              *ngIf="isInvalid(categoryForm, 'name')">
+              Category name is required.
+            </span>
+          </div>
+
+          <div class="form-group full-width">
+            <label>Description *</label>
+
+            <textarea
+              rows="4"
+              formControlName="description"
+              placeholder="Category description">
+            </textarea>
+
+            <span
+              class="field-error"
+              *ngIf="isInvalid(categoryForm, 'description')">
+              Description is required.
+            </span>
+          </div>
+        </div>
+
+        <div class="modal-actions">
+          <button
+            type="button"
+            class="cancel-button"
+            (click)="closeCategoryModal()"
+            [disabled]="isSaving">
+            Cancel
+          </button>
+
+          <button
+            type="submit"
+            class="primary-modal-button"
+            [disabled]="isSaving">
+
+            {{
+              isSaving
+                ? 'Saving...'
+                : (
+                  isCategoryEditMode
+                    ? 'Save category'
+                    : 'Create category'
+                )
+            }}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

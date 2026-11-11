@@ -1,0 +1,230 @@
+<div class="customers-page">
+
+  <div class="page-header">
+    <div>
+      <h1>Customers</h1>
+      <p>Guest directory across all locations</p>
+    </div>
+
+    <!-- <div class="location-selector">
+      <label>Location</label>
+
+      <select
+        [(ngModel)]="selectedLocationId"
+        (ngModelChange)="onLocationChange()"
+        [disabled]="loadingLocations || locations.length === 0">
+
+        <option
+          *ngFor="let location of locations"
+          [ngValue]="location.id">
+          {{ location.name }}
+        </option>
+
+      </select>
+    </div> -->
+  </div>
+
+  <div class="error-message" *ngIf="errorMessage">
+
+    <span class="material-icons">
+      error_outline
+    </span>
+
+    {{ errorMessage }}
+
+  </div>
+
+  <div class="stats-grid">
+
+    <!-- Active Guests -->
+    <div class="stat-card">
+      <div class="stat-value">
+        {{ customersummary?.totalUniqueGuests ?? 0 }}
+      </div>
+
+      <div class="stat-label">
+        Active guests
+      </div>
+
+      <div class="stat-unavailable">
+        {{ customersummary?.totalGuestsTrendPercent ?? 0 }}%
+        from last month
+      </div>
+    </div>
+
+
+    <!-- New Guests -->
+    <div class="stat-card">
+      <div class="stat-value">
+        {{ customersummary?.newCustomers ?? 0 }}
+      </div>
+
+      <div class="stat-label">
+        New guests
+      </div>
+
+      <div class="stat-unavailable">
+        {{ customersummary?.newCustomersPercent ?? 0 | number:'1.0-1' }}%
+        of total guests
+      </div>
+    </div>
+
+
+    <!-- Repeat Guests -->
+    <div class="stat-card">
+      <div class="stat-value">
+        {{ customersummary?.regularCustomers ?? 0 }}
+      </div>
+
+      <div class="stat-label">
+        Repeat guests
+      </div>
+
+      <div class="stat-unavailable">
+        {{ customersummary?.regularCustomersPercent ?? 0 | number:'1.0-1' }}%
+        of total guests
+      </div>
+    </div>
+
+
+    <!-- Average Visits -->
+    <div class="stat-card">
+      <div class="stat-value">
+        {{ customersummary?.avgVisitsPerRegular ?? 0 | number:'1.1-1' }}
+      </div>
+
+      <div class="stat-label">
+        Avg visits per guest
+      </div>
+
+      <div class="stat-unavailable">
+        {{ customersummary?.avgVisitsTrendPercent ?? 0 }}%
+        from last month
+      </div>
+    </div>
+
+  </div>
+
+  <div class="table-card">
+
+    <div class="table-header">
+      <div>Customers</div>
+
+      <div class="result-count">
+        {{ totalElements | number }} guests
+      </div>
+    </div>
+
+    <div class="loading" *ngIf="loadingCustomers">
+
+      <div class="spinner"></div>
+
+      Loading customers...
+
+    </div>
+
+    <div class="table-wrapper" *ngIf="
+        !loadingCustomers &&
+        customers.length > 0
+      ">
+
+      <table>
+
+        <thead>
+          <tr>
+            <th>Guest</th>
+            <th>Location</th>
+            <th>Visits</th>
+            <th>Last visit</th>
+            <th>Loyalty</th>
+            <th>Contact</th>
+          </tr>
+        </thead>
+
+        <tbody>
+
+          <tr *ngFor="let customer of customers">
+
+            <td class="guest-name">
+              {{ customer.guest }}
+            </td>
+
+            <td>
+              {{ customer.locations }}
+            </td>
+
+            <td>
+              {{ customer.visits }}
+            </td>
+
+            <td>
+              {{ formatDate(customer.lastVisit) }}
+            </td>
+
+            <td>
+              <span class="loyalty-badge" [class.silver]="
+                  customer.status.toLowerCase() === 'new'
+                " [class.platinum]="
+                  customer.status.toLowerCase() === 'regular'
+                ">
+
+                {{ customer.status || '-' }}
+
+              </span>
+            </td>
+
+            <td>
+              {{ customer.contact || '-' }}
+            </td>
+
+          </tr>
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+    <div class="empty-state" *ngIf="
+        !loadingCustomers &&
+        customers.length === 0 &&
+        !errorMessage
+      ">
+
+      <span class="material-icons">
+        people_outline
+      </span>
+
+      <h3>No customers found</h3>
+
+      <p>
+        There are no customers for this location.
+      </p>
+
+    </div>
+
+    <div class="pagination" *ngIf="
+        !loadingCustomers &&
+        totalPages > 0
+      ">
+
+      <button type="button" (click)="previousPage()" [disabled]="currentPage === 0">
+        Previous
+      </button>
+
+      <span>
+        Page {{ currentPage + 1 }}
+        of {{ totalPages }}
+      </span>
+
+      <button type="button" (click)="nextPage()" [disabled]="
+          currentPage >= totalPages - 1
+        ">
+        Next
+      </button>
+
+    </div>
+
+  </div>
+
+</div>

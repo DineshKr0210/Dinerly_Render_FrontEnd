@@ -1,0 +1,134 @@
+<app-dinerly-loader *ngIf="isLoading"></app-dinerly-loader>
+<div *ngIf="!isLoading">
+<div class="login-page" [ngClass]="isDarkMode ? 'dark-mode' : 'light-mode'">
+
+  <button class="theme-toggle" type="button" (click)="toggleTheme()">
+    <i class="fa-solid" [ngClass]="isDarkMode ? 'fa-sun' : 'fa-moon'"></i>
+  </button>
+
+  <div class="login-shell">
+
+    <!-- LEFT SIDE - GUEST WAITLIST -->
+    <section class="login-left">
+      <div class="brand-row">
+        <div class="brand-logo">
+          <img src="../../../assets/brand/dinerly-icon.png" alt="Dinerly Logo">
+        </div>
+        <h2>Dinerly</h2>
+      </div>
+
+      <div class="left-center">
+        <h1>
+          Ready to skip the<br>
+          wait?
+        </h1>
+
+        <p>
+          Join the waitlist in just a few seconds — no account, no app, no hassle.
+        </p>
+
+        <button type="button" class="join-btn" (click)="openModal('join')">
+          Join the Waitlist
+          <span>→</span>
+        </button>
+      </div>
+
+      <div class="left-bottom">
+        Already on the list?
+        <button type="button" (click)="openModal('status')">Check your status</button>
+      </div>
+    </section>
+
+    <!-- RIGHT SIDE - RESTAURANT / ADMIN LOGIN -->
+    <section class="login-right">
+
+      <div class="login-card">
+
+        <h1>Welcome Back.</h1>
+        <p class="subtitle">
+          Log in to your Dinerly account
+        </p>
+
+        
+
+        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+
+          <label>Email</label>
+          <div *ngIf="!isAdminLogin" class="input-box">
+            <input
+              type="email"
+              formControlName="email"
+              placeholder="Admin Email"
+            >
+          </div>
+
+          <div *ngIf="isAdminLogin" class="input-box">
+            <input
+              type="email"
+              formControlName="email"
+              placeholder="Restaurant Email"
+            >
+          </div>
+          <small class="error" *ngIf="emailError">{{ emailError }}</small>
+
+          <label>Password</label>
+          <div class="input-box password-box">
+            <input
+              [type]="showPassword ? 'text' : 'password'"
+              formControlName="password"
+            >
+
+            <button type="button" (click)="togglePassword()">
+              <i class="fa-regular" [ngClass]="showPassword ? 'fa-eye-slash' : 'fa-eye'"></i>
+            </button>
+          </div>
+          <small class="error" *ngIf="passwordError">{{ passwordError }}</small>
+
+          <!-- <button type="button" class="forgot-btn">
+            Forgot password?
+          </button> -->
+
+          <div class="error-box" *ngIf="errorMessage">
+            {{ errorMessage }}
+          </div>
+
+          <button class="login-btn" type="submit" [disabled]="isLoading">
+            {{ isLoading ? 'Logging in...' : 'Login' }}
+          </button>
+
+        </form>
+
+        <div class="staff-pill">
+          <i class="fa-regular fa-credit-card"></i>
+          For restaurant staff & owners
+        </div>
+
+        <div class="admin-link">
+          <button class="admin-btn" type="button" (click)="goToLogin()">
+            {{ isAdminLogin ? 'Admin Login' : 'Restaurant Login' }}
+          </button>
+        </div>
+
+      </div>
+
+    </section>
+
+  </div>
+</div>
+</div>
+
+
+
+<app-waitlist-modal
+  *ngIf="showModal"
+  [type]="modalType"
+  [restaurants]="restaurants"
+  [initialRestaurantId]="scannedRestaurantId"
+  [lockRestaurantSelection]="
+    isQrJoinRoute &&
+    scannedRestaurantId !== null
+  "
+  (closeModal)="closeModal()"
+  (joinedWaitlist)="onJoinedWaitlist($event)"
+>
+</app-waitlist-modal>

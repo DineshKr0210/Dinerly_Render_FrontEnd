@@ -1,0 +1,200 @@
+<div class="verify-email-page">
+
+  <div class="verify-card">
+
+    <div
+      class="verify-logo">
+
+      <img
+        src="assets/brand/dinerly-icon.png"
+        alt="Dinerly logo">
+
+    </div>
+
+
+    <!-- Loading -->
+
+    <ng-container
+      *ngIf="status === 'loading'">
+
+      <div class="loading-spinner">
+
+        <i
+          class="fa-solid
+                 fa-spinner
+                 fa-spin">
+        </i>
+
+      </div>
+
+      <h1>
+        Verifying your email
+      </h1>
+
+      <p>
+        Please wait while we activate
+        your Dinerly account.
+      </p>
+
+    </ng-container>
+
+
+    <!-- Success -->
+
+    <ng-container
+      *ngIf="status === 'success'">
+
+      <div class="status-icon success">
+
+        <i class="fa-solid fa-check"></i>
+
+      </div>
+
+      <h1>
+        Email verified
+      </h1>
+
+      <p>
+        Your email has been verified
+        successfully.
+      </p>
+
+      <p class="redirect-message">
+        Redirecting you to login...
+      </p>
+
+      <button
+        type="button"
+        class="login-button"
+        (click)="goToLogin()">
+
+        Go to login
+
+      </button>
+
+    </ng-container>
+
+
+    <!-- Error -->
+
+    <ng-container
+      *ngIf="status === 'error'">
+
+      <div class="status-icon error">
+
+        <i
+          class="fa-solid
+                 fa-xmark">
+        </i>
+
+      </div>
+
+      <h1>
+        Verification failed
+      </h1>
+
+      <p>
+        {{ message }}
+      </p>
+
+      <button
+        type="button"
+        class="login-button"
+        (click)="goToLogin()">
+
+        Go to login
+
+      </button>
+
+    </ng-container>
+
+  </div>
+
+
+  <!-- Popup message -->
+
+  <div
+    class="verification-popup-overlay"
+    *ngIf="showPopup">
+
+    <div
+      class="verification-popup"
+      [class.success-popup]="
+        status === 'success'
+      "
+      [class.error-popup]="
+        status === 'error'
+      ">
+
+      <button
+        type="button"
+        class="popup-close"
+        aria-label="Close"
+        (click)="closePopup()">
+
+        <i class="fa-solid fa-xmark"></i>
+
+      </button>
+
+
+      <div
+        class="popup-icon"
+        *ngIf="status === 'success'">
+
+        <i
+          class="fa-solid
+                 fa-circle-check">
+        </i>
+
+      </div>
+
+
+      <div
+        class="popup-icon"
+        *ngIf="status === 'error'">
+
+        <i
+          class="fa-solid
+                 fa-circle-exclamation">
+        </i>
+
+      </div>
+
+
+      <h2>
+        {{
+          status === 'success'
+            ? 'Email verified successfully'
+            : 'Verification failed'
+        }}
+      </h2>
+
+      <p>
+        {{ message }}
+      </p>
+
+
+      <p
+        class="popup-timer"
+        *ngIf="status === 'success'">
+
+        You will be redirected to login
+        in 3 seconds.
+
+      </p>
+
+
+      <button
+        type="button"
+        class="popup-login-button"
+        (click)="goToLogin()">
+
+        Continue to login
+
+      </button>
+
+    </div>
+
+  </div>
+
+</div>

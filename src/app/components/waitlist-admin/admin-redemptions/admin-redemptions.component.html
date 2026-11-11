@@ -1,0 +1,211 @@
+<div class="redemptions-page">
+  <div class="page-header">
+    <div>
+      <h1>Redemptions</h1>
+      <p>Every coupon and reward redeemed across your locations</p>
+    </div>
+  </div>
+
+  <div class="filters-row">
+    <div class="filter-select-wrapper location-filter">
+      <span class="material-icons filter-icon">location_on</span>
+      <select [(ngModel)]="selectedLocationId" (ngModelChange)="onLocationChange()" [disabled]="loadingLocations">
+        <option [ngValue]="null">All locations</option>
+        <option *ngFor="let location of locations" [ngValue]="location.id">
+          {{ location.name }}
+        </option>
+      </select>
+      <span class="material-icons dropdown-icon">expand_more</span>
+    </div>
+
+    <div class="datetime-filter">
+      <label for="fromDate">From</label>
+      <input id="fromDate" type="datetime-local" [(ngModel)]="fromDate" (ngModelChange)="onFromDateChange()"
+        [disabled]="loading" />
+    </div>
+
+    <div class="datetime-filter">
+      <label for="toDate">To</label>
+      <input id="toDate" type="datetime-local" [(ngModel)]="toDate" (ngModelChange)="onToDateChange()"
+        [disabled]="loading" />
+    </div>
+
+    <div class="status-tabs">
+      <button type="button" class="status-tab" [class.active]="selectedStatus === 'all'"
+        (click)="onStatusChange('all')">
+        All
+      </button>
+
+      <button type="button" class="status-tab" [class.active]="selectedStatus === 'coupons'"
+        (click)="onStatusChange('coupons')">
+        Coupons
+      </button>
+
+      <button type="button" class="status-tab" [class.active]="selectedStatus === 'rewards'"
+        (click)="onStatusChange('rewards')">
+        Rewards
+      </button>
+    </div>
+
+    <button type="button" class="export-button" (click)="exportCsv()" [disabled]="exporting || loading">
+      <span class="material-icons" *ngIf="!exporting">
+        download
+      </span>
+
+      <span class="export-spinner" *ngIf="exporting">
+      </span>
+
+      <span>
+        {{ exporting ? 'Exporting...' : 'Export' }}
+      </span>
+    </button>
+  </div>
+
+  <div class="error-message" *ngIf="errorMessage">
+    <span class="material-icons">error_outline</span>
+    <span>{{ errorMessage }}</span>
+  </div>
+
+  <div class="loading-container" *ngIf="loadingLocations">
+    <div class="spinner"></div>
+    <span>Loading locations...</span>
+  </div>
+
+  <div class="table-card" *ngIf="!loadingLocations">
+
+    <div class="loading-container table-loading" *ngIf="loading">
+      <div class="spinner"></div>
+      <span>Loading redemptions...</span>
+    </div>
+
+    <div class="table-wrapper" *ngIf="!loading && redemptions.length > 0">
+      <table>
+        <thead>
+          <tr>
+            <th>CODE</th>
+            <th>TYPE</th>
+            <th>ITEM</th>
+            <th>LOCATION</th>
+            <th>PHONE</th>
+            <th>REDEEMED</th>
+            <th>VALUE</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr *ngFor="let redemption of redemptions">
+            <td>
+              <span class="code-badge">
+                {{ getRedemptionCode(redemption) }}
+              </span>
+            </td>
+
+            <td>
+              <span *ngIf="redemption.type" class="type-badge"
+                [class.reward]="redemption.type === 'CAMPAIGN'"
+                [class.coupon]="redemption.type === 'OFFER'">
+                {{ getRedemptionTypeLabel(redemption.type) }}
+              </span>
+
+              <span *ngIf="!redemption.type" class="empty-value">
+                —
+              </span>
+            </td>
+
+            <td>
+              <span *ngIf="getRedemptionItem(redemption)">
+                {{ getRedemptionItem(redemption) }}
+              </span>
+
+              <span *ngIf="!getRedemptionItem(redemption)" class="empty-value">
+                —
+              </span>
+            </td>
+
+            <td>
+              <span *ngIf="redemption.location">
+                {{ redemption.location }}
+              </span>
+
+              <span *ngIf="!redemption.location">
+                {{ getSelectedLocationName() }}
+              </span>
+            </td>
+
+            <td>
+              <span *ngIf="redemption.guest">
+                {{ redemption.guest }}
+              </span>
+
+              <span *ngIf="!redemption.guest">
+                {{ redemption.mobileNumber }}
+              </span>
+            </td>
+
+            <td>
+              {{ formatRedeemedAt(redemption.redeemedAt) }}
+            </td>
+
+            <td>
+              <span *ngIf="
+                  redemption.value !== undefined &&
+                  redemption.value !== null
+                ">
+                {{ redemption.value }}
+              </span>
+
+              <span *ngIf="
+                  redemption.value === undefined ||
+                  redemption.value === null
+                " class="empty-value">
+                —
+              </span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="empty-state" *ngIf="
+        !loading &&
+        redemptions.length === 0 &&
+        !errorMessage
+      ">
+      <span class="material-icons">card_giftcard</span>
+      <h3>No redemptions found</h3>
+      <p>There are no redemptions for the selected filters.</p>
+    </div>
+  </div>
+
+  <div class="table-footer" *ngIf="
+      !loading &&
+      !loadingLocations &&
+      totalElements > 0
+    ">
+    <span>
+      Showing {{ startItem }} to {{ endItem }} of {{ totalElements }} redemptions
+    </span>
+
+    <div class="pagination">
+      <button type="button" class="page-btn arrow" [disabled]="currentPage === 0" (click)="prevPage()">
+        ‹
+      </button>
+
+      <button type="button" class="page-btn" *ngFor="let page of pages" [class.active]="currentPage === page"
+        (click)="goToPage(page)">
+        {{ page + 1 }}
+      </button>
+
+      <button type="button" class="page-btn arrow" [disabled]="currentPage === totalPages - 1" (click)="nextPage()">
+        ›
+      </button>
+
+      <input type="number" class="jump-input" placeholder="Page" [(ngModel)]="jumpPageInput" min="1" [max]="totalPages"
+        (keyup.enter)="jumpToPage()" />
+
+      <button type="button" class="page-btn go-btn" (click)="jumpToPage()">
+        Go
+      </button>
+    </div>
+  </div>
+</div>

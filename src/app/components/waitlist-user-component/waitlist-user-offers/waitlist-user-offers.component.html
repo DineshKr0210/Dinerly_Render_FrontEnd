@@ -1,0 +1,287 @@
+<section class="rewards-page">
+
+  <div class="rewards-hero">
+
+    <div>
+      <p>DINERLY OFFERS</p>
+
+      <h1>
+        Discover offers and save when you dine
+      </h1>
+
+      <span>
+        Find active restaurant offers and redeem
+        them directly from Dinerly.
+      </span>
+    </div>
+
+    <div class="offers-count-card">
+      <small>Available offers</small>
+
+      <strong>
+        {{ offers.length }}
+      </strong>
+
+      <span>Active offers</span>
+    </div>
+
+  </div>
+
+  <div class="message error-message" *ngIf="errorMessage">
+
+    <i class="fa-solid fa-circle-exclamation"></i>
+
+    {{ errorMessage }}
+
+  </div>
+
+  <div class="section-header">
+
+    <h2>
+      Available offers
+    </h2>
+
+  </div>
+
+  <div class="offers-grid offers-skeleton" *ngIf="isLoading">
+
+    <div class="offer-skeleton-card" *ngFor="let n of [1, 2, 3]">
+
+      <div class="skeleton skeleton-offer-image"></div>
+
+      <div class="offer-skeleton-body">
+
+        <div class="skeleton skeleton-line"></div>
+
+        <div class="skeleton skeleton-line short"></div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <div class="empty-state" *ngIf="
+      !isLoading &&
+      offers.length === 0 &&
+      !errorMessage
+    ">
+
+    <i class="fa-solid fa-tags"></i>
+
+    <h3>
+      No offers available
+    </h3>
+
+    <p>
+      There are currently no active offers.
+    </p>
+
+  </div>
+
+  <div class="offers-grid" *ngIf="
+      !isLoading &&
+      offers.length > 0
+    ">
+
+    <article class="offer-card" *ngFor="let offer of offers">
+
+      <div class="offer-image">
+
+        <img *ngIf="offer.photoUrl" [src]="offer.photoUrl" [alt]="offer.name" />
+
+        <div class="offer-image-placeholder" *ngIf="!offer.photoUrl">
+
+          <i class="fa-solid fa-tag"></i>
+
+        </div>
+
+        <span class="offer-status" *ngIf="offer.status">
+
+          {{ offer.status }}
+
+        </span>
+
+      </div>
+
+      <div class="offer-body">
+
+        <div class="offer-restaurant">
+          {{ offer.restaurantName }}
+        </div>
+
+        <h3>
+          {{ offer.name }}
+        </h3>
+
+        <div class="discount-label" *ngIf="
+            offer.discountLabel
+          ">
+
+          {{ offer.discountLabel }}
+
+        </div>
+
+        <p *ngIf="
+            offer.description
+          ">
+
+          {{ offer.description }}
+
+        </p>
+
+        <div class="offer-details">
+
+          <span>
+            <i class="fa-regular fa-calendar"></i>
+            Ends {{ formatDate(offer.endDate) }}
+          </span>
+
+        </div>
+
+        <button type="button" class="redeem-button" [disabled]="!offer.redeemable || isRedeeming(offer.id)"
+          (click)="redeemOffer(offer)">
+
+          <ng-container *ngIf="!isRedeeming(offer.id)">
+            {{ offer.redeemable ? 'Redeem offer' : 'Unavailable' }}
+          </ng-container>
+
+          <ng-container *ngIf="isRedeeming(offer.id)">
+            <i class="fa-solid fa-spinner fa-spin"></i>
+            Redeeming...
+          </ng-container>
+
+        </button>
+
+      </div>
+
+    </article>
+
+  </div>
+
+  <div class="pagination" *ngIf="
+      !isLoading &&
+      totalPages > 1
+    ">
+
+    <button type="button" (click)="previousPage()" [disabled]="currentPage === 0">
+
+      Previous
+
+    </button>
+
+    <span>
+      Page {{ currentPage + 1 }}
+      of {{ totalPages }}
+    </span>
+
+    <button type="button" (click)="nextPage()" [disabled]="
+        currentPage >= totalPages - 1
+      ">
+
+      Next
+
+    </button>
+
+  </div>
+
+  <section class="recently-redeemed" *ngIf="
+      recentlyRedeemed.length > 0
+    ">
+
+    <div class="section-header">
+
+      <h2>
+        Recently redeemed
+      </h2>
+
+    </div>
+
+    <div class="redeemed-list">
+
+      <article class="redeemed-card" *ngFor="
+          let redemption of recentlyRedeemed
+        ">
+
+        <div class="redeemed-icon">
+          <i class="fa-solid fa-ticket"></i>
+        </div>
+
+        <div class="redeemed-content">
+          <strong>{{ redemption.offerName }}</strong>
+          <span>Code: <b>{{ redemption.redemptionCode }}</b></span>
+          <small>Expires {{ formatDateTime(redemption.expiresAt) }}</small>
+        </div>
+
+
+        <button type="button" class="view-code-button" (click)="
+            selectedRedemption = redemption;
+            showRedeemPopup = true
+          ">
+
+          View code
+
+        </button>
+
+      </article>
+
+    </div>
+
+  </section>
+
+  <div class="redeem-modal-backdrop" *ngIf="showRedeemPopup" (click)="closeRedeemPopup()">
+
+    <div class="redeem-modal" (click)="$event.stopPropagation()">
+
+      <button type="button" class="modal-close" (click)="closeRedeemPopup()">
+
+        ×
+
+      </button>
+
+      <div class="success-icon">
+
+        <i class="fa-solid fa-check"></i>
+
+      </div>
+
+      <h2>
+        Offer redeemed successfully
+      </h2>
+
+      <p class="redeem-message">
+        You redeemed the offer and your code is:
+      </p>
+
+      <div class="redemption-offer-name">
+        {{ selectedRedemption?.offerName }}
+      </div>
+
+      <div class="redemption-code">
+        {{ selectedRedemption?.redemptionCode }}
+      </div>
+
+      <div class="redemption-qr" *ngIf="selectedRedemption?.qrCodeDataUri as qrCode">
+        <img [src]="qrCode" alt="Offer redemption QR code">
+        <p>Show this QR code to your server.</p>
+      </div>
+
+      <p class="code-instruction">
+        {{ selectedRedemption?.message }}
+      </p>
+
+      <div class="expiry">
+        Expires: {{ formatDateTime(selectedRedemption?.expiresAt || '') }}
+      </div>
+
+      <button type="button" class="close-modal-button" (click)="closeRedeemPopup()">
+
+        Close
+
+      </button>
+
+    </div>
+
+  </div>
+
+</section>

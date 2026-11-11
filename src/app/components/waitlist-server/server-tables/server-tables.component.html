@@ -1,0 +1,168 @@
+<div class="srv-page">
+
+  <div class="srv-page-head">
+
+    <div>
+      <h1>My tables</h1>
+      <p>Tables assigned to you right now</p>
+    </div>
+
+    <button
+      type="button"
+      class="srv-refresh-button"
+      [disabled]="isLoading"
+      (click)="load()">
+
+      <i class="fa-solid fa-rotate" [class.fa-spin]="isLoading"></i>
+      <span>Refresh</span>
+
+    </button>
+
+  </div>
+
+
+  <div class="srv-kpis" *ngIf="!isLoading && !hasError">
+
+    <div class="srv-kpi">
+      <span class="srv-kpi-icon">
+        <i class="fa-solid fa-table-cells"></i>
+      </span>
+      <div>
+        <small>Assigned tables</small>
+        <strong>{{ tables.length }}</strong>
+      </div>
+    </div>
+
+    <div class="srv-kpi">
+      <span class="srv-kpi-icon">
+        <i class="fa-solid fa-users"></i>
+      </span>
+      <div>
+        <small>Guests</small>
+        <strong>{{ guestCount }}</strong>
+      </div>
+    </div>
+
+  </div>
+
+
+  <!-- Loading -->
+  <div class="srv-grid" *ngIf="isLoading">
+    <div class="srv-card srv-card-skeleton" *ngFor="let n of [1, 2, 3]">
+      <div class="srv-skeleton srv-skeleton-line wide"></div>
+      <div class="srv-skeleton srv-skeleton-line"></div>
+      <div class="srv-skeleton srv-skeleton-block"></div>
+    </div>
+  </div>
+
+  <!-- Error -->
+  <div class="srv-state" *ngIf="!isLoading && hasError">
+    <i class="fa-solid fa-triangle-exclamation"></i>
+    <h2>Could not load your tables</h2>
+    <p>Check your connection and try again.</p>
+    <button type="button" class="srv-refresh-button" (click)="load()">
+      <i class="fa-solid fa-rotate"></i>
+      <span>Try again</span>
+    </button>
+  </div>
+
+  <!-- Empty -->
+  <div class="srv-state" *ngIf="!isLoading && !hasError && tables.length === 0">
+    <i class="fa-solid fa-mug-saucer"></i>
+    <h2>No tables assigned</h2>
+    <p>When a host assigns you a table, it will appear here.</p>
+  </div>
+
+  <!-- Assigned tables -->
+  <div class="srv-grid" *ngIf="!isLoading && !hasError && tables.length > 0">
+
+    <article
+      class="srv-card"
+      *ngFor="let table of tables; trackBy: trackByWaitlistId">
+
+      <header class="srv-card-head">
+
+        <div class="srv-table-name">
+          <span class="srv-table-badge">
+            <i class="fa-solid fa-table-cells"></i>
+          </span>
+          <div>
+            <strong>{{ table.tableName }}</strong>
+            <small>
+              {{ table.partySize }} {{ table.partySize === 1 ? 'guest' : 'guests' }}
+            </small>
+          </div>
+        </div>
+
+        <span class="srv-seated" *ngIf="table.seatedAt">
+          Seated {{ table.seatedAt | date: 'shortTime' }}
+        </span>
+
+      </header>
+
+      <dl class="srv-guest">
+
+        <div>
+          <dt>Guest</dt>
+          <dd>{{ table.guestName || '—' }}</dd>
+        </div>
+
+        <div *ngIf="table.preference">
+          <dt>Preference</dt>
+          <dd>{{ table.preference }}</dd>
+        </div>
+
+      </dl>
+
+      <div class="srv-note" *ngIf="table.notes">
+        <i class="fa-regular fa-note-sticky"></i>
+        <span>{{ table.notes }}</span>
+      </div>
+
+      <div class="srv-order">
+
+        <label [attr.for]="'order-notes-' + table.waitlistId">
+          Order notes
+        </label>
+
+        <textarea
+          [id]="'order-notes-' + table.waitlistId"
+          rows="3"
+          [maxlength]="orderNotesMax"
+          placeholder="Allergies, pace, what's been ordered…"
+          [(ngModel)]="drafts[table.waitlistId]"
+          [disabled]="saving[table.waitlistId]">
+        </textarea>
+
+        <div class="srv-order-foot">
+
+          <small>
+            {{ draftLength(table) }} / {{ orderNotesMax }}
+            <ng-container *ngIf="table.orderNotesUpdatedAt">
+              · Updated {{ table.orderNotesUpdatedAt | date: 'shortTime' }}
+            </ng-container>
+          </small>
+
+          <button
+            type="button"
+            class="srv-save-button"
+            [disabled]="!isDirty(table) || saving[table.waitlistId]"
+            (click)="saveNotes(table)">
+
+            <i
+              class="fa-solid"
+              [ngClass]="saving[table.waitlistId] ? 'fa-spinner fa-spin' : 'fa-floppy-disk'">
+            </i>
+            <span>{{ saving[table.waitlistId] ? 'Saving' : 'Save' }}</span>
+
+          </button>
+
+        </div>
+
+      </div>
+
+    </article>
+
+  </div>
+
+</div>

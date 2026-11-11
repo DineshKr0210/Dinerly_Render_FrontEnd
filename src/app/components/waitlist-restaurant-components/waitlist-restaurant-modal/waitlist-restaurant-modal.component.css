@@ -1,0 +1,444 @@
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+:host {
+  position: fixed;
+  inset: 0;
+  z-index: 999999;
+  pointer-events: none;
+}
+
+.restaurant-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(25, 15, 38, 0.48);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: auto;
+  z-index: 999999;
+}
+
+.restaurant-modal-container {
+  width: min(520px, 92vw);
+  background: white;
+  padding: 22px;
+  border-radius: 15px;
+  box-shadow: var(--shadow-lg);
+}
+
+
+
+@keyframes slideUp {
+  from {
+    transform: translateY(10px);
+    opacity: 0.8;
+  }
+
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 18px;
+}
+
+.modal-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: #292238;
+}
+
+.close-btn {
+  background: #f5f1fa;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  color: var(--text-muted);
+  padding: 6px;
+  display: flex;
+  align-items: center;
+  transition: color 0.15s, background 0.15s;
+
+  &:hover {
+    color: #292238;
+    background: #eee4ff;
+  }
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.form-col {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.form-label {
+  font-variant-numeric: tabular-nums;
+  font-size: 10px;
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
+.form-input,
+.form-select,
+.form-textarea {
+  border: 1px solid #e5ddec;
+  border-radius: 8px;
+  padding: 8px 10px;
+  font-size: 11px;
+  font-family: inherit;
+  color: #302938;
+  background: #ffffff;
+  transition: border-color 0.15s, background 0.15s;
+
+  &:focus {
+    outline: none;
+    border-color: #6421bd;
+    background: #fff;
+    box-shadow: 0 0 0 2px rgba(105, 32, 194, 0.1);
+  }
+
+  &.error {
+    border-color: #c73535;
+  }
+}
+
+.form-textarea {
+  resize: vertical;
+  line-height: 1.5;
+}
+
+.error-msg {
+  font-size: 10px;
+  color: #c73535;
+}
+
+.tags-section {
+  margin-bottom: 14px;
+
+  .form-label {
+    display: block;
+    margin-bottom: 7px;
+  }
+}
+
+.tags-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+
+.tag-btn {
+  padding: 5px 12px;
+  border-radius: 999px;
+  border: 1px solid #e5dfed;
+  font-size: 11px;
+  cursor: pointer;
+  background: #ffffff;
+  color: #5d5668;
+  font-family: inherit;
+  transition: all 0.15s;
+
+  &:hover {
+    background: #f6f1ff;
+    color: #6421bd;
+  }
+
+  &.selected {
+    background: #eee4ff;
+    color: #6421bd;
+    border-color: #6920c2;
+    font-weight: 600;
+  }
+}
+
+.modal-footer {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+  margin-top: 18px;
+  padding-top: 14px;
+  border-top: 1px solid #eeeaf4;
+}
+
+.btn-cancel {
+  background: #fff;
+  border: 1px solid #ddd5e7;
+  border-radius: 8px;
+  height: 38px;
+  padding: 0 16px;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  color: #5d5668;
+  font-family: inherit;
+  transition: background 0.15s;
+
+  &:hover {
+    background: #f8f4fd;
+  }
+}
+
+.btn-add {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  background: var(--brand-gradient);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  height: 38px;
+  padding: 0 18px;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 0.15s;
+
+  &:hover {
+    background: #551b8d;
+  }
+}
+
+.btn-load {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  background: var(--brand-gradient);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  height: 38px;
+  padding: 0 18px;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 0.15s;
+
+  &:hover {
+    background: #551b8d;
+  }
+}
+
+.time-options {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 10px;
+}
+
+.time-options button {
+  height: 40px;
+  border-radius: 8px;
+  border: 1px solid #e5dfed;
+  background: #ffffff;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.time-options button.active {
+  background: #6920c2;
+  color: #ffffff;
+  border-color: #6920c2;
+}
+
+/* =====================================================
+   RESTAURANT PHONE COUNTRY CODE FIELD
+===================================================== */
+
+.restaurant-phone-box {
+  width: 100%;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  border: 1px solid #e5ddec;
+  border-radius: 8px;
+  background: #ffffff;
+  transition:
+    border-color 0.15s,
+    background 0.15s,
+    box-shadow 0.15s;
+  box-sizing: border-box;
+}
+
+.restaurant-phone-box:focus-within {
+  border-color: #6421bd;
+  background: #ffffff;
+  box-shadow:
+    0 0 0 2px rgba(105, 32, 194, 0.1);
+}
+
+.restaurant-phone-box.error {
+  border-color: #c73535;
+}
+
+
+/* Country selector */
+
+.country-code-selector {
+  position: relative;
+  width: 62px;
+  min-width: 62px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.country-code-selector select {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 3;
+  border: none;
+  outline: none;
+  appearance: none;
+  background: transparent;
+  color: transparent;
+  cursor: pointer;
+}
+
+.country-code-selector select option {
+  color: #302938;
+  background: #ffffff;
+}
+
+.selected-country-flag {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  z-index: 1;
+  transform: translateY(-50%);
+  font-size: 17px;
+  line-height: 1;
+  pointer-events: none;
+}
+
+.country-chevron {
+  position: absolute;
+  right: 9px;
+  top: 50%;
+  z-index: 1;
+  transform: translateY(-50%);
+  color: #8a8193;
+  pointer-events: none;
+}
+
+
+/* Divider */
+
+.phone-field-divider {
+  width: 1px;
+  height: 20px;
+  flex-shrink: 0;
+  background: #e5dfed;
+}
+
+
+/* Selected dial code */
+
+.selected-dial-code {
+  flex-shrink: 0;
+  padding-left: 9px;
+  color: #302938;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+
+/* Phone input */
+
+.phone-number-input {
+  min-width: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+  outline: none;
+  padding: 0 9px 0 6px;
+  background: transparent;
+  color: #302938;
+  font-family: inherit;
+  font-size: 11px;
+  box-sizing: border-box;
+}
+
+.phone-number-input::placeholder {
+  color: #9a91a4;
+}
+
+
+/* Disabled submit button */
+
+.btn-add:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+
+/* Mobile responsive */
+
+@media (max-width: 600px) {
+
+  .restaurant-modal-backdrop {
+    align-items: flex-end;
+    padding: 10px;
+  }
+
+  .restaurant-modal-container {
+    width: 100%;
+    max-height: 94vh;
+    overflow-y: auto;
+    padding: 22px 18px;
+    border-radius: 22px 22px 14px 14px;
+  }
+
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+
+  .restaurant-phone-box {
+    height: 42px;
+  }
+
+  .country-code-selector {
+    width: 66px;
+    min-width: 66px;
+  }
+
+  .selected-country-flag {
+    font-size: 18px;
+  }
+
+  .selected-dial-code {
+    font-size: 13px;
+  }
+
+  .phone-number-input {
+    font-size: 16px;
+  }
+
+  .time-options {
+    grid-template-columns:
+      repeat(3, 1fr);
+  }
+}
