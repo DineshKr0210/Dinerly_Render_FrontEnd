@@ -64,7 +64,7 @@ export class WaitlistRestaurantComponentComponent
 
   isLoading = false;
 
-  isSidebarCollapsed = typeof window !== 'undefined' && window.innerWidth <= 767;
+  isSidebarCollapsed = false;
 
   showUserMenu = false;
   restaurantName = '';
@@ -135,11 +135,6 @@ export class WaitlistRestaurantComponentComponent
         .subscribe((event: NavigationEnd) => {
           this.setActiveRouteFromUrl(event.urlAfterRedirects);
           this.readSettingsTabFromUrl(event.urlAfterRedirects);
-
-          /* On phones, close the side menu after choosing a page. */
-          if (typeof window !== 'undefined' && window.innerWidth <= 767) {
-            this.isSidebarCollapsed = true;
-          }
         })
     );
 

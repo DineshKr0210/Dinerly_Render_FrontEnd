@@ -439,18 +439,3 @@
     display: none;
   }
 }
-
-/* Phones: stack the filters so nothing pushes the page wider than the screen */
-@media (max-width: 767px) {
-  .history-filters {
-    grid-template-columns: minmax(0, 1fr) !important;
-  }
-
-  .history-filters > * {
-    flex: 1 1 100% !important;
-    width: 100% !important;
-    min-width: 0 !important;
-    max-width: 100% !important;
-    box-sizing: border-box;
-  }
-}
