@@ -96,3 +96,89 @@ html:not([data-theme="dark"]) app-waitlist-admin .sidebar .settings-submenu butt
   gap: 10px;
   min-width: 0;
 }
+
+/* =========================================================
+   SIDEBAR TOGGLE PLACEMENT
+   Open state: button in the sidebar header (top-right).
+   Hidden state: round button at the bottom-left of the screen.
+   ========================================================= */
+
+.sidebar-header-toggle {
+  position: absolute;
+  top: 12px;
+  right: 10px;
+  z-index: 3;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.12);
+  color: #ffffff;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.sidebar-header-toggle:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* Guest sidebar header toggle (desktop only; phones use the navbar menu) */
+.guest-sidebar-toggle {
+  position: fixed;
+  top: 74px;
+  left: calc(var(--portal-sidebar-width) - 42px);
+  z-index: 1600;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.12);
+  color: #ffffff;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+@media (max-width: 1024px) {
+  .guest-sidebar-toggle {
+    display: none;
+  }
+}
+
+.app-wrapper.sidebar-hidden .guest-sidebar-toggle {
+  display: none;
+}
+
+/* Round show button, shown only while the sidebar is hidden */
+.sidebar-show-fab {
+  display: none;
+  position: fixed;
+  left: 16px;
+  bottom: 16px;
+  z-index: 1600;
+  width: 44px;
+  height: 44px;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  border-radius: 50%;
+  background: #5a3fb8;
+  color: #ffffff;
+  font-size: 15px;
+  box-shadow: 0 6px 18px rgba(40, 20, 70, 0.3);
+  cursor: pointer;
+}
+
+.sidebar-show-fab:hover {
+  background: #4b31a0;
+}
+
+.app-shell.sidebar-hidden .sidebar-show-fab,
+.app-wrapper.sidebar-hidden .sidebar-show-fab {
+  display: inline-flex;
+}

@@ -4,6 +4,11 @@
       : 'light-mode'
   ">
 
+  <button type="button" class="sidebar-show-fab" (click)="toggleMobileSidebar()"
+    aria-label="Show sidebar" title="Show sidebar">
+    <i class="fa-solid fa-bars"></i>
+  </button>
+
   <app-waitlist-navbar
   [isDarkMode]="isDarkMode"
   [mobileMenuOpen]="showMobileSidebar"
@@ -27,7 +32,12 @@
 
     <!-- SIDEBAR -->
 
-    <app-waitlist-user-sidebar class="guest-sidebar-component" [class.mobile-open]="
+    <button type="button" class="guest-sidebar-toggle" (click)="toggleMobileSidebar()"
+    aria-label="Hide sidebar" title="Hide sidebar">
+    <i class="fa-solid fa-bars"></i>
+  </button>
+
+  <app-waitlist-user-sidebar class="guest-sidebar-component" [class.mobile-open]="
 
         showMobileSidebar
 

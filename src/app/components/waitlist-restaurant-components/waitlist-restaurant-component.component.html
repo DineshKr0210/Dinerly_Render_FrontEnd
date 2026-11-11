@@ -2,6 +2,10 @@
 <app-dinerly-loader *ngIf="isLoading"></app-dinerly-loader>
 
 <div *ngIf="!isLoading" class="app-shell" [class.sidebar-collapsed]="isSidebarCollapsed" [class.sidebar-hidden]="isSidebarCollapsed" [class.waitlist-page]="activeRoute === 'waitlist'">
+  <button type="button" class="sidebar-show-fab" (click)="toggleSidebar()"
+    aria-label="Show sidebar" title="Show sidebar">
+    <i class="fa-solid fa-bars"></i>
+  </button>
 
   <!-- =====================================================
        TOP NAVBAR
@@ -9,15 +13,6 @@
   <header class="top-navbar">
 
     <div class="top-brand-group">
-
-        <button
-        type="button"
-          class="top-action-button sidebar-toggle-button"
-          (click)="toggleSidebar()"
-          [attr.aria-label]="isSidebarCollapsed ? 'Show sidebar' : 'Hide sidebar'"
-          [attr.title]="isSidebarCollapsed ? 'Show sidebar' : 'Hide sidebar'">
-          <i class="fa-solid fa-bars"></i>
-      </button>
       <button type="button" class="brand-toggle-button" (click)="toggleSidebar()" aria-label="Toggle sidebar">
         <div class="brand-logo">
           <img src="assets/brand/dinerly-icon.png" alt="Dinerly logo">
@@ -103,6 +98,10 @@
        SIDEBAR
        ===================================================== -->
   <aside class="sidebar" [class.sidebar-collapsed]="isSidebarCollapsed">
+    <button type="button" class="sidebar-header-toggle" (click)="toggleSidebar()"
+      [attr.aria-label]="isSidebarCollapsed ? 'Show sidebar' : 'Hide sidebar'" [attr.title]="isSidebarCollapsed ? 'Show sidebar' : 'Hide sidebar'">
+      <i class="fa-solid fa-bars"></i>
+    </button>
 
     <div class="sidebar-top">
 
