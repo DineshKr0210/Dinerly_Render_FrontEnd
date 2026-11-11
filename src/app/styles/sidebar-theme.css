@@ -133,9 +133,13 @@ html:not([data-theme="dark"]) app-waitlist-admin .sidebar .settings-submenu butt
   box-shadow: none;
 }
 
-/* Keep the restaurant name clear of the header toggle */
+/* Keep the restaurant name and its hover box clear of the header toggle */
 .sidebar .restaurant-section {
   padding-right: 46px;
+}
+
+.sidebar .restaurant-selector {
+  width: calc(100% - 46px) !important;
 }
 
 /* Guest sidebar header toggle (desktop only; phones use the navbar menu) */
