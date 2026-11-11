@@ -71,7 +71,7 @@
   z-index: 1500;
 
   display: block;
-  width: 224px;
+  width: var(--portal-sidebar-width);
 
   min-width: 0;
   overflow-x: hidden;
@@ -83,7 +83,7 @@
 
 .customer-main {
   min-width: 0;
-  margin-left: 224px;
+  margin-left: var(--portal-sidebar-width);
 
   padding: 24px 28px 32px;
 
@@ -1089,7 +1089,7 @@
     display: block;
 
     width: min(
-      260px,
+      var(--portal-sidebar-width),
       84vw
     );
 
@@ -1241,8 +1241,8 @@
 
   .guest-sidebar-component {
     width: min(
-      320px,
-      90vw
+      var(--portal-sidebar-width),
+      84vw
     );
   }
 
