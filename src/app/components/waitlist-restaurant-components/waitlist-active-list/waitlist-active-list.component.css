@@ -5521,3 +5521,26 @@
   }
 }
 
+
+/* Tablet guest cards: key facts in the summary, and breathing room
+   inside the container so cards no longer touch its edges. */
+.tablet-guest-facts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 14px;
+  margin-top: 4px;
+  font-size: 12px;
+  color: #6f6580;
+  min-width: 0;
+}
+
+.tablet-guest-facts span {
+  white-space: nowrap;
+}
+
+@media (max-width: 1024px) {
+  .waitlist-table-body:has(.tablet-guest-list),
+  .waitlist-table-body:has(.tablet-info-card-list) {
+    padding: 12px;
+  }
+}

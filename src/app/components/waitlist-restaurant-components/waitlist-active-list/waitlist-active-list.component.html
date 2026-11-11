@@ -356,7 +356,11 @@
                     {{ getStatusLabel(guest.status) }}
                   </span>
                 </div>
-                <span>Party Size: {{ guest.partySize }}</span>
+                <div class="tablet-guest-facts">
+                  <span>Party {{ guest.partySize }}</span>
+                  <span>{{ guest.estimatedWaitTime || 0 }} min</span>
+                  <span>{{ getPreferenceLabel(guest.preference) }}</span>
+                </div>
               </div>
             </div>
 
