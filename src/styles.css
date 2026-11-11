@@ -12,6 +12,7 @@
 @import 'app/styles/dark/surfaces.css';
 @import 'app/styles/sidebar-theme.css';
 @import 'app/styles/restaurant-density.css';
+@import 'app/styles/topnav-theme.css';
 
 :root {
   /* Shared sidebar width for every portal (Guest, Admin, Restaurant, Server). */
