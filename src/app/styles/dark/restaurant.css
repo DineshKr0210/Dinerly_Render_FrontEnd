@@ -2326,34 +2326,34 @@ html[data-theme="dark"] .country-code-selector select option {
   color: var(--dk-text);
 }
 
-/* Guest rows (Current Waitlist): name avatar in dark mode uses the neutral
-   brand tint instead of the bright status colours, and the name reads clearly. */
-html[data-theme="dark"] .guest-row .guest-avatar {
-  background: #2b2246 !important;
-  color: #c9b6ff !important;
-  box-shadow: inset 0 0 0 1px rgba(167, 139, 250, 0.35) !important;
+/* Guest rows (Current Waitlist): name avatar in dark mode is a muted tint of
+   the guest's status colour, with the status colour letter and a thin ring. */
+html[data-theme="dark"] .guest-row.status-waiting .guest-avatar {
+  background: rgba(233, 128, 16, 0.16) !important;
+  color: #fdba74 !important;
+  box-shadow: inset 0 0 0 1px rgba(253, 186, 116, 0.45) !important;
+}
+
+html[data-theme="dark"] .guest-row.status-notified .guest-avatar {
+  background: rgba(230, 185, 30, 0.16) !important;
+  color: #f7d46a !important;
+  box-shadow: inset 0 0 0 1px rgba(247, 212, 106, 0.45) !important;
+}
+
+html[data-theme="dark"] .guest-row.status-seated .guest-avatar {
+  background: rgba(21, 150, 83, 0.16) !important;
+  color: #6ee7b7 !important;
+  box-shadow: inset 0 0 0 1px rgba(110, 231, 183, 0.45) !important;
+}
+
+html[data-theme="dark"] .guest-row.status-cancelled .guest-avatar {
+  background: rgba(199, 53, 53, 0.16) !important;
+  color: #fca5a5 !important;
+  box-shadow: inset 0 0 0 1px rgba(252, 165, 165, 0.45) !important;
 }
 
 html[data-theme="dark"] .guest-row .guest-name-line strong {
   color: #f4f4f8 !important;
-}
-
-/* Notified guests and the Notify action: sky blue accent in dark mode */
-html[data-theme="dark"] .status-pill.notified {
-  background: rgba(56, 189, 248, 0.14) !important;
-  color: #7dd3fc !important;
-  border-color: rgba(56, 189, 248, 0.42) !important;
-}
-
-html[data-theme="dark"] .notify-action,
-html[data-theme="dark"] .mini-action-btn.notify {
-  background: rgba(56, 189, 248, 0.14) !important;
-  color: #7dd3fc !important;
-  border-color: rgba(56, 189, 248, 0.42) !important;
-}
-
-html[data-theme="dark"] .guest-row.status-notified::before {
-  background: #7dd3fc !important;
 }
 
 /* Add Guest modal: focused fields stayed white in dark mode (the component
