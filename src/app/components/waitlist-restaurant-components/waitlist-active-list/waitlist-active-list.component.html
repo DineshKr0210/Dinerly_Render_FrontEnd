@@ -286,7 +286,6 @@
             <span class="call-pill" *ngIf="getCallPill(guest) as pill" [ngClass]="['call-pill--' + pill.state, pill.tone === 'reject' ? 'call-pill--reject' : '']" aria-live="polite">
               <i class="call-pill-dot" *ngIf="pill.state !== 'answered' && pill.state !== 'fading'"></i>
               {{ pill.label }}
-              <i class="fa-solid fa-phone call-pill-phone" *ngIf="pill.state === 'answered' || pill.state === 'fading'"></i>
             </span>
 
             <button class="notify-action" type="button" *ngIf="guest.status === 'WAITING' && !isCallLive(guest)" (click)="notifyGuest(guest)">
@@ -368,7 +367,6 @@
                 <span class="call-pill" *ngIf="getCallPill(guest) as pill" [ngClass]="['call-pill--' + pill.state, pill.tone === 'reject' ? 'call-pill--reject' : '']" aria-live="polite">
                   <i class="call-pill-dot" *ngIf="pill.state !== 'answered' && pill.state !== 'fading'"></i>
               {{ pill.label }}
-              <i class="fa-solid fa-phone call-pill-phone" *ngIf="pill.state === 'answered' || pill.state === 'fading'"></i>
                 </span>
                 <button class="tablet-quick-btn notify" type="button" *ngIf="guest.status === 'WAITING' && !isCallLive(guest)"
                   (click)="notifyGuest(guest); $event.stopPropagation()">
