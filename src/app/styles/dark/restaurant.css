@@ -2366,3 +2366,19 @@ html[data-theme="dark"] .restaurant-select-box:focus-within,
 html[data-theme="dark"] .input-box:focus-within {
   background: var(--dk-sunken) !important;
 }
+
+/* Seat dialog and edit-table dialog: table choices were white in dark mode
+   (the component's own button rule outranks the dark rules above). */
+html[data-theme="dark"] .table-options button,
+html[data-theme="dark"] .edit-table-options button {
+  background: var(--dk-surface-2) !important;
+  border-color: var(--dk-border) !important;
+  color: var(--dk-text) !important;
+}
+
+html[data-theme="dark"] .table-options button.active,
+html[data-theme="dark"] .edit-table-options button.active {
+  background: #6920c2 !important;
+  border-color: #6920c2 !important;
+  color: #ffffff !important;
+}
