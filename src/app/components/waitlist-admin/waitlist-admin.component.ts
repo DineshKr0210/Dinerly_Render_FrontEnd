@@ -42,6 +42,13 @@ type SettingsTab =
 })
 export class WaitlistAdminComponent
   implements OnInit, OnDestroy {
+  /** Sidebar hidden with the navbar toggle (desktop). */
+  sidebarHidden = false;
+
+  toggleSidebarVisibility(): void {
+    this.sidebarHidden = !this.sidebarHidden;
+  }
+
 
   activeRoute = 'home';
 

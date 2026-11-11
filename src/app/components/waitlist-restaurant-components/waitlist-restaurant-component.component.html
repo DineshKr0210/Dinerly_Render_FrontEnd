@@ -1,7 +1,7 @@
 
 <app-dinerly-loader *ngIf="isLoading"></app-dinerly-loader>
 
-<div *ngIf="!isLoading" class="app-shell" [class.sidebar-collapsed]="isSidebarCollapsed" [class.waitlist-page]="activeRoute === 'waitlist'">
+<div *ngIf="!isLoading" class="app-shell" [class.sidebar-collapsed]="isSidebarCollapsed" [class.sidebar-hidden]="isSidebarCollapsed" [class.waitlist-page]="activeRoute === 'waitlist'">
 
   <!-- =====================================================
        TOP NAVBAR
@@ -28,6 +28,15 @@
     </div>
 
     <div class="top-actions">
+
+      <button
+        type="button"
+        class="top-action-button sidebar-toggle-button"
+        (click)="toggleSidebar()"
+        [attr.aria-label]="isSidebarCollapsed ? 'Show sidebar' : 'Hide sidebar'"
+        [attr.title]="isSidebarCollapsed ? 'Show sidebar' : 'Hide sidebar'">
+        <i class="fa-solid fa-bars"></i>
+      </button>
 
       <div class="admin-user-wrapper">
 

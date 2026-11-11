@@ -27,6 +27,13 @@ const UNREAD_POLL_MS = 30000;
   styleUrls: ['./waitlist-server.component.css']
 })
 export class WaitlistServerComponent implements OnInit, OnDestroy {
+  /** Sidebar hidden with the navbar toggle (desktop). */
+  sidebarHidden = false;
+
+  toggleSidebarVisibility(): void {
+    this.sidebarHidden = !this.sidebarHidden;
+  }
+
 
   activeRoute = 'tables';
 

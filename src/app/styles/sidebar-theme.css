@@ -65,3 +65,26 @@ html:not([data-theme="dark"]) app-waitlist-admin .sidebar .settings-submenu butt
 html:not([data-theme="dark"]) app-waitlist-admin .sidebar .settings-submenu button:hover {
   color: #ffffff;
 }
+
+/* =========================================================
+   SIDEBAR HIDE / SHOW
+   The portal root gets .sidebar-hidden from the navbar toggle.
+   The sidebar is removed and the content uses the full width.
+   ========================================================= */
+
+.app-shell.sidebar-hidden,
+.app-wrapper.sidebar-hidden {
+  --sidebar-width: 0px !important;
+  --portal-sidebar-width: 0px !important;
+}
+
+.app-shell.sidebar-hidden .sidebar,
+.app-wrapper.sidebar-hidden .guest-sidebar-component {
+  display: none !important;
+}
+
+@media (min-width: 1025px) {
+  .app-wrapper.sidebar-hidden .customer-main {
+    margin-left: 0 !important;
+  }
+}
