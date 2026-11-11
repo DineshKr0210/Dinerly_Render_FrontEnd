@@ -89,3 +89,9 @@ app-waitlist-restaurant-component .app-shell .guest-list .guest-row .action-cell
 app-waitlist-restaurant-component .app-shell .guest-list .guest-row .notify-action {
   left: 0;
 }
+
+/* Empty phone-button wrapper (Confirmed / Declined / Notify rows) must not
+   take a gap, so the check and cross buttons line up in every row. */
+app-waitlist-restaurant-component .app-shell .guest-list .guest-row .action-cell .contact-action-wrapper:empty {
+  display: none;
+}
