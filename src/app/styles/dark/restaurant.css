@@ -2403,3 +2403,16 @@ html[data-theme="dark"] app-waitlist-restaurant-component h1 + p,
 html[data-theme="dark"] app-waitlist-restaurant-component .page-header p {
   color: var(--dk-text-3);
 }
+
+/* Restaurant nav in dark mode: muted text like admin; active item uses the
+   admin's brand-soft fill and inset bar (no violet tint on every item). */
+html[data-theme="dark"] app-waitlist-restaurant-component .sidebar .nav-item:not(.active) {
+  background: transparent !important;
+  color: var(--dk-text-2) !important;
+}
+
+html[data-theme="dark"] app-waitlist-restaurant-component .sidebar .nav-item.active {
+  background: var(--dk-brand-soft) !important;
+  color: var(--dk-brand) !important;
+  box-shadow: inset 3px 0 0 var(--dk-brand) !important;
+}
