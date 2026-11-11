@@ -1,0 +1,153 @@
+<div class="statements-page">
+
+  <!-- PAGE HEADER -->
+
+  <div class="page-header">
+
+    <div>
+      <h1>Statements</h1>
+
+      <p>
+        Billing history and invoices for your Dinerly subscription
+      </p>
+    </div>
+
+  </div>
+
+
+  <!-- CURRENT PLAN -->
+
+  <div class="statement-card plan-card">
+
+    <div class="plan-left">
+
+      <span class="section-label">
+        Current plan
+      </span>
+
+      <h2>
+        {{ currentPlan }}
+      </h2>
+
+      <p>
+        {{ locationCount }} locations ·
+        Next bill {{ nextBillingDate }}
+      </p>
+
+    </div>
+
+    <div class="plan-price">
+      {{ monthlyPrice }}
+    </div>
+
+  </div>
+
+
+  <!-- PAYMENT METHOD -->
+
+  <div class="statement-card payment-card">
+
+    <div>
+
+      <span class="section-label">
+        Payment method
+      </span>
+
+      <strong>
+        {{ paymentMethod }}
+      </strong>
+
+    </div>
+
+    <button
+      type="button"
+      class="change-button"
+      (click)="changePaymentMethod()"
+    >
+      Change
+    </button>
+
+  </div>
+
+
+  <!-- INVOICE HISTORY -->
+
+  <div class="statement-card invoice-card">
+
+    <h2>
+      Invoice history
+    </h2>
+
+
+    <div class="invoice-table">
+
+      <!-- HEADER -->
+
+      <div class="invoice-row invoice-header">
+
+        <div>
+          Invoice
+        </div>
+
+        <div>
+          Date
+        </div>
+
+        <div>
+          Amount
+        </div>
+
+        <div>
+          Status
+        </div>
+
+        <div>
+        </div>
+
+      </div>
+
+
+      <!-- ROWS -->
+
+      <div
+        class="invoice-row"
+        *ngFor="let invoice of invoices"
+      >
+
+        <div class="invoice-id">
+          {{ invoice.id }}
+        </div>
+
+        <div>
+          {{ invoice.date }}
+        </div>
+
+        <div>
+          {{ invoice.amount }}
+        </div>
+
+        <div>
+          <span class="paid-status">
+            {{ invoice.status }}
+          </span>
+        </div>
+
+        <div>
+
+          <button
+            type="button"
+            class="download-button"
+            (click)="downloadInvoice(invoice)"
+          >
+            Download
+          </button>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>

@@ -1,0 +1,316 @@
+<div class="reviews-page">
+
+  <div class="page-header">
+    <div>
+      <h1>Reviews</h1>
+      <p>
+        Read and respond to guest reviews across your locations
+      </p>
+    </div>
+  </div>
+
+  <div class="filters-row">
+
+    <!-- <div class="filter-wrapper">
+      <select
+        class="filter-select"
+        [(ngModel)]="selectedLocationId"
+        (ngModelChange)="onLocationChange($event)"
+        [disabled]="
+          isLoadingLocations ||
+          locations.length === 0
+        "
+      >
+        <option
+          *ngFor="let location of locations"
+          [ngValue]="location.id"
+        >
+          {{ location.name }}
+        </option>
+      </select>
+    </div> -->
+
+    <button
+      type="button"
+      class="filter-chip"
+      [class.active]="selectedFilter === 'all'"
+      (click)="onFilterChange('all')"
+      [disabled]="loadingReviews"
+    >
+      All
+    </button>
+
+    <button
+      type="button"
+      class="filter-chip"
+      [class.active]="selectedFilter === 'needsReply'"
+      (click)="onFilterChange('needsReply')"
+      [disabled]="loadingReviews"
+    >
+      Needs reply
+    </button>
+
+    <button
+      type="button"
+      class="filter-chip"
+      [class.active]="selectedFilter === '5star'"
+      (click)="onFilterChange('5star')"
+      [disabled]="loadingReviews"
+    >
+      5 ★
+    </button>
+
+    <button
+      type="button"
+      class="filter-chip"
+      [class.active]="selectedFilter === '1starUnder'"
+      (click)="onFilterChange('1starUnder')"
+      [disabled]="loadingReviews"
+    >
+      1 ★ &amp; under
+    </button>
+
+  </div>
+
+  <div
+    class="message error-message"
+    *ngIf="errorMessage"
+  >
+    <span class="material-icons">
+      error_outline
+    </span>
+    {{ errorMessage }}
+  </div>
+
+  <div
+    class="message success-message"
+    *ngIf="successMessage"
+  >
+    <span class="material-icons">
+      check_circle
+    </span>
+    {{ successMessage }}
+  </div>
+
+  <div
+    class="summary-grid"
+    *ngIf="!loadingReviews"
+  >
+
+    <div class="summary-card">
+      <div class="summary-label">
+        Average rating
+      </div>
+      <div class="summary-value rating-value">
+        {{ averageRating | number:'1.1-1' }}
+        <span class="summary-star">★</span>
+      </div>
+    </div>
+
+    <div class="summary-card">
+      <div class="summary-label">
+        Total reviews
+      </div>
+      <div class="summary-value">
+        {{ totalElements | number }}
+      </div>
+    </div>
+
+    <div class="summary-card">
+      <div class="summary-label">
+        Needs reply
+      </div>
+      <div class="summary-value">
+        {{ needsReplyCount }}
+      </div>
+    </div>
+
+    <div class="summary-card">
+      <div class="summary-label">
+        Reply rate
+      </div>
+      <div class="summary-value">
+        {{ replyRate }}%
+      </div>
+    </div>
+
+  </div>
+
+  <div class="reviews-list">
+
+    <div
+      class="loading"
+      *ngIf="loadingReviews"
+    >
+      <div class="spinner"></div>
+      <span>Loading reviews...</span>
+    </div>
+
+    <div
+      class="review-card"
+      *ngFor="
+        let review of filteredReviews;
+        trackBy: trackByReviewId
+      "
+    >
+
+      <div class="review-top">
+
+        <div class="reviewer-section">
+
+          <div class="reviewer-avatar">
+            {{ review.guest.charAt(0) || '?' }}
+          </div>
+
+          <div class="reviewer-info">
+
+            <div class="guest-name">
+              {{ review.guest }}
+            </div>
+
+            <div class="review-meta">
+              <span>
+                {{ review.location }}
+              </span>
+
+              <span
+                class="meta-separator"
+                *ngIf="review.createdAt"
+              >
+                ·
+              </span>
+
+              <span *ngIf="review.createdAt">
+                {{ formatReviewDate(review.createdAt) }}
+              </span>
+            </div>
+
+          </div>
+
+        </div>
+
+        <div class="rating">
+          <span
+            *ngFor="let star of getStars(review.rating)"
+            [class.empty-star]="star === '☆'"
+          >
+            {{ star }}
+          </span>
+        </div>
+
+      </div>
+
+      <div class="review-text">
+        {{ review.review }}
+      </div>
+
+      <div
+        class="existing-reply"
+        *ngIf="
+          review.reply &&
+          review.reply.trim()
+        "
+      >
+        <div class="reply-label">
+          Your reply
+        </div>
+
+        <div class="reply-text">
+          {{ review.reply }}
+        </div>
+      </div>
+
+      <div class="reply-section">
+
+        <div class="reply-label">
+          REPLY AS BROTHERS CAFE
+        </div>
+
+        <textarea
+          [(ngModel)]="replyTexts[review.id]"
+          [placeholder]="
+            review.reply
+              ? 'Update your reply...'
+              : 'Thank the guest and address their feedback...'
+          "
+          [disabled]="isReplying(review.id)"
+          rows="2"
+        ></textarea>
+
+        <button
+          type="button"
+          class="reply-button"
+          (click)="postReply(review)"
+          [disabled]="
+            isReplying(review.id) ||
+            !replyTexts[review.id].trim()
+          "
+        >
+          <span *ngIf="!isReplying(review.id)">
+            {{ review.reply ? 'Update reply' : 'Post reply' }}
+          </span>
+
+          <span *ngIf="isReplying(review.id)">
+            Posting...
+          </span>
+        </button>
+
+      </div>
+
+    </div>
+
+    <div
+      class="empty-state"
+      *ngIf="
+        !loadingReviews &&
+        filteredReviews.length === 0 &&
+        !errorMessage
+      "
+    >
+      <span class="material-icons">
+        rate_review
+      </span>
+
+      <h3>No reviews found</h3>
+
+      <p>
+        No reviews match the selected filters.
+      </p>
+    </div>
+
+  </div>
+
+  <div
+    class="pagination"
+    *ngIf="
+      !loadingReviews &&
+      filteredReviews.length > 0 &&
+      totalPages > 1
+    "
+  >
+
+    <button
+      type="button"
+      class="pagination-button"
+      (click)="previousPage()"
+      [disabled]="currentPage === 0"
+    >
+      Previous
+    </button>
+
+    <span class="pagination-info">
+      Page {{ getCurrentPageDisplay() }} of {{ totalPages }}
+    </span>
+
+    <button
+      type="button"
+      class="pagination-button"
+      (click)="nextPage()"
+      [disabled]="currentPage + 1 >= totalPages"
+    >
+      Next
+    </button>
+
+  </div>
+
+</div>

@@ -1,0 +1,539 @@
+<div class="rewards-page">
+  <header class="page-header">
+    <h1>Rewards program</h1>
+    <p>Configure tiers, earning rules, and the redemption catalog — applies across all locations</p>
+  </header>
+
+  <div class="toast success-toast" *ngIf="successMessage">
+    <span class="toast-icon">✓</span>
+    <span>{{ successMessage }}</span>
+  </div>
+
+  <div class="toast error-toast" *ngIf="errorMessage">
+    <span class="toast-icon">!</span>
+    <span>{{ errorMessage }}</span>
+  </div>
+
+  <section class="tiers-section">
+    <h2 class="section-title">Tiers</h2>
+
+    <div class="loading-state" *ngIf="isTiersLoading">
+      Loading reward tiers...
+    </div>
+
+    <div class="empty-state" *ngIf="!isTiersLoading && !tiers.length">
+      No reward tiers found.
+    </div>
+
+    <div class="tiers-grid" *ngIf="!isTiersLoading && tiers.length">
+      <div class="tier-card" *ngFor="let tier of tiers">
+        <div class="tier-top-line" [class.gold]="tier.name.toLowerCase() === 'gold'"
+          [class.platinum]="tier.name.toLowerCase() === 'platinum'"
+          [class.silver]="tier.name.toLowerCase() === 'silver'">
+        </div>
+
+        <h3>{{ tier.name }}</h3>
+
+        <div class="tier-points">
+          {{ (tier.pointsThreshold ?? tier.points) | number }} points
+        </div>
+
+        <div class="tier-divider"></div>
+
+        <div class="tier-perk">
+          <ng-container *ngIf="tier.perks.length; else noTierPerks">
+            {{ tier.perks.join(', ') }}
+          </ng-container>
+
+          <ng-template #noTierPerks>
+            No perks configured
+          </ng-template>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="ways-section">
+    <div class="section-header">
+      <h2 class="section-title">Ways to earn</h2>
+
+      <button
+        type="button"
+        class="outline-action-button"
+        (click)="openAddWayToEarn()">
+        + Add rule
+      </button>
+    </div>
+
+    <div class="loading-state" *ngIf="isWaysLoading">
+      Loading earning rules...
+    </div>
+
+    <div class="empty-state" *ngIf="!isWaysLoading && !waysToEarn.length">
+      No earning rules found.
+    </div>
+
+    <div class="earning-list" *ngIf="!isWaysLoading && waysToEarn.length">
+      <div class="earning-row" *ngFor="let earning of waysToEarn">
+        <div class="earning-name">
+          {{ earning.action }}
+        </div>
+
+        <div class="earning-points">
+          +{{ earning.pointsValue | number }} pts
+        </div>
+
+        <button
+          type="button"
+          class="icon-button"
+          aria-label="Edit earning rule"
+          (click)="editWayToEarn(earning)"
+          [disabled]="isSavingWay">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M4 20h4L19.5 8.5a2.1 2.1 0 0 0-3-3L5 17v3z"></path>
+            <path d="M14.5 7.5l2 2"></path>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <section class="catalog-section">
+    <div class="section-header">
+      <h2 class="section-title">Redemption catalog</h2>
+
+      <button
+        type="button"
+        class="outline-action-button"
+        (click)="openAddReward()"
+        [disabled]="!selectedLocationId">
+        + Add reward
+      </button>
+    </div>
+
+    <div class="loading-state" *ngIf="isRewardItemsLoading">
+      Loading rewards...
+    </div>
+
+    <div class="empty-state" *ngIf="!isRewardItemsLoading && !rewardItems.length">
+      No rewards found for this restaurant.
+    </div>
+
+    <div
+      class="reward-list"
+      *ngIf="!isRewardItemsLoading && rewardItems.length">
+
+      <div
+        class="reward-row"
+        *ngFor="let item of rewardItems">
+
+        <div class="reward-icon">
+          {{ item.icon || '🎁' }}
+        </div>
+
+        <div class="reward-info">
+          <div class="reward-title">
+            {{ item.title }}
+          </div>
+
+          <div class="reward-description">
+            {{ item.description }}
+          </div>
+        </div>
+
+        <div class="reward-points">
+          {{ item.pointsCost | number }} pts
+        </div>
+
+        <div class="reward-actions">
+          <button
+            type="button"
+            class="icon-button"
+            aria-label="Edit reward"
+            (click)="editReward(item)"
+            [disabled]="isSavingRewardItem || isDeletingRewardItem">
+
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M4 20h4L19.5 8.5a2.1 2.1 0 0 0-3-3L5 17v3z"></path>
+              <path d="M14.5 7.5l2 2"></path>
+            </svg>
+          </button>
+
+          <button
+            type="button"
+            class="icon-button delete-icon-button"
+            aria-label="Delete reward"
+            (click)="openDeleteRewardModal(item)"
+            [disabled]="isSavingRewardItem || isDeletingRewardItem">
+
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M4 7h16"></path>
+              <path d="M9 7V4h6v3"></path>
+              <path d="M7 7l1 13h8l1-13"></path>
+              <path d="M10 11v5"></path>
+              <path d="M14 11v5"></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div
+    class="modal-backdrop"
+    *ngIf="showAddWayModal"
+    (click)="closeAddWayModal()">
+
+    <div
+      class="reward-modal"
+      (click)="$event.stopPropagation()">
+
+      <div class="modal-header">
+        <div>
+          <h2>Add earning rule</h2>
+          <p>Create a new way for customers to earn points</p>
+        </div>
+
+        <button
+          type="button"
+          class="close-button"
+          (click)="closeAddWayModal()">
+          ×
+        </button>
+      </div>
+
+      <form
+        [formGroup]="wayToEarnForm"
+        (ngSubmit)="createWayToEarn()">
+
+        <div class="form-group">
+          <label>Label *</label>
+          <input
+            type="text"
+            formControlName="action"
+            placeholder="Example: Join the waitlist">
+
+          <span
+            class="field-error"
+            *ngIf="isWayInvalid('action')">
+            Label is required.
+          </span>
+        </div>
+
+        <div class="form-group">
+          <label>Points value *</label>
+          <input
+            type="number"
+            min="0"
+            formControlName="pointsValue"
+            placeholder="Example: 10">
+
+          <span
+            class="field-error"
+            *ngIf="isWayInvalid('pointsValue')">
+            Please enter a valid points value.
+          </span>
+        </div>
+
+        <div class="form-group">
+          <label>Description</label>
+          <textarea
+            formControlName="description"
+            rows="3"
+            placeholder="Example: Earn points when joining the waitlist">
+          </textarea>
+        </div>
+        <div class="modal-actions">
+          <button
+            type="button"
+            class="cancel-button"
+            (click)="closeAddWayModal()"
+            [disabled]="isSavingWay">
+            Cancel
+          </button>
+
+          <button
+            type="submit"
+            class="save-button"
+            [disabled]="isSavingWay">
+            {{ isSavingWay ? 'Creating...' : 'Add rule' }}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div
+    class="modal-backdrop"
+    *ngIf="showEditWayModal"
+    (click)="closeEditWayModal()">
+
+    <div
+      class="reward-modal"
+      (click)="$event.stopPropagation()">
+
+      <div class="modal-header">
+        <div>
+          <h2>Edit earning rule</h2>
+          <p>Update the earning rule configuration</p>
+        </div>
+
+        <button
+          type="button"
+          class="close-button"
+          (click)="closeEditWayModal()">
+          ×
+        </button>
+      </div>
+
+      <form
+        [formGroup]="wayToEarnForm"
+        (ngSubmit)="saveWayToEarn()">
+
+        <div class="form-group">
+          <label>Label *</label>
+          <input
+            type="text"
+            formControlName="action"
+            placeholder="Example: Join the waitlist">
+
+          <span
+            class="field-error"
+            *ngIf="isWayInvalid('action')">
+            Action is required.
+          </span>
+        </div>
+
+        <div class="form-group">
+          <label>Points value *</label>
+          <input
+            type="number"
+            min="0"
+            formControlName="pointsValue">
+
+          <span
+            class="field-error"
+            *ngIf="isWayInvalid('pointsValue')">
+            Please enter a valid points value.
+          </span>
+        </div>
+
+        <div class="form-group">
+          <label>Description</label>
+          <textarea
+            formControlName="description"
+            rows="3">
+          </textarea>
+        </div>
+
+        <div class="checkbox-group">
+          <label class="checkbox-label">
+            <input
+              type="checkbox"
+              formControlName="clickable">
+            <span>Clickable</span>
+          </label>
+        </div>
+
+        <div class="form-group">
+          <label>Image URL</label>
+          <input
+            type="text"
+            formControlName="imageurl">
+        </div>
+
+        <div class="modal-actions">
+          <button
+            type="button"
+            class="cancel-button"
+            (click)="closeEditWayModal()"
+            [disabled]="isSavingWay">
+            Cancel
+          </button>
+
+          <button
+            type="submit"
+            class="save-button"
+            [disabled]="isSavingWay">
+            {{ isSavingWay ? 'Saving...' : 'Save changes' }}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div
+    class="modal-backdrop"
+    *ngIf="showRewardModal"
+    (click)="closeRewardModal()">
+
+    <div
+      class="reward-modal"
+      (click)="$event.stopPropagation()">
+
+      <div class="modal-header">
+        <div>
+          <h2>
+            {{ isRewardEditMode ? 'Edit reward' : 'Add reward' }}
+          </h2>
+
+          <p>
+            {{ isRewardEditMode
+              ? 'Update the redemption reward'
+              : 'Create a new redemption reward' }}
+          </p>
+        </div>
+
+        <button
+          type="button"
+          class="close-button"
+          (click)="closeRewardModal()">
+          ×
+        </button>
+      </div>
+
+      <form
+        [formGroup]="rewardItemForm"
+        (ngSubmit)="saveRewardItem()">
+
+        <div class="form-group">
+          <label>Title *</label>
+          <input
+            type="text"
+            formControlName="title"
+            placeholder="Example: Free Coffee">
+
+          <span
+            class="field-error"
+            *ngIf="isRewardInvalid('title')">
+            Title is required.
+          </span>
+        </div>
+
+        <div class="form-group">
+          <label>Description *</label>
+          <textarea
+            formControlName="description"
+            rows="3"
+            placeholder="Example: Any size, any blend">
+          </textarea>
+
+          <span
+            class="field-error"
+            *ngIf="isRewardInvalid('description')">
+            Description is required.
+          </span>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Points *</label>
+            <input
+              type="number"
+              min="0"
+              formControlName="pointsCost">
+
+            <span
+              class="field-error"
+              *ngIf="isRewardInvalid('pointsCost')">
+              Enter a valid points value.
+            </span>
+          </div>
+
+          <div class="form-group">
+            <label>Category *</label>
+            <input
+              type="text"
+              formControlName="category"
+              placeholder="beverage">
+
+            <span
+              class="field-error"
+              *ngIf="isRewardInvalid('category')">
+              Category is required.
+            </span>
+          </div>
+        </div>
+
+        <div class="checkbox-group">
+          <label class="checkbox-label">
+            <input
+              type="checkbox"
+              formControlName="available">
+            <span>Available for redemption</span>
+          </label>
+        </div>
+
+        <div class="selected-location-info" *ngIf="selectedLocation">
+          Restaurant:
+          <strong>{{ selectedLocation.name }}</strong>
+        </div>
+
+        <div class="modal-actions">
+          <button
+            type="button"
+            class="cancel-button"
+            (click)="closeRewardModal()"
+            [disabled]="isSavingRewardItem">
+            Cancel
+          </button>
+
+          <button
+            type="submit"
+            class="save-button"
+            [disabled]="isSavingRewardItem">
+            {{
+              isSavingRewardItem
+                ? (isRewardEditMode ? 'Saving...' : 'Adding...')
+                : (isRewardEditMode ? 'Save changes' : 'Add reward')
+            }}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div
+    class="modal-backdrop"
+    *ngIf="showDeleteRewardModal"
+    (click)="closeDeleteRewardModal()">
+
+    <div
+      class="confirmation-modal"
+      (click)="$event.stopPropagation()">
+
+      <div class="confirmation-icon">
+        !
+      </div>
+
+      <h2>Delete reward?</h2>
+
+      <p>
+        Are you sure you want to delete
+        <strong>{{ deleteRewardTarget?.title }}</strong>?
+      </p>
+
+      <p class="confirmation-warning">
+        This reward will be removed from the redemption catalog.
+      </p>
+
+      <div class="confirmation-actions">
+        <button
+          type="button"
+          class="cancel-button"
+          (click)="closeDeleteRewardModal()"
+          [disabled]="isDeletingRewardItem">
+          Cancel
+        </button>
+
+        <button
+          type="button"
+          class="confirm-delete-button"
+          (click)="confirmDeleteReward()"
+          [disabled]="isDeletingRewardItem">
+          {{ isDeletingRewardItem ? 'Deleting...' : 'Delete' }}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

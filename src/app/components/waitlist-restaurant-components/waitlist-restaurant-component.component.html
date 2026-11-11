@@ -1,0 +1,292 @@
+
+<app-dinerly-loader *ngIf="isLoading"></app-dinerly-loader>
+
+<div *ngIf="!isLoading" class="app-shell" [class.sidebar-collapsed]="isSidebarCollapsed" [class.waitlist-page]="activeRoute === 'waitlist'">
+
+  <!-- =====================================================
+       TOP NAVBAR
+       ===================================================== -->
+  <header class="top-navbar">
+
+    <button type="button" class="brand-toggle-button" (click)="toggleSidebar()" aria-label="Toggle sidebar">
+      <div class="brand-logo">
+        <img src="assets/brand/dinerly-icon.png" alt="Dinerly logo">
+      </div>
+
+      <span class="brand-name">
+        Dinerly
+      </span>
+
+      <span class="brand-badge">
+        RESTAURANT
+      </span>
+    </button>
+
+    <div class="top-search">
+      <i class="fa-solid fa-magnifying-glass"></i>
+      <input type="text" placeholder="Search guests, phone number or notes..." aria-label="Search guests" />
+    </div>
+
+    <div class="top-actions">
+
+      <div class="admin-user-wrapper">
+
+        <button
+          type="button"
+          class="top-action-button user-button"
+          (click)="toggleUserMenu(); $event.stopPropagation()">
+
+          <i class="fa-regular fa-user"></i>
+
+        </button>
+
+        <div
+          class="admin-user-menu"
+          *ngIf="showUserMenu"
+          (click)="$event.stopPropagation()">
+
+          <div class="admin-user-menu-header">
+
+            <div class="admin-user-avatar">
+              <i class="fa-regular fa-user"></i>
+            </div>
+
+            <div>
+              <strong>
+                Restaurant
+              </strong>
+
+              <span>
+                Restaurant account
+              </span>
+            </div>
+
+          </div>
+
+          <div class="admin-user-menu-divider"></div>
+
+          <button
+            type="button"
+            class="admin-logout-button"
+            (click)="logoutFromMenu($event)">
+
+            <i class="fa-solid fa-arrow-right-from-bracket"></i>
+
+            <span>
+              Logout
+            </span>
+
+          </button>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </header>
+
+
+  <!-- =====================================================
+       SIDEBAR
+       ===================================================== -->
+  <aside class="sidebar" [class.sidebar-collapsed]="isSidebarCollapsed">
+
+    <div class="sidebar-top">
+
+      <div class="restaurant-section">
+
+        <div class="restaurant-selector">
+
+          <span class="restaurant-logo">
+            {{ restaurantInitial }}
+          </span>
+
+          <span class="restaurant-info">
+
+            <strong>
+              {{ restaurantName || 'Restaurant' }}
+            </strong>
+
+            <small>
+              Waitlist manager
+            </small>
+
+          </span>
+
+        </div>
+
+      </div>
+
+      <nav class="sidebar-nav">
+
+        <button
+          type="button"
+          class="nav-item"
+          [class.active]="activeRoute === 'waitlist'"
+          (click)="navigate('waitlist')">
+
+          <i class="fa-solid fa-users nav-icon"></i>
+
+          <span class="nav-label">
+            Waitlist
+          </span>
+
+          <span class="nav-badge" *ngIf="guestCount">
+            {{ guestCount }}
+          </span>
+
+        </button>
+
+        <button
+          type="button"
+          class="nav-item"
+          [class.active]="activeRoute === 'tables'"
+          (click)="navigate('tables')">
+
+          <i class="fa-solid fa-table-cells nav-icon"></i>
+
+          <span class="nav-label">
+            Tables
+          </span>
+
+        </button>
+
+        <button
+          type="button"
+          class="nav-item"
+          [class.active]="activeRoute === 'history'"
+          (click)="navigate('history')">
+
+          <i class="fa-solid fa-clock-rotate-left nav-icon"></i>
+
+          <span class="nav-label">
+            History
+          </span>
+
+        </button>
+
+        <button
+          type="button"
+          class="nav-item"
+          [class.active]="activeRoute === 'offer-redeem'"
+          (click)="navigate('offer-redeem')">
+
+          <i class="fa-solid fa-ticket nav-icon"></i>
+
+          <span class="nav-label">
+            Offer Redeem
+          </span>
+
+        </button>
+
+        <button
+          type="button"
+          class="nav-item"
+          [class.active]="activeRoute === 'settings'"
+          (click)="toggleSettingsMenu()">
+
+          <i class="fa-solid fa-gear nav-icon"></i>
+
+          <span class="nav-label">
+            Settings
+          </span>
+
+          <i
+            class="fa-solid fa-chevron-down settings-arrow"
+            [class.open]="showSettingsMenu">
+          </i>
+
+        </button>
+
+        <div class="settings-submenu" [class.open]="showSettingsMenu">
+
+          <button
+            type="button"
+            [class.active]="activeSettingsTab === 'profile'"
+            (click)="openSettingsTab('profile')">
+            Profile
+          </button>
+
+          <button
+            type="button"
+            [class.active]="activeSettingsTab === 'notification'"
+            (click)="openSettingsTab('notification')">
+            Notification
+          </button>
+
+          <button
+            type="button"
+            [class.active]="activeSettingsTab === 'waitlist'"
+            (click)="openSettingsTab('waitlist')">
+            Waitlist settings
+          </button>
+
+          <button
+            type="button"
+            [class.active]="activeSettingsTab === 'tables'"
+            (click)="openSettingsTab('tables')">
+            Tables
+          </button>
+
+          <button
+            type="button"
+            [class.active]="activeSettingsTab === 'holiday'"
+            (click)="openSettingsTab('holiday')">
+            Holiday hours
+          </button>
+
+          <button
+            type="button"
+            [class.active]="activeSettingsTab === 'advanced'"
+            (click)="openSettingsTab('advanced')">
+            Advanced setting
+          </button>
+
+        </div>
+
+        <button
+          type="button"
+          class="nav-item"
+          [class.active]="activeRoute === 'help'"
+          (click)="navigate('help')">
+
+          <i class="fa-solid fa-circle-question nav-icon"></i>
+
+          <span>
+            Help
+          </span>
+
+        </button>
+
+      </nav>
+
+    </div>
+
+  </aside>
+
+
+  <main class="main-content">
+
+    <!-- Mobile settings tabs (the sidebar submenu is hidden on small screens) -->
+    <div class="tablet-settings-tabs" *ngIf="activeRoute === 'settings'">
+
+      <button
+        *ngFor="let tab of settingsTabs"
+        type="button"
+        [class.active]="activeSettingsTab === tab.value"
+        (click)="openSettingsTab(tab.value)">
+        {{ tab.label }}
+      </button>
+
+    </div>
+
+    <router-outlet></router-outlet>
+
+  </main>
+
+</div>
+
+<app-waitlist-restaurant-modal></app-waitlist-restaurant-modal>
+
+<app-session-timeout></app-session-timeout>

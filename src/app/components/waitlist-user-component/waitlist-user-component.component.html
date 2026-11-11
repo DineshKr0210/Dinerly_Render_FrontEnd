@@ -1,0 +1,388 @@
+<div class="app-wrapper" [ngClass]="
+    isDarkMode
+      ? 'dark-mode'
+      : 'light-mode'
+  ">
+
+  <app-waitlist-navbar
+  [isDarkMode]="isDarkMode"
+  [mobileMenuOpen]="showMobileSidebar"
+  [activeTab]="activeTab"
+  [waitlistGuest]="waitlistGuest"
+  [customerAccount]="customerAccount"
+  [restaurant]="restaurant"
+  [hasWaitlistAccess]="hasWaitlistAccess"
+  [hasAccountAccess]="hasAccountAccess"
+  (themeToggle)="toggleTheme()"
+  (mobileMenuToggle)="toggleMobileSidebar()"
+  (tabChange)="onNavbarTabChange($event)"
+  (accountLogin)="openAccountLoginPopup()"
+  (accountLogout)="logoutCustomerAccount()"
+  (waitlistLogout)="logoutWaitlistGuest()">
+</app-waitlist-navbar>
+
+  <div class="mobile-sidebar-backdrop" *ngIf="showMobileSidebar" (click)="closeMobileSidebar()"></div>
+
+  <div class="customer-shell">
+
+    <!-- SIDEBAR -->
+
+    <app-waitlist-user-sidebar class="guest-sidebar-component" [class.mobile-open]="
+
+        showMobileSidebar
+
+      " [activeTab]="activeTab" [hasWaitlistAccess]="hasWaitlistAccess" [hasAccountAccess]="hasAccountAccess"
+      [customerAccount]="customerAccount" [restaurant]="restaurant" (tabChange)="onSidebarTabChange($event)"
+      (accountLogin)="
+
+        closeMobileSidebar();
+
+        openAccountLoginPopup()
+
+      " (accountLogout)="
+
+        closeMobileSidebar();
+
+        logoutCustomerAccount()
+
+      ">
+
+    </app-waitlist-user-sidebar>
+
+
+    <main class="customer-main">
+
+      <!-- HOME -->
+
+      <app-waitlist-user-home *ngIf="activeTab === 'HOME'" [waitlistGuest]="waitlistGuest"
+        [customerAccount]="customerAccount" [hasWaitlistAccess]="hasWaitlistAccess"
+        [hasAccountAccess]="hasAccountAccess" [cancelledGuest]="cancelledGuest"
+        [restoreRequestSent]="restoreRequestSent" (tabChange)="changeTab($event)"
+        (accountLogin)="openAccountLoginPopup()" (guestJoined)="onGuestJoined($event)"
+        (restoreRequested)="onRestoreRequested($event)">
+      </app-waitlist-user-home>
+
+
+      <!-- WAITLIST -->
+
+      <ng-container *ngIf="
+          activeTab === 'WAITLIST' &&
+          hasWaitlistAccess
+        ">
+
+        <app-waitlist-user-hero [guest]="waitlistGuest" [customerAccount]="customerAccount"
+          [hasWaitlistAccess]="hasWaitlistAccess" [hasAccountAccess]="hasAccountAccess"
+          (accountLogin)="openAccountLoginPopup()" (logout)="logoutWaitlistGuest()">
+        </app-waitlist-user-hero>
+
+
+        <app-waitlist-waiting-screen [guest]="waitlistGuest" (leaveSuccess)="onLeaveSuccess($event)">
+        </app-waitlist-waiting-screen>
+
+      </ng-container>
+
+
+      <!-- FOOD / MENU -->
+
+      <app-waitlist-user-menu *ngIf="
+          activeTab === 'MENU' &&
+          canAccessAccountFeatures
+        " [isActive]="activeTab === 'MENU'">
+      </app-waitlist-user-menu>
+
+
+      <!-- REWARDS -->
+
+      <app-waitlist-user-discounts *ngIf="
+          activeTab === 'REWARDS' &&
+          canAccessAccountFeatures
+        ">
+      </app-waitlist-user-discounts>
+
+
+      <!-- OFFERS -->
+
+      <app-waitlist-user-offers *ngIf="
+          activeTab === 'OFFERS' &&
+          canAccessAccountFeatures
+        ">
+      </app-waitlist-user-offers>
+
+      <!-- REVIEWS -->
+
+      <app-waitlist-user-review *ngIf="
+          activeTab === 'REVIEWS' &&
+          hasWaitlistAccess
+        ">
+      </app-waitlist-user-review>
+
+      <!-- MY PROFILE -->
+      <section class="customer-profile-page" *ngIf="
+    activeTab === 'PROFILE' &&
+    hasAccountAccess &&
+    customerAccount
+  ">
+
+        <div class="profile-page-header">
+
+          <div>
+            <p class="profile-page-eyebrow">
+              DINERLY ACCOUNT
+            </p>
+
+            <h1>My Profile</h1>
+
+            <p>
+              View your personal and account information.
+            </p>
+          </div>
+
+          <div class="profile-header-avatar">
+            {{ getCustomerInitial() }}
+          </div>
+
+        </div>
+
+
+        <div class="profile-details-card">
+
+          <div class="profile-card-heading">
+            <div>
+              <h2>Personal information</h2>
+
+              <p>
+                Your account details are shown below.
+              </p>
+            </div>
+
+            <button type="button" class="edit-profile-button" (click)="editCustomerProfile()">
+              <i class="fa-regular fa-pen-to-square"></i>
+              Edit profile
+            </button>
+          </div>
+
+
+          <div class="profile-details-grid">
+
+            <!-- NAME -->
+            <div class="profile-detail-item">
+
+              <div class="profile-detail-icon">
+                <i class="fa-regular fa-user"></i>
+              </div>
+
+              <div>
+                <span>Full name</span>
+
+                <strong>
+                  {{ customerAccount.name || 'Not provided' }}
+                </strong>
+              </div>
+
+            </div>
+
+
+            <!-- EMAIL -->
+            <div class="profile-detail-item">
+
+              <div class="profile-detail-icon">
+                <i class="fa-regular fa-envelope"></i>
+              </div>
+
+              <div>
+                <span>Email address</span>
+
+                <strong>
+                  {{ customerAccount.email || 'Not provided' }}
+                </strong>
+              </div>
+
+            </div>
+
+
+            <!-- PHONE -->
+            <div class="profile-detail-item">
+
+              <div class="profile-detail-icon">
+                <i class="fa-solid fa-phone"></i>
+              </div>
+
+              <div>
+                <span>Phone number</span>
+
+                <strong>
+                  {{ customerAccount.phone || 'Not provided' }}
+                </strong>
+              </div>
+
+            </div>
+
+
+            <!-- ADDRESS -->
+            <div class="profile-detail-item">
+
+              <div class="profile-detail-icon">
+                <i class="fa-solid fa-location-dot"></i>
+              </div>
+
+              <div>
+                <span>Address</span>
+
+                <strong>
+                  {{ 'Not provided' }}
+                </strong>
+              </div>
+
+            </div>
+
+          </div>
+
+
+          <div class="profile-actions">
+
+            <button type="button" class="profile-logout-button" (click)="logoutCustomerAccount()">
+              <i class="fa-solid fa-arrow-right-from-bracket"></i>
+              Logout
+            </button>
+
+          </div>
+
+        </div>
+
+      </section>
+
+    </main>
+
+  </div>
+
+</div>
+
+
+<!-- =====================================================
+     WAITLIST ACCESS POPUP
+====================================================== -->
+
+<div class="access-backdrop" *ngIf="showWaitlistAccessPopup" (click)="closeWaitlistAccessPopup()">
+
+  <div class="access-popup" (click)="$event.stopPropagation()">
+
+    <button class="access-close" type="button" (click)="closeWaitlistAccessPopup()">
+
+      ✕
+
+    </button>
+
+
+    <div class="access-icon">
+
+      <i class="fa-solid
+               fa-mobile-screen">
+      </i>
+
+    </div>
+
+
+    <h2>
+      Join or check your waitlist
+    </h2>
+
+
+    <p>
+      You need an active waitlist before
+      accessing food, offers and rewards.
+      Enter your mobile number from the Home
+      page to join or check your waitlist.
+    </p>
+
+
+    <button type="button" class="access-btn" (click)="
+        closeWaitlistAccessPopup();
+        changeTab('HOME')
+      ">
+
+      Go to Home
+
+    </button>
+
+  </div>
+
+</div>
+
+
+<!-- =====================================================
+     EMAIL LOGIN POPUP
+====================================================== -->
+
+<div class="access-backdrop" *ngIf="showAccountLoginPopup" (click)="closeAccountLoginPopup()">
+
+  <div class="account-login-popup" (click)="$event.stopPropagation()">
+
+    <button class="access-close" type="button" (click)="closeAccountLoginPopup()">
+
+      ✕
+
+    </button>
+
+
+    <app-guest-account-login (loginSuccess)="
+        onAccountLoginSuccess($event)
+      " (cancel)="
+        closeAccountLoginPopup()
+      ">
+    </app-guest-account-login>
+
+  </div>
+
+</div>
+
+
+<!-- =====================================================
+     CANCELLED POPUP
+====================================================== -->
+
+<div class="access-backdrop" *ngIf="showCancelledPopup" (click)="closeCancelledPopup()">
+
+  <div class="access-popup cancelled-popup" (click)="$event.stopPropagation()">
+
+    <button class="access-close" type="button" (click)="closeCancelledPopup()">
+
+      ✕
+
+    </button>
+
+
+    <div class="access-icon cancelled-icon">
+
+      <i class="fa-solid
+               fa-circle-xmark">
+      </i>
+
+    </div>
+
+
+    <h2>
+      Your waitlist was cancelled
+    </h2>
+
+
+    <p>
+      Your previous waitlist request was
+      cancelled. Food, offers and rewards
+      are unavailable until you join an
+      active waitlist again.
+    </p>
+
+
+    <button type="button" class="access-btn" (click)="
+        closeCancelledPopup();
+        changeTab('HOME')
+      ">
+
+      Join again
+
+    </button>
+
+  </div>
+
+</div>
+

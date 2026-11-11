@@ -1,0 +1,591 @@
+<div class="login-panel">
+
+
+
+  <!-- =====================================================
+       LOGO
+  ====================================================== -->
+
+  <div class="login-logo">
+
+    <i class="fa-solid fa-play"></i>
+
+  </div>
+
+
+  <!-- =====================================================
+       LOGIN MODE
+  ====================================================== -->
+
+  <ng-container *ngIf="mode === 'login'">
+
+    <p class="eyebrow">
+      DINERLY ACCOUNT
+    </p>
+
+    <h2>Welcome back</h2>
+
+    <p class="login-description">
+      Login with your email to access food,
+      offers and rewards.
+    </p>
+
+
+    <form [formGroup]="loginForm" (ngSubmit)="submitLogin()">
+
+
+      <!-- Email -->
+
+      <div class="form-field">
+
+        <label for="customerEmail">
+          Email address
+        </label>
+
+        <div class="input-wrapper">
+
+          <i class="fa-regular fa-envelope"></i>
+
+          <input id="customerEmail" type="email" formControlName="email" placeholder="you@example.com"
+            autocomplete="email">
+
+        </div>
+
+        <small class="field-error" *ngIf="
+            emailControl.touched &&
+            emailControl.hasError('required')
+          ">
+
+          Email address is required.
+
+        </small>
+
+        <small class="field-error" *ngIf="
+            emailControl.touched &&
+            !emailControl.hasError('required') &&
+            emailControl.hasError('email')
+          ">
+
+          Enter a valid email address.
+
+        </small>
+
+      </div>
+
+
+      <!-- Password -->
+
+      <div class="form-field">
+
+        <label for="customerPassword">
+          Password
+        </label>
+
+        <div class="input-wrapper">
+
+          <i class="fa-solid fa-lock"></i>
+
+          <input id="customerPassword" [type]="
+              showPassword
+                ? 'text'
+                : 'password'
+            " formControlName="password" placeholder="Enter your password" autocomplete="current-password">
+
+          <button type="button" class="password-toggle" aria-label="Show or hide password" (click)="
+              showPassword = !showPassword
+            ">
+
+            <i class="fa-regular" [ngClass]="
+                showPassword
+                  ? 'fa-eye-slash'
+                  : 'fa-eye'
+              ">
+            </i>
+
+          </button>
+
+        </div>
+
+        <small class="field-error" *ngIf="
+            passwordControl.touched &&
+            passwordControl.hasError('required')
+          ">
+
+          Password is required.
+
+        </small>
+
+        <small class="field-error" *ngIf="
+            passwordControl.touched &&
+            !passwordControl.hasError('required') &&
+            passwordControl.hasError('minlength')
+          ">
+
+          Password must contain at least
+          six characters.
+
+        </small>
+
+      </div>
+
+
+      <!-- Error -->
+
+      <div class="login-error" *ngIf="errorMessage">
+
+        <i class="fa-solid
+                 fa-circle-exclamation">
+        </i>
+
+        {{ errorMessage }}
+
+      </div>
+
+
+      <!-- Success -->
+
+      <div class="login-success" *ngIf="successMessage">
+
+        <i class="fa-solid fa-circle-check"></i>
+
+        {{ successMessage }}
+
+      </div>
+
+
+      <!-- Login button -->
+
+      <button type="submit" class="login-submit-btn" [disabled]="isSubmitting">
+
+        <i class="fa-solid" [ngClass]="
+            isSubmitting
+              ? 'fa-spinner fa-spin'
+              : 'fa-arrow-right-to-bracket'
+          ">
+        </i>
+
+        {{
+        isSubmitting
+        ? 'Logging in...'
+        : 'Login with email'
+        }}
+
+      </button>
+
+    </form>
+
+
+    <div class="login-separator">
+
+      <span></span>
+
+      <p>New to Dinerly?</p>
+
+      <span></span>
+
+    </div>
+
+
+    <button type="button" class="create-account-btn" [disabled]="isSubmitting" (click)="showRegister()">
+
+      Create an account
+
+    </button>
+
+
+    <p class="waitlist-note">
+      You do not need an email account to
+      join or check your waitlist.
+    </p>
+
+  </ng-container>
+
+
+  <!-- =====================================================
+       REGISTER MODE
+  ====================================================== -->
+
+  <ng-container *ngIf="mode === 'register'">
+
+    <p class="eyebrow">
+      CREATE DINERLY ACCOUNT
+    </p>
+
+    <h2>
+
+      {{
+
+      registrationCompleted
+
+      ? 'Check your email'
+
+      : 'Create your account'
+
+      }}
+
+    </h2>
+
+    <p class="login-description" *ngIf="!registrationCompleted">
+
+      Register to access food, offers,
+
+      rewards and your account history.
+
+    </p>
+
+
+    <form *ngIf="!successMessage" [formGroup]="registerForm" (ngSubmit)="submitRegister()">
+
+
+      <!-- Name -->
+
+      <div class="form-field">
+
+        <label for="registerName">
+          Full name
+        </label>
+
+        <div class="input-wrapper">
+
+          <i class="fa-regular fa-user"></i>
+
+          <input id="registerName" type="text" formControlName="name" placeholder="Enter your full name"
+            autocomplete="name">
+
+        </div>
+
+        <small class="field-error" *ngIf="
+            registerNameControl.touched &&
+            registerNameControl.hasError(
+              'required'
+            )
+          ">
+
+          Full name is required.
+
+        </small>
+
+        <small class="field-error" *ngIf="
+            registerNameControl.touched &&
+            !registerNameControl.hasError(
+              'required'
+            ) &&
+            registerNameControl.hasError(
+              'minlength'
+            )
+          ">
+
+          Name must contain at least
+          two characters.
+
+        </small>
+
+      </div>
+
+
+      <!-- Email -->
+
+      <div class="form-field">
+
+        <label for="registerEmail">
+          Email address
+        </label>
+
+        <div class="input-wrapper">
+
+          <i class="fa-regular fa-envelope"></i>
+
+          <input id="registerEmail" type="email" formControlName="email" placeholder="you@example.com"
+            autocomplete="email">
+
+        </div>
+
+        <small class="field-error" *ngIf="
+            registerEmailControl.touched &&
+            registerEmailControl.hasError(
+              'required'
+            )
+          ">
+
+          Email address is required.
+
+        </small>
+
+        <small class="field-error" *ngIf="
+            registerEmailControl.touched &&
+            !registerEmailControl.hasError(
+              'required'
+            ) &&
+            registerEmailControl.hasError(
+              'email'
+            )
+          ">
+
+          Enter a valid email address.
+
+        </small>
+
+      </div>
+
+
+      <!-- Phone -->
+
+      <div class="form-field">
+
+        <label for="registerPhone">
+          Phone number
+        </label>
+
+        <div class="input-wrapper">
+
+          <i class="fa-solid fa-phone"></i>
+
+          <input id="registerPhone" type="tel" formControlName="phone" placeholder="+14165551234" autocomplete="tel">
+
+        </div>
+
+        <small class="field-error" *ngIf="
+            registerPhoneControl.touched &&
+            registerPhoneControl.hasError(
+              'required'
+            )
+          ">
+
+          Phone number is required.
+
+        </small>
+
+        <small class="field-error" *ngIf="
+            registerPhoneControl.touched &&
+            !registerPhoneControl.hasError(
+              'required'
+            ) &&
+            registerPhoneControl.hasError(
+              'pattern'
+            )
+          ">
+
+          Enter a valid phone number with
+          10 to 15 digits.
+
+        </small>
+
+      </div>
+
+
+      <!-- Password -->
+
+      <div class="form-field">
+
+        <label for="registerPassword">
+          Password
+        </label>
+
+        <div class="input-wrapper">
+
+          <i class="fa-solid fa-lock"></i>
+
+          <input id="registerPassword" [type]="
+              showPassword
+                ? 'text'
+                : 'password'
+            " formControlName="password" placeholder="Create a password" autocomplete="new-password">
+
+          <button type="button" class="password-toggle" aria-label="Show or hide password" (click)="
+              showPassword = !showPassword
+            ">
+
+            <i class="fa-regular" [ngClass]="
+                showPassword
+                  ? 'fa-eye-slash'
+                  : 'fa-eye'
+              ">
+            </i>
+
+          </button>
+
+        </div>
+
+        <small class="field-error" *ngIf="
+            registerPasswordControl.touched &&
+            registerPasswordControl.hasError(
+              'required'
+            )
+          ">
+
+          Password is required.
+
+        </small>
+
+        <small class="field-error" *ngIf="
+            registerPasswordControl.touched &&
+            !registerPasswordControl.hasError(
+              'required'
+            ) &&
+            registerPasswordControl.hasError(
+              'minlength'
+            )
+          ">
+
+          Password must contain at least
+          six characters.
+
+        </small>
+
+      </div>
+
+
+      <!-- Confirm password -->
+
+      <div class="form-field">
+
+        <label for="confirmPassword">
+          Confirm password
+        </label>
+
+        <div class="input-wrapper">
+
+          <i class="fa-solid fa-lock"></i>
+
+          <input id="confirmPassword" [type]="
+              showConfirmPassword
+                ? 'text'
+                : 'password'
+            " formControlName="confirmPassword" placeholder="Confirm your password" autocomplete="new-password">
+
+          <button type="button" class="password-toggle" aria-label="Show or hide password" (click)="
+              showConfirmPassword =
+                !showConfirmPassword
+            ">
+
+            <i class="fa-regular" [ngClass]="
+                showConfirmPassword
+                  ? 'fa-eye-slash'
+                  : 'fa-eye'
+              ">
+            </i>
+
+          </button>
+
+        </div>
+
+        <small class="field-error" *ngIf="
+            confirmPasswordControl.touched &&
+            confirmPasswordControl.hasError(
+              'required'
+            )
+          ">
+
+          Confirm password is required.
+
+        </small>
+
+        <small class="field-error" *ngIf="
+            confirmPasswordControl.touched &&
+            confirmPasswordControl.hasError(
+              'passwordMismatch'
+            )
+          ">
+
+          Password and confirm password
+          do not match.
+
+        </small>
+
+      </div>
+
+
+      <!-- Error -->
+
+      <div class="login-error" *ngIf="errorMessage">
+
+        <i class="fa-solid
+                 fa-circle-exclamation">
+        </i>
+
+        {{ errorMessage }}
+
+      </div>
+
+
+
+
+
+      <!-- Register button -->
+
+      <button type="submit" class="login-submit-btn" [disabled]="isSubmitting">
+
+        <i class="fa-solid" [ngClass]="
+            isSubmitting
+              ? 'fa-spinner fa-spin'
+              : 'fa-user-plus'
+          ">
+        </i>
+
+        {{
+        isSubmitting
+        ? 'Creating account...'
+        : 'Create account'
+        }}
+
+      </button>
+
+    </form>
+    <!-- Success -->
+
+    <div class="verification-message" *ngIf="registrationCompleted">
+
+      <div class="verification-icon">
+
+        <i class="fa-regular fa-envelope"></i>
+
+      </div>
+
+      <div class="verification-content">
+
+        <strong>
+          Please verify your email
+        </strong>
+
+        <p>
+          We sent a verification link to:
+        </p>
+
+        <p class="verification-email">
+          {{ registrationEmail }}
+        </p>
+
+        <p>
+          Open your email and click the
+          verification link to activate your
+          Dinerly account.
+        </p>
+
+      </div>
+
+    </div>
+
+
+    <ng-container *ngIf="!registrationCompleted">
+
+      <div class="login-separator">
+
+        <span></span>
+
+        <p>Already have an account?</p>
+
+        <span></span>
+
+      </div>
+
+      <button type="button" class="create-account-btn" [disabled]="isSubmitting" (click)="showLogin()">
+
+        Back to login
+
+      </button>
+
+    </ng-container>
+
+  </ng-container>
+
+</div>

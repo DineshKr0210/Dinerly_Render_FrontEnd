@@ -1,0 +1,555 @@
+<div class="home-page">
+
+  <header class="home-topbar">
+
+    <div class="location-pill">
+      <i class="fa-solid fa-location-dot"></i>
+      <span>Downtown</span>
+    </div>
+
+    <div class="restaurant-search">
+
+      <i class="fa-solid fa-magnifying-glass"></i>
+
+      <input type="text" [(ngModel)]="searchText" (input)="onSearchChange()"
+        placeholder="Search restaurants, dishes, cuisines" aria-label="Search restaurants, dishes and cuisines" />
+
+      <button type="button" class="clear-search" *ngIf="searchText" (click)="clearSearch()" aria-label="Clear search">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+
+    </div>
+
+    <button type="button" class="profile-button" (click)="!hasAccountAccess && loginWithEmail()">
+      <i class="fa-regular fa-user"></i>
+    </button>
+
+  </header>
+
+  <section class="home-hero">
+
+    <div class="hero-content">
+
+      <div class="hero-brand">
+
+        <img src="assets/brand/dinerly-icon.png" style="width: 20px; height: 20px;" alt="Dinerly Logo">
+
+
+        Dinerly
+      </div>
+
+      <h1>
+        More than a waitlist.
+        It’s where you wait, earn,
+        and eat — all in one place.
+      </h1>
+
+      <p>
+        Collect points, discover restaurants
+        and enjoy member-only offers.
+      </p>
+
+      <button type="button" (click)="openTab('WAITLIST')">
+        {{
+        hasWaitlistAccess
+        ? 'View my waitlist'
+        : 'Join the waitlist'
+        }}
+      </button>
+
+    </div>
+
+    <div class="hero-restaurants" *ngIf="filteredRestaurants.length > 0">
+
+      <div class="hero-restaurant-item" *ngFor="
+          let restaurant of filteredRestaurants.slice(0, 4)
+        ">
+
+        <div class="mini-logo" [ngClass]="restaurant.imageClass">
+          {{ restaurant.name.charAt(0) }}
+        </div>
+
+        <div>
+
+          <strong>
+            {{ restaurant.name }}
+          </strong>
+
+          <span>
+            {{
+            restaurant.waitTime > 0
+            ? restaurant.waitTime + ' min'
+            : 'No wait'
+            }}
+          </span>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+  <app-waitlist-user-action *ngIf="!hasWaitlistAccess" [cancelledGuest]="cancelledGuest"
+    [restoreRequestSent]="restoreRequestSent" (guestJoined)="onGuestJoined($event)"
+    (restoreRequested)="onRestoreRequested($event)">
+  </app-waitlist-user-action>
+
+  <section class="home-section">
+
+    <div class="section-heading">
+
+      <h2>
+        Deals near you
+      </h2>
+
+      <button type="button" (click)="
+          hasAccountAccess
+            ? openTab('OFFERS')
+            : loginWithEmail()
+        ">
+        {{
+        hasAccountAccess
+        ? 'Show all offers'
+        : 'Login to grab your offers'
+        }}
+      </button>
+
+    </div>
+
+    <div class="login-offers-card" *ngIf="!hasAccountAccess">
+
+      <div class="login-offers-icon">
+        <i class="fa-solid fa-gift"></i>
+      </div>
+
+      <div class="login-offers-content">
+
+        <h3>
+          Login to grab your offers
+        </h3>
+
+        <p>
+          Sign in with your email to discover
+          member-only restaurant offers and rewards.
+        </p>
+
+      </div>
+
+      <button type="button" (click)="loginWithEmail()">
+        Login with email
+      </button>
+
+    </div>
+
+    <ng-container *ngIf="hasAccountAccess">
+
+      <div class="featured-deals" *ngIf="isLoadingOffers">
+        <div class="skeleton skeleton-deal" *ngFor="let n of [1, 2]"></div>
+      </div>
+
+      <div class="error-state" *ngIf="
+          !isLoadingOffers &&
+          offerErrorMessage
+        ">
+        {{ offerErrorMessage }}
+      </div>
+
+      <div class="empty-state" *ngIf="
+          !isLoadingOffers &&
+          !offerErrorMessage &&
+          homeOffers.length === 0
+        ">
+        <i class="fa-solid fa-tags"></i>
+        <h3>No active offers available.</h3>
+      </div>
+
+      <div class="featured-deals" *ngIf="homeOffers.length > 0">
+
+        <article class="featured-deal" *ngFor="
+            let offer of homeOffers;
+            let i = index
+          " [ngClass]="
+            i % 2 === 0
+              ? 'offer-gold'
+              : 'offer-purple'
+          ">
+
+          <div>
+
+            <small>
+              {{ offer.restaurantName }}
+            </small>
+
+            <h3>
+              {{ offer.name }}
+            </h3>
+
+            <p>
+              {{
+              offer.value > 0
+              ? offer.value + '% OFF'
+              : 'Special offer available'
+              }}
+            </p>
+
+            <button type="button" (click)="openTab('OFFERS')">
+              View offer
+            </button>
+
+          </div>
+
+          <div class="deal-plate">
+            <span></span>
+          </div>
+
+        </article>
+
+      </div>
+
+    </ng-container>
+
+  </section>
+
+  <!-- <section class="home-section">
+
+    <div class="section-heading">
+
+      <h2>
+        Restaurants near you
+      </h2>
+
+      <button type="button" (click)="loadRestaurantDetails()">
+        See all
+      </button>
+
+    </div>
+
+    <div class="restaurant-logo-row" *ngIf="isLoadingRestaurants">
+      <div class="restaurant-logo-card" *ngFor="let n of [1, 2, 3, 4, 5, 6]">
+        <div class="skeleton skeleton-logo"></div>
+        <div class="skeleton skeleton-line"></div>
+        <div class="skeleton skeleton-line short"></div>
+      </div>
+    </div>
+
+    <div class="error-state" *ngIf="
+        !isLoadingRestaurants &&
+        restaurantErrorMessage
+      ">
+      {{ restaurantErrorMessage }}
+    </div>
+
+    <div class="restaurant-logo-row" *ngIf="
+        !isLoadingRestaurants &&
+        filteredRestaurants.length > 0
+      ">
+
+      <article class="restaurant-logo-card" *ngFor="
+          let restaurant of filteredRestaurants
+        ">
+
+        <div class="restaurant-circle-logo" [ngClass]="restaurant.imageClass">
+          {{ restaurant.name.charAt(0) }}
+        </div>
+
+        <strong>
+          {{ restaurant.name }}
+        </strong>
+
+        <span>
+          {{
+          restaurant.waitTime > 0
+          ? restaurant.waitTime + ' min'
+          : 'No wait'
+          }}
+        </span>
+
+      </article>
+
+    </div>
+
+    <div class="empty-state" *ngIf="
+        !isLoadingRestaurants &&
+        !restaurantErrorMessage &&
+        filteredRestaurants.length === 0
+      ">
+      <i class="fa-solid fa-store"></i>
+      <h3>No restaurants found.</h3>
+    </div>
+
+    <div class="category-filter">
+
+      <button type="button" [class.active]="selectedCategory === 'All'" (click)="selectCategory('All')">
+        All
+      </button>
+
+      <button type="button" *ngFor="let category of categories" [class.active]="
+          selectedCategory === category.name
+        " (click)="selectCategory(category.name)">
+        {{ category.name }}
+      </button>
+
+    </div>
+
+  </section> -->
+
+  <section class="home-section">
+
+    <div class="section-heading">
+
+      <h2>
+        Restaurants near you
+      </h2>
+
+      <button type="button" (click)="loadRestaurantDetails()">
+        Show all
+      </button>
+
+    </div>
+
+    <div class="restaurant-grid" *ngIf="filteredRestaurants.length > 0">
+
+      <article class="restaurant-card" *ngFor="
+          let restaurant of filteredRestaurants
+        ">
+
+        <div class="restaurant-card-image" [ngClass]="restaurant.imageClass">
+
+          <div class="plate-image">
+            <span></span>
+          </div>
+
+        </div>
+
+        <div class="restaurant-card-body">
+
+          <div class="restaurant-title-line">
+
+            <h3>
+              {{ restaurant.name }}
+            </h3>
+
+            <span class="wait-status" [ngClass]="
+                restaurant.status.toLowerCase()
+              ">
+              {{
+              restaurant.waitTime > 0
+              ? restaurant.waitTime + ' min'
+              : 'No wait'
+              }}
+            </span>
+
+          </div>
+
+          <p>
+            {{
+            restaurant.cuisine ||
+            restaurant.status
+            }}
+
+            <span *ngIf="restaurant.distance">
+              · {{ restaurant.distance }}
+            </span>
+          </p>
+
+          <div class="restaurant-rating" *ngIf="restaurant.rating > 0">
+
+            <span>
+              ★ {{ restaurant.rating }}
+            </span>
+
+            <small>
+              ({{ restaurant.reviewCount }})
+            </small>
+
+          </div>
+
+          <div class="restaurant-tags">
+
+            <span>
+              {{ restaurant.tableStatus }}
+            </span>
+
+          </div>
+
+          <div class="restaurant-footer">
+
+            <span>
+              {{
+              restaurant.partiesAhead > 0
+              ? restaurant.partiesAhead + ' parties ahead'
+              : 'No queue'
+              }}
+            </span>
+
+            <button type="button" (click)="
+                joinRestaurantWaitlist(
+                  restaurant
+                )
+              ">
+              Join waitlist
+            </button>
+
+          </div>
+
+        </div>
+
+      </article>
+
+    </div>
+
+    <div class="empty-state" *ngIf="filteredRestaurants.length === 0">
+      <i class="fa-solid fa-store"></i>
+      <h3>No restaurants found.</h3>
+    </div>
+
+  </section>
+
+  <section class="home-section search-results-section" *ngIf="
+      searchText &&
+      hasAccountAccess
+    ">
+
+    <div class="section-heading">
+
+      <h2>
+        Food matching "{{ searchText }}"
+      </h2>
+
+    </div>
+
+    <div class="food-search-grid" *ngIf="filteredDishes.length > 0">
+
+      <article class="food-search-card" *ngFor="let dish of filteredDishes">
+
+        <div class="food-search-image">
+
+          <img [src]="
+              dish.imageUrl ||
+              'assets/food-placeholder.png'
+            " [alt]="dish.name" />
+
+        </div>
+
+        <div class="food-search-body">
+
+          <h3>
+            {{ dish.name }}
+          </h3>
+
+          <p>
+            {{ dish.category || 'Menu' }}
+          </p>
+
+          <strong>
+            CAD {{ formatPrice(dish.price) }}
+          </strong>
+
+        </div>
+
+      </article>
+
+    </div>
+
+    <div class="empty-state" *ngIf="filteredDishes.length === 0">
+      <i class="fa-solid fa-utensils"></i>
+      <h3>No dishes found.</h3>
+    </div>
+
+  </section>
+
+  <section class="home-section">
+
+    <div class="section-heading">
+
+      <h2>
+        Your recent visits
+      </h2>
+
+      <button type="button">
+        View history
+      </button>
+
+    </div>
+
+    <div class="recent-grid" *ngIf="recentRestaurants.length > 0">
+
+      <article class="restaurant-card" *ngFor="
+          let restaurant of recentRestaurants
+        ">
+
+        <div class="restaurant-card-image" [ngClass]="restaurant.imageClass">
+
+          <div class="plate-image">
+            <span></span>
+          </div>
+
+        </div>
+
+        <div class="restaurant-card-body">
+
+          <h3>
+            {{ restaurant.name }}
+          </h3>
+
+          <p>
+            {{ restaurant.cuisine }}
+          </p>
+
+          <div class="restaurant-footer">
+
+            <span>
+              Visited recently
+            </span>
+
+            <button type="button" (click)="
+                joinRestaurantWaitlist(
+                  restaurant
+                )
+              ">
+              Join waitlist
+            </button>
+
+          </div>
+
+        </div>
+
+      </article>
+
+    </div>
+
+    <div class="empty-state" *ngIf="recentRestaurants.length === 0">
+      <i class="fa-solid fa-clock-rotate-left"></i>
+      <h3>No recent visits.</h3>
+    </div>
+
+  </section>
+
+  <section class="account-benefits-banner" *ngIf="!hasAccountAccess">
+
+    <div class="benefit-icon">
+      <i class="fa-solid fa-gift"></i>
+    </div>
+
+    <div>
+
+      <h3>
+        Sign in to unlock rewards
+      </h3>
+
+      <p>
+        Login with email to access food,
+        rewards and personalised offers.
+      </p>
+
+    </div>
+
+    <button type="button" (click)="loginWithEmail()">
+      Login with email
+    </button>
+
+  </section>
+
+</div>

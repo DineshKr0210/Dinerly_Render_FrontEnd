@@ -1,0 +1,474 @@
+/* Dark theme overrides for the guest portal and login pages.
+   Mirrors the light rules in the source component CSS files without editing them.
+   Login selectors are scoped under .login-page because that component's file stays untouched. */
+
+/* waitlist-login */
+html[data-theme="dark"] .login-page {
+  background: var(--dk-bg);
+}
+
+html[data-theme="dark"] .login-page .login-right {
+  background: var(--dk-bg);
+}
+
+html[data-theme="dark"] .login-page .login-card h1 {
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .login-page .social-btn {
+  background: var(--dk-surface);
+  border-color: var(--dk-border);
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .login-page .passkey-btn {
+  background: var(--dk-surface-2);
+}
+
+html[data-theme="dark"] .login-page .passkey-btn i {
+  color: var(--dk-brand);
+}
+
+html[data-theme="dark"] .login-page .divider span {
+  background: var(--dk-border);
+}
+
+html[data-theme="dark"] .login-page .divider p {
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .login-page form label {
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .login-page .input-box {
+  background: var(--dk-sunken);
+  border-color: var(--dk-border);
+}
+
+html[data-theme="dark"] .login-page .input-box:focus-within {
+  border-color: var(--dk-brand);
+  box-shadow: var(--focus-ring);
+}
+
+html[data-theme="dark"] .login-page .input-box input {
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .login-page .input-box input::placeholder {
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .login-page .password-box button {
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .login-page .forgot-btn {
+  color: var(--dk-brand);
+}
+
+html[data-theme="dark"] .login-page .staff-pill {
+  background: var(--dk-surface-2);
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .login-page .admin-link button {
+  color: var(--dk-brand);
+}
+
+html[data-theme="dark"] .login-page .error {
+  color: var(--dk-danger);
+}
+
+html[data-theme="dark"] .login-page .error-box {
+  background: var(--dk-danger-soft);
+  color: var(--dk-danger);
+  border-color: var(--dk-danger-soft);
+}
+
+html[data-theme="dark"] .login-page .theme-toggle {
+  background: var(--dk-surface-2);
+  color: var(--dk-warning);
+  box-shadow: var(--shadow-sm);
+}
+
+/* guest-account-login */
+html[data-theme="dark"] .eyebrow {
+  color: var(--dk-brand);
+}
+
+html[data-theme="dark"] .login-panel h2 {
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .form-field label {
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .input-wrapper {
+  background: var(--dk-sunken);
+  border-color: var(--dk-border);
+}
+
+html[data-theme="dark"] .input-wrapper:focus-within {
+  border-color: var(--dk-brand);
+  box-shadow: var(--focus-ring);
+}
+
+html[data-theme="dark"] .input-wrapper > i {
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .input-wrapper input {
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .field-error {
+  color: var(--dk-danger);
+}
+
+html[data-theme="dark"] .login-error {
+  border-color: var(--dk-danger-soft);
+  color: var(--dk-danger);
+  background: var(--dk-danger-soft);
+}
+
+html[data-theme="dark"] .login-separator span {
+  background: var(--dk-border);
+}
+
+html[data-theme="dark"] .login-separator p {
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .create-account-btn {
+  border-color: var(--dk-border);
+  color: var(--dk-brand);
+  background: var(--dk-surface-2);
+}
+
+html[data-theme="dark"] .create-account-btn:hover {
+  background: var(--dk-surface-3);
+}
+
+html[data-theme="dark"] .verification-message {
+  border-color: var(--dk-success-soft);
+  background: var(--dk-success-soft);
+}
+
+html[data-theme="dark"] .verification-icon {
+  background: var(--dk-success-soft);
+  color: var(--dk-success);
+}
+
+html[data-theme="dark"] .verification-content strong {
+  color: var(--dk-success);
+}
+
+html[data-theme="dark"] .verification-content p {
+  color: var(--dk-text-2);
+}
+
+html[data-theme="dark"] .verification-content p strong {
+  color: var(--dk-success);
+}
+
+/* waitlist-user-action */
+html[data-theme="dark"] .action-card {
+  border-color: var(--dk-border);
+  background: var(--dk-surface);
+}
+
+html[data-theme="dark"] .icon-circle {
+  background: var(--dk-brand-soft);
+  color: var(--dk-brand);
+}
+
+html[data-theme="dark"] .action-card h3 {
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .secondary-btn {
+  border-color: var(--dk-border);
+  background: var(--dk-surface-2);
+  color: var(--dk-brand);
+}
+
+html[data-theme="dark"] .restore-card {
+  border-color: var(--dk-border);
+  background: var(--dk-surface);
+}
+
+html[data-theme="dark"] .restore-label {
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .restore-card h3 {
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .restore-pending {
+  border-color: var(--dk-warning-soft);
+  background: var(--dk-warning-soft);
+  color: var(--dk-warning);
+}
+
+html[data-theme="dark"] .restore-error {
+  color: var(--dk-danger);
+}
+
+/* waitlist-user-banner */
+html[data-theme="dark"] .success-banner {
+  border-color: var(--dk-border);
+  background: var(--dk-surface);
+}
+
+html[data-theme="dark"] .success-icon {
+  background: var(--dk-success-soft);
+  color: var(--dk-success);
+}
+
+html[data-theme="dark"] .success-banner h3 {
+  color: var(--dk-text);
+}
+
+/* waitlist-user-discounts */
+html[data-theme="dark"] .offers-heading p {
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .offers-heading h1 {
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .offer-card {
+  border-color: var(--dk-border);
+  background: var(--dk-surface);
+}
+
+html[data-theme="dark"] .offer-visual {
+  color: var(--dk-brand);
+}
+
+html[data-theme="dark"] .offer-visual.purple {
+  background: linear-gradient(135deg, var(--dk-brand-soft), var(--dk-surface-3));
+}
+
+html[data-theme="dark"] .offer-visual.gold {
+  background: linear-gradient(135deg, var(--dk-warning-soft), var(--dk-surface-3));
+  color: var(--dk-warning);
+}
+
+html[data-theme="dark"] .offer-visual.blue {
+  background: linear-gradient(135deg, var(--dk-info-soft), var(--dk-surface-3));
+  color: var(--dk-info);
+}
+
+html[data-theme="dark"] .offer-body small {
+  color: var(--dk-brand);
+}
+
+html[data-theme="dark"] .offer-body h3 {
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .offer-footer span {
+  color: var(--dk-text-3);
+}
+
+/* waitlist-user-email-verify */
+html[data-theme="dark"] .verify-email-page {
+  background: var(--dk-bg);
+}
+
+html[data-theme="dark"] .verify-card {
+  border-color: var(--dk-border);
+  background: var(--dk-surface);
+}
+
+html[data-theme="dark"] .loading-spinner {
+  color: var(--dk-brand);
+}
+
+html[data-theme="dark"] .status-icon.success {
+  color: var(--dk-success);
+  background: var(--dk-success-soft);
+}
+
+html[data-theme="dark"] .status-icon.error {
+  color: var(--dk-danger);
+  background: var(--dk-danger-soft);
+}
+
+html[data-theme="dark"] .verify-card h1 {
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .redirect-message {
+  color: var(--dk-success) !important;
+}
+
+html[data-theme="dark"] .verification-popup {
+  background: var(--dk-surface);
+}
+
+html[data-theme="dark"] .popup-close {
+  background: var(--dk-surface-2);
+  color: var(--dk-text-2);
+}
+
+html[data-theme="dark"] .popup-icon {
+  color: var(--dk-success);
+}
+
+html[data-theme="dark"] .error-popup .popup-icon {
+  color: var(--dk-danger);
+}
+
+html[data-theme="dark"] .verification-popup h2 {
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .popup-timer {
+  color: var(--dk-success) !important;
+}
+
+/* waitlist-user-offers */
+html[data-theme="dark"] .rewards-hero {
+  border-color: var(--dk-border);
+  color: var(--dk-text);
+  background: var(--dk-surface);
+}
+
+html[data-theme="dark"] .rewards-hero p {
+  color: var(--dk-brand);
+}
+
+html[data-theme="dark"] .rewards-hero h1 {
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .offers-count-card {
+  border-color: var(--dk-border);
+  background: var(--dk-surface-2);
+}
+
+html[data-theme="dark"] .offers-count-card strong {
+  color: var(--dk-brand);
+}
+
+html[data-theme="dark"] .section-header h2 {
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .error-message {
+  color: var(--dk-danger);
+  background: var(--dk-danger-soft);
+  border-color: var(--dk-danger-soft);
+}
+
+html[data-theme="dark"] .offer-skeleton-card {
+  border-color: var(--dk-border);
+  background: var(--dk-surface);
+}
+
+html[data-theme="dark"] .offer-image {
+  background: var(--dk-surface-2);
+}
+
+html[data-theme="dark"] .offer-image-placeholder {
+  color: var(--dk-brand);
+  background: var(--dk-surface-2);
+}
+
+html[data-theme="dark"] .offer-status {
+  color: var(--dk-success);
+  background: var(--dk-success-soft);
+}
+
+html[data-theme="dark"] .discount-label {
+  color: var(--dk-brand);
+  background: var(--dk-surface-2);
+}
+
+html[data-theme="dark"] .redeem-button:disabled {
+  color: var(--dk-text-3);
+  background: var(--dk-surface-3);
+}
+
+html[data-theme="dark"] .pagination button {
+  border-color: var(--dk-border);
+  background: var(--dk-surface-2);
+  color: var(--dk-brand);
+}
+
+html[data-theme="dark"] .empty-state i {
+  color: var(--dk-brand);
+}
+
+html[data-theme="dark"] .empty-state h3 {
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .redeemed-card {
+  border-color: var(--dk-border);
+  background: var(--dk-surface);
+}
+
+html[data-theme="dark"] .redeemed-icon {
+  color: var(--dk-brand);
+  background: var(--dk-surface-2);
+}
+
+html[data-theme="dark"] .redeemed-content strong {
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .redeemed-content span b {
+  color: var(--dk-brand);
+}
+
+html[data-theme="dark"] .redeemed-content small {
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .view-code-button {
+  border-color: var(--dk-border);
+  color: var(--dk-brand);
+  background: var(--dk-surface-2);
+}
+
+html[data-theme="dark"] .redeem-modal {
+  background: var(--dk-surface);
+}
+
+html[data-theme="dark"] .modal-close {
+  background: var(--dk-surface-2);
+}
+
+html[data-theme="dark"] .success-icon {
+  color: var(--dk-success);
+  background: var(--dk-success-soft);
+}
+
+html[data-theme="dark"] .redeem-modal h2 {
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .redemption-offer-name {
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .redemption-code {
+  border-color: var(--dk-border-strong);
+  color: var(--dk-brand);
+  background: var(--dk-surface-2);
+}
+
+html[data-theme="dark"] .expiry {
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .redemption-qr img {
+  border-color: var(--dk-border);
+}

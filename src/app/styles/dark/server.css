@@ -1,0 +1,126 @@
+/* Dark theme overrides for the Server portal.
+   Shell classes (navbar, sidebar, main canvas) are already covered by dark/shell.css.
+   Page selectors are nested under .srv-page so they outrank the component-scoped light rules. */
+
+html[data-theme="dark"] .srv-page {
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .srv-page .srv-page-head h1,
+html[data-theme="dark"] .srv-page .srv-state h2,
+html[data-theme="dark"] .srv-page .srv-kpi strong,
+html[data-theme="dark"] .srv-page .srv-card-head strong,
+html[data-theme="dark"] .srv-page .srv-table-name strong,
+html[data-theme="dark"] .srv-page .srv-guest dd,
+html[data-theme="dark"] .srv-page .srv-notice-body p {
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .srv-page .srv-page-head p,
+html[data-theme="dark"] .srv-page .srv-state p,
+html[data-theme="dark"] .srv-page .srv-kpi small,
+html[data-theme="dark"] .srv-page .srv-guest dt,
+html[data-theme="dark"] .srv-page .srv-order-foot small,
+html[data-theme="dark"] .srv-page .srv-table-name small,
+html[data-theme="dark"] .srv-page .srv-notice-body small {
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .srv-page .srv-refresh-button {
+  background: var(--dk-surface-2);
+  border-color: var(--dk-border-strong);
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .srv-page .srv-refresh-button:hover:not(:disabled) {
+  background: var(--dk-brand-soft);
+  border-color: rgba(181, 140, 247, 0.5);
+  color: #ffffff;
+}
+
+html[data-theme="dark"] .srv-page .srv-save-button {
+  color: #ffffff;
+}
+
+html[data-theme="dark"] .srv-page .srv-save-button:disabled {
+  background: var(--dk-surface-3);
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .srv-page .srv-kpi,
+html[data-theme="dark"] .srv-page .srv-card,
+html[data-theme="dark"] .srv-page .srv-notice {
+  background: var(--dk-surface);
+  border-color: var(--dk-border);
+  box-shadow: var(--shadow-sm);
+}
+
+html[data-theme="dark"] .srv-page .srv-kpi-icon,
+html[data-theme="dark"] .srv-page .srv-notice-icon {
+  background: var(--dk-brand-soft);
+  color: var(--dk-brand);
+}
+
+html[data-theme="dark"] .srv-page .srv-seated {
+  background: var(--dk-success-soft);
+  color: var(--dk-success);
+}
+
+html[data-theme="dark"] .srv-page .srv-note {
+  background: var(--dk-warning-soft);
+  color: #fde68a;
+}
+
+html[data-theme="dark"] .srv-page .srv-order label {
+  color: var(--dk-text-2);
+}
+
+html[data-theme="dark"] .srv-page .srv-order textarea {
+  background: var(--dk-sunken);
+  border-color: var(--dk-border-strong);
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .srv-page .srv-order textarea::placeholder {
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .srv-page .srv-order textarea:focus {
+  border-color: var(--dk-brand);
+}
+
+html[data-theme="dark"] .srv-page .srv-order textarea:disabled {
+  background: var(--dk-surface-2);
+}
+
+html[data-theme="dark"] .srv-page .srv-state {
+  background: var(--dk-surface);
+  border-color: var(--dk-border-strong);
+}
+
+html[data-theme="dark"] .srv-page .srv-state > i {
+  color: var(--dk-brand);
+}
+
+html[data-theme="dark"] .srv-page .srv-notice:hover,
+html[data-theme="dark"] .srv-page button.srv-notice:hover {
+  border-color: rgba(181, 140, 247, 0.45);
+}
+
+html[data-theme="dark"] .srv-page .srv-notice.unread {
+  background: var(--dk-surface-2);
+  border-color: rgba(181, 140, 247, 0.55);
+}
+
+html[data-theme="dark"] .srv-page .srv-unread-dot {
+  background: var(--dk-brand);
+}
+
+html[data-theme="dark"] .srv-page .srv-skeleton {
+  background: linear-gradient(90deg, #2d2d2d 25%, #3a3a3a 37%, #2d2d2d 63%);
+  background-size: 400% 100%;
+}
+
+html[data-theme="dark"] .bell-badge {
+  border-color: #0f0a1c;
+}

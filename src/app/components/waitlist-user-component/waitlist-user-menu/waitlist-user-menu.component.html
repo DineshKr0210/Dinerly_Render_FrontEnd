@@ -1,0 +1,228 @@
+<section class="food-page">
+
+  <!-- HEADER -->
+  <header class="food-header">
+
+    <p class="food-eyebrow">
+      DISCOVER FOOD
+    </p>
+
+    <h1>
+      Find something delicious
+    </h1>
+
+  </header>
+
+
+  <!-- SEARCH -->
+  <div class="food-search">
+
+    <i class="fa-solid fa-magnifying-glass"></i>
+
+    <input
+      type="text"
+      [(ngModel)]="searchText"
+      placeholder="Search dishes or categories"
+      aria-label="Search menu"
+    />
+
+    <button
+      type="button"
+      class="clear-search"
+      *ngIf="searchText"
+      aria-label="Clear search"
+      (click)="clearSearch()"
+    >
+      <i class="fa-solid fa-xmark"></i>
+    </button>
+
+  </div>
+
+
+  <!-- CATEGORIES -->
+  <div
+    class="food-categories"
+    *ngIf="categories.length > 0"
+  >
+
+    <button
+      type="button"
+      *ngFor="
+        let category of categories;
+        trackBy: trackByCategory
+      "
+      [class.active]="
+        category.id === selectedCategoryId
+      "
+      [disabled]="isLoadingDishes"
+      (click)="
+        onCategorySelect(
+          category.id,
+          category.name
+        )
+      "
+    >
+      {{ category.name }}
+    </button>
+
+  </div>
+
+
+  <!-- MENU LOADING -->
+  <div
+    class="menu-skeleton-grid"
+    *ngIf="
+      isLoadingMenu ||
+      isLoadingDishes
+    "
+  >
+
+    <div class="menu-skeleton-card" *ngFor="let n of [1, 2, 3, 4, 5, 6, 7, 8]">
+
+      <div class="skeleton menu-skeleton-image"></div>
+
+      <div class="menu-skeleton-body">
+
+        <div class="skeleton menu-skeleton-line"></div>
+
+        <div class="skeleton menu-skeleton-line short"></div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- ERROR -->
+  <div
+    class="menu-state error-state"
+    *ngIf="
+      !isLoadingMenu &&
+      !isLoadingDishes &&
+      menuErrorMessage
+    "
+  >
+
+    <i class="fa-solid fa-circle-exclamation"></i>
+
+    <h3>
+      Unable to load menu
+    </h3>
+
+    <p>
+      {{ menuErrorMessage }}
+    </p>
+
+    <button
+      type="button"
+      class="retry-menu-btn"
+      (click)="refreshMenu()"
+    >
+      Try again
+    </button>
+
+  </div>
+
+
+  <!-- EMPTY STATE -->
+  <div
+    class="menu-state"
+    *ngIf="
+      !isLoadingMenu &&
+      !isLoadingDishes &&
+      !menuErrorMessage &&
+      filteredDishes.length === 0
+    "
+  >
+
+    <i class="fa-solid fa-utensils"></i>
+
+    <h3>
+      No dishes found
+    </h3>
+
+    <p>
+      Try another category or search term.
+    </p>
+
+  </div>
+
+
+  <!-- FOOD GRID -->
+  <div
+    class="food-grid"
+    *ngIf="
+      !isLoadingMenu &&
+      !isLoadingDishes &&
+      !menuErrorMessage &&
+      filteredDishes.length > 0
+    "
+  >
+
+    <article
+      class="food-card"
+      *ngFor="
+        let item of filteredDishes;
+        trackBy: trackByDish
+      "
+    >
+
+      <!-- IMAGE -->
+      <div class="food-image">
+
+        <img
+          [src]="
+            item.imageUrl ||
+            fallbackImage
+          "
+          [alt]="item.name"
+          class="food-img loading"
+          loading="lazy"
+          decoding="async"
+          (load)="onImageLoad($event)"
+          (error)="onImageError($event)"
+        />
+
+      </div>
+
+
+      <!-- BODY -->
+      <div class="food-body">
+
+        <h3>
+          {{ item.name }}
+        </h3>
+
+        <p class="food-price">
+
+          CAD{{ formatPrice(item.price) }}
+
+          <span>·</span>
+
+          {{ item.calories || 0 }}
+          Calories
+
+        </p>
+
+        <div class="food-meta">
+
+          <i class="fa-solid fa-star"></i>
+
+          <span>
+            {{
+              item.category ||
+              selectedCategoryName ||
+              'Menu'
+            }}
+          </span>
+
+        </div>
+
+      </div>
+
+    </article>
+
+  </div>
+
+</section>

@@ -1,0 +1,81 @@
+<section class="action-grid">
+
+  <div class="action-card">
+    <div class="left">
+      <div class="icon-circle">
+        <i class="fa-regular fa-clock"></i>
+      </div>
+
+      <div>
+        <h3>Want to join the waitlist?</h3>
+        <p>Add your party — we'll text you when ready</p>
+      </div>
+    </div>
+
+    <button class="primary-btn" type="button" (click)="openModal('join')">
+      Join now
+    </button>
+  </div>
+
+  <div class="action-card">
+    <div class="left">
+      <div class="icon-circle">
+        <i class="fa-solid fa-location-dot"></i>
+      </div>
+
+      <div>
+        <h3>Already on the list?</h3>
+        <p>Check your position and wait time</p>
+      </div>
+    </div>
+
+    <button class="secondary-btn" type="button" (click)="openModal('status')">
+      Check status
+    </button>
+  </div>
+
+</section>
+
+<section class="restore-card" *ngIf="cancelledGuest">
+
+  <div class="restore-card-content">
+
+    <div class="restore-icon">
+      <i class="fa-solid fa-rotate-left"></i>
+    </div>
+
+    <div>
+      <p class="restore-label">
+        PREVIOUS WAITLIST
+      </p>
+
+      <h3>
+        Your waitlist was cancelled
+      </h3>
+
+      <p *ngIf="!restoreRequestSent">
+        Restore your previous request for a party of
+        {{ cancelledGuest.partySize || 1 }}.
+      </p>
+
+      <p *ngIf="restoreRequestSent">
+        Your restore request has been sent to the restaurant.
+        Please wait for their approval.
+      </p>
+    </div>
+
+  </div>
+
+  
+
+  <div class="restore-pending">
+    Please Contact Restaurant
+  </div>
+
+  
+
+</section>
+
+<app-waitlist-modal *ngIf="showModal" [type]="modalType" [restaurants]="restaurants" (closeModal)="closeModal()"
+  (joinedWaitlist)="onJoinedWaitlist($event)">
+</app-waitlist-modal>

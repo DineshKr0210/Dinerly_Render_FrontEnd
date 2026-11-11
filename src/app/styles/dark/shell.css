@@ -1,0 +1,674 @@
+/* =========================================================
+   DARK THEME: shell, portal and component overrides.
+   Each rule mirrors a light rule in the source file named in
+   its section comment. Colours come from dark/tokens.css.
+   ========================================================= */
+
+/* portal-shell.css (also covers the matching rules in waitlist-admin.component.css) */
+
+html[data-theme="dark"] .app-shell {
+  background: var(--dk-page);
+}
+
+html[data-theme="dark"] .top-navbar {
+  background: #0d0d13;
+  border-bottom-color: var(--dk-border);
+}
+
+html[data-theme="dark"] .top-search {
+  background: #000000;
+  border:none
+}
+
+html[data-theme="dark"] .brand-name {
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .top-action-button {
+  background: var(--dk-surface-2);
+  border-color: var(--dk-border);
+  color: var(--dk-text-2);
+}
+
+html[data-theme="dark"] .top-action-button:hover {
+  background: var(--dk-surface-3);
+  color: var(--dk-brand);
+}
+
+html[data-theme="dark"] .admin-user-menu {
+  background: var(--dk-surface-2);
+  border-color: var(--dk-border);
+  box-shadow: var(--shadow-md);
+}
+
+html[data-theme="dark"] .admin-user-menu-header strong {
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .admin-user-menu-header span {
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .admin-user-menu-divider {
+  background: var(--dk-border);
+}
+
+html[data-theme="dark"] .admin-logout-button {
+  color: var(--dk-text-2);
+}
+
+html[data-theme="dark"] .admin-logout-button:hover {
+  background: var(--dk-danger-soft);
+  color: var(--dk-danger);
+}
+
+html[data-theme="dark"] .sidebar {
+  background: #0d0d13;
+  border-color: rgba(255, 255, 255, 0.08);
+}
+
+html[data-theme="dark"] app-waitlist-restaurant-component .sidebar {
+  background: #0d0d13;
+  border-color: rgba(255, 255, 255, 0.08);
+}
+
+html[data-theme="dark"] .restaurant-section {
+  border-bottom-color: var(--dk-border);
+}
+
+html[data-theme="dark"] .restaurant-selector:hover {
+  background: var(--dk-surface-2);
+}
+
+html[data-theme="dark"] .restaurant-logo {
+  background: var(--dk-brand-soft);
+  color: var(--dk-brand);
+}
+
+html[data-theme="dark"] .restaurant-info strong {
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .restaurant-info small {
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .location-chevron {
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .nav-item {
+  color: var(--dk-text-2);
+}
+
+html[data-theme="dark"] .nav-item:hover {
+  background: var(--dk-surface-3);
+  color: var(--dk-brand);
+}
+
+html[data-theme="dark"] .nav-item.active {
+  background: var(--dk-brand-soft);
+  color: var(--dk-brand);
+  box-shadow: inset 3px 0 0 var(--dk-brand);
+}
+
+html[data-theme="dark"] .nav-arrow {
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .settings-submenu {
+  border-left-color: var(--dk-border);
+}
+
+html[data-theme="dark"] .settings-submenu button {
+  color: var(--dk-text-2);
+}
+
+html[data-theme="dark"] .settings-submenu button:hover,
+html[data-theme="dark"] .settings-submenu button.active {
+  background: var(--dk-brand-soft);
+  color: var(--dk-brand);
+}
+
+html[data-theme="dark"] .logout-button {
+  color: var(--dk-text-2);
+}
+
+html[data-theme="dark"] .logout-button:hover {
+  background: var(--dk-danger-soft);
+  color: var(--dk-danger);
+}
+
+html[data-theme="dark"] .main-content {
+  background: var(--dk-page);
+}
+
+html[data-theme="dark"] .sidebar-top::-webkit-scrollbar-thumb {
+  background: var(--dk-border-strong);
+}
+
+/* waitlist-admin.component.css (admin-only rules) */
+
+html[data-theme="dark"] .location-dropdown {
+  background: var(--dk-surface-2);
+  border-color: var(--dk-border);
+  box-shadow: var(--shadow-md);
+}
+
+html[data-theme="dark"] .location-dropdown-title {
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .location-option:hover,
+html[data-theme="dark"] .location-option.selected {
+  background: var(--dk-brand-soft);
+}
+
+html[data-theme="dark"] .location-option-info strong {
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .location-option-info small {
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .location-option > i {
+  color: var(--dk-brand);
+}
+
+html[data-theme="dark"] .location-empty {
+  color: var(--dk-text-3);
+}
+
+/* waitlist-restaurant-component.component.css */
+
+html[data-theme="dark"] .tablet-settings-tabs button:not(.active) {
+  background: var(--dk-surface-2);
+  color: var(--dk-text-2);
+}
+
+/* shared.css */
+
+html[data-theme="dark"] .topbar {
+  background: var(--dk-surface);
+  border-bottom-color: var(--dk-border);
+}
+
+html[data-theme="dark"] .page-title,
+html[data-theme="dark"] .section-title,
+html[data-theme="dark"] .stat-value {
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .search-box {
+  background: var(--dk-surface-2);
+  border-color: var(--dk-border);
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .filter-btn:not(.active) {
+  background: var(--dk-surface);
+  border-color: var(--dk-border);
+  color: var(--dk-text-2);
+}
+
+html[data-theme="dark"] .filter-btn:not(.active):hover {
+  background: var(--dk-surface-3);
+}
+
+html[data-theme="dark"] .icon-btn {
+  background: var(--dk-surface);
+  border-color: var(--dk-border);
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .icon-btn:hover {
+  background: var(--dk-surface-3);
+}
+
+html[data-theme="dark"] .stat-card {
+  background: var(--dk-surface);
+  border-color: var(--dk-border);
+}
+
+html[data-theme="dark"] .stat-label,
+html[data-theme="dark"] .stat-sub {
+  color: var(--dk-text-3);
+}
+
+/* toast-container.component.css */
+
+html[data-theme="dark"] .toast {
+  background: var(--dk-surface-2);
+  border-color: var(--dk-border);
+  border-left-color: var(--dk-success);
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .toast i:first-child {
+  color: var(--dk-success);
+}
+
+html[data-theme="dark"] .toast-error {
+  border-left-color: var(--dk-danger);
+}
+
+html[data-theme="dark"] .toast-error i:first-child {
+  color: var(--dk-danger);
+}
+
+html[data-theme="dark"] .toast-info {
+  border-left-color: var(--dk-brand);
+}
+
+html[data-theme="dark"] .toast-info i:first-child {
+  color: var(--dk-brand);
+}
+
+html[data-theme="dark"] .toast-close {
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .toast-close:hover {
+  background: var(--dk-surface-3);
+  color: var(--dk-text);
+}
+
+/* dinerly-loader.component.css: no light surfaces or text to override (backdrop is already dark). */
+
+/* session-timeout.component.css */
+
+html[data-theme="dark"] .session-modal {
+  background: var(--dk-surface);
+  box-shadow: var(--shadow-lg);
+}
+
+html[data-theme="dark"] .session-modal h2 {
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .session-modal p {
+  color: var(--dk-text-2);
+}
+
+html[data-theme="dark"] .session-icon {
+  background: var(--dk-warning-soft);
+  color: var(--dk-warning);
+}
+
+html[data-theme="dark"] .countdown {
+  color: var(--dk-danger);
+}
+
+html[data-theme="dark"] .logout-btn {
+  background: var(--dk-surface-3);
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .logout-btn:hover {
+  background: var(--dk-border-strong);
+}
+
+/* staff-accept-invitation.component.css */
+
+html[data-theme="dark"] .invitation-page {
+  background: var(--dk-bg);
+}
+
+html[data-theme="dark"] .invitation-card {
+  background: var(--dk-surface);
+  box-shadow: var(--shadow-md);
+}
+
+html[data-theme="dark"] .invitation-header h1 {
+  color: var(--dk-brand);
+}
+
+html[data-theme="dark"] .invitation-header p {
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .invitation-content h2,
+html[data-theme="dark"] .error-state h2 {
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .invitation-content p,
+html[data-theme="dark"] .error-state p {
+  color: var(--dk-text-2);
+}
+
+html[data-theme="dark"] .verified-message {
+  background: var(--dk-success-soft);
+  color: var(--dk-success);
+}
+
+html[data-theme="dark"] .staff-details {
+  background: var(--dk-surface-2);
+}
+
+html[data-theme="dark"] .staff-details span {
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .staff-details strong {
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .form-group label {
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .form-group input {
+  background: var(--dk-sunken);
+  border-color: var(--dk-border);
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .form-group input::placeholder {
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .form-group input:focus {
+  border-color: var(--dk-brand);
+}
+
+html[data-theme="dark"] .field-error {
+  color: var(--dk-danger);
+}
+
+html[data-theme="dark"] .spinner {
+  border-color: var(--dk-border-strong);
+  border-top-color: var(--dk-brand);
+}
+
+html[data-theme="dark"] .error-icon {
+  background: var(--dk-danger-soft);
+  color: var(--dk-danger);
+}
+
+html[data-theme="dark"] .success-message {
+  background: var(--dk-success-soft);
+  color: var(--dk-success);
+}
+
+html[data-theme="dark"] .error-message {
+  background: var(--dk-danger-soft);
+  color: var(--dk-danger);
+}
+
+html[data-theme="dark"] .password-success-icon {
+  background: var(--dk-success-soft);
+  color: var(--dk-success);
+}
+
+/* waitlist-modal.component.css
+   The component's :host-context(.dark-mode) rules cannot be used in a global stylesheet,
+   so the equivalent dark values are written here against the element selectors. */
+
+html[data-theme="dark"] .modal-container {
+  background: var(--dk-surface);
+}
+
+html[data-theme="dark"] .close-btn {
+  background: var(--dk-surface-3);
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .header-icon {
+  background: var(--dk-brand-soft);
+  color: var(--dk-brand);
+}
+
+html[data-theme="dark"] .modal-header h2 {
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .field label {
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .field label span {
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .restaurant-select-box {
+  background: var(--dk-sunken);
+  border-color: var(--dk-border);
+}
+
+html[data-theme="dark"] .restaurant-select-box i:first-child {
+  color: var(--dk-brand);
+}
+
+html[data-theme="dark"] .restaurant-select-box select {
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .restaurant-select-box .chevron {
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .input-box {
+  background: var(--dk-sunken);
+  border-color: var(--dk-border);
+}
+
+html[data-theme="dark"] .input-box:focus-within,
+html[data-theme="dark"] .restaurant-select-box:focus-within {
+  border-color: var(--dk-brand);
+  box-shadow: var(--focus-ring);
+}
+
+html[data-theme="dark"] .input-icon {
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] input:not([type="checkbox"]):not([type="radio"]) {
+  background: var(--dk-sunken);
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] input::placeholder,
+html[data-theme="dark"] .request-textarea::placeholder {
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .party-buttons button {
+  background: var(--dk-surface-2);
+  border-color: var(--dk-border);
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .party-buttons button.active {
+  background: var(--dk-brand-soft);
+  border-color: var(--dk-brand);
+  box-shadow: 0 0 0 3px var(--dk-brand-soft);
+  color: var(--dk-brand);
+}
+
+html[data-theme="dark"] .preference-card {
+  background: var(--dk-surface-2);
+  border-color: var(--dk-border);
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .preference-card.active {
+  background: var(--dk-brand-soft);
+  border-color: var(--dk-brand);
+  color: var(--dk-brand);
+}
+
+html[data-theme="dark"] .tag-btn {
+  background: var(--dk-surface-2);
+  border-color: var(--dk-border);
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .tag-btn.active {
+  background: var(--dk-brand-soft);
+  border-color: var(--dk-brand);
+  color: var(--dk-brand);
+}
+
+html[data-theme="dark"] .request-textarea {
+  background: var(--dk-sunken);
+  border-color: var(--dk-border);
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .marketing-consent {
+  background: var(--dk-surface-2);
+  border-color: var(--dk-border);
+}
+
+html[data-theme="dark"] .marketing-consent-text strong {
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .toggle-slider {
+  background: var(--dk-border-strong);
+}
+
+html[data-theme="dark"] .toggle-switch input:focus-visible+.toggle-slider {
+  box-shadow: 0 0 0 3px var(--dk-brand-soft);
+}
+
+html[data-theme="dark"] .btn-cancel {
+  background: var(--dk-surface-2);
+  border-color: var(--dk-border-strong);
+  color: var(--dk-text-2);
+}
+
+html[data-theme="dark"] .submit-wrap small {
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .error {
+  color: var(--dk-danger);
+}
+
+html[data-theme="dark"] .party-select-box {
+  background: var(--dk-sunken);
+  border-color: var(--dk-border);
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .party-select-box i:first-child {
+  color: var(--dk-brand);
+}
+
+html[data-theme="dark"] .party-select-box i:last-child {
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .country-code-select i {
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .phone-divider {
+  background: var(--dk-border);
+}
+
+html[data-theme="dark"] .selected-dial-code {
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .wait-confirm-popup {
+  background: var(--dk-surface);
+}
+
+html[data-theme="dark"] .wait-confirm-popup h2,
+html[data-theme="dark"] .wait-info-box h3,
+html[data-theme="dark"] .wait-question {
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .wait-confirm-text strong {
+  color: var(--dk-brand);
+}
+
+html[data-theme="dark"] .wait-info-box div {
+  background: var(--dk-surface-2);
+  border-color: var(--dk-border);
+}
+
+html[data-theme="dark"] .wait-confirm-close {
+  background: var(--dk-surface-3);
+  color: var(--dk-text-2);
+}
+
+html[data-theme="dark"] .wait-cancel-btn {
+  background: var(--dk-surface-3);
+  color: var(--dk-text-2);
+}
+
+html[data-theme="dark"] .restaurant-unavailable-notice {
+  background: var(--dk-warning-soft);
+  border-color: color-mix(in srgb, var(--dk-warning) 35%, transparent);
+  color: var(--dk-warning);
+}
+
+html[data-theme="dark"] .restaurant-unavailable-notice>i {
+  background: color-mix(in srgb, var(--dk-warning) 24%, transparent);
+  color: var(--dk-warning);
+}
+
+html[data-theme="dark"] .restaurant-select-box select option:disabled {
+  background: var(--dk-surface-3);
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .unavailable-icon {
+  background: var(--dk-warning-soft) !important;
+  color: var(--dk-warning) !important;
+}
+
+html[data-theme="dark"] .restaurant-hours-box>div {
+  background: var(--dk-surface-2);
+  border-color: var(--dk-border);
+}
+
+html[data-theme="dark"] .restaurant-hours-box span {
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .restaurant-hours-box strong {
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .nearby-message {
+  background: var(--dk-brand-soft);
+  color: var(--dk-brand);
+}
+
+/* Mobile party picker (waitlist-modal, max-width: 768px block) */
+
+html[data-theme="dark"] .party-picker-modal {
+  background: var(--dk-surface);
+}
+
+html[data-theme="dark"] .picker-header {
+  border-bottom-color: var(--dk-border);
+}
+
+html[data-theme="dark"] .picker-header strong {
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .picker-header button {
+  color: var(--dk-brand);
+}
+
+html[data-theme="dark"] .picker-highlight {
+  border-top-color: var(--dk-border-strong);
+  border-bottom-color: var(--dk-border-strong);
+}
+
+html[data-theme="dark"] .picker-column button {
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .picker-column button.active {
+  color: var(--dk-text);
+}

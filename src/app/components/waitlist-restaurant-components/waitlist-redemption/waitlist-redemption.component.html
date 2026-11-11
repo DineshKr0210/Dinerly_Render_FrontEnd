@@ -1,0 +1,124 @@
+<section class="code-validation-grid">
+  <div class="code-validation-card offer-validation-card">
+    <div class="code-validation-header">
+      <div class="code-validation-icon offer-icon">
+        <i class="fa-solid fa-tag"></i>
+      </div>
+      <div>
+        <h3>Validate Offer</h3>
+        <p>Scan a QR code or enter the offer details manually.</p>
+      </div>
+    </div>
+
+    <div class="validation-mode-switch">
+      <button type="button" [class.active]="offerValidationMode === 'CODE'" (click)="setOfferValidationMode('CODE')">
+        <i class="fa-solid fa-key"></i>
+        Enter Code
+      </button>
+      <button type="button" [class.active]="offerValidationMode === 'QR'" (click)="setOfferValidationMode('QR')">
+        <i class="fa-solid fa-qrcode"></i>
+        Scan QR Code
+      </button>
+    </div>
+
+    <div class="validation-form" *ngIf="offerValidationMode === 'CODE'">
+      <div class="validation-field">
+        <label for="offerCode">Offer code</label>
+        <input id="offerCode" type="text" [(ngModel)]="offerCode" (ngModelChange)="clearOfferValidation()"
+          placeholder="Enter offer code" autocomplete="off">
+      </div>
+
+      <button type="button" class="validate-code-btn offer-btn"
+        [disabled]="isValidatingOfferCode || !offerCode.trim()" (click)="validateOfferCode()">
+        <i class="fa-solid" [ngClass]="isValidatingOfferCode ? 'fa-spinner fa-spin' : 'fa-check'"></i>
+        {{ isValidatingOfferCode ? 'Validating...' : 'Validate Offer' }}
+      </button>
+    </div>
+
+    <div class="qr-scanner-section" *ngIf="offerValidationMode === 'QR'">
+      <div id="offer-qr-reader"></div>
+      <div class="qr-scanner-actions">
+        <button type="button" class="start-scan-btn" *ngIf="!isScanningOfferQr" [disabled]="isValidatingOfferQr"
+          (click)="startOfferQrScanner()">
+          <i class="fa-solid fa-camera"></i>
+          Start Camera
+        </button>
+        <button type="button" class="stop-scan-btn" *ngIf="isScanningOfferQr" (click)="stopOfferQrScanner()">
+          <i class="fa-solid fa-stop"></i>
+          Stop Camera
+        </button>
+      </div>
+      <p class="qr-help-text">Point the camera at the customer's offer QR code.</p>
+      <div class="qr-validation-loading" *ngIf="isValidatingOfferQr">
+        <i class="fa-solid fa-spinner fa-spin"></i>
+        Validating QR code...
+      </div>
+    </div>
+
+    <div class="validation-result" *ngIf="offerValidationMessage" [class.validation-success]="offerValidationSuccess"
+      [class.validation-error]="!offerValidationSuccess">
+      <i class="fa-solid" [ngClass]="offerValidationSuccess ? 'fa-circle-check' : 'fa-circle-exclamation'"></i>
+      <span>{{ offerValidationMessage }}</span>
+    </div>
+  </div>
+
+  <div class="code-validation-card campaign-validation-card">
+    <div class="code-validation-header">
+      <div class="code-validation-icon campaign-icon">
+        <i class="fa-solid fa-bullhorn"></i>
+      </div>
+
+      <div>
+        <h3>Validate Campaign Code</h3>
+        <p>Check whether a campaign code can be redeemed.</p>
+      </div>
+    </div>
+
+    <div class="validation-form">
+      <div class="validation-field">
+        <label for="campaignCode">
+          Campaign code
+        </label>
+
+        <input id="campaignCode" type="text" [(ngModel)]="campaignCode" (ngModelChange)="clearCampaignValidation()"
+          placeholder="Enter campaign code" autocomplete="off" />
+      </div>
+
+      <div class="validation-field">
+        <label for="offerGuestPhone">Guest phone</label>
+        <input id="offerGuestPhone" type="tel" [(ngModel)]="offerGuestPhone" (ngModelChange)="clearOfferValidation()"
+          placeholder="Enter guest phone" autocomplete="off">
+      </div>
+
+      <button type="button" class="validate-code-btn campaign-btn" [disabled]="
+          isValidatingCampaignCode ||
+          !campaignCode.trim() || !offerGuestPhone.trim()
+        " (click)="validateCampaignCode()">
+        <i class="fa-solid" [ngClass]="
+            isValidatingCampaignCode
+              ? 'fa-spinner fa-spin'
+              : 'fa-check'
+          "></i>
+
+        {{
+        isValidatingCampaignCode
+        ? 'Validating...'
+        : 'Validate Campaign'
+        }}
+      </button>
+    </div>
+
+    <div class="validation-result" *ngIf="campaignValidationMessage"
+      [class.validation-success]="campaignValidationSuccess" [class.validation-error]="!campaignValidationSuccess">
+      <i class="fa-solid" [ngClass]="
+          campaignValidationSuccess
+            ? 'fa-circle-check'
+            : 'fa-circle-exclamation'
+        "></i>
+
+      <span>
+        {{ campaignValidationMessage }}
+      </span>
+    </div>
+  </div>
+</section>

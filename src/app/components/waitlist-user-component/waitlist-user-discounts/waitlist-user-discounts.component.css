@@ -1,0 +1,139 @@
+.offers-page {
+  padding: 0;
+}
+
+.offers-heading p {
+  margin: 0;
+
+  color: #9a91a4;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+}
+
+.offers-heading h1 {
+  margin: 4px 0 16px;
+  color: #241f2d;
+  font-size: 25px;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+}
+
+.offers-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+}
+
+.offer-card {
+  border: 1px solid #e5dfed;
+  border-radius: 12px;
+
+  overflow: hidden;
+  background: #ffffff;
+
+  box-shadow: var(--shadow-sm);
+  transition:
+    transform 180ms ease,
+    box-shadow 180ms ease;
+}
+
+.offer-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.offer-visual {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  min-height: 96px;
+
+  color: #6920c2;
+
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.offer-visual.purple {
+  background: linear-gradient(135deg, #f1e9ff, #e2d2fb);
+}
+
+.offer-visual.gold {
+  background: linear-gradient(135deg, #fff4dc, #fbe2b0);
+  color: #a8640f;
+}
+
+.offer-visual.blue {
+  background: linear-gradient(135deg, #e8ecff, #cdd6fb);
+  color: #3749ad;
+}
+
+.offer-body {
+  padding: 16px;
+}
+
+.offer-body small {
+  color: #6920c2;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+}
+
+.offer-body h3 {
+  margin: 6px 0;
+  color: #241f2d;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.offer-body p {
+  color: var(--text-muted);
+  font-size: 11px;
+}
+
+.offer-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  margin-top: 16px;
+}
+
+.offer-footer span {
+  color: #8b8294;
+  font-size: 10px;
+}
+
+.offer-footer button {
+  padding: 7px 12px;
+
+  border: 0;
+  border-radius: 8px;
+
+  color: #ffffff;
+  background: var(--brand-gradient);
+
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.offer-footer button:hover {
+  background: #551b8d;
+}
+
+@media (max-width: 900px) {
+  .offers-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 600px) {
+  .offers-grid {
+    grid-template-columns: 1fr;
+  }
+}

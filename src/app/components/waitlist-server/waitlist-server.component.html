@@ -1,0 +1,190 @@
+<div class="app-shell">
+
+  <!-- =====================================================
+       TOP NAVBAR
+       ===================================================== -->
+  <header class="top-navbar">
+
+    <div class="top-brand">
+
+      <div class="brand-logo">
+        <img src="assets/brand/dinerly-icon.png" alt="">
+      </div>
+
+      <span class="brand-name">
+        Dinerly
+      </span>
+
+      <span class="brand-badge">
+        SERVER
+      </span>
+
+    </div>
+
+    <div class="top-actions">
+
+      <button
+        type="button"
+        class="top-action-button theme-toggle-button"
+        [attr.aria-label]="isDarkMode ? 'Switch to light mode' : 'Switch to dark mode'"
+        [attr.title]="isDarkMode ? 'Light mode' : 'Dark mode'"
+        (click)="toggleTheme()">
+
+        <i class="fa-solid" [ngClass]="isDarkMode ? 'fa-sun' : 'fa-moon'"></i>
+
+      </button>
+
+      <button
+        type="button"
+        class="top-action-button bell-button"
+        title="Notifications"
+        aria-label="Notifications"
+        (click)="navigate('notifications')">
+
+        <i class="fa-regular fa-bell"></i>
+
+        <span class="bell-badge" *ngIf="unreadCount">
+          {{ unreadCount > 99 ? '99+' : unreadCount }}
+        </span>
+
+      </button>
+
+      <div class="admin-user-wrapper">
+
+        <button
+          type="button"
+          class="top-action-button user-button"
+          (click)="toggleUserMenu(); $event.stopPropagation()">
+
+          <i class="fa-regular fa-user"></i>
+
+        </button>
+
+        <div
+          class="admin-user-menu"
+          *ngIf="showUserMenu"
+          (click)="$event.stopPropagation()">
+
+          <div class="admin-user-menu-header">
+
+            <div class="admin-user-avatar">
+              <i class="fa-regular fa-user"></i>
+            </div>
+
+            <div>
+              <strong>
+                {{ userName }}
+              </strong>
+
+              <span>
+                Server account
+              </span>
+            </div>
+
+          </div>
+
+          <div class="admin-user-menu-divider"></div>
+
+          <button
+            type="button"
+            class="admin-logout-button"
+            (click)="logout($event)">
+
+            <i class="fa-solid fa-arrow-right-from-bracket"></i>
+
+            <span>
+              Logout
+            </span>
+
+          </button>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </header>
+
+
+  <!-- =====================================================
+       SIDEBAR
+       ===================================================== -->
+  <aside class="sidebar">
+
+    <div class="sidebar-top">
+
+      <div class="restaurant-section">
+
+        <div class="restaurant-selector">
+
+          <span class="restaurant-logo">
+            {{ restaurantName.charAt(0) }}
+          </span>
+
+          <span class="restaurant-info">
+
+            <strong>
+              {{ restaurantName | uppercase }}
+            </strong>
+
+            <small>
+              Server portal
+            </small>
+
+          </span>
+
+        </div>
+
+      </div>
+
+      <nav class="sidebar-nav">
+
+        <button
+          type="button"
+          class="nav-item"
+          [class.active]="activeRoute === 'tables'"
+          (click)="navigate('tables')">
+
+          <i class="fa-solid fa-table-cells nav-icon"></i>
+
+          <span>
+            My tables
+          </span>
+
+        </button>
+
+        <button
+          type="button"
+          class="nav-item"
+          [class.active]="activeRoute === 'notifications'"
+          (click)="navigate('notifications')">
+
+          <i class="fa-solid fa-bell nav-icon"></i>
+
+          <span>
+            Notifications
+          </span>
+
+          <span class="nav-badge" *ngIf="unreadCount">
+            {{ unreadCount > 99 ? '99+' : unreadCount }}
+          </span>
+
+        </button>
+
+      </nav>
+
+    </div>
+
+  </aside>
+
+
+  <main class="main-content">
+
+    <router-outlet></router-outlet>
+
+  </main>
+
+</div>
+
+<app-session-timeout></app-session-timeout>

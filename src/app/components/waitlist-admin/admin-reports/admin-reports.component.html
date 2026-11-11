@@ -1,0 +1,278 @@
+<div class="reports-page">
+  <header class="reports-header">
+    <div>
+      <h1>Reports</h1>
+      <p>Generate and download reports across all locations or a single location</p>
+    </div>
+  </header>
+
+  <section class="report-generator">
+    <div class="section-title">
+      <h2>Generate a report</h2>
+    </div>
+
+    <div class="field-label">SCOPE</div>
+
+    <div class="scope-grid">
+      <button
+        type="button"
+        class="scope-card"
+        [class.selected]="selectedScope === 'overall'"
+        (click)="selectScope('overall')">
+        <strong>Overall report</strong>
+        <span>All locations combined, one file</span>
+      </button>
+
+      <button
+        type="button"
+        class="scope-card"
+        [class.selected]="selectedScope === 'location'"
+        (click)="selectScope('location')">
+        <strong>Location report</strong>
+        <span>
+          {{
+            selectedLocation
+              ? selectedLocation.name
+              : 'A single location, broken down by day'
+          }}
+        </span>
+      </button>
+    </div>
+
+    <div class="field-label">PERIOD</div>
+
+    <div class="report-options">
+      <div class="period-select-wrapper">
+        <i class="fa-regular fa-calendar"></i>
+
+        <select
+          [(ngModel)]="selectedPeriod"
+          (ngModelChange)="onPeriodChange()"
+          [disabled]="periodDisabled">
+          <option value="">Custom date range</option>
+          <option value="last30days">Past month</option>
+          <option value="last90days">Last 3 months</option>
+        </select>
+
+        <i class="fa-solid fa-chevron-down"></i>
+      </div>
+
+      <div class="date-range">
+        <div class="date-field">
+          <label>From</label>
+          <input
+            type="date"
+            [(ngModel)]="fromDate"
+            (ngModelChange)="onFromDateChange()"
+            [disabled]="dateDisabled">
+        </div>
+
+        <div class="date-field">
+          <label>To</label>
+          <input
+            type="date"
+            [(ngModel)]="toDate"
+            (ngModelChange)="onToDateChange()"
+            [disabled]="dateDisabled">
+        </div>
+      </div>
+    </div>
+
+    <div class="includes-section">
+      <div class="field-label">INCLUDES</div>
+
+      <p>
+        Waitlist joins &amp; wait times · Coupon and reward redemptions ·
+        New vs. regular customers · Ratings &amp; review volume
+      </p>
+    </div>
+
+    <div
+      class="selected-location"
+      *ngIf="selectedScope === 'location'">
+      <div class="selected-location-icon">
+        <i class="fa-solid fa-location-dot"></i>
+      </div>
+
+      <div>
+        <span>Selected location</span>
+        <strong>
+          {{
+            selectedLocation?.name ||
+            'No location selected'
+          }}
+        </strong>
+      </div>
+
+      <button
+        type="button"
+        (click)="openLocationModal()">
+        Change
+      </button>
+    </div>
+
+    <button
+      type="button"
+      class="generate-button"
+      [disabled]="!canGenerate"
+      (click)="generateReport()">
+      <i class="fa-solid fa-download"></i>
+
+      {{
+        isGenerating
+          ? 'Generating...'
+          : 'Generate & download CSV'
+      }}
+    </button>
+
+    <div
+      class="report-message success"
+      *ngIf="successMessage">
+      {{ successMessage }}
+    </div>
+
+    <div
+      class="report-message error"
+      *ngIf="errorMessage">
+      {{ errorMessage }}
+    </div>
+  </section>
+
+  <section class="recent-reports">
+    <div class="recent-header">
+      <div>
+        <h2>Recent reports</h2>
+      </div>
+    </div>
+
+    <div
+      class="reports-loading"
+      *ngIf="isLoadingReports">
+      Loading reports...
+    </div>
+
+    <div
+      class="reports-table"
+      *ngIf="!isLoadingReports">
+
+      <div class="report-row report-heading">
+        <div>REPORT</div>
+        <div>SCOPE</div>
+        <div>PERIOD</div>
+        <div>GENERATED</div>
+        <div></div>
+      </div>
+
+      <div
+        class="report-row"
+        *ngFor="let report of reports">
+
+        <div class="report-name">
+          <span class="report-icon">
+            <i
+              class="fa-regular"
+              [ngClass]="getReportIcon(report)">
+            </i>
+          </span>
+
+          <strong>
+            {{ report.fileName }}
+          </strong>
+        </div>
+
+        <div class="report-scope">
+          {{ getReportScopeLabel(report) }}
+        </div>
+
+        <div class="report-period">
+          {{ getReportPeriod(report) }}
+        </div>
+
+        <div class="report-generated">
+          {{ formatGeneratedDate(report.generatedAt) }}
+        </div>
+
+        <div class="report-download">
+          <button
+            type="button"
+            (click)="downloadReport(report.id, report.fileName)">
+            Download
+          </button>
+        </div>
+      </div>
+
+      <div
+        class="empty-reports"
+        *ngIf="reports.length === 0">
+        No reports available.
+      </div>
+    </div>
+  </section>
+</div>
+
+<div
+  class="location-modal-backdrop"
+  *ngIf="showLocationModal"
+  (click)="closeLocationModal()">
+
+  <div
+    class="location-modal"
+    (click)="$event.stopPropagation()">
+
+    <div class="location-modal-header">
+      <div>
+        <h2>Select location</h2>
+        <p>Choose the restaurant location for this report.</p>
+      </div>
+
+      <button
+        type="button"
+        class="close-button"
+        (click)="closeLocationModal()">
+        ×
+      </button>
+    </div>
+
+    <div
+      class="location-loading"
+      *ngIf="isLoadingLocations">
+      Loading locations...
+    </div>
+
+    <div
+      class="location-options"
+      *ngIf="!isLoadingLocations">
+
+      <button
+        type="button"
+        class="location-option"
+        *ngFor="let location of locations"
+        [class.selected]="selectedLocationId === location.id"
+        (click)="selectLocation(location)">
+
+        <span class="location-option-icon">
+          {{ location.name.charAt(0) || 'L' }}
+        </span>
+
+        <span class="location-option-content">
+          <strong>{{ location.name }}</strong>
+
+          <small *ngIf="location.address">
+            {{ location.address }}
+          </small>
+        </span>
+
+        <i
+          class="fa-solid fa-check"
+          *ngIf="selectedLocationId === location.id">
+        </i>
+      </button>
+
+      <div
+        class="empty-locations"
+        *ngIf="locations.length === 0">
+        No locations available.
+      </div>
+    </div>
+  </div>
+</div>

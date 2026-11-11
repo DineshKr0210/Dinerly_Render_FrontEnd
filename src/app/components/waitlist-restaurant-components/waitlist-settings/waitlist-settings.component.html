@@ -1,0 +1,708 @@
+<div class="settings-page">
+
+  <header class="settings-header">
+    <div class="settings-title">
+      <h1>Settings</h1>
+    </div>
+
+    <div class="header-actions">
+      <!-- <div class="restaurant-menu-wrapper" (click)="$event.stopPropagation()">
+        <button
+          class="restaurant-btn"
+          type="button"
+          [class.menu-open]="showRestaurantMenu"
+          [attr.aria-expanded]="showRestaurantMenu"
+          aria-haspopup="menu"
+          (click)="toggleRestaurantMenu($event)">
+          <span>
+            {{ restaurantName ? restaurantName.charAt(0) : 'R' }}
+          </span>
+
+          <strong>{{ restaurantName }}</strong>
+
+          <i
+            class="fa-solid fa-chevron-down"
+            [class.rotate-chevron]="showRestaurantMenu">
+          </i>
+        </button>
+
+        <div
+          class="restaurant-dropdown"
+          *ngIf="showRestaurantMenu"
+          role="menu">
+
+          <div class="restaurant-dropdown-info">
+            <div class="restaurant-dropdown-avatar">
+              {{ restaurantName ? restaurantName.charAt(0) : 'R' }}
+            </div>
+
+            <div>
+              <strong>{{ restaurantName }}</strong>
+              <span>Restaurant account</span>
+            </div>
+          </div>
+
+          <div class="restaurant-dropdown-divider"></div>
+
+          <button
+            type="button"
+            class="restaurant-dropdown-action logout-action"
+            role="menuitem"
+            (click)="logoutFromMenu($event)">
+            <i class="fa-solid fa-arrow-right-from-bracket"></i>
+            Logout
+          </button>
+        </div>
+      </div> -->
+    </div>
+  </header>
+
+  <!-- PROFILE -->
+
+  <ng-container *ngIf="activeTab === 'profile'">
+
+    <p class="settings-error" *ngIf="profileError">
+      {{ profileError }}
+    </p>
+
+    <ng-container *ngIf="restaurant && currentPlan">
+
+      <section class="settings-section">
+        <div class="profile-card-header">
+          <div class="profile-heading">
+            <div class="profile-heading-icon">
+              <i class="fa-solid fa-store"></i>
+            </div>
+
+            <div>
+              <h2>Restaurant details</h2>
+            </div>
+          </div>
+        </div>
+
+        <div class="setting-value-row">
+          <strong>Name</strong>
+          <span>{{ restaurant.name || '—' }}</span>
+        </div>
+
+        <div class="setting-value-row">
+          <strong>Email</strong>
+          <span>{{ restaurant.email || '—' }}</span>
+        </div>
+
+        <div class="setting-value-row">
+          <strong>Phone</strong>
+          <span>{{ restaurant.phone || '—' }}</span>
+        </div>
+
+        <div class="setting-value-row">
+          <strong>Address</strong>
+          <span>{{ restaurant.address || '—' }}</span>
+        </div>
+
+        <div class="setting-value-row">
+          <strong>Opening time</strong>
+          <span>{{ restaurant.hours.open || '—' }}</span>
+        </div>
+
+        <div class="setting-value-row">
+          <strong>Closing time</strong>
+          <span>{{ restaurant.hours.close || '—' }}</span>
+        </div>
+      </section>
+
+      <section class="settings-section current-plan-section">
+        <div class="profile-card-header">
+          <div class="profile-heading">
+            <div class="profile-heading-icon">
+              <i class="fa-solid fa-crown"></i>
+            </div>
+
+            <div>
+              <h2>Current plan</h2>
+            </div>
+          </div>
+        </div>
+
+        <div class="setting-value-row">
+          <strong>Plan</strong>
+          <span>{{ currentPlan.name || '—' }}</span>
+        </div>
+
+        <div class="setting-value-row">
+          <strong>SMS sent this month</strong>
+          <span>{{ currentPlan.smssentthismonth }}</span>
+        </div>
+
+        <div class="setting-value-row">
+          <strong>Marketing SMS sent this month</strong>
+          <span>{{ currentPlan.marketingsmssentthismonth }}</span>
+        </div>
+
+        <div class="setting-value-row">
+          <strong>SMS charges this month</strong>
+          <span>
+            {{ currentPlan.smsChargesThisMonth | currency:'CAD':'symbol':'1.2-2' }}
+          </span>
+        </div>
+
+        <div class="setting-value-row">
+          <strong>Call charges this month</strong>
+          <span>
+            {{ currentPlan.callChargesThisMonth | currency:'CAD':'symbol':'1.2-2' }}
+          </span>
+        </div>
+
+        <div class="setting-value-row">
+          <strong>Total charges this month</strong>
+          <span>
+            {{ currentPlan.totalChargesThisMonth | currency:'CAD':'symbol':'1.2-2' }}
+          </span>
+        </div>
+
+        <div class="setting-value-row">
+          <strong>Next renewal</strong>
+          <span>{{ formatApiDate(currentPlan.nextRenewal) }}</span>
+        </div>
+      </section>
+
+    </ng-container>
+  </ng-container>
+
+  <!-- NOTIFICATIONS -->
+
+  <ng-container *ngIf="activeTab === 'notification'">
+
+    <p class="settings-error" *ngIf="notificationError">
+      {{ notificationError }}
+    </p>
+
+    <ng-container *ngIf="notificationConfiguration as notificationConfig">
+      <ng-container *ngIf="guestNotifications as guestSettings">
+        <ng-container *ngIf="staffNotifications as staffSettings">
+          <ng-container *ngIf="messageTemplates as templates">
+
+            <section class="settings-section">
+              <div class="profile-card-header">
+              <div class="profile-heading">
+                <div class="profile-heading-icon">
+                  <i class="fa-solid fa-bell"></i>
+                </div>
+
+                <div>
+                  <h2>General notification settings</h2>
+                </div>
+              </div>
+            </div>
+
+              <div class="setting-value-row">
+                <strong>Send SMS notifications</strong>
+                <span>{{ notificationConfig.sendSmsNotifications ? 'Enabled' : 'Disabled' }}</span>
+              </div>
+
+              <div class="setting-value-row">
+                <strong>Send email notifications</strong>
+                <span>{{ notificationConfig.sendEmailNotifications ? 'Enabled' : 'Disabled' }}</span>
+              </div>
+
+              <div class="setting-value-row">
+                <strong>Nightly summary email</strong>
+                <span>{{ notificationConfig.nightlySummaryEmail || '—' }}</span>
+              </div>
+
+              <div class="setting-value-row">
+                <strong>Average service time</strong>
+                <span>{{ notificationConfig.averageServiceTime || '—' }}</span>
+              </div>
+
+              <div class="setting-value-row">
+                <strong>Buffer time</strong>
+                <span>{{ notificationConfig.bufferTime || '—' }}</span>
+              </div>
+
+              <div class="setting-value-row">
+                <strong>Operating hours</strong>
+                <span>{{ notificationConfig.operatingHours || '—' }}</span>
+              </div>
+
+              <div class="setting-value-row">
+                <strong>Maximum waitlist size</strong>
+                <span>{{ notificationConfig.maxWaitlistSize || '—' }}</span>
+              </div>
+            </section>
+
+            <section class="settings-section">
+              <div class="profile-card-header">
+              <div class="profile-heading">
+                <div class="profile-heading-icon">
+                  <i class="fa-solid fa-users"></i>
+                </div>
+
+                <div>
+                  <h2>Guest notifications</h2>
+                </div>
+              </div>
+            </div>
+
+              <div class="setting-value-row">
+                <strong>Text guests when table is ready</strong>
+                <span>{{ guestSettings.notifysmsenabled ? 'Enabled' : 'Disabled' }}</span>
+              </div>
+
+              <div class="setting-value-row">
+                <strong>Call guests when table is ready</strong>
+                <span>{{ guestSettings.notifycallenabled ? 'Enabled' : 'Disabled' }}</span>
+              </div>
+
+              <div class="setting-value-row">
+                <strong>Text confirmation when guest joins</strong>
+                <span>{{ guestSettings.joinedwaitlistsmsenabled ? 'Enabled' : 'Disabled' }}</span>
+              </div>
+
+              <div class="setting-value-row">
+                <strong>Text guests after approval</strong>
+                <span>{{ guestSettings.approvesmsenabled ? 'Enabled' : 'Disabled' }}</span>
+              </div>
+
+              <div class="setting-value-row">
+                <strong>Auto-remove no-shows</strong>
+                <span>{{ guestSettings.autoRemoveNoShowEnabled ? 'Enabled' : 'Disabled' }}</span>
+              </div>
+
+              <div class="setting-value-row">
+                <strong>Auto-remove minutes</strong>
+                <span>{{ guestSettings.autoRemoveMinutes || '—' }}</span>
+              </div>
+            </section>
+
+            <section class="settings-section">
+              <div class="profile-card-header">
+              <div class="profile-heading">
+                <div class="profile-heading-icon">
+                  <i class="fa-solid fa-comment-sms"></i>
+                </div>
+
+                <div>
+                  <h2>Message templates</h2>
+                </div>
+              </div>
+            </div>
+
+              <div class="setting-value-row">
+                <strong>SMS template</strong>
+                <span>{{ templates.smsTemplateName || '—' }}</span>
+              </div>
+
+              <div class="message-preview">
+                {{ templates.smsTemplatePreview || '—' }}
+              </div>
+
+              <div class="setting-value-row">
+                <strong>Approval SMS template</strong>
+                <span>{{ templates.approveSmsTemplateName || '—' }}</span>
+              </div>
+
+              <div class="message-preview">
+                {{ templates.approveSmsTemplatePreview || '—' }}
+              </div>
+
+              <div class="setting-value-row">
+                <strong>Notify SMS template</strong>
+                <span>{{ templates.notifySmsTemplateName || '—' }}</span>
+              </div>
+
+              <div class="message-preview">
+                {{ templates.notifySmsTemplatePreview || '—' }}
+              </div>
+
+              <div class="setting-value-row">
+                <strong>Voice template</strong>
+                <span>{{ templates.voiceTemplateName || '—' }}</span>
+              </div>
+
+              <div class="message-preview">
+                {{ templates.voiceTemplatePreview || '—' }}
+              </div>
+
+              <div class="setting-value-row">
+                <strong>Voice</strong>
+                <span>{{ templates.voice || '—' }}</span>
+              </div>
+            </section>
+
+            <section class="settings-section">
+              <div class="profile-card-header">
+              <div class="profile-heading">
+                <div class="profile-heading-icon">
+                  <i class="fa-solid fa-user-tie"></i>
+                </div>
+
+                <div>
+                  <h2>Staff notifications</h2>
+                </div>
+              </div>
+            </div>
+
+              <div class="setting-value-row">
+                <strong>Party waiting too long</strong>
+                <span>{{ staffSettings.partyWaitingTooLong ? 'Enabled' : 'Disabled' }}</span>
+              </div>
+
+              <div class="setting-value-row">
+                <strong>Table occupied too long</strong>
+                <span>{{ staffSettings.tableOccupiedTooLong ? 'Enabled' : 'Disabled' }}</span>
+              </div>
+            </section>
+
+          </ng-container>
+        </ng-container>
+      </ng-container>
+    </ng-container>
+  </ng-container>
+
+  <!-- WAITLIST -->
+
+  <ng-container *ngIf="activeTab === 'waitlist'">
+
+    <p class="settings-error" *ngIf="waitlistError">
+      {{ waitlistError }}
+    </p>
+
+    <section class="settings-section" *ngIf="waitlistRules">
+      <div class="profile-card-header">
+        <div class="profile-heading">
+          <div class="profile-heading-icon">
+            <i class="fa-solid fa-list-ol"></i>
+          </div>
+
+          <div>
+            <h2>Waitlist rules</h2>
+          </div>
+        </div>
+      </div>
+
+      <div class="setting-value-row">
+        <strong>Max party size</strong>
+        <span>{{ waitlistRules.maxPartySize || '—' }}</span>
+      </div>
+
+      <div class="setting-value-row">
+        <strong>Table-ready response window</strong>
+        <span>
+          {{ waitlistRules.tableReadyResponseMinutes || '—' }} min
+        </span>
+      </div>
+
+      <div class="setting-value-row">
+        <strong>Walk-ins only</strong>
+        <span>{{ waitlistRules.walkInsOnly ? 'Enabled' : 'Disabled' }}</span>
+      </div>
+
+      <div class="setting-value-row">
+        <strong>Pause new joins after closing time</strong>
+        <span>
+          {{ waitlistRules.pauseNewJoinsAfterClosing ? 'Enabled' : 'Disabled' }}
+        </span>
+      </div>
+
+      <div class="setting-value-row">
+        <strong>Add from Google</strong>
+        <span>{{ waitlistRules.allowGoogleJoin ? 'Enabled' : 'Disabled' }}</span>
+      </div>
+
+      <div class="setting-value-row">
+        <strong>Accept waitlist joins online</strong>
+        <span>{{ waitlistRules.acceptOnlineJoin ? 'Enabled' : 'Disabled' }}</span>
+      </div>
+
+      <div class="setting-value-row">
+        <strong>Terms & conditions</strong>
+        <span>Available</span>
+      </div>
+    </section>
+  </ng-container>
+
+  <!-- TABLES -->
+
+  <ng-container *ngIf="activeTab === 'tables'">
+
+    <section class="settings-section">
+      <div class="profile-card-header">
+        <div class="profile-heading">
+          <div class="profile-heading-icon">
+            <i class="fa-solid fa-map"></i>
+          </div>
+
+          <div>
+            <h2>Floor plan overview</h2>
+          </div>
+        </div>
+      </div>
+
+      <ng-container *ngIf="floorOverview; else floorOverviewUnavailable">
+
+        <div class="setting-value-row">
+          <strong>Sections</strong>
+          <span>{{ floorOverview.sections }}</span>
+        </div>
+
+        <div class="setting-value-row">
+          <strong>Total tables</strong>
+          <span>{{ floorOverview.totalTables }}</span>
+        </div>
+
+        <div class="setting-value-row">
+          <strong>Total seats</strong>
+          <span>{{ floorOverview.totalSeats }}</span>
+        </div>
+
+        <div class="setting-value-row">
+          <strong>Staff on file</strong>
+          <span>{{ staffOnFile }}</span>
+        </div>
+
+      </ng-container>
+
+      <ng-template #floorOverviewUnavailable>
+        <p class="empty-message">
+          Floor-plan overview is unavailable because the floor-plan API has not been connected.
+        </p>
+      </ng-template>
+    </section>
+
+    <section class="settings-section staff-section">
+      <div class="profile-card-header">
+        <div class="profile-heading">
+          <div class="profile-heading-icon">
+            <i class="fa-solid fa-user-group"></i>
+          </div>
+
+          <div>
+            <h2>Staff list</h2>
+          </div>
+        </div>
+      </div>
+
+      <ng-container *ngIf="staffList.length; else noStaff">
+
+        <div class="staff-list">
+          <article class="staff-item" *ngFor="let staff of staffList">
+
+            <div class="staff-avatar">
+              {{ getInitial(staff.name) }}
+            </div>
+
+            <div class="staff-details">
+              <strong>{{ staff.name }}</strong>
+              <span>{{ staff.role }}</span>
+            </div>
+
+            <span class="floor-status">
+              {{ staff.onFloor ? 'On floor' : 'Off floor' }}
+            </span>
+
+          </article>
+        </div>
+
+      </ng-container>
+
+      <ng-template #noStaff>
+        <p class="empty-message">
+          No staff added yet.
+        </p>
+      </ng-template>
+    </section>
+
+  </ng-container>
+
+  <!-- HOLIDAY -->
+
+  <ng-container *ngIf="activeTab === 'holiday'">
+
+    <p class="settings-error" *ngIf="holidayError">
+      {{ holidayError }}
+    </p>
+
+    <section class="settings-section">
+      <div class="profile-card-header">
+        <div class="profile-heading">
+          <div class="profile-heading-icon">
+            <i class="fa-solid fa-calendar-days"></i>
+          </div>
+
+          <div>
+            <h2>Holiday hours</h2>
+            <p>
+              Holiday and special operating hours configured for the restaurant.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <ng-container *ngIf="holidayHours.length; else noHolidayHours">
+
+        <div
+          class="holiday-row"
+          *ngFor="let holiday of holidayHours">
+
+          <strong>
+            {{ holiday.title }} — {{ formatApiDate(holiday.date) }}
+          </strong>
+
+          <span *ngIf="holiday.closed">
+            Closed
+          </span>
+
+          <span *ngIf="!holiday.closed">
+            {{ holiday.openTime || '—' }}
+            –
+            {{ holiday.closeTime || '—' }}
+          </span>
+
+        </div>
+
+      </ng-container>
+
+      <ng-template #noHolidayHours>
+        <p class="empty-message">
+          No holiday hours have been configured.
+        </p>
+      </ng-template>
+    </section>
+
+  </ng-container>
+
+  <!-- ADVANCED -->
+
+  <ng-container *ngIf="activeTab === 'advanced'">
+
+    <p class="settings-error" *ngIf="advancedError">
+      {{ advancedError }}
+    </p>
+
+    <ng-container *ngIf="advancedSettings">
+
+      <section class="settings-section">
+        <div class="profile-card-header">
+          <div class="profile-heading">
+            <div class="profile-heading-icon">
+              <i class="fa-solid fa-sliders"></i>
+            </div>
+
+            <div>
+              <h2>Advanced settings</h2>
+            </div>
+          </div>
+        </div>
+
+        <div class="setting-value-row">
+          <strong>Desktop notifications</strong>
+          <span>
+            {{ advancedSettings.desktopNotifications ? 'Enabled' : 'Disabled' }}
+          </span>
+        </div>
+
+        <div class="setting-value-row">
+          <strong>Keep me signed in</strong>
+          <span>
+            {{ advancedSettings.keepSignedIn ? 'Enabled' : 'Disabled' }}
+          </span>
+        </div>
+
+        <div class="setting-value-row">
+          <strong>Use dark mode</strong>
+          <div class="advanced-toggle-wrap">
+            <button
+              type="button"
+              class="advanced-toggle-button"
+              [class.active]="advancedSettings.darkMode"
+              (click)="toggleDarkMode()">
+              <span>{{ advancedSettings.darkMode ? 'Yes' : 'No' }}</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="setting-value-row">
+          <strong>Language</strong>
+          <span>{{ getLanguageLabel(advancedSettings.language) }}</span>
+        </div>
+
+        <div class="setting-value-row">
+          <strong>Time zone</strong>
+          <span>{{ advancedSettings.timezone || '—' }}</span>
+        </div>
+
+      </section>
+
+      <section class="settings-section guest-link-section" *ngIf="guestJoinLink">
+
+        <div class="profile-card-header">
+          <div class="profile-heading">
+            <div class="profile-heading-icon">
+              <i class="fa-solid fa-qrcode"></i>
+            </div>
+
+            <div>
+              <h2>Guest join link & barcode</h2>
+              <p>
+                Guests scan this QR code to join the waitlist from their phone.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <p class="settings-error" *ngIf="qrCodeError">
+          {{ qrCodeError }}
+        </p>
+
+        <div class="qr-content">
+
+          <div class="qr-code">
+
+            <div class="qr-loader" *ngIf="isQrLoading">
+              Loading QR code...
+            </div>
+
+            <img
+              *ngIf="!isQrLoading && qrCodeImageUrl"
+              [src]="qrCodeImageUrl"
+              alt="Dinerly guest join QR code">
+
+          </div>
+
+          <div class="guest-link-details">
+
+            <div class="guest-link-row">
+              <strong>Link</strong>
+              <span>{{ guestJoinLink }}</span>
+            </div>
+
+            <div class="guest-link-actions">
+
+              <button
+                type="button"
+                class="outline-btn"
+                (click)="copyLink()">
+                Copy link
+              </button>
+
+              <button
+                type="button"
+                class="outline-btn"
+                [disabled]="isQrLoading"
+                (click)="downloadQrCode()">
+                Download QR code
+              </button>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </section>
+
+    </ng-container>
+  </ng-container>
+
+</div>

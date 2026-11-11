@@ -1,0 +1,655 @@
+<div class="offers-page">
+
+  <div class="page-header">
+
+    <div>
+      <h1>Offers</h1>
+
+      <p>
+        Create and manage coupons guests can redeem at your locations
+      </p>
+    </div>
+
+    <button type="button" class="primary-button" (click)="openAddOffer()"
+      [disabled]="isLoadingLocations || !locations.length">
+
+      <span>+</span>
+      Add offer
+
+    </button>
+
+  </div>
+
+
+  <!-- <div class="location-row">
+
+    <div class="location-select">
+
+      <span class="location-icon">
+        ⌂
+      </span>
+
+      <select [(ngModel)]="selectedLocationId" (ngModelChange)="onLocationChange($event)"
+        [disabled]="isLoadingLocations || !locations.length">
+
+        <option *ngFor="let location of locations" [ngValue]="location.id">
+
+          {{ location.name }}
+
+        </option>
+
+      </select>
+
+      <span class="select-arrow">
+        ˅
+      </span>
+
+    </div>
+
+  </div> -->
+
+
+  <!-- <div class="category-tabs" *ngIf="!isLoadingCategories && categories.length">
+
+    <button type="button" class="category-tab" *ngFor="let category of categories"
+      [class.active]="selectedCategory === category" (click)="selectCategory(category)">
+
+      {{ category | titlecase }}
+
+    </button>
+
+  </div> -->
+
+
+  <div class="message success-message" *ngIf="successMessage">
+
+    <span>✓</span>
+
+    {{ successMessage }}
+
+  </div>
+
+
+  <div class="message error-message" *ngIf="errorMessage">
+
+    <span>!</span>
+
+    {{ errorMessage }}
+
+  </div>
+
+
+  <div class="loading-container" *ngIf="
+      isLoadingLocations ||
+      isLoadingCategories ||
+      isLoadingOffers
+    ">
+
+    <div class="loader"></div>
+
+    <span>
+
+      {{
+      isLoadingLocations
+      ? 'Loading locations...'
+      : isLoadingCategories
+      ? 'Loading categories...'
+      : 'Loading offers...'
+      }}
+
+    </span>
+
+  </div>
+
+
+  <div class="offers-list" *ngIf="
+      !isLoadingLocations &&
+      !isLoadingCategories &&
+      !isLoadingOffers
+    ">
+
+
+    <div class="empty-state" *ngIf="!categories.length">
+
+      <div class="empty-icon">
+        %
+      </div>
+
+      <h3>
+        No offer categories found
+      </h3>
+
+      <p>
+        There are no offer categories available for this location.
+      </p>
+
+      <button type="button" class="primary-button" (click)="openAddOffer()" [disabled]="!locations.length">
+
+        + Add offer
+
+      </button>
+
+    </div>
+
+
+    <div class="empty-state" *ngIf="
+        categories.length &&
+        offers.length === 0
+      ">
+
+      <div class="empty-icon">
+        %
+      </div>
+
+      <h3>
+        No offers found
+      </h3>
+
+      <p>
+        There are no offers in the
+        {{ selectedCategory | titlecase }}
+        category for this location.
+      </p>
+
+      <button type="button" class="primary-button" (click)="openAddOffer()" [disabled]="!locations.length">
+
+        + Add offer
+
+      </button>
+
+    </div>
+
+
+    <div class="offers-grid" *ngIf="offers.length > 0">
+
+      <div class="offer-card" *ngFor="
+          let offer of offers;
+          let i = index
+        ">
+
+
+        <div class="offer-card-header" [ngClass]="getCardClass(i)">
+
+          <div class="location-initials">
+            {{ getLocationInitials(offer) }}
+          </div>
+
+          <div class="status-badge" [ngClass]="{
+              'active':
+                offer.status === 'ACTIVE',
+
+              'scheduled':
+                offer.status === 'SCHEDULED',
+
+              'inactive':
+                offer.status === 'INACTIVE',
+
+              'expired':
+                offer.status === 'EXPIRED'
+            }">
+
+            {{ getStatusLabel(offer.status) }}
+
+          </div>
+
+        </div>
+
+
+        <div class="offer-card-body">
+
+          <div class="discount-label">
+            {{ offer.discountLabel }}
+          </div>
+
+          <div class="offer-name">
+            {{ offer.name }}
+          </div>
+
+          <div class="offer-description">
+            {{ offer.description }}
+          </div>
+
+          <div class="offer-meta">
+            {{ getOfferMeta(offer) }}
+          </div>
+
+
+          <div class="offer-card-footer">
+
+            <button type="button" class="edit-button" (click)="openEditOffer(offer)">
+
+              Edit
+
+            </button>
+
+
+            <button type="button" class="delete-icon-button" title="Delete offer" aria-label="Delete offer"
+              (click)="openDeleteModal(offer)" [disabled]="isDeleting">
+
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+
+                <path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3" fill="none" stroke="currentColor"
+                  stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                </path>
+
+              </svg>
+
+            </button>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <button type="button" class="add-offer-card" (click)="openAddOffer()">
+
+        <span class="add-offer-icon">
+          +
+        </span>
+
+        <span>
+          Add a new offer
+        </span>
+
+      </button>
+
+    </div>
+
+  </div>
+
+
+  <div class="pagination" *ngIf="
+      !isLoadingLocations &&
+      !isLoadingCategories &&
+      !isLoadingOffers &&
+      offers.length > 0 &&
+      totalPages > 1
+    ">
+
+    <button type="button" class="pagination-button" (click)="previousPage()" [disabled]="currentPage === 0">
+
+      ‹
+
+    </button>
+
+    <span class="page-info">
+
+      Page {{ currentPage + 1 }}
+      of {{ totalPages }}
+
+    </span>
+
+    <button type="button" class="pagination-button" (click)="nextPage()" [disabled]="currentPage >= totalPages - 1">
+
+      ›
+
+    </button>
+
+  </div>
+
+
+  <div class="modal-backdrop" *ngIf="showOfferModal" (click)="closeOfferModal()">
+
+    <div class="offer-modal" (click)="$event.stopPropagation()">
+
+
+      <div class="modal-header">
+
+        <div>
+
+          <h2>
+            {{
+            isEditMode
+            ? 'Edit offer'
+            : 'Add offer'
+            }}
+          </h2>
+
+          <p>
+            {{
+            isEditMode
+            ? 'Update the offer details'
+            : 'Create a new coupon or deal'
+            }}
+          </p>
+
+        </div>
+
+
+        <button type="button" class="close-button" (click)="closeOfferModal()">
+
+          ×
+
+        </button>
+
+      </div>
+
+
+      <form [formGroup]="offerForm" (ngSubmit)="saveOffer()">
+
+
+        <div class="form-group">
+
+          <label>
+            Offer name *
+          </label>
+
+          <input type="text" formControlName="name" placeholder="Example: Happy Hour Special" />
+
+          <span class="field-error" *ngIf="isInvalid('name')">
+
+            Offer name is required.
+
+          </span>
+
+        </div>
+
+
+        <div class="form-group">
+
+          <label>
+            Location *
+          </label>
+
+          <div class="modal-select-wrapper">
+
+            <select formControlName="locationId">
+
+              <option *ngFor="let location of locations" [ngValue]="location.id">
+
+                {{ location.name }}
+
+              </option>
+
+            </select>
+
+          </div>
+
+          <span class="field-error" *ngIf="isInvalid('locationId')">
+
+            Location is required.
+
+          </span>
+
+        </div>
+
+
+        <div class="form-row">
+
+          <div class="form-group">
+
+            <label>
+              Start date *
+            </label>
+
+            <input type="date" formControlName="startDate" />
+
+            <span class="field-error" *ngIf="isInvalid('startDate')">
+
+              Start date is required.
+
+            </span>
+
+          </div>
+
+
+          <div class="form-group">
+
+            <label>
+              End date *
+            </label>
+
+            <input type="date" formControlName="endDate" />
+
+            <span class="field-error" *ngIf="isInvalid('endDate')">
+
+              End date is required.
+
+            </span>
+
+          </div>
+
+        </div>
+
+
+        <div class="form-row">
+
+          <div class="form-group">
+
+            <label>
+              Status *
+            </label>
+
+            <div class="modal-select-wrapper">
+
+              <select formControlName="status">
+
+                <option value="ACTIVE">
+                  Active
+                </option>
+
+                <option value="INACTIVE">
+                  Inactive
+                </option>
+
+                <option value="SCHEDULED">
+                  Scheduled
+                </option>
+
+                <option value="EXPIRED">
+                  Expired
+                </option>
+
+              </select>
+
+            </div>
+
+          </div>
+
+
+          <div class="form-group">
+
+            <label>
+              Discount value *
+            </label>
+
+            <input type="number" min="0" step="0.01" formControlName="discountValue" placeholder="20" />
+
+            <span class="field-error" *ngIf="isInvalid('discountValue')">
+
+              Discount value must be 0 or greater.
+
+            </span>
+
+          </div>
+
+        </div>
+
+
+        <div class="form-group">
+
+          <label>
+            Discount label *
+          </label>
+
+          <input type="text" formControlName="discountLabel" placeholder="Example: 20% off appetizers" />
+
+          <span class="field-error" *ngIf="isInvalid('discountLabel')">
+
+            Discount label is required.
+
+          </span>
+
+        </div>
+
+
+        <div class="form-group">
+
+          <label>
+            Description *
+          </label>
+
+          <textarea rows="4" formControlName="description" placeholder="Describe the offer">
+          </textarea>
+
+          <span class="field-error" *ngIf="isInvalid('description')">
+
+            Description is required.
+
+          </span>
+
+        </div>
+
+
+        <div class="form-row">
+
+          <div class="form-group">
+
+            <label>
+              Photo URL
+            </label>
+
+            <input type="url" formControlName="photoUrl" placeholder="https://example.com/offer.jpg" />
+
+          </div>
+
+
+          <div class="form-group">
+
+            <label>
+              Per user limit *
+            </label>
+
+            <input type="number" min="1" step="1" formControlName="perUserLimit" placeholder="5" />
+
+            <span class="field-error" *ngIf="isInvalid('perUserLimit')">
+
+              Per user limit must be at least 1.
+
+            </span>
+
+          </div>
+
+        </div>
+
+
+        <div class="modal-actions">
+
+          <button type="button" class="cancel-button" (click)="closeOfferModal()" [disabled]="isSaving">
+
+            Cancel
+
+          </button>
+
+
+          <button type="submit" class="save-button" [disabled]="isSaving">
+
+            <span *ngIf="!isSaving">
+
+              {{
+              isEditMode
+              ? 'Save changes'
+              : 'Create offer'
+              }}
+
+            </span>
+
+            <span *ngIf="isSaving">
+              Saving...
+            </span>
+
+          </button>
+
+        </div>
+
+      </form>
+
+    </div>
+
+  </div>
+
+  <div
+  class="delete-modal-backdrop"
+  *ngIf="showDeleteModal"
+  (click)="closeDeleteModal()">
+
+  <div
+    class="delete-modal"
+    (click)="$event.stopPropagation()">
+
+    <div class="delete-modal-icon">
+
+      <svg
+        viewBox="0 0 24 24"
+        aria-hidden="true">
+
+        <path
+          d="M6 7h12M10 7V4h4v3M8 7l1 13h6l1-13M10 11v5M14 11v5"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.8"
+          stroke-linecap="round"
+          stroke-linejoin="round">
+        </path>
+
+      </svg>
+
+    </div>
+
+    <div class="delete-modal-content">
+
+      <h2>
+        Delete offer?
+      </h2>
+
+      <p>
+        Are you sure you want to delete
+        <strong>
+          "{{ offerToDelete?.name }}"
+        </strong>?
+      </p>
+
+      <span class="delete-warning">
+        This action cannot be undone.
+      </span>
+
+    </div>
+
+    <div class="delete-modal-actions">
+
+      <button
+        type="button"
+        class="delete-cancel-button"
+        (click)="closeDeleteModal()"
+        [disabled]="isDeleting">
+
+        Cancel
+
+      </button>
+
+      <button
+        type="button"
+        class="delete-confirm-button"
+        (click)="confirmDeleteOffer()"
+        [disabled]="isDeleting">
+
+        <span *ngIf="!isDeleting">
+          Delete
+        </span>
+
+        <span *ngIf="isDeleting">
+          Deleting...
+        </span>
+
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+</div>
+

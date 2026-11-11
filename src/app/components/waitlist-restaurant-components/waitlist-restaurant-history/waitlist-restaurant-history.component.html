@@ -1,0 +1,166 @@
+<div *ngIf="isLoading" class="history-skeleton" aria-busy="true" aria-label="Loading history">
+  <div class="skeleton history-skeleton-toolbar"></div>
+  <div class="history-skeleton-card" *ngFor="let row of [1, 2, 3, 4]">
+    <div class="skeleton history-skeleton-cell history-skeleton-cell-lg"></div>
+    <div class="skeleton history-skeleton-cell"></div>
+    <div class="skeleton history-skeleton-cell"></div>
+    <div class="skeleton history-skeleton-cell history-skeleton-cell-sm"></div>
+  </div>
+</div>
+
+<div *ngIf="!isLoading" class="history-page">
+  <header class="history-header">
+    <div class="history-header-copy">
+      <h1>History</h1>
+      <p>View past waitlist guests and their status</p>
+    </div>
+
+    <button type="button" class="export-btn" [disabled]="isDownloadingCSV" (click)="exportHistoryCsv()">
+      <i class="fa-solid fa-download"></i>
+      <span>{{ isDownloadingCSV ? 'Downloading...' : 'Export' }}</span>
+    </button>
+  </header>
+
+  <div class="history-filters">
+    <input type="text" placeholder="Search by guest name" [(ngModel)]="searchText" (ngModelChange)="resetAccordionAndPage()" />
+
+    <select [(ngModel)]="selectedStatus" (change)="onFilterChange()">
+      <option value="">All Status</option>
+      <option value="PENDING">Pending</option>
+      <option value="WAITING">Waiting</option>
+      <option value="NOTIFIED">Notified</option>
+      <option value="SEATED">Seated</option>
+      <option value="CANCELLED">Cancelled</option>
+      <option value="NO_SHOW">No-show</option>
+    </select>
+
+    <input type="date" [(ngModel)]="selectedFromDate" (change)="resetAccordionAndPage()" aria-label="From date" />
+    <input type="date" [(ngModel)]="selectedToDate" (change)="resetAccordionAndPage()" aria-label="To date" />
+
+    <button type="button" class="clear-btn" (click)="clearFilters()">
+      Clear Filters
+    </button>
+  </div>
+
+  <div class="history-list-card">
+    <div class="history-list-head">
+      <span>Guest</span>
+      <span>Status</span>
+    </div>
+
+    <ng-container *ngIf="filteredHistory.length; else noHistory">
+      <ng-container *ngFor="let entry of filteredHistory; trackBy: trackById">
+        <button
+          type="button"
+          class="history-row-button"
+          [class.expanded]="isHistoryExpanded(entry)"
+          [attr.aria-expanded]="isHistoryExpanded(entry)"
+          [attr.aria-controls]="'history-details-' + entry.id"
+          (click)="toggleHistoryAccordion(entry)">
+          <span class="guest-info">
+            <span class="guest-avatar">{{ getInitial(entry.guestName) }}</span>
+            <span class="guest-name">{{ entry.guestName }}</span>
+          </span>
+
+          <span class="guest-status" [ngClass]="getStatusClass(entry.status)">
+            {{ formatStatus(entry.status) }}
+          </span>
+        </button>
+
+        <div
+          *ngIf="isHistoryExpanded(entry)"
+          class="history-details"
+          [id]="'history-details-' + entry.id"
+          role="region"
+          [attr.aria-label]="entry.guestName + ' details'">
+          <div class="history-details-header">
+            <h3>Guest Details</h3>
+          </div>
+
+          <div class="history-details-grid">
+            <div class="detail-item">
+              <span>Guest Name</span>
+              <strong>{{ entry.guestName || '—' }}</strong>
+            </div>
+
+            <div class="detail-item">
+              <span>Phone Number</span>
+              <strong>{{ entry.guestPhone || '—' }}</strong>
+            </div>
+
+            <div class="detail-item">
+              <span>Party Size</span>
+              <strong>{{ entry.partySize || '—' }}</strong>
+            </div>
+
+            <div class="detail-item">
+              <span>Seating Preference</span>
+              <strong>{{ formatPreference(entry.preference) }}</strong>
+            </div>
+
+            <div class="detail-item">
+              <span>Table Number</span>
+              <strong>{{ entry.tableName || '—' }}</strong>
+            </div>
+
+            <div class="detail-item">
+              <span>Status</span>
+              <strong>{{ formatStatus(entry.status) }}</strong>
+            </div>
+
+            <div class="detail-item">
+              <span>Joined At</span>
+              <strong>{{ formatHistoryDateTime(entry.joinedAt) }}</strong>
+            </div>
+
+            <div class="detail-item">
+              <span>Seated At</span>
+              <strong>{{ formatHistoryDateTime(entry.seatedAt) }}</strong>
+            </div>
+
+            <div class="detail-item">
+              <span>Completed At</span>
+              <strong>{{ formatHistoryDateTime(entry.seatedAt) }}</strong>
+            </div>
+
+            <div class="detail-item">
+              <span>Notes</span>
+              <strong>{{ entry.notes || '—' }}</strong>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+    </ng-container>
+
+    <ng-template #noHistory>
+      <div class="empty-state">
+        <div class="empty-icon"><i class="fa-solid fa-clock-rotate-left"></i></div>
+        <h3>No guests match your filters</h3>
+        <p>Try adjusting the search or clear the filters.</p>
+      </div>
+    </ng-template>
+  </div>
+
+  <div class="history-pagination" *ngIf="!isLoading && totalElements > 0">
+    <span>Showing {{ startItem }}–{{ endItem }} of {{ totalElements }} guests</span>
+
+    <div class="pagination-controls">
+      <button type="button" class="page-btn arrow" [disabled]="currentPage === 0" (click)="prevPage()">
+        <
+      </button>
+
+      <button
+        type="button"
+        class="page-btn"
+        *ngFor="let page of pages"
+        [class.active]="currentPage === page"
+        (click)="goToPage(page)">
+        {{ page + 1 }}
+      </button>
+
+      <button type="button" class="page-btn arrow" [disabled]="currentPage === totalPages - 1" (click)="nextPage()">
+        >
+      </button>
+    </div>
+  </div>
+</div>

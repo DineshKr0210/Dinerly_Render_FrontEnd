@@ -1,0 +1,101 @@
+@import '../../styles/portal-shell.css';
+
+/* Mobile settings tabs: the sidebar settings submenu is hidden on small screens */
+.tablet-settings-tabs {
+  display: none;
+
+  gap: 8px;
+
+  margin-bottom: 18px;
+
+  overflow-x: auto;
+}
+
+.sidebar {
+  background-image: url('../../../assets/sidebar-new.png');
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+}
+
+.sidebar-toggle-button {
+  width: 28px;
+  height: 28px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.12);
+  color: #ffffff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  flex: 0 0 28px;
+}
+
+.tablet-settings-tabs button {
+  flex: 0 0 auto;
+
+  min-height: 32px;
+
+  padding: 0 14px;
+
+  border: 0;
+  border-radius: 999px;
+
+  background: #f7f3fc;
+  color: #80778b;
+
+  font-family: inherit;
+
+  font-size: 11px;
+  font-weight: 600;
+
+  white-space: nowrap;
+
+  cursor: pointer;
+}
+
+.tablet-settings-tabs button.active {
+  background: #6920c2;
+  color: #ffffff;
+}
+
+:host-context([data-theme='dark']) .sidebar {
+  background-image: none;
+  background-color: #0d0d13;
+}
+
+:host-context([data-theme='dark']) .sidebar-toggle-button {
+  border-color: var(--dk-border);
+  background: var(--dk-surface-2);
+  color: var(--dk-text-2);
+}
+
+:host-context([data-theme='dark']) .sidebar-toggle-button:hover {
+  background: var(--dk-surface-3);
+  color: var(--dk-brand);
+}
+
+:host-context([data-theme='dark']) .tablet-settings-tabs button {
+  background: var(--dk-surface-2);
+  color: var(--dk-text-2);
+}
+
+:host-context([data-theme='dark']) .tablet-settings-tabs button.active {
+  background: var(--dk-brand-soft);
+  color: var(--dk-brand);
+}
+
+@media screen and (min-width: 500px) and (max-width: 768px) {
+  .tablet-settings-tabs {
+    display: none;
+  }
+
+  .settings-submenu {
+    display: block;
+  }
+
+  .sidebar-collapsed .settings-submenu {
+    display: none;
+  }
+}

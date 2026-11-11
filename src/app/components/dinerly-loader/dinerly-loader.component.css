@@ -1,0 +1,121 @@
+.dinerly-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 10, 25, 0.58);
+  backdrop-filter: blur(6px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  padding: 18px;
+}
+
+.dinerly-loader {
+position: relative;
+  width: 100%;
+  min-height: 220px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  margin: 0 auto;
+}
+
+.logo-wrap {
+  position: relative;
+  width: 150px;
+  height: 100px;
+  animation: pulse 1.8s infinite ease-in-out;
+}
+
+.arrow {
+  position: absolute;
+  top: 50%;
+  width: 0;
+  height: 0;
+  transform: translateY(-50%);
+  border-top: 45px solid transparent;
+  border-bottom: 45px solid transparent;
+  border-left: 70px solid;
+  filter: drop-shadow(0 10px 18px rgba(80, 0, 120, 0.25));
+}
+
+/* back arrow */
+.arrow-1 {
+  left: 0;
+  border-left-color: #3c006f;
+  animation: splitBack 1.8s infinite ease-in-out;
+}
+
+/* middle arrow */
+.arrow-2 {
+  left: 18px;
+  border-left-color: #a600e8;
+  opacity: 0.85;
+  animation: splitMiddle 1.8s infinite ease-in-out;
+}
+
+/* front arrow */
+.arrow-3 {
+  left: 34px;
+  border-left-color: #e0a2ff;
+  opacity: 0.9;
+  animation: splitFront 1.8s infinite ease-in-out;
+}
+
+.dinerly-loader p {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 600;
+  color: #ffffff;
+  letter-spacing: 0.4px;
+  animation: textFade 1.8s infinite ease-in-out;
+}
+
+@keyframes splitBack {
+  0%, 100% {
+    transform: translateY(-50%) translateX(0);
+  }
+  50% {
+    transform: translateY(-50%) translateX(28px);
+  }
+}
+
+@keyframes splitMiddle {
+  0%, 100% {
+    transform: translateY(-50%) translateX(0);
+  }
+  50% {
+    transform: translateY(-50%) translateX(0);
+  }
+}
+
+@keyframes splitFront {
+  0%, 100% {
+    transform: translateY(-50%) translateX(0);
+  }
+  50% {
+    transform: translateY(-50%) translateX(-28px);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.06);
+    opacity: 0.9;
+  }
+}
+
+@keyframes textFade {
+  0%, 100% {
+    opacity: 0.45;
+  }
+  50% {
+    opacity: 1;
+  }
+}

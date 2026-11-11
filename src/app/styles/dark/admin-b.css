@@ -1,0 +1,1370 @@
+/* Dark theme overrides for admin portal pages (part B).
+   Every selector mirrors its source rule and is prefixed with html[data-theme="dark"].
+   Page canvases use --dk-bg (not a surface token) so cards stay lighter than the page, as in light mode.
+   admin-help, admin-management and management component CSS files are empty, so they have no overrides. */
+
+/* admin-customers */
+
+html[data-theme="dark"] .customers-page {
+  background: var(--dk-page);
+}
+
+html[data-theme="dark"] .page-header h1 {
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .location-selector label {
+  color: var(--dk-text-2);
+}
+
+html[data-theme="dark"] .location-selector select {
+  background: var(--dk-sunken);
+  border-color: var(--dk-border);
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .stat-card {
+  background: var(--dk-surface);
+  border-color: var(--dk-border);
+}
+
+html[data-theme="dark"] .stat-value {
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .stat-label,
+html[data-theme="dark"] .stat-unavailable {
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .table-card {
+  background: var(--dk-surface);
+  border-color: var(--dk-border);
+}
+
+html[data-theme="dark"] .table-header {
+  border-bottom-color: var(--dk-border);
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .result-count {
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] thead th {
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] tbody td {
+  border-top-color: var(--dk-border);
+  color: var(--dk-text-2);
+}
+
+html[data-theme="dark"] tbody tr:hover {
+  background: var(--dk-surface-2);
+}
+
+html[data-theme="dark"] .guest-name {
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .loyalty-badge {
+  background: var(--dk-surface-3);
+  color: var(--dk-text-2);
+}
+
+html[data-theme="dark"] .loyalty-badge.gold {
+  background: var(--dk-warning-soft);
+  color: var(--dk-warning);
+}
+
+html[data-theme="dark"] .loyalty-badge.silver {
+  background: var(--dk-surface-3);
+  color: var(--dk-text-2);
+}
+
+html[data-theme="dark"] .loyalty-badge.platinum {
+  background: var(--dk-brand-soft);
+  color: var(--dk-brand);
+}
+
+html[data-theme="dark"] .pagination {
+  border-top-color: var(--dk-border);
+}
+
+html[data-theme="dark"] .pagination span {
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .pagination button {
+  background: var(--dk-surface);
+  border-color: var(--dk-border);
+  color: var(--dk-text-2);
+}
+
+html[data-theme="dark"] .empty-state {
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .empty-state .material-icons {
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .empty-state h3 {
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .loading {
+  color: var(--dk-text-2);
+}
+
+/* Spinner: only the grey track sides change; the purple top border is kept. */
+html[data-theme="dark"] .spinner {
+  border-right-color: var(--dk-border-strong);
+  border-bottom-color: var(--dk-border-strong);
+  border-left-color: var(--dk-border-strong);
+}
+
+html[data-theme="dark"] .error-message {
+  background: var(--dk-danger-soft);
+  border-color: var(--dk-border);
+  color: var(--dk-danger);
+}
+
+
+/* admin-history */
+
+html[data-theme="dark"] .table-wrap {
+  background: var(--dk-surface);
+  border-color: var(--dk-border);
+}
+
+html[data-theme="dark"] .history-table th {
+  background: var(--dk-surface-2);
+  border-bottom-color: var(--dk-border);
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .history-table td {
+  border-bottom-color: var(--dk-border);
+  border-top-color: var(--dk-border);
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .history-table tr:hover td {
+  background: var(--dk-surface-2);
+}
+
+html[data-theme="dark"] .export-btn {
+  background: var(--dk-surface);
+  border-color: var(--dk-border);
+  color: var(--dk-text-2);
+}
+
+html[data-theme="dark"] .export-btn:hover {
+  background: var(--dk-surface-2);
+}
+
+html[data-theme="dark"] .filter-bar select,
+html[data-theme="dark"] .filter-bar input {
+  background: var(--dk-sunken);
+  border-color: var(--dk-border);
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .filter-bar input::placeholder {
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .time-cell {
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .loading-state,
+html[data-theme="dark"] .empty-state {
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .empty-state-icon {
+  color: var(--dk-brand);
+}
+
+html[data-theme="dark"] .empty-state-title {
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .empty-state-subtitle {
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .table-footer {
+  background: var(--dk-surface);
+  border-top-color: var(--dk-border);
+  color: var(--dk-text-2);
+}
+
+html[data-theme="dark"] .page-btn {
+  background: var(--dk-surface);
+  border-color: var(--dk-border);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .page-btn:hover:not(:disabled):not(.active) {
+  background: var(--dk-surface-2);
+  border-color: var(--dk-border-strong);
+  color: var(--dk-brand);
+}
+
+/* Restated because the base .page-btn override above would otherwise beat the active gradient. */
+html[data-theme="dark"] .page-btn.active {
+  background: linear-gradient(180deg, #7c3aed 0%, #5b21b6 100%);
+  border-color: #6d28d9;
+  color: #fff;
+}
+
+html[data-theme="dark"] .page-btn.arrow {
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .page-btn:disabled {
+  background: var(--dk-surface-2);
+}
+
+html[data-theme="dark"] .jump-input {
+  background: var(--dk-sunken);
+  border-color: var(--dk-border);
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .jump-input::placeholder {
+  color: var(--dk-text-3);
+}
+
+/* Restated so the purple focus border survives the .jump-input override above. */
+html[data-theme="dark"] .jump-input:focus {
+  border-color: #7c3aed;
+}
+
+
+/* admin-performance */
+
+html[data-theme="dark"] .performance-page {
+  background: var(--dk-page);
+}
+
+html[data-theme="dark"] .performance-header h1 {
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .performance-header p {
+  color: var(--dk-text-2);
+}
+
+html[data-theme="dark"] .filter-group label {
+  color: var(--dk-text-2);
+}
+
+html[data-theme="dark"] .filter-group select {
+  background: var(--dk-sunken);
+  border-color: var(--dk-border);
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .filter-group select:focus {
+  border-color: var(--dk-brand);
+}
+
+html[data-theme="dark"] .filter-group select:disabled {
+  background: var(--dk-surface-2);
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .select-wrapper .material-icons {
+  color: var(--dk-text-2);
+}
+
+html[data-theme="dark"] .performance-tabs {
+  border-bottom-color: var(--dk-border);
+}
+
+html[data-theme="dark"] .performance-tabs button {
+  color: var(--dk-text-2);
+}
+
+html[data-theme="dark"] .performance-tabs button:hover {
+  color: var(--dk-brand);
+}
+
+html[data-theme="dark"] .performance-tabs button.active {
+  border-bottom-color: var(--dk-brand);
+  color: var(--dk-brand);
+}
+
+html[data-theme="dark"] .performance-error {
+  background: var(--dk-danger-soft);
+  border-color: var(--dk-border);
+  color: var(--dk-danger);
+}
+
+html[data-theme="dark"] .performance-loading {
+  color: var(--dk-text-2);
+}
+
+html[data-theme="dark"] .loading-spinner {
+  border-right-color: var(--dk-border-strong);
+  border-bottom-color: var(--dk-border-strong);
+  border-left-color: var(--dk-border-strong);
+}
+
+html[data-theme="dark"] .metric-card {
+  background: var(--dk-surface);
+  border-color: var(--dk-border);
+}
+
+html[data-theme="dark"] .metric-icon {
+  background: var(--dk-brand-soft);
+  color: var(--dk-brand);
+}
+
+html[data-theme="dark"] .metric-label {
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .metric-value {
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .metric-description {
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .performance-chart-card {
+  background: var(--dk-surface);
+  border-color: var(--dk-border);
+}
+
+html[data-theme="dark"] .section-header h2 {
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .section-header p {
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .trend-chart {
+  border-bottom-color: var(--dk-border);
+}
+
+html[data-theme="dark"] .trend-value {
+  color: var(--dk-brand);
+}
+
+/* Bars use the lighter brand tone so they stay visible on dark surfaces. */
+html[data-theme="dark"] .trend-bar {
+  background: var(--dk-brand);
+}
+
+html[data-theme="dark"] .trend-label {
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .empty-chart {
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .performance-leaderboard-card {
+  background: var(--dk-surface);
+  border-color: var(--dk-border);
+}
+
+html[data-theme="dark"] .leaderboard-row {
+  border-bottom-color: var(--dk-border);
+  color: var(--dk-text-2);
+}
+
+html[data-theme="dark"] .leaderboard-header {
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .leaderboard-location {
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .empty-state {
+  background: var(--dk-surface);
+  border-color: var(--dk-border);
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .empty-state .material-icons {
+  color: var(--dk-brand);
+}
+
+html[data-theme="dark"] .empty-state h3 {
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .empty-performance-card {
+  background: var(--dk-surface);
+  border-color: var(--dk-border);
+}
+
+html[data-theme="dark"] .empty-performance-card .material-icons {
+  color: var(--dk-brand);
+}
+
+html[data-theme="dark"] .empty-performance-card h2 {
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .empty-performance-card p {
+  color: var(--dk-text-2);
+}
+
+
+/* admin-statements */
+
+html[data-theme="dark"] .statements-page {
+  background: var(--dk-page);
+}
+
+html[data-theme="dark"] .statements-page .page-header h1 {
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .statement-card {
+  background: var(--dk-surface);
+  border-color: var(--dk-border);
+}
+
+html[data-theme="dark"] .section-label {
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .plan-left h2 {
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .plan-left p {
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .plan-price {
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .payment-card strong {
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .change-button {
+  color: var(--dk-brand);
+}
+
+html[data-theme="dark"] .invoice-card h2 {
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .invoice-row {
+  color: var(--dk-text-2);
+}
+
+html[data-theme="dark"] .invoice-header {
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .invoice-id {
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .paid-status {
+  color: var(--dk-text-2);
+}
+
+html[data-theme="dark"] .download-button {
+  color: var(--dk-brand);
+}
+
+
+/* admin-store */
+
+html[data-theme="dark"] .availability-page {
+  background: var(--dk-page);
+}
+
+html[data-theme="dark"] .availability-page .page-header h1 {
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .availability-page .location-selector label {
+  color: var(--dk-text-2);
+}
+
+html[data-theme="dark"] .availability-page .location-selector select {
+  background: var(--dk-sunken);
+  border-color: var(--dk-border);
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .availability-card {
+  background: var(--dk-surface);
+  border-color: var(--dk-border);
+}
+
+html[data-theme="dark"] .availability-card h2 {
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .availability-card p {
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .regular-list {
+  border-top-color: var(--dk-border);
+}
+
+html[data-theme="dark"] .regular-row {
+  border-bottom-color: var(--dk-border);
+}
+
+html[data-theme="dark"] .regular-day {
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .regular-time {
+  color: var(--dk-text-2);
+}
+
+html[data-theme="dark"] .closed-value {
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .availability-toggle.on {
+  background: var(--dk-success-soft);
+  color: var(--dk-success);
+}
+
+html[data-theme="dark"] .availability-toggle.off {
+  background: var(--dk-surface-3);
+  color: var(--dk-text-2);
+}
+
+html[data-theme="dark"] .regular-loading {
+  color: var(--dk-text-2);
+}
+
+html[data-theme="dark"] .empty-regular .material-icons {
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .empty-regular h3 {
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .empty-regular p {
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .add-button {
+  background: var(--dk-surface-2);
+  border-color: var(--dk-border);
+  color: var(--dk-brand);
+}
+
+html[data-theme="dark"] .add-button:hover {
+  background: var(--dk-brand-soft);
+}
+
+html[data-theme="dark"] .special-list {
+  border-top-color: var(--dk-border);
+}
+
+html[data-theme="dark"] .special-row {
+  border-bottom-color: var(--dk-border);
+}
+
+html[data-theme="dark"] .special-date strong {
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .special-date span {
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .special-time {
+  color: var(--dk-text-2);
+}
+
+html[data-theme="dark"] .closed-text {
+  color: var(--dk-danger);
+}
+
+html[data-theme="dark"] .special-notes {
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .status-pill.open {
+  background: var(--dk-success-soft);
+  color: var(--dk-success);
+}
+
+html[data-theme="dark"] .status-pill.closed {
+  background: var(--dk-surface-3);
+  color: var(--dk-text-2);
+}
+
+html[data-theme="dark"] .edit-button {
+  color: var(--dk-brand);
+}
+
+html[data-theme="dark"] .empty-special .material-icons {
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .empty-special h3 {
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .empty-special p {
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .loading {
+  color: var(--dk-text-2);
+}
+
+html[data-theme="dark"] .spinner {
+  border-right-color: var(--dk-border-strong);
+  border-bottom-color: var(--dk-border-strong);
+  border-left-color: var(--dk-border-strong);
+}
+
+html[data-theme="dark"] .error-message {
+  background: var(--dk-danger-soft);
+  border-color: var(--dk-border);
+  color: var(--dk-danger);
+}
+
+html[data-theme="dark"] .success-message {
+  background: var(--dk-success-soft);
+  border-color: var(--dk-border);
+  color: var(--dk-success);
+}
+
+html[data-theme="dark"] .toggle-modal,
+html[data-theme="dark"] .store-modal {
+  background: var(--dk-surface);
+}
+
+html[data-theme="dark"] .modal-header {
+  border-bottom-color: var(--dk-border);
+}
+
+html[data-theme="dark"] .modal-header h2 {
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .close-button {
+  background: var(--dk-surface-2);
+  color: var(--dk-text-2);
+}
+
+html[data-theme="dark"] .toggle-info-box {
+  background: var(--dk-surface-2);
+  border-color: var(--dk-border);
+}
+
+html[data-theme="dark"] .toggle-info-box span {
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .toggle-info-box strong {
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .toggle-confirm-text {
+  color: var(--dk-text-2);
+}
+
+html[data-theme="dark"] .form-group label,
+html[data-theme="dark"] .closed-toggle label {
+  color: var(--dk-text-2);
+}
+
+html[data-theme="dark"] .form-group input,
+html[data-theme="dark"] .form-group textarea {
+  background: var(--dk-sunken);
+  border-color: var(--dk-border);
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .form-group input::placeholder,
+html[data-theme="dark"] .form-group textarea::placeholder {
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .form-group input:focus,
+html[data-theme="dark"] .form-group textarea:focus {
+  border-color: var(--dk-brand);
+}
+
+html[data-theme="dark"] .closed-toggle {
+  background: var(--dk-surface-2);
+}
+
+html[data-theme="dark"] .modal-footer {
+  border-top-color: var(--dk-border);
+}
+
+html[data-theme="dark"] .cancel-button {
+  background: var(--dk-surface);
+  border-color: var(--dk-border);
+  color: var(--dk-text-2);
+}
+
+
+/* admin */
+
+html[data-theme="dark"] .admin-header h1 {
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .admin-header p {
+  color: var(--dk-text-2);
+}
+
+html[data-theme="dark"] .staff-card {
+  background: var(--dk-surface);
+  border-color: var(--dk-border);
+}
+
+html[data-theme="dark"] .header-row {
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .staff-row {
+  border-top-color: var(--dk-border);
+  color: var(--dk-text-2);
+}
+
+html[data-theme="dark"] .staff-name {
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .staff-role,
+html[data-theme="dark"] .staff-location,
+html[data-theme="dark"] .staff-email {
+  color: var(--dk-text-2);
+}
+
+html[data-theme="dark"] .status-pill.active {
+  background: var(--dk-success-soft);
+  color: var(--dk-success);
+}
+
+html[data-theme="dark"] .status-pill.invited {
+  background: var(--dk-warning-soft);
+  color: var(--dk-warning);
+}
+
+html[data-theme="dark"] .status-pill.inactive {
+  background: var(--dk-surface-3);
+  color: var(--dk-text-2);
+}
+
+html[data-theme="dark"] .edit-action {
+  background: var(--dk-surface-2);
+  border-color: var(--dk-border);
+  color: var(--dk-brand);
+}
+
+html[data-theme="dark"] .edit-action:hover {
+  background: var(--dk-brand-soft);
+}
+
+html[data-theme="dark"] .activity-action {
+  background: var(--dk-surface);
+  border-color: var(--dk-border);
+}
+
+html[data-theme="dark"] .activity-action:hover {
+  background: var(--dk-surface-2);
+}
+
+html[data-theme="dark"] .status-action {
+  background: var(--dk-surface);
+  border-color: var(--dk-border);
+  color: var(--dk-text-2);
+}
+
+html[data-theme="dark"] .status-action:hover {
+  background: var(--dk-surface-2);
+}
+
+html[data-theme="dark"] .loading-container {
+  color: var(--dk-text-2);
+}
+
+html[data-theme="dark"] .spinner {
+  border-right-color: var(--dk-border-strong);
+  border-bottom-color: var(--dk-border-strong);
+  border-left-color: var(--dk-border-strong);
+}
+
+html[data-theme="dark"] .empty-title {
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .empty-state button {
+  color: var(--dk-brand);
+}
+
+html[data-theme="dark"] .pagination {
+  border-top-color: var(--dk-border);
+}
+
+html[data-theme="dark"] .pagination-button {
+  background: var(--dk-surface);
+  border-color: var(--dk-border);
+  color: var(--dk-brand);
+}
+
+html[data-theme="dark"] .pagination-button:hover:not(:disabled) {
+  background: var(--dk-surface-2);
+}
+
+html[data-theme="dark"] .pagination-info {
+  color: var(--dk-text-2);
+}
+
+html[data-theme="dark"] .toast {
+  box-shadow: var(--shadow-md);
+}
+
+/* Toasts float over page content, so the soft tint sits on an opaque surface. */
+html[data-theme="dark"] .success-toast {
+  background: linear-gradient(var(--dk-success-soft), var(--dk-success-soft)), var(--dk-surface-2);
+  border-color: var(--dk-border);
+  color: var(--dk-success);
+}
+
+html[data-theme="dark"] .error-toast {
+  background: linear-gradient(var(--dk-danger-soft), var(--dk-danger-soft)), var(--dk-surface-2);
+  border-color: var(--dk-border);
+  color: var(--dk-danger);
+}
+
+html[data-theme="dark"] .admin-modal,
+html[data-theme="dark"] .activity-modal {
+  background: var(--dk-surface);
+}
+
+html[data-theme="dark"] .close-button:hover {
+  background: var(--dk-surface-3);
+}
+
+html[data-theme="dark"] .form-group label {
+  color: var(--dk-text-2);
+}
+
+html[data-theme="dark"] .form-group input,
+html[data-theme="dark"] .form-group select {
+  background: var(--dk-sunken);
+  border-color: var(--dk-border);
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .form-group input::placeholder {
+  color: var(--dk-text-3);
+}
+
+/* Restated so the purple focus border and focus ring survive the base input overrides above. */
+html[data-theme="dark"] .form-group input:focus,
+html[data-theme="dark"] .form-group select:focus {
+  border-color: var(--dk-brand);
+  box-shadow: var(--focus-ring);
+}
+
+html[data-theme="dark"] .form-group select:disabled {
+  background: var(--dk-surface-2);
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .field-error {
+  color: var(--dk-danger);
+}
+
+html[data-theme="dark"] .selected-location {
+  color: var(--dk-brand);
+}
+
+html[data-theme="dark"] .details-loading {
+  color: var(--dk-text-2);
+}
+
+html[data-theme="dark"] .permissions-section {
+  background: var(--dk-surface-2);
+  border-color: var(--dk-border);
+}
+
+html[data-theme="dark"] .permissions-header h3 {
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .permission-item {
+  background: var(--dk-surface);
+  border-color: var(--dk-border);
+}
+
+html[data-theme="dark"] .permission-label {
+  color: var(--dk-text-2);
+}
+
+html[data-theme="dark"] .toggle-slider {
+  background: var(--dk-border-strong);
+}
+
+/* Focus ring: the source uses a faint purple shadow that is invisible on dark surfaces. */
+html[data-theme="dark"] .toggle input:focus + .toggle-slider {
+  box-shadow: var(--focus-ring);
+}
+
+html[data-theme="dark"] .modal-actions {
+  border-top-color: var(--dk-border);
+}
+
+html[data-theme="dark"] .cancel-button {
+  background: var(--dk-surface);
+  border-color: var(--dk-border);
+  color: var(--dk-text-2);
+}
+
+html[data-theme="dark"] .cancel-button:hover {
+  background: var(--dk-surface-2);
+}
+
+html[data-theme="dark"] .activity-loading {
+  color: var(--dk-text-2);
+}
+
+html[data-theme="dark"] .activity-item {
+  border-bottom-color: var(--dk-border);
+}
+
+html[data-theme="dark"] .activity-icon {
+  background: var(--dk-brand-soft);
+  color: var(--dk-brand);
+}
+
+html[data-theme="dark"] .activity-action {
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .activity-details {
+  color: var(--dk-text-2);
+}
+
+html[data-theme="dark"] .activity-time {
+  color: var(--dk-text-3);
+}
+
+
+/* locations */
+
+html[data-theme="dark"] .page-heading h1 {
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .page-heading p {
+  color: var(--dk-text-2);
+}
+
+html[data-theme="dark"] .location-card {
+  background: var(--dk-surface);
+  border-color: var(--dk-border);
+}
+
+html[data-theme="dark"] .location-card-body h2 {
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .location-id {
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .view-details-button {
+  background: var(--dk-surface-2);
+  border-color: var(--dk-border);
+  color: var(--dk-brand);
+}
+
+html[data-theme="dark"] .view-details-button:hover {
+  background: var(--dk-brand-soft);
+  border-color: var(--dk-border-strong);
+}
+
+html[data-theme="dark"] .new-location-card {
+  background: var(--dk-surface);
+  border-color: var(--dk-border);
+}
+
+html[data-theme="dark"] .new-location-card:hover {
+  background: var(--dk-surface-2);
+  border-color: var(--dk-border-strong);
+}
+
+html[data-theme="dark"] .new-location-plus {
+  color: var(--dk-brand);
+}
+
+html[data-theme="dark"] .new-location-text {
+  color: var(--dk-text-2);
+}
+
+html[data-theme="dark"] .loading-container {
+  color: var(--dk-text-2);
+}
+
+html[data-theme="dark"] .spinner {
+  border-right-color: var(--dk-border-strong);
+  border-bottom-color: var(--dk-border-strong);
+  border-left-color: var(--dk-border-strong);
+}
+
+html[data-theme="dark"] .empty-state {
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .empty-title {
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .toast-message {
+  box-shadow: var(--shadow-md);
+}
+
+html[data-theme="dark"] .success-toast {
+  background: linear-gradient(var(--dk-success-soft), var(--dk-success-soft)), var(--dk-surface-2);
+  border-color: var(--dk-border);
+  color: var(--dk-success);
+}
+
+html[data-theme="dark"] .error-toast {
+  background: linear-gradient(var(--dk-danger-soft), var(--dk-danger-soft)), var(--dk-surface-2);
+  border-color: var(--dk-border);
+  color: var(--dk-danger);
+}
+
+html[data-theme="dark"] .location-modal {
+  background: var(--dk-surface);
+}
+
+html[data-theme="dark"] .location-modal-header h2 {
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .close-button {
+  color: var(--dk-text-2);
+}
+
+html[data-theme="dark"] .close-button:hover {
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .form-group label {
+  color: var(--dk-text-2);
+}
+
+html[data-theme="dark"] .form-group input {
+  background: var(--dk-sunken);
+  border-color: var(--dk-border);
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .form-group input:focus {
+  border-color: var(--dk-brand);
+  box-shadow: var(--focus-ring);
+}
+
+html[data-theme="dark"] .form-group input::placeholder {
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .field-error {
+  color: var(--dk-danger);
+}
+
+html[data-theme="dark"] .status-slider {
+  background: var(--dk-border-strong);
+}
+
+html[data-theme="dark"] .status-toggle-label {
+  color: var(--dk-success);
+}
+
+html[data-theme="dark"] .performance-button {
+  background: var(--dk-surface-2);
+  border-color: var(--dk-border);
+  color: var(--dk-brand);
+}
+
+html[data-theme="dark"] .performance-button:hover {
+  background: var(--dk-brand-soft);
+}
+
+html[data-theme="dark"] .modal-cancel-button {
+  background: var(--dk-surface);
+  border-color: var(--dk-border);
+  color: var(--dk-text-2);
+}
+
+html[data-theme="dark"] .details-loading {
+  color: var(--dk-text-2);
+}
+
+
+/* menu-management */
+
+html[data-theme="dark"] .menu-header h1 {
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .menu-header p {
+  color: var(--dk-text-2);
+}
+
+html[data-theme="dark"] .secondary-add-button {
+  background: var(--dk-surface-2);
+  border-color: var(--dk-border);
+  color: var(--dk-brand);
+}
+
+html[data-theme="dark"] .secondary-add-button:hover {
+  background: var(--dk-brand-soft);
+}
+
+/* The solid purple selector here shares the .location-selector select rule above; keep it purple with white text. */
+html[data-theme="dark"] .location-selector select {
+  background: #6412ce;
+  color: #ffffff;
+}
+
+html[data-theme="dark"] .location-selector select:hover {
+  background: #721be0;
+}
+
+html[data-theme="dark"] .location-selector select option {
+  background: var(--dk-surface);
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .page-loading {
+  color: var(--dk-text-2);
+}
+
+html[data-theme="dark"] .spinner {
+  border-right-color: var(--dk-border-strong);
+  border-bottom-color: var(--dk-border-strong);
+  border-left-color: var(--dk-border-strong);
+}
+
+html[data-theme="dark"] .category-header h2 {
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .category-edit-button {
+  color: var(--dk-brand);
+}
+
+html[data-theme="dark"] .category-delete-button {
+  color: var(--dk-danger);
+}
+
+html[data-theme="dark"] .category-restore-button {
+  color: var(--dk-brand);
+}
+
+html[data-theme="dark"] .category-status {
+  background: var(--dk-surface-3);
+  color: var(--dk-text-2);
+}
+
+html[data-theme="dark"] .category-add-button {
+  background: var(--dk-surface-2);
+  border-color: var(--dk-border);
+  color: var(--dk-brand);
+}
+
+html[data-theme="dark"] .category-add-button:hover {
+  background: var(--dk-brand-soft);
+}
+
+html[data-theme="dark"] .dish-row {
+  background: var(--dk-surface);
+  border-color: var(--dk-border);
+}
+
+html[data-theme="dark"] .dish-row.deleted {
+  background: var(--dk-surface-3);
+  border-color: var(--dk-border-strong);
+}
+
+html[data-theme="dark"] .dish-row.deleted .dish-name,
+html[data-theme="dark"] .dish-row.deleted .dish-price {
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .dish-image {
+  background: var(--dk-surface-2);
+}
+
+html[data-theme="dark"] .dish-name,
+html[data-theme="dark"] .dish-price {
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .availability-pill {
+  background: var(--dk-success-soft);
+  color: var(--dk-success);
+}
+
+html[data-theme="dark"] .availability-pill.unavailable {
+  background: var(--dk-surface-3);
+  color: var(--dk-text-2);
+}
+
+html[data-theme="dark"] .edit-button,
+html[data-theme="dark"] .restore-button {
+  color: var(--dk-brand);
+}
+
+html[data-theme="dark"] .delete-button {
+  color: var(--dk-danger);
+}
+
+html[data-theme="dark"] .empty-category {
+  border-color: var(--dk-border-strong);
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .empty-category button {
+  color: var(--dk-brand);
+}
+
+html[data-theme="dark"] .empty-menu-title {
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .empty-menu-description {
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .toast {
+  box-shadow: var(--shadow-md);
+}
+
+html[data-theme="dark"] .success-toast {
+  background: linear-gradient(var(--dk-success-soft), var(--dk-success-soft)), var(--dk-surface-2);
+  border-color: var(--dk-border);
+  color: var(--dk-success);
+}
+
+html[data-theme="dark"] .error-toast {
+  background: linear-gradient(var(--dk-danger-soft), var(--dk-danger-soft)), var(--dk-surface-2);
+  border-color: var(--dk-border);
+  color: var(--dk-danger);
+}
+
+html[data-theme="dark"] .menu-modal {
+  background: var(--dk-surface);
+}
+
+html[data-theme="dark"] .modal-header {
+  border-bottom-color: var(--dk-border);
+}
+
+html[data-theme="dark"] .modal-header h2 {
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .close-button {
+  background: var(--dk-surface-2);
+  color: var(--dk-text-2);
+}
+
+html[data-theme="dark"] .close-button:hover {
+  background: var(--dk-surface-3);
+}
+
+html[data-theme="dark"] .form-group label {
+  color: var(--dk-text-2);
+}
+
+html[data-theme="dark"] .form-group input,
+html[data-theme="dark"] .form-group select,
+html[data-theme="dark"] .form-group textarea {
+  background: var(--dk-sunken);
+  border-color: var(--dk-border);
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .form-group input::placeholder,
+html[data-theme="dark"] .form-group textarea::placeholder {
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .form-group input:focus,
+html[data-theme="dark"] .form-group select:focus,
+html[data-theme="dark"] .form-group textarea:focus {
+  border-color: var(--dk-brand);
+  box-shadow: var(--focus-ring);
+}
+
+html[data-theme="dark"] .field-error {
+  color: var(--dk-danger);
+}
+
+html[data-theme="dark"] .upload-box {
+  background: var(--dk-surface-2);
+  border-color: var(--dk-border-strong);
+}
+
+html[data-theme="dark"] .upload-box:hover {
+  background: var(--dk-surface-3);
+  border-color: var(--dk-brand);
+}
+
+html[data-theme="dark"] .upload-icon {
+  color: var(--dk-brand);
+}
+
+html[data-theme="dark"] .upload-title {
+  color: var(--dk-brand);
+}
+
+html[data-theme="dark"] .upload-description {
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .image-preview img {
+  border-color: var(--dk-border);
+}
+
+html[data-theme="dark"] .image-preview span {
+  color: var(--dk-text-2);
+}
+
+html[data-theme="dark"] .modal-actions {
+  border-top-color: var(--dk-border);
+}
+
+html[data-theme="dark"] .cancel-button {
+  background: var(--dk-surface);
+  border-color: var(--dk-border);
+  color: var(--dk-text-2);
+}
+
+html[data-theme="dark"] .cancel-button:hover {
+  background: var(--dk-surface-2);
+}

@@ -1,0 +1,600 @@
+/* =========================================================
+   DARK THEME: application-wide surfaces.
+
+   Overrides light colours hard-coded in component stylesheets
+   (white cards, lavender tints, pastel status pills, light inputs,
+   hover and selected states) across the Restaurant, Admin, Guest
+   and Staff pages.
+
+   Every selector is prefixed with html[data-theme="dark"] body.dark-mode
+   so it outranks emulated component rules, including :hover states.
+   Imported last in src/styles.css so it wins remaining ties.
+   Colours come from dark/tokens.css (--dk-*).
+   ========================================================= */
+
+/* ---------- Page backgrounds ---------- */
+
+html[data-theme="dark"] body.dark-mode :is(
+  .customers-page,
+  .statements-page,
+  .availability-page,
+  .performance-page,
+  .reviews-page,
+  .redemptions-page,
+  .marketing-page,
+  .reports-page,
+  .food-page
+) {
+  background: var(--dk-page);
+}
+
+/* ---------- Cards, panels, modals and popovers ---------- */
+
+html[data-theme="dark"] body.dark-mode :is(
+  .queue-card,
+  .info-card,
+  .action-card,
+  .restore-card,
+  .offer-card,
+  .redeemed-card,
+  .featured-deal,
+  .login-offers-card,
+  .food-card,
+  .menu-state,
+  .menu-skeleton-card,
+  .offer-skeleton-card,
+  .rewards-hero,
+  .offers-count-card,
+  .home-hero,
+  .hero-restaurant-item,
+  .success-banner,
+  .stat,
+  .stat-card,
+  .purple-card,
+  .metric-card,
+  .summary-card,
+  .section-card,
+  .statement-card,
+  .performance-chart-card,
+  .performance-leaderboard-card,
+  .report-generator,
+  .recent-reports,
+  .scope-card,
+  .table-card,
+  .table-wrap,
+  .tier-card,
+  .tiers-section,
+  .ways-section,
+  .catalog-section,
+  .earning-row,
+  .reward-row,
+  .location-card,
+  .new-location-card,
+  .availability-card,
+  .staff-card,
+  .template-card,
+  .review-card,
+  .invitation-card,
+  .staff-details,
+  .code-validation-card,
+  .panel,
+  .settings-section,
+  .staff-item,
+  .qr-code,
+  .available-server-card,
+  .manual-server-option,
+  .server-toggle-row,
+  .restore-request-section,
+  .restore-request-row,
+  .request-banner,
+  .request-modal,
+  .restaurant-modal-container,
+  .restaurant-dropdown,
+  .guest-modal,
+  .leave-modal,
+  .message-modal,
+  .redeem-modal,
+  .reward-modal,
+  .location-modal,
+  .admin-modal,
+  .activity-modal,
+  .toggle-modal,
+  .store-modal,
+  .campaign-modal,
+  .template-modal,
+  .location-option,
+  .side-panel,
+  .table-footer,
+  .modal-container,
+  .session-modal,
+  .datetime-filter,
+  .period-select-wrapper,
+  .filter-select-wrapper
+) {
+  background: var(--dk-surface);
+  border-color: var(--dk-border);
+}
+
+/* ---------- Secondary buttons, chips, tabs and tinted panels ---------- */
+
+html[data-theme="dark"] body.dark-mode :is(
+  .restaurant-btn,
+  .time-pill,
+  .tablet-settings-tabs button,
+  .close-btn,
+  .close-modal,
+  .close-button,
+  .modal-close,
+  .clear-search,
+  .guest-preview,
+  .guest-details > div,
+  .guest-notes,
+  .message-preview,
+  .toggle-info-box,
+  .insight-tab,
+  .outline-action,
+  .view-all-button,
+  .manage-button,
+  .outline-btn,
+  .secondary-btn,
+  .edit-btn,
+  .menu-btn,
+  .edit-action,
+  .activity-action,
+  .status-action,
+  .add-button,
+  .pagination-button,
+  .pagination button,
+  .page-btn,
+  .action-button,
+  .template-message,
+  .permissions-section,
+  .outline-action-button,
+  .view-details-button,
+  .performance-button,
+  .modal-cancel-button,
+  .reply-button,
+  .btn-cancel,
+  .cancel-btn,
+  .tag-btn,
+  .time-options button,
+  .filter-chip,
+  .status-tab,
+  .export-button,
+  .food-categories button,
+  .category-filter button,
+  .icon-button,
+  .create-account-btn,
+  .view-code-button,
+  .food-image,
+  .offer-image,
+  .food-img,
+  .offer-image-placeholder,
+  .restaurant-dropdown-action,
+  .decline-btn,
+  .call-btn,
+  .discount-label,
+  .selected-location,
+  .restaurant-hero,
+  .reward-card,
+  .location-pill,
+  .profile-button,
+  .restaurant-search,
+  .navbar-restaurant,
+  .mobile-menu-button,
+  .navbar-icon-button
+) {
+  background: var(--dk-surface-2);
+  border-color: var(--dk-border);
+  color: var(--dk-text-2);
+}
+
+/* ---------- Inputs and selects ---------- */
+
+html[data-theme="dark"] body.dark-mode :is(
+  .form-input,
+  .form-select,
+  .form-textarea,
+  .form-group input,
+  .form-group select,
+  .form-group textarea,
+  .form-field textarea,
+  .select-wrapper select,
+  .input-wrapper,
+  .food-search,
+  .search-box,
+  .filters input,
+  .filters select,
+  .filter-bar input,
+  .filter-bar select,
+  .filter-select,
+  .filter-group select,
+  .date-field input,
+  .datetime-filter input,
+  .campaign-filters select,
+  .reply-section textarea,
+  .jump-input,
+  .location-selector select,
+  .restaurant-phone-box,
+  .validation-field input,
+  .validation-field select,
+  .validation-field textarea,
+  .validation-form input,
+  .country-code-selector select
+) {
+  background: var(--dk-sunken);
+  border-color: var(--dk-border);
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] body.dark-mode :is(input, textarea)::placeholder {
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] body.dark-mode :is(input, select, textarea):focus {
+  border-color: var(--dk-brand);
+}
+
+/* ---------- Hover states (neutral) ---------- */
+
+html[data-theme="dark"] body.dark-mode :is(
+  .stat-card,
+  .location-card,
+  .new-location-card,
+  .restaurant-btn,
+  .restaurant-dropdown-action,
+  .tag-btn,
+  .time-options button,
+  .close-button,
+  .close-modal,
+  .clear-search,
+  .outline-btn,
+  .secondary-btn,
+  .outline-action-button,
+  .edit-action,
+  .activity-action,
+  .status-action,
+  .pagination-button,
+  .pagination button,
+  .icon-button,
+  .filter-chip,
+  .status-tab,
+  .export-button,
+  .page-btn,
+  .food-categories button,
+  .category-filter button,
+  .outline-action,
+  .view-all-button,
+  .manage-button,
+  .view-details-button,
+  .performance-button,
+  .reply-button,
+  .add-button,
+  .action-button,
+  .navbar-restaurant,
+  .mobile-menu-button,
+  .navbar-icon-button,
+  .location-option,
+  .food-card,
+  .offer-card,
+  .campaign-row,
+  .btn-cancel,
+  .cancel-btn,
+  .edit-btn,
+  .menu-btn,
+  .tablet-settings-tabs button,
+  .view-code-button,
+  .create-account-btn,
+  .template-card
+):hover:not(.active):not(.selected) {
+  background: var(--dk-surface-3);
+  border-color: var(--dk-border-strong);
+  color: var(--dk-text);
+}
+
+/* ---------- Selected and active states ---------- */
+
+/* Solid brand fill for active tabs, chips and pills. */
+html[data-theme="dark"] body.dark-mode :is(
+  .filter-chip.active,
+  .status-tab.active,
+  .insight-tab.active,
+  .page-btn.active,
+  .food-categories button.active,
+  .category-filter button.active
+) {
+  background: var(--dk-brand-strong);
+  border-color: var(--dk-brand-strong);
+  color: #ffffff;
+}
+
+/* Soft brand tint for selected cards and options. */
+html[data-theme="dark"] body.dark-mode :is(
+  .scope-card.selected,
+  .location-option.selected,
+  .tag-btn.selected,
+  .time-options button.selected,
+  .time-options button.active,
+  .manual-server-option.selected,
+  .server-selected
+) {
+  background: var(--dk-brand-soft);
+  border-color: var(--dk-brand);
+  color: var(--dk-text);
+}
+
+/* ---------- Icon tiles (brand soft) ---------- */
+
+html[data-theme="dark"] body.dark-mode :is(
+  .quick-action-icon,
+  .request-icon,
+  .profile-heading-icon,
+  .reward-icon,
+  .report-icon,
+  .offer-icon,
+  .campaign-icon,
+  .message-icon,
+  .location-option-icon,
+  .selected-location-icon,
+  .insights-empty-icon,
+  .code-validation-icon,
+  .metric-icon.purple,
+  .insight-icon.purple,
+  .summary-icon.purple,
+  .offer-visual.purple,
+  .menu-state > i,
+  .empty-state i,
+  .stat.purple
+) {
+  background: var(--dk-brand-soft);
+  color: var(--dk-brand);
+}
+
+/* ---------- Status pills and messages (semantic tints) ---------- */
+
+html[data-theme="dark"] body.dark-mode :is(
+  .verification-message,
+  .verified-message,
+  .success-toast,
+  .success-message,
+  .offer-status,
+  .availability-toggle.on,
+  .status-pill.active,
+  .status-pill.open,
+  .status-badge.active,
+  .report-message.success,
+  .success-icon,
+  .password-success-icon,
+  .metric-icon.green,
+  .insight-icon.green,
+  .summary-icon.green,
+  .validation-success
+) {
+  background: var(--dk-success-soft);
+  border-color: transparent;
+  color: var(--dk-success);
+}
+
+html[data-theme="dark"] body.dark-mode :is(
+  .error-toast,
+  .error-message,
+  .performance-error,
+  .report-message.error,
+  .validation-error,
+  .delete-btn,
+  .delete-icon-button,
+  .logout-action:hover,
+  .delete-icon-button:hover
+) {
+  background: var(--dk-danger-soft);
+  border-color: rgba(248, 113, 113, 0.3);
+  color: var(--dk-danger);
+}
+
+html[data-theme="dark"] body.dark-mode .decline-btn {
+  color: var(--dk-danger);
+}
+
+html[data-theme="dark"] body.dark-mode :is(
+  .restore-pending,
+  .status-pill.invited,
+  .type-badge.coupon,
+  .session-icon,
+  .offer-visual.gold,
+  .metric-icon.orange,
+  .insight-icon.orange,
+  .summary-icon.orange
+) {
+  background: var(--dk-warning-soft);
+  color: var(--dk-warning);
+}
+
+html[data-theme="dark"] body.dark-mode :is(
+  .metric-icon.blue,
+  .insight-icon.blue,
+  .summary-icon.blue,
+  .offer-visual.blue,
+  .status-badge.completed
+) {
+  background: var(--dk-info-soft);
+  color: var(--dk-info);
+}
+
+html[data-theme="dark"] body.dark-mode :is(
+  .status-pill.inactive,
+  .status-pill.closed,
+  .status-badge,
+  .status-badge.draft,
+  .availability-toggle.off
+) {
+  background: var(--dk-surface-3);
+  border-color: transparent;
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] body.dark-mode .status-badge.scheduled {
+  background: var(--dk-brand-soft);
+  color: var(--dk-brand);
+}
+
+html[data-theme="dark"] body.dark-mode :is(.code-badge, .reward-points, .eyebrow, .food-eyebrow, .hero-brand, .big-time, .ready-title, .text-alert h3, .info-card i, .discount-label) {
+  color: var(--dk-brand);
+}
+
+html[data-theme="dark"] body.dark-mode .code-badge {
+  background: var(--dk-brand-soft);
+}
+
+html[data-theme="dark"] body.dark-mode .type-badge.reward {
+  background: var(--dk-brand-soft);
+  color: var(--dk-brand);
+}
+
+html[data-theme="dark"] body.dark-mode .earning-points {
+  color: var(--dk-success);
+}
+
+/* ---------- Text accents ---------- */
+
+html[data-theme="dark"] body.dark-mode .text-alert {
+  background: var(--dk-brand-soft);
+  border-color: transparent;
+  color: var(--dk-text);
+}
+
+/* ---------- Offers and gradients ---------- */
+
+html[data-theme="dark"] body.dark-mode .offer-gold {
+  background: linear-gradient(120deg, rgba(251, 191, 36, 0.12), var(--dk-surface));
+}
+
+html[data-theme="dark"] body.dark-mode .offer-purple {
+  background: linear-gradient(120deg, rgba(167, 139, 250, 0.14), var(--dk-surface));
+}
+
+html[data-theme="dark"] body.dark-mode .offer-visual.purple {
+  background: linear-gradient(135deg, rgba(124, 58, 237, 0.35), rgba(124, 58, 237, 0.12));
+}
+
+html[data-theme="dark"] body.dark-mode .offer-visual.gold {
+  background: linear-gradient(135deg, rgba(251, 191, 36, 0.3), rgba(251, 191, 36, 0.1));
+}
+
+html[data-theme="dark"] body.dark-mode .offer-visual.blue {
+  background: linear-gradient(135deg, rgba(96, 165, 250, 0.3), rgba(96, 165, 250, 0.1));
+}
+
+html[data-theme="dark"] body.dark-mode .deal-plate {
+  background: rgba(167, 139, 250, 0.1);
+}
+
+html[data-theme="dark"] body.dark-mode .food-img {
+  border-color: var(--dk-surface);
+}
+
+/* ---------- Dividers and separators ---------- */
+
+html[data-theme="dark"] body.dark-mode :is(
+  .restaurant-dropdown-divider,
+  .tier-divider,
+  .line,
+  .login-separator span
+) {
+  background: var(--dk-border);
+}
+
+html[data-theme="dark"] body.dark-mode :is(
+  .setting-value-row,
+  .editable-value-row,
+  .advanced-value-row,
+  .modal-header,
+  .modal-footer,
+  .pagination,
+  .insight-row,
+  .location-row,
+  .staff-row,
+  .campaign-row,
+  .report-row,
+  .performance-tabs,
+  .trend-chart,
+  .section-header,
+  .details-card div,
+  .invoice-header,
+  .location-modal-header,
+  .toggle-info-box
+) {
+  border-color: var(--dk-border);
+}
+
+html[data-theme="dark"] body.dark-mode :is(.step span, .table-progress) {
+  background: var(--dk-surface-3);
+}
+
+/* ---------- Skeleton loaders ---------- */
+
+html[data-theme="dark"] body.dark-mode .skeleton {
+  background: linear-gradient(90deg, #17171f 25%, #23232f 37%, #17171f 63%);
+  background-size: 400% 100%;
+}
+
+html[data-theme="dark"] body.dark-mode :is(.active-list-skeleton-row, .server-skeleton-row) {
+  background: var(--dk-surface);
+  border-color: var(--dk-border);
+}
+
+/* ---------- Status chips (waitlist, restaurant and admin) ---------- */
+
+html[data-theme="dark"] body.dark-mode .status-chip {
+  --chip-bg: rgba(255, 255, 255, 0.06);
+  --chip-fg: var(--dk-text-2);
+  --chip-dot: var(--dk-text-3);
+}
+
+html[data-theme="dark"] body.dark-mode .status-chip.waiting {
+  --chip-bg: rgba(96, 165, 250, 0.14);
+  --chip-fg: #93c5fd;
+  --chip-dot: #60a5fa;
+}
+
+html[data-theme="dark"] body.dark-mode .status-chip.notified {
+  --chip-bg: rgba(251, 191, 36, 0.14);
+  --chip-fg: #fcd34d;
+  --chip-dot: #fbbf24;
+}
+
+html[data-theme="dark"] body.dark-mode .status-chip.seated {
+  --chip-bg: rgba(52, 211, 153, 0.14);
+  --chip-fg: #6ee7b7;
+  --chip-dot: #34d399;
+}
+
+html[data-theme="dark"] body.dark-mode .status-chip.pending {
+  --chip-bg: rgba(167, 139, 250, 0.16);
+  --chip-fg: #c4b5fd;
+  --chip-dot: #a78bfa;
+}
+
+html[data-theme="dark"] body.dark-mode .status-chip.cancelled {
+  --chip-bg: rgba(148, 163, 184, 0.14);
+  --chip-fg: #cbd5e1;
+  --chip-dot: #94a3b8;
+}
+
+html[data-theme="dark"] body.dark-mode .status-chip.no-show {
+  --chip-bg: rgba(248, 113, 113, 0.14);
+  --chip-fg: #fca5a5;
+  --chip-dot: #f87171;
+}
+
+/* ---------- Overlays ---------- */
+
+html[data-theme="dark"] body.dark-mode :is(.modal-backdrop, .session-overlay) {
+  background: rgba(0, 0, 0, 0.6);
+}
+
+/* ---------- Navbar host (light glass background) ---------- */
+
+html[data-theme="dark"] body.dark-mode app-waitlist-navbar {
+  background: rgba(13, 13, 19, 0.92);
+  border-bottom-color: var(--dk-border);
+}

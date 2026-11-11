@@ -1,0 +1,905 @@
+/* =========================================================
+   SHARED PORTAL SHELL (mirrors the Admin portal shell)
+   Imported by the Restaurant and Guest shell components.
+   ========================================================= */
+
+.app-shell {
+  --top-navbar-height: 62px;
+  --sidebar-width: 224px;
+  --sidebar-collapsed-width: 78px;
+
+  min-height: 100vh;
+  background: linear-gradient(180deg, #f5f2fb 0%, #f8f7fb 100%);
+}
+
+.app-shell.sidebar-collapsed {
+  --sidebar-width: var(--sidebar-collapsed-width);
+}
+
+
+/* =========================================================
+   TOP NAVBAR
+   ========================================================= */
+
+.top-navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+
+  height: var(--top-navbar-height);
+
+  display: grid;
+  grid-template-columns: 260px minmax(300px, 1fr) auto;
+  align-items: center;
+  gap: clamp(10px, 1.5vw, 22px);
+
+  padding: 0 24px 0 18px;
+
+  background: rgba(255, 255, 255, 0.86);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+
+  border-bottom: 1px solid #eeeaf4;
+
+  z-index: 2000;
+
+  box-sizing: border-box;
+}
+
+.top-brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding-left: 10px;
+}
+
+.brand-toggle-button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+}
+
+.brand-logo {
+  width: 28px;
+  height: 28px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.brand-logo img {
+  width: 100%;
+  height: 100%;
+
+  object-fit: contain;
+}
+
+.brand-name {
+  color: #4b2c74;
+
+  font-size: 22px;
+  line-height: 1;
+
+  font-weight: 800;
+
+  letter-spacing: -0.7px;
+}
+
+.brand-badge {
+  padding: 5px 7px;
+
+  border-radius: 7px;
+
+  background: linear-gradient(135deg, #5c2bb2 0%, #7b3fe8 100%);
+  color: #ffffff;
+
+  font-size: 7px;
+  line-height: 1;
+
+  font-weight: 800;
+
+  letter-spacing: 0.2px;
+}
+
+.top-search {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  height: 42px;
+  padding: 0 16px;
+  border: 1px solid #ece3f6;
+  border-radius: 12px;
+  background: rgba(248, 244, 252, 0.8);
+  box-shadow: inset 0 1px 0 rgba(126, 98, 165, 0.03);
+}
+
+.top-search i {
+  color: #897d96;
+  font-size: 13px;
+}
+
+.top-search input {
+  flex: 1;
+  border: none;
+  outline: none;
+  background: transparent;
+  color: #2f233d;
+  font-size: 12px;
+  font-weight: 500;
+  font-family: inherit;
+}
+
+.top-search input::placeholder {
+  color: #938aa3;
+}
+
+.top-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+.top-time-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 14px;
+  min-height: 42px;
+  border: 1px solid #ece3f6;
+  border-radius: 12px;
+  background: rgba(248, 244, 252, 0.7);
+  color: #5e546b;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  font-variant-numeric: tabular-nums;
+}
+
+.top-live-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: #1ca15b;
+  box-shadow: 0 0 0 3px rgba(28, 161, 91, 0.12);
+}
+
+.top-date-text {
+  color: #8a7d97;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.top-action-button {
+  position: relative;
+
+  width: 38px;
+  height: 38px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: 1px solid #e8e1f0;
+
+  border-radius: 11px;
+
+  background: #ffffff;
+
+  color: #5d5668;
+
+  cursor: pointer;
+}
+
+.top-action-button:hover {
+  background: #f8f4fd;
+  color: #6421bd;
+}
+
+.top-action-button i {
+  font-size: 14px;
+}
+
+.notification-badge {
+  position: absolute;
+
+  top: -5px;
+  right: -5px;
+
+  min-width: 16px;
+  height: 16px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 0 4px;
+
+  border-radius: 999px;
+
+  background: #6421bd;
+  color: #ffffff;
+
+  font-size: 7px;
+  font-weight: 800;
+
+  box-sizing: border-box;
+}
+
+
+/* USER DROPDOWN */
+
+.admin-user-wrapper {
+  position: relative;
+}
+
+.admin-user-menu {
+  position: absolute;
+
+  top: calc(100% + 9px);
+  right: 0;
+
+  width: 220px;
+
+  padding: 10px;
+
+  border: 1px solid #e5ddec;
+  border-radius: 11px;
+
+  background: #ffffff;
+
+  box-shadow: var(--shadow-md);
+
+  box-sizing: border-box;
+}
+
+.admin-user-menu-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  padding: 7px;
+}
+
+.admin-user-avatar {
+  width: 34px;
+  height: 34px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 9px;
+
+  background: var(--brand-gradient);
+  color: #ffffff;
+}
+
+.admin-user-avatar i {
+  font-size: 13px;
+}
+
+.admin-user-menu-header strong {
+  display: block;
+
+  color: #302938;
+
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.admin-user-menu-header span {
+  display: block;
+
+  margin-top: 3px;
+
+  color: #8a8193;
+
+  font-size: 8px;
+}
+
+.admin-user-menu-divider {
+  height: 1px;
+
+  margin: 7px 0;
+
+  background: #f0ebf5;
+}
+
+.admin-logout-button {
+  width: 100%;
+  min-height: 35px;
+
+  display: flex;
+  align-items: center;
+
+  gap: 9px;
+
+  padding: 0 9px;
+
+  border: 0;
+  border-radius: 7px;
+
+  background: transparent;
+
+  color: #756c80;
+
+  font-family: inherit;
+
+  font-size: 10px;
+  font-weight: 600;
+
+  text-align: left;
+
+  cursor: pointer;
+}
+
+.admin-logout-button:hover {
+  background: #fff1f1;
+  color: #c73535;
+}
+
+
+/* =========================================================
+   SIDEBAR
+   ========================================================= */
+
+.sidebar {
+  position: fixed;
+
+  top: var(--top-navbar-height);
+  left: 0;
+  bottom: 0;
+
+  width: var(--sidebar-width);
+
+  background:
+    linear-gradient(180deg, rgba(42, 20, 65, 0.82) 0%, rgba(22, 14, 37, 0.86) 100%),
+    url('../../assets/sidebar001.png') center center / cover no-repeat;
+  border-right: 1px solid rgba(214, 202, 233, 0.18);
+  box-shadow: inset -1px 0 0 rgba(255,255,255,0.05);
+
+  display: flex;
+  flex-direction: column;
+
+  z-index: 1500;
+
+  box-sizing: border-box;
+  transition: width 0.2s ease;
+}
+
+.sidebar::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 25% 25%, rgba(168, 134, 255, 0.22), transparent 38%),
+    radial-gradient(circle at 100% 100%, rgba(146, 107, 255, 0.28), transparent 30%),
+    linear-gradient(135deg, rgba(255,255,255,0.02), rgba(255,255,255,0));
+  pointer-events: none;
+}
+
+.sidebar-top {
+  flex: 1;
+
+  min-height: 0;
+
+  overflow-y: auto;
+}
+
+
+/* RESTAURANT SELECTOR */
+
+.restaurant-section {
+  position: relative;
+  z-index: 1;
+  padding: 18px 12px 14px;
+
+  border-bottom: 1px solid rgba(221, 211, 236, 0.14);
+}
+
+/* .app-shell.waitlist-page .main-content {
+  background:
+    linear-gradient(180deg, rgba(247, 244, 251, 0) 0%, rgba(245, 243, 250, 0) 100%),
+    url('../../assets/waitlist.png') center center / cover no-repeat;
+} */
+
+.location-selector-wrapper {
+  position: relative;
+}
+
+.restaurant-selector {
+  width: 100%;
+
+  display: flex;
+  align-items: center;
+
+  gap: 10px;
+
+  padding: 10px 10px;
+
+  border: 0;
+  border-radius: 12px;
+
+
+  text-align: left;
+
+  cursor: default;
+}
+
+.restaurant-selector:hover {
+  background: #faf7ff2c;
+}
+
+.restaurant-logo {
+  width: 36px;
+  height: 36px;
+
+  flex: 0 0 36px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 12px;
+
+  background: linear-gradient(135deg, #f5ebff 0%, #d9c7ff 100%);
+  color: #3f1d67;
+
+  font-size: 12px;
+  font-weight: 800;
+
+  text-transform: uppercase;
+}
+
+.restaurant-info {
+  min-width: 0;
+
+  flex: 1;
+}
+
+.app-shell.sidebar-collapsed .restaurant-info,
+.app-shell.sidebar-collapsed .nav-label,
+.app-shell.sidebar-collapsed .nav-badge,
+.app-shell.sidebar-collapsed .settings-arrow,
+.app-shell.sidebar-collapsed .restaurant-selector .restaurant-info small,
+.app-shell.sidebar-collapsed .restaurant-selector .restaurant-info strong {
+  display: none;
+}
+
+.app-shell.sidebar-collapsed .restaurant-selector,
+.app-shell.sidebar-collapsed .nav-item {
+  justify-content: center;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.app-shell.sidebar-collapsed .sidebar-nav {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.app-shell.sidebar-collapsed .nav-item {
+  gap: 0;
+}
+
+.app-shell.sidebar-collapsed .sidebar-toggle-button {
+  transform: rotate(180deg);
+}
+
+.restaurant-info strong {
+  display: block;
+
+  overflow: hidden;
+
+  color: #f4effc;
+
+  font-size: 11px;
+  font-weight: 700;
+
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.restaurant-info small {
+  display: block;
+
+  margin-top: 3px;
+
+  color: rgba(233, 224, 247, 0.74);
+
+  font-size: 8px;
+  font-weight: 600;
+}
+
+.location-chevron {
+  color: #938a9e;
+
+  font-size: 9px;
+
+  transition: transform 0.2s ease;
+}
+
+.location-chevron.open {
+  transform: rotate(180deg);
+}
+
+
+/* =========================================================
+   SIDEBAR NAV
+   ========================================================= */
+
+.sidebar-nav {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+
+  gap: 6px;
+
+  padding: 14px 12px 18px;
+}
+
+.nav-item {
+  width: 100%;
+
+  min-height: 44px;
+
+  padding: 0 14px;
+
+  border: 0;
+  border-radius: 12px;
+
+  background: transparent;
+
+  color: rgba(237, 232, 245, 0.8);
+
+  display: flex;
+  align-items: center;
+
+  gap: 11px;
+
+  font-family: inherit;
+
+  font-size: 11px;
+  font-weight: 500;
+
+  text-align: left;
+
+  cursor: pointer;
+
+  transition:
+    background 0.18s ease,
+    color 0.18s ease,
+    transform 0.18s ease;
+}
+
+.nav-item:hover {
+  background: rgba(255, 255, 255, 0.06);
+  color: #ffffff;
+}
+
+.nav-item.active {
+  background: rgba(255, 255, 255, 0.92);
+  color: #4a2b72;
+  font-weight: 700;
+  box-shadow: inset 0 0 0 1px rgba(124, 91, 177, 0.08);
+}
+
+.nav-icon {
+  width: 16px;
+
+  flex: 0 0 16px;
+
+  text-align: center;
+
+  font-size: 11px;
+}
+
+.nav-arrow {
+  margin-left: auto;
+
+  color: #9b92a5;
+
+  font-size: 8px;
+}
+
+.nav-badge {
+  margin-left: auto;
+
+  min-width: 18px;
+  height: 18px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 0 5px;
+
+  border-radius: 999px;
+
+  background: #6421bd;
+  color: #ffffff;
+
+  font-size: 8px;
+  font-weight: 800;
+
+  box-sizing: border-box;
+}
+
+
+/* SETTINGS */
+
+.settings-arrow {
+  margin-left: auto;
+
+  font-size: 9px;
+
+  transition: transform 0.2s ease;
+}
+
+.settings-arrow.open {
+  transform: rotate(180deg);
+}
+
+.settings-submenu {
+  max-height: 0;
+
+  margin-left: 27px;
+  padding-left: 10px;
+
+  overflow: hidden;
+
+  border-left: 1px solid #e9e3f2;
+
+  transition:
+    max-height 0.25s ease,
+    padding 0.25s ease;
+}
+
+.settings-submenu.open {
+  max-height: 320px;
+
+  padding-top: 3px;
+  padding-bottom: 4px;
+}
+
+.settings-submenu button {
+  width: 100%;
+
+  min-height: 31px;
+
+  padding: 5px 10px;
+
+  border: 0;
+  border-radius: 6px;
+
+  background: transparent;
+
+  color: #82798e;
+
+  font-family: inherit;
+
+  font-size: 10px;
+  font-weight: 500;
+
+  text-align: left;
+
+  cursor: pointer;
+}
+
+.settings-submenu button:hover,
+.settings-submenu button.active {
+  background: #f4edff;
+  color: #6421bd;
+}
+
+
+/* LOGOUT */
+
+.logout-button {
+  display: flex;
+  align-items: center;
+
+  gap: 10px;
+
+  width: calc(100% - 22px);
+
+  min-height: 38px;
+
+  margin: 10px 11px 16px;
+
+  padding: 0 12px;
+
+  border: 0;
+  border-radius: 8px;
+
+  background: transparent;
+
+  color: #81788d;
+
+  font-family: inherit;
+
+  font-size: 11px;
+  font-weight: 600;
+
+  text-align: left;
+
+  cursor: pointer;
+}
+
+.logout-button:hover {
+  background: #fff1f1;
+  color: #c73535;
+}
+
+.logout-button i {
+  width: 16px;
+  text-align: center;
+}
+
+
+/* =========================================================
+   MAIN CONTENT
+   ========================================================= */
+
+.main-content {
+  min-height: 100vh;
+
+  margin-left: var(--sidebar-width);
+
+  padding:
+    calc(var(--top-navbar-height) + 18px)
+    clamp(18px, 2vw, 28px)
+    32px;
+
+  background: linear-gradient(180deg, #f7f4fb 0%, #f5f3fa 100%);
+
+  box-sizing: border-box;
+  transition: margin-left 0.2s ease;
+}
+
+
+/* SCROLLBAR */
+
+.sidebar-top::-webkit-scrollbar {
+  width: 3px;
+}
+
+.sidebar-top::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.sidebar-top::-webkit-scrollbar-thumb {
+  background: #ddd6e8;
+  border-radius: 10px;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 1100px) {
+
+  .app-shell {
+    --sidebar-width: clamp(180px, 22vw, 205px);
+  }
+
+  .main-content {
+    padding-left: 22px;
+    padding-right: 22px;
+  }
+
+  .nav-item {
+    font-size: 10px;
+  }
+}
+
+@media (max-width: 560px) {
+
+  .top-navbar {
+    padding: 0 14px;
+  }
+
+  .brand-name {
+    font-size: 19px;
+  }
+
+  .brand-badge {
+    display: none;
+  }
+
+  .sidebar {
+    top: auto;
+    bottom: 0;
+
+    width: 100%;
+    height: 64px;
+
+    border-top: 1px solid #eeeaf4;
+    border-right: 0;
+
+    flex-direction: row;
+  }
+
+  .sidebar-top {
+    width: 100%;
+    overflow: hidden;
+  }
+
+  .restaurant-section,
+  .logout-button {
+    display: none;
+  }
+
+  .sidebar-nav {
+    width: 100%;
+    height: 64px;
+
+    padding: 6px;
+
+    flex-direction: row;
+
+    gap: 4px;
+
+    overflow-x: auto;
+
+    box-sizing: border-box;
+  }
+
+  .nav-item {
+    min-width: 78px;
+
+    height: 52px;
+    min-height: 52px;
+
+    padding: 0 8px;
+
+    flex-direction: column;
+    justify-content: center;
+
+    gap: 5px;
+
+    border-radius: 8px;
+
+    font-size: 9px;
+
+    text-align: center;
+
+    white-space: nowrap;
+  }
+
+  .nav-icon {
+    width: auto;
+
+    flex: 0 0 auto;
+
+    font-size: 12px;
+  }
+
+  .nav-arrow,
+  .settings-arrow,
+  .settings-submenu {
+    display: none;
+  }
+
+  .main-content {
+    margin-left: 0;
+
+    min-height: calc(100vh - 64px);
+
+    padding:
+      calc(var(--top-navbar-height) + 18px)
+      14px
+      82px;
+  }
+}

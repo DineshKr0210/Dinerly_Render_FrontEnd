@@ -1,0 +1,858 @@
+<div class="performance-page">
+
+  <header class="performance-header">
+    <div>
+      <h1>Performance</h1>
+      <p>Analytics across waitlist, reviews, and rewards</p>
+    </div>
+
+    <button
+      type="button"
+      class="generate-report-btn"
+    >
+      <span class="material-icons">download</span>
+      Generate report
+    </button>
+  </header>
+
+  <div class="performance-filters">
+
+    <div class="filter-group">
+      <label for="locationFilter">
+        Location
+      </label>
+
+      <div class="select-wrapper">
+
+        <select
+          id="locationFilter"
+          [value]="selectedLocation === null ? 'ALL' : selectedLocation"
+          (change)="onLocationChange($event)"
+          [disabled]="locationsLoading"
+        >
+
+          <option value="ALL">
+            {{
+              locationsLoading
+                ? 'Loading locations...'
+                : 'All locations'
+            }}
+          </option>
+
+          <option
+            *ngFor="let location of locations"
+            [value]="location.id"
+          >
+            {{ location.name }}
+          </option>
+
+        </select>
+
+        <span class="material-icons">
+          keyboard_arrow_down
+        </span>
+
+      </div>
+    </div>
+
+    <div class="filter-group">
+
+      <label for="periodFilter">
+        Period
+      </label>
+
+      <div class="select-wrapper">
+
+        <select
+          id="periodFilter"
+          [value]="selectedPeriod"
+          (change)="onPeriodChange($event)"
+        >
+
+          <option
+            *ngFor="let period of periodOptions"
+            [value]="period.value"
+          >
+            {{ period.label }}
+          </option>
+
+        </select>
+
+        <span class="material-icons">
+          keyboard_arrow_down
+        </span>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <div class="performance-tabs">
+
+    <button
+      type="button"
+      [class.active]="activeTab === 'WAITLIST'"
+      (click)="changeTab('WAITLIST')"
+    >
+      Waitlist
+    </button>
+
+    <button
+      type="button"
+      [class.active]="activeTab === 'REVIEWS'"
+      (click)="changeTab('REVIEWS')"
+    >
+      Reviews
+    </button>
+
+    <button
+      type="button"
+      [class.active]="activeTab === 'REWARDS_OFFERS'"
+      (click)="changeTab('REWARDS_OFFERS')"
+    >
+      Rewards &amp; Offers
+    </button>
+
+  </div>
+
+  <div
+    *ngIf="errorMessage"
+    class="performance-error"
+  >
+    <span class="material-icons">
+      error_outline
+    </span>
+
+    <span>
+      {{ errorMessage }}
+    </span>
+  </div>
+
+  <div
+    *ngIf="loading"
+    class="performance-loading"
+  >
+    <div class="loading-spinner"></div>
+
+    <span>
+      Loading performance...
+    </span>
+  </div>
+
+
+  <!-- =====================================================
+       WAITLIST
+  ====================================================== -->
+
+  <ng-container
+    *ngIf="
+      !loading &&
+      activeTab === 'WAITLIST'
+    "
+  >
+
+    <ng-container *ngIf="waitlistData">
+
+      <section class="performance-metrics">
+
+        <div class="metric-card">
+
+          <div class="metric-icon">
+            <span class="material-icons">
+              group_add
+            </span>
+          </div>
+
+          <div class="metric-content">
+
+            <span class="metric-label">
+              Waitlist joins
+            </span>
+
+            <strong class="metric-value">
+              {{ waitlistData.summary.waitlistJoins }}
+            </strong>
+
+            <span class="metric-description">
+              Guests who joined the waitlist
+            </span>
+
+          </div>
+
+        </div>
+
+        <div class="metric-card">
+
+          <div class="metric-icon">
+            <span class="material-icons">
+              event_seat
+            </span>
+          </div>
+
+          <div class="metric-content">
+
+            <span class="metric-label">
+              Guests seated
+            </span>
+
+            <strong class="metric-value">
+              {{ waitlistData.summary.guestsSeated }}
+            </strong>
+
+            <span class="metric-description">
+              Guests successfully seated
+            </span>
+
+          </div>
+
+        </div>
+
+        <div class="metric-card">
+
+          <div class="metric-icon">
+            <span class="material-icons">
+              schedule
+            </span>
+          </div>
+
+          <div class="metric-content">
+
+            <span class="metric-label">
+              Average wait time
+            </span>
+
+            <strong class="metric-value">
+              {{
+                formatWaitTime(
+                  waitlistData.summary.averageWaitTimeMinutes
+                )
+              }}
+            </strong>
+
+            <span class="metric-description">
+              Average guest waiting time
+            </span>
+
+          </div>
+
+        </div>
+
+      </section>
+
+      <section class="performance-chart-card">
+
+        <div class="section-header">
+
+          <div>
+            <h2>
+              Waitlist joins over time
+            </h2>
+
+            <p>
+              {{ getSelectedLocationName() }}
+            </p>
+          </div>
+
+        </div>
+
+        <div
+          class="trend-chart"
+          *ngIf="waitlistData.trend.length"
+        >
+
+          <div
+            class="trend-item"
+            *ngFor="let item of waitlistData.trend"
+          >
+
+            <div class="trend-value">
+              {{ item.value }}
+            </div>
+
+            <div class="trend-bar-container">
+
+              <div
+                class="trend-bar"
+                [style.height.%]="
+                  getTrendBarHeight(
+                    item.value,
+                    waitlistData.trend
+                  )
+                "
+              ></div>
+
+            </div>
+
+            <div class="trend-label">
+              {{ item.label }}
+            </div>
+
+          </div>
+
+        </div>
+
+        <div
+          class="empty-chart"
+          *ngIf="!waitlistData.trend.length"
+        >
+          No trend data available.
+        </div>
+
+      </section>
+
+      <section class="performance-leaderboard-card">
+
+        <div class="section-header">
+
+          <div>
+            <h2>
+              Location leaderboard
+            </h2>
+
+            <p>
+              Waitlist performance by location
+            </p>
+          </div>
+
+        </div>
+
+        <div
+          class="leaderboard-table"
+          *ngIf="waitlistData.leaderboard.length"
+        >
+
+          <div class="leaderboard-row leaderboard-header">
+            <div>Location</div>
+            <div>Waitlist joins</div>
+            <div>Guests seated</div>
+            <div>Avg. wait</div>
+          </div>
+
+          <div
+            class="leaderboard-row"
+            *ngFor="
+              let location of waitlistData.leaderboard
+            "
+          >
+
+            <div class="leaderboard-location">
+              {{ location.location }}
+            </div>
+
+            <div>
+              {{ location.waitlistJoins }}
+            </div>
+
+            <div>
+              {{ location.guestsSeated }}
+            </div>
+
+            <div>
+              {{
+                formatWaitTime(
+                  location.avgWaitMinutes
+                )
+              }}
+            </div>
+
+          </div>
+
+        </div>
+
+        <div
+          class="empty-state"
+          *ngIf="!waitlistData.leaderboard.length"
+        >
+          No location performance data available.
+        </div>
+
+      </section>
+
+    </ng-container>
+
+  </ng-container>
+
+
+  <!-- =====================================================
+       REVIEWS
+  ====================================================== -->
+
+  <ng-container
+    *ngIf="
+      !loading &&
+      activeTab === 'REVIEWS'
+    "
+  >
+
+    <ng-container *ngIf="reviewsData">
+
+      <section class="performance-metrics">
+
+        <div class="metric-card">
+
+          <div class="metric-icon">
+            <span class="material-icons">
+              reviews
+            </span>
+          </div>
+
+          <div class="metric-content">
+
+            <span class="metric-label">
+              Reviews received
+            </span>
+
+            <strong class="metric-value">
+              {{ reviewsData.summary.reviewsReceived }}
+            </strong>
+
+            <span class="metric-description">
+              Reviews received during this period
+            </span>
+
+          </div>
+
+        </div>
+
+        <div class="metric-card">
+
+          <div class="metric-icon">
+            <span class="material-icons">
+              star
+            </span>
+          </div>
+
+          <div class="metric-content">
+
+            <span class="metric-label">
+              Average rating
+            </span>
+
+            <strong class="metric-value">
+              {{
+                formatRating(
+                  reviewsData.summary.averageRating
+                )
+              }}
+            </strong>
+
+            <span class="metric-description">
+              Average customer rating
+            </span>
+
+          </div>
+
+        </div>
+
+        <div class="metric-card">
+
+          <div class="metric-icon">
+            <span class="material-icons">
+              reply
+            </span>
+          </div>
+
+          <div class="metric-content">
+
+            <span class="metric-label">
+              Reply rate
+            </span>
+
+            <strong class="metric-value">
+              {{
+                formatPercentage(
+                  reviewsData.summary.replyRate
+                )
+              }}
+            </strong>
+
+            <span class="metric-description">
+              Reviews that received a reply
+            </span>
+
+          </div>
+
+        </div>
+
+      </section>
+
+      <section class="performance-chart-card">
+
+        <div class="section-header">
+
+          <div>
+            <h2>
+              Reviews over time
+            </h2>
+
+            <p>
+              {{ getSelectedLocationName() }}
+            </p>
+          </div>
+
+        </div>
+
+        <div
+          class="trend-chart"
+          *ngIf="reviewsData.trend.length"
+        >
+
+          <div
+            class="trend-item"
+            *ngFor="let item of reviewsData.trend"
+          >
+
+            <div class="trend-value">
+              {{ item.value }}
+            </div>
+
+            <div class="trend-bar-container">
+
+              <div
+                class="trend-bar"
+                [style.height.%]="
+                  getTrendBarHeight(
+                    item.value,
+                    reviewsData.trend
+                  )
+                "
+              ></div>
+
+            </div>
+
+            <div class="trend-label">
+              {{ item.label }}
+            </div>
+
+          </div>
+
+        </div>
+
+        <div
+          class="empty-chart"
+          *ngIf="!reviewsData.trend.length"
+        >
+          No review trend data available.
+        </div>
+
+      </section>
+
+      <section class="performance-leaderboard-card">
+
+        <div class="section-header">
+
+          <div>
+            <h2>
+              Location leaderboard
+            </h2>
+
+            <p>
+              Review performance by location
+            </p>
+          </div>
+
+        </div>
+
+        <div
+          class="leaderboard-table"
+          *ngIf="reviewsData.leaderboard.length"
+        >
+
+          <div class="leaderboard-row leaderboard-header">
+            <div>Location</div>
+            <div>Reviews</div>
+            <div>Avg. rating</div>
+            <div>Reply rate</div>
+          </div>
+
+          <div
+            class="leaderboard-row"
+            *ngFor="
+              let location of reviewsData.leaderboard
+            "
+          >
+
+            <div class="leaderboard-location">
+              {{ location.location }}
+            </div>
+
+            <div>
+              {{ location.reviewsReceived }}
+            </div>
+
+            <div>
+              {{
+                formatRating(
+                  location.avgRating
+                )
+              }}
+            </div>
+
+            <div>
+              {{
+                formatPercentage(
+                  location.replyRate
+                )
+              }}
+            </div>
+
+          </div>
+
+        </div>
+
+        <div
+          class="empty-state"
+          *ngIf="!reviewsData.leaderboard.length"
+        >
+          No review performance data available.
+        </div>
+
+      </section>
+
+    </ng-container>
+
+  </ng-container>
+
+
+  <!-- =====================================================
+       REWARDS & OFFERS
+  ====================================================== -->
+
+  <ng-container
+    *ngIf="
+      !loading &&
+      activeTab === 'REWARDS_OFFERS'
+    "
+  >
+
+    <ng-container *ngIf="rewardsOffersData">
+
+      <section class="performance-metrics">
+
+        <div class="metric-card">
+
+          <div class="metric-icon">
+            <span class="material-icons">
+              redeem
+            </span>
+          </div>
+
+          <div class="metric-content">
+
+            <span class="metric-label">
+              Redemptions
+            </span>
+
+            <strong class="metric-value">
+              {{
+                rewardsOffersData.summary.redemptions
+              }}
+            </strong>
+
+            <span class="metric-description">
+              Offer and reward redemptions
+            </span>
+
+          </div>
+
+        </div>
+
+        <div class="metric-card">
+
+          <div class="metric-icon">
+            <span class="material-icons">
+              stars
+            </span>
+          </div>
+
+          <div class="metric-content">
+
+            <span class="metric-label">
+              Points redeemed
+            </span>
+
+            <strong class="metric-value">
+              {{
+                rewardsOffersData.summary.pointsRedeemed
+              }}
+            </strong>
+
+            <span class="metric-description">
+              Loyalty points redeemed
+            </span>
+
+          </div>
+
+        </div>
+
+        <div class="metric-card">
+
+          <div class="metric-icon">
+            <span class="material-icons">
+              local_offer
+            </span>
+          </div>
+
+          <div class="metric-content">
+
+            <span class="metric-label">
+              Active offers
+            </span>
+
+            <strong class="metric-value">
+              {{
+                rewardsOffersData.summary.activeOffers
+              }}
+            </strong>
+
+            <span class="metric-description">
+              Currently active offers
+            </span>
+
+          </div>
+
+        </div>
+
+      </section>
+
+      <section class="performance-chart-card">
+
+        <div class="section-header">
+
+          <div>
+            <h2>
+              Rewards &amp; offers over time
+            </h2>
+
+            <p>
+              {{ getSelectedLocationName() }}
+            </p>
+          </div>
+
+        </div>
+
+        <div
+          class="trend-chart"
+          *ngIf="
+            rewardsOffersData.trend.length
+          "
+        >
+
+          <div
+            class="trend-item"
+            *ngFor="
+              let item of rewardsOffersData.trend
+            "
+          >
+
+            <div class="trend-value">
+              {{ item.value }}
+            </div>
+
+            <div class="trend-bar-container">
+
+              <div
+                class="trend-bar"
+                [style.height.%]="
+                  getTrendBarHeight(
+                    item.value,
+                    rewardsOffersData.trend
+                  )
+                "
+              ></div>
+
+            </div>
+
+            <div class="trend-label">
+              {{ item.label }}
+            </div>
+
+          </div>
+
+        </div>
+
+        <div
+          class="empty-chart"
+          *ngIf="
+            !rewardsOffersData.trend.length
+          "
+        >
+          No rewards and offers trend data available.
+        </div>
+
+      </section>
+
+      <section class="performance-leaderboard-card">
+
+        <div class="section-header">
+
+          <div>
+            <h2>
+              Location leaderboard
+            </h2>
+
+            <p>
+              Rewards and offers performance by location
+            </p>
+          </div>
+
+        </div>
+
+        <div
+          class="leaderboard-table"
+          *ngIf="
+            rewardsOffersData.leaderboard.length
+          "
+        >
+
+          <div class="leaderboard-row leaderboard-header">
+            <div>Location</div>
+            <div>Redemptions</div>
+            <div>Points redeemed</div>
+            <div>Active offers</div>
+          </div>
+
+          <div
+            class="leaderboard-row"
+            *ngFor="
+              let location of rewardsOffersData.leaderboard
+            "
+          >
+
+            <div class="leaderboard-location">
+              {{ location.location }}
+            </div>
+
+            <div>
+              {{ location.redemptions }}
+            </div>
+
+            <div>
+              {{ location.pointsRedeemed }}
+            </div>
+
+            <div>
+              {{ location.activeOffers }}
+            </div>
+
+          </div>
+
+        </div>
+
+        <div
+          class="empty-state"
+          *ngIf="
+            !rewardsOffersData.leaderboard.length
+          "
+        >
+          No rewards and offers performance data available.
+        </div>
+
+      </section>
+
+    </ng-container>
+
+  </ng-container>
+
+</div>

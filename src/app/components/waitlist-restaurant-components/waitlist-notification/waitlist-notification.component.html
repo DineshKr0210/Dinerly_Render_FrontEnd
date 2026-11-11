@@ -1,0 +1,227 @@
+<div class="notification-page">
+
+  <!-- Header -->
+  <div class="page-header">
+    <div>
+      <h1>Notifications</h1>
+      <p>Manage today's waitlist guests and communicate with them.</p>
+    </div>
+  </div>
+
+  <!-- Stats -->
+  <div class="stats-grid">
+    <div class="stat-card purple">
+      <div class="stat-icon">👤</div>
+      <div>
+        <h3>{{ stats.total }}</h3>
+        <p>Total Guests</p>
+      </div>
+    </div>
+
+    <div class="stat-card orange">
+      <div class="stat-icon">⏱</div>
+      <div>
+        <h3>{{ stats.waiting }}</h3>
+        <p>Waiting</p>
+      </div>
+    </div>
+
+    <div class="stat-card blue">
+      <div class="stat-icon">💬</div>
+      <div>
+        <h3>{{ stats.notified }}</h3>
+        <p>Notified</p>
+      </div>
+    </div>
+
+    <div class="stat-card green">
+      <div class="stat-icon">🪑</div>
+      <div>
+        <h3>{{ stats.seated }}</h3>
+        <p>Seated</p>
+      </div>
+    </div>
+
+    <div class="stat-card red">
+      <div class="stat-icon">✕</div>
+      <div>
+        <h3>{{ stats.cancelled }}</h3>
+        <p>Cancelled</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="main-layout" [class.panel-open]="selectedGuest">
+
+    <!-- Left Section -->
+    <div class="guest-section">
+
+      <div class="guest-header">
+        <h2>Today's Guests</h2>
+
+        <div class="filters">
+
+          <input type="date" [(ngModel)]="selectedDate" (change)="onFilterChange()">
+
+          <input type="text" placeholder="Search by name or phone" [(ngModel)]="searchText"
+            (input)="onSearchChange()" />
+
+          <select [(ngModel)]="selectedStatus" (change)="onStatusChange()">
+            <option value="ALL">All Status</option>
+            <option value="WAITING">Waiting</option>
+            <option value="NOTIFIED">Notified</option>
+            <option value="SEATED">Seated</option>
+            <option value="CANCELLED">Cancelled</option>
+          </select>
+
+        </div>
+      </div>
+
+      <!-- Table -->
+      <div class="table-card">
+
+        <table>
+
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Guest Name</th>
+              <th>Phone</th>
+              <th>Party Size</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+
+          <tbody>
+
+            <tr *ngFor="let guest of paginatedGuests; let i = index; trackBy: trackByGuest"
+              [class.active]="selectedGuest?.id === guest.id" (click)="selectGuest(guest)">
+
+              <td>{{ startItem + i }}</td>
+
+              <td>{{ guest.guestName }}</td>
+
+              <td>{{ guest.guestPhone }}</td>
+
+              <td>
+                {{ guest.partySize }}
+              </td>
+
+              <td>
+                <span class="status-pill" [ngClass]="guest.status.toLowerCase()">
+                  {{ guest.status | titlecase }}
+                </span>
+              </td>
+              <td>
+                <div class="action-buttons">
+
+                  <button class="icon-btn sms" (click)="selectGuest(guest); $event.stopPropagation()">
+                    <i class="fa-solid fa-comment-sms" style="color: rgb(177, 151, 252);"></i>
+                  </button>
+                </div>
+              </td>
+
+            </tr>
+
+          </tbody>
+
+        </table>
+
+        <!-- Footer -->
+
+        <div class="table-footer">
+
+          <span>
+            Showing {{ startItem }} to {{ endItem }}
+            of {{ totalElements }} guests
+          </span>
+
+          <div class="pagination">
+
+            <button class="page-btn arrow" [disabled]="currentPage === 0" (click)="prevPage()">
+              ‹
+            </button>
+
+            <button class="page-btn" *ngFor="let page of pages" [class.active]="currentPage === page"
+              (click)="goToPage(page)">
+              {{ page + 1 }}
+            </button>
+
+            <button class="page-btn arrow" [disabled]="currentPage === totalPages - 1" (click)="nextPage()">
+              ›
+            </button>
+
+            <input type="number" class="jump-input" placeholder="Page" [(ngModel)]="jumpPageInput" min="1"
+              [max]="totalPages" (keyup.enter)="jumpToPage()" />
+
+            <button class="page-btn" (click)="jumpToPage()">
+              Go
+            </button>
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Panel -->
+
+    <div class="side-panel" *ngIf="selectedGuest">
+
+      <button class="close-btn" (click)="closePanel()">
+        ×
+      </button>
+      <h2>{{ selectedGuest.guestName }}</h2>
+      <div class="guest-mini-info">
+        <p>
+          📞 {{ selectedGuest.guestPhone }}
+        </p>
+        <p>
+          👥 Party of {{ selectedGuest.partySize }}
+        </p>
+        <p>
+          Status :
+          <strong>{{ selectedGuest.status }}</strong>
+        </p>
+        <p>
+          Joined :
+          {{ formatDateTime(selectedGuest.joinedAt) }}
+        </p>
+        <p *ngIf="selectedGuest.notifiedAt">
+          Notified :
+          {{ formatDateTime(selectedGuest.notifiedAt) }}
+        </p>
+        <p *ngIf="selectedGuest.seatedAt">
+          Seated :
+          {{ formatDateTime(selectedGuest.seatedAt) }}
+        </p>
+        <p>
+          Actual Wait :
+          {{ getActualWaitTime(selectedGuest.approvedAt, selectedGuest.notifiedAt) }}
+        </p>
+      </div>
+
+
+      <!-- SMS Section -->
+
+      <div class="sms-box">
+        <h3>Send SMS</h3>
+        <div class="radio-row">
+          <label>
+            <input type="radio" name="smsType" checked />
+            Type Custom Message
+          </label>
+        </div>
+
+        <textarea [(ngModel)]="smsMessage" maxlength="160" placeholder="Type your message here..."></textarea>
+        <div class="char-count">
+          {{ smsMessage.length }} / 160
+        </div>
+        <button class="primary-send" (click)="sendSms()">
+          Send SMS
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

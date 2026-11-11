@@ -1,0 +1,136 @@
+<!-- <header class="topbar">
+  <h4>Waitlist</h4>
+
+  <div class="top-actions">
+    <div class="profile-wrapper">
+
+      <div class="profile-pill" (click)="toggleProfileMenu()">
+        <span>{{ guestInitial }}</span>
+        <b>{{ guestName }}</b>
+        <i class="fa-solid fa-chevron-down"></i>
+      </div>
+
+      <div class="profile-dropdown" *ngIf="showProfileMenu">
+
+        <button type="button" class="logout-btn" (click)="logoutGuest()">
+          <i class="fa-solid fa-arrow-right-from-bracket"></i>
+          Logout
+        </button>
+      </div>
+
+    </div>
+  </div>
+</header> -->
+
+<section class="restaurant-hero">
+
+  <img
+    src="assets/reserved.png"
+    alt="Restaurant dining area"
+  >
+
+
+  <button
+    class="slider-btn left"
+    type="button"
+    aria-label="Previous restaurant image"
+  >
+    <i class="fa-solid fa-chevron-left"></i>
+  </button>
+
+
+  <button
+    class="slider-btn right"
+    type="button"
+    aria-label="Next restaurant image"
+  >
+    <i class="fa-solid fa-chevron-right"></i>
+  </button>
+
+
+  <span class="chef-pill">
+    Dining room
+  </span>
+
+
+  <div class="dots" aria-hidden="true">
+
+    <span></span>
+
+    <span class="active"></span>
+
+    <span></span>
+
+  </div>
+
+</section>
+
+
+<section
+  class="restaurant-info"
+  *ngIf="restaurant"
+>
+
+  <!-- RESTAURANT DETAILS -->
+
+  <div class="restaurant-title">
+
+    <div class="avatar">
+
+      {{
+        getGuestInitials(
+          restaurant.name
+        )
+      }}
+
+    </div>
+
+
+    <div class="restaurant-title-content">
+
+      <h1>
+        {{ restaurant.name.toLocaleUpperCase()}}
+      </h1>
+
+      <p>
+        Live wait info &amp; menu —
+        updated in real time
+      </p>
+
+    </div>
+
+  </div>
+
+
+  <!-- WAITLIST STATS -->
+
+  <div class="stats-boxes">
+
+    <div class="stat purple">
+
+      <h2>
+        {{ partiesWaiting }}
+      </h2>
+
+      <p>
+        parties waiting
+      </p>
+
+    </div>
+
+
+    <div class="stat">
+
+      <h2>
+        ~{{ waitMinutes }}
+      </h2>
+
+      <p>
+        min wait
+      </p>
+
+    </div>
+
+  </div>
+
+</section>

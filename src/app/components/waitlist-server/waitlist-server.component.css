@@ -1,0 +1,24 @@
+@import '../../styles/portal-shell.css';
+
+/* Bell with unread count, next to the theme and user buttons */
+.bell-button {
+  position: relative;
+}
+
+.bell-badge {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 5px;
+  border-radius: 999px;
+  background: #e5484d;
+  color: #ffffff;
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 18px;
+  text-align: center;
+  box-sizing: border-box;
+  border: 2px solid #ffffff;
+}

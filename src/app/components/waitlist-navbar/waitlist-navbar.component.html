@@ -1,0 +1,191 @@
+<header class="guest-navbar">
+
+  <!-- LEFT SECTION -->
+
+  <div class="navbar-left">
+
+    <button type="button" class="mobile-menu-button" [attr.aria-expanded]="mobileMenuOpen"
+      aria-label="Open navigation menu" (click)="toggleMobileMenu($event)">
+      <i class="fa-solid" [ngClass]="
+          mobileMenuOpen
+            ? 'fa-xmark'
+            : 'fa-bars'
+        "></i>
+    </button>
+
+
+    <button type="button" class="navbar-brand" (click)="selectTab('HOME')">
+
+      <div class="brand-logo">
+        <img src="assets/brand/dinerly-icon.png" alt="">
+      </div>
+
+      <span class="brand-name">
+        Dinerly
+      </span>
+
+      <span class="brand-badge">
+        GUEST
+      </span>
+
+    </button>
+
+  </div>
+
+
+  <!-- CENTER RESTAURANT INFO -->
+
+  <!-- <button type="button" class="navbar-restaurant" (click)="selectTab('HOME')">
+
+    <div class="restaurant-navbar-avatar">
+
+      {{
+      restaurantName
+      .charAt(0)
+      .toUpperCase()
+      }}
+
+    </div>
+
+
+    <div class="restaurant-navbar-details">
+
+      <strong>
+        {{ restaurantName }}
+      </strong>
+
+      <span *ngIf="waitTimeLabel">
+        {{ waitTimeLabel }} wait
+      </span>
+
+      <span *ngIf="!waitTimeLabel">
+        Guest portal
+      </span>
+
+    </div>
+
+  </button> -->
+
+
+  <!-- RIGHT SECTION -->
+
+  <div class="navbar-actions">
+
+    <button type="button" class="navbar-icon-button theme-button" aria-label="Change theme" (click)="toggleTheme()">
+      <i class="fa-solid" [ngClass]="
+          isDarkMode
+            ? 'fa-sun'
+            : 'fa-moon'
+        "></i>
+    </button>
+
+
+    <button type="button" class="navbar-icon-button notification-button" aria-label="Notifications">
+      <i class="fa-regular fa-bell"></i>
+
+      <span class="notification-dot" *ngIf="hasWaitlistAccess"></span>
+    </button>
+
+
+    <!-- PROFILE -->
+
+    <div class="navbar-profile-wrapper" (click)="$event.stopPropagation()">
+
+      <button type="button" class="navbar-profile" [class.open]="showProfileMenu" (click)="toggleProfileMenu($event)">
+
+        <span class="navbar-profile-avatar">
+          {{ displayInitial }}
+        </span>
+
+        <span class="navbar-profile-name">
+          {{ displayName }}
+        </span>
+
+        <i class="fa-solid fa-chevron-down" [class.rotate]="showProfileMenu"></i>
+
+      </button>
+
+
+      <div class="navbar-profile-menu" *ngIf="showProfileMenu">
+
+        <div class="profile-menu-header">
+
+          <div class="profile-menu-avatar">
+            {{ displayInitial }}
+          </div>
+
+          <div>
+
+            <strong>
+              {{ displayName }}
+            </strong>
+
+            <ng-container *ngIf="customerAccount as account; else waitlistPhone">
+
+              <span *ngIf="account.email">
+                {{ account.email }}
+              </span>
+
+            </ng-container>
+
+            <ng-template #waitlistPhone>
+
+              <span *ngIf="waitlistGuest?.guestPhone">
+                {{ waitlistGuest?.guestPhone }}
+              </span>
+
+            </ng-template>
+
+          </div>
+
+        </div>
+
+
+        <div class="profile-menu-divider"></div>
+
+
+        <button type="button" *ngIf="hasAccountAccess" (click)="selectTab('PROFILE')">
+          <i class="fa-regular fa-user"></i>
+          My profile
+        </button>
+
+
+        <button type="button" *ngIf="!hasAccountAccess" (click)="login()">
+          <i class="fa-solid fa-arrow-right-to-bracket"></i>
+          Login with email
+        </button>
+
+
+        <button type="button" *ngIf="hasWaitlistAccess" (click)="selectTab('WAITLIST')">
+          <i class="fa-regular fa-clock"></i>
+          View waitlist
+        </button>
+
+
+        <div class="profile-menu-divider" *ngIf="
+            hasAccountAccess ||
+            hasWaitlistAccess
+          "></div>
+
+
+        <button type="button" class="logout-menu-button" *ngIf="hasAccountAccess" (click)="logoutAccount()">
+          <i class="fa-solid fa-arrow-right-from-bracket"></i>
+          Logout account
+        </button>
+
+
+        <button type="button" class="logout-menu-button" *ngIf="
+            hasWaitlistAccess &&
+            !hasAccountAccess
+          " (click)="logoutWaitlist()">
+          <i class="fa-solid fa-arrow-right-from-bracket"></i>
+          Exit waitlist session
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</header>

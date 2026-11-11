@@ -1,0 +1,351 @@
+<div class="help-page">
+
+  <!-- HEADER -->
+  <header class="help-header">
+
+    <div class="help-title-group">
+      <h1>Help</h1>
+
+    </div>
+
+    <div class="header-actions">
+      <!-- <div class="restaurant-menu-wrapper" (click)="$event.stopPropagation()">
+        <button class="restaurant-btn" type="button" [class.menu-open]="showRestaurantMenu"
+          [attr.aria-expanded]="showRestaurantMenu" aria-haspopup="menu" (click)="toggleRestaurantMenu($event)">
+          <span>
+            {{
+            restaurantName
+            ? restaurantName.charAt(0)
+            : 'R'
+            }}
+          </span>
+
+          <strong>
+            {{ restaurantName }}
+          </strong>
+
+          <i class="fa-solid fa-chevron-down" [class.rotate-chevron]="
+          showRestaurantMenu
+        "></i>
+        </button>
+
+        <div class="restaurant-dropdown" *ngIf="showRestaurantMenu" role="menu">
+          <div class="restaurant-dropdown-info">
+            <div class="restaurant-dropdown-avatar">
+              {{
+              restaurantName
+              ? restaurantName.charAt(0)
+              : 'R'
+              }}
+            </div>
+
+            <div>
+              <strong>
+                {{ restaurantName }}
+              </strong>
+
+              <span>
+                Restaurant account
+              </span>
+            </div>
+          </div>
+
+          <div class="restaurant-dropdown-divider">
+          </div>
+
+          <button type="button" class="restaurant-dropdown-action logout-action" role="menuitem"
+            (click)="logoutFromMenu($event)">
+            <i class="fa-solid fa-arrow-right-from-bracket"></i>
+
+            Logout
+          </button>
+        </div>
+      </div> -->
+
+    </div>
+
+  </header>
+
+
+
+  <!-- INTRODUCTION -->
+  <section class="help-introduction">
+
+    <p>
+      Hi {{ restaurantName }},
+    </p>
+
+    <h2>
+      How can we help?
+    </h2>
+
+  </section>
+
+  <!-- CONTACT SUPPORT -->
+  <section class="support-grid">
+
+    <button type="button" class="support-card" (click)="callSupport()">
+      <div class="support-icon">
+        <i class="fa-solid fa-phone"></i>
+      </div>
+
+      <div class="support-copy">
+        <strong>
+          Call us — (204) 555-0199
+        </strong>
+
+        <span>
+          Available 24/7 for live waitlist
+          issues
+        </span>
+      </div>
+    </button>
+
+    <div class="support-card">
+
+      <div class="support-icon">
+        <i class="fa-regular fa-comment-dots"></i>
+      </div>
+
+      <div class="support-copy">
+        <strong>
+          Message Dinerly support
+        </strong>
+
+        <span>
+          Available Mon–Fri, 8 AM–4 PM
+        </span>
+      </div>
+
+      <button type="button" class="send-message-button" (click)="openMessagePopup()">
+        Send message
+      </button>
+
+    </div>
+
+  </section>
+
+  <!-- POPULAR ARTICLES -->
+  <section class="content-section">
+
+    <h3>Popular articles</h3>
+
+    <div class="articles-grid">
+
+      <div class="article-column">
+
+        <button type="button" class="article-row" *ngFor="
+            let article of popularArticlesLeft
+          " (click)="openArticle(article)">
+          <span>
+            {{ article.title }}
+          </span>
+
+          <i class="fa-solid fa-chevron-right"></i>
+        </button>
+
+      </div>
+
+      <div class="article-column">
+
+        <button type="button" class="article-row" *ngFor="
+            let article of popularArticlesRight
+          " (click)="openArticle(article)">
+          <span>
+            {{ article.title }}
+          </span>
+
+          <i class="fa-solid fa-chevron-right"></i>
+        </button>
+
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- RECENT SUPPORT CASES -->
+  <section class="content-section">
+
+    <h3>Recent support cases</h3>
+
+    <div class="support-table-card">
+
+      <div class="support-table-header">
+        <span>ISSUE</span>
+        <span>STATUS</span>
+        <span>CASE NUMBER</span>
+        <span>LAST UPDATED</span>
+      </div>
+
+      <button type="button" class="support-table-row" *ngFor="
+          let supportCase of supportCases
+        " (click)="
+          openSupportCase(supportCase)
+        ">
+        <strong>
+          {{ supportCase.issue }}
+        </strong>
+
+        <span class="case-status" [ngClass]="
+            getSupportStatusClass(
+              supportCase.status
+            )
+          ">
+          {{ supportCase.status }}
+        </span>
+
+        <strong>
+          {{ supportCase.caseNumber }}
+        </strong>
+
+        <strong>
+          {{ supportCase.lastUpdated }}
+        </strong>
+      </button>
+
+    </div>
+
+  </section>
+
+  <!-- MORE RESOURCES -->
+  <section class="content-section resources-section">
+
+    <h3>More resources</h3>
+
+    <div class="resources-grid">
+
+      <button type="button" class="resource-card" *ngFor="let resource of resources" (click)="openResource(resource)">
+
+        <div class="resource-icon">
+          <i [ngClass]="resource.icon"></i>
+        </div>
+
+        <div>
+          <strong>
+            {{ resource.title }}
+          </strong>
+
+          <p>
+            {{ resource.description }}
+          </p>
+        </div>
+
+      </button>
+
+    </div>
+
+  </section>
+
+</div>
+
+<!-- MESSAGE SUPPORT POPUP -->
+<div class="help-modal-backdrop" *ngIf="showMessagePopup" (click)="closeMessagePopup()">
+  <div class="help-modal" (click)="$event.stopPropagation()">
+
+    <button type="button" class="help-modal-close" [disabled]="isSendingSupportMessage" (click)="closeMessagePopup()"
+      aria-label="Close support popup">
+      <i class="fa-solid fa-xmark"></i>
+    </button>
+
+    <div class="help-modal-icon">
+      <i class="fa-regular fa-comment-dots"></i>
+    </div>
+
+    <p class="modal-eyebrow">
+      DINERLY SUPPORT
+    </p>
+
+    <h2>Send us a message</h2>
+
+    <p class="modal-description">
+      Describe your issue and our support team
+      will respond as soon as possible.
+    </p>
+
+    <div class="form-field">
+      <label for="supportSubject">
+        Subject
+      </label>
+
+      <input id="supportSubject" type="text" maxlength="100" placeholder="Example: Text message balance"
+        [(ngModel)]="supportSubject" />
+    </div>
+
+    <div class="form-field">
+      <label for="supportMessage">
+        Message
+      </label>
+
+      <textarea id="supportMessage" rows="5" maxlength="600" placeholder="Tell us how we can help..."
+        [(ngModel)]="supportMessage"></textarea>
+
+      <span class="character-count">
+        {{ supportMessage.length }}/600
+      </span>
+    </div>
+
+    <div class="help-modal-actions">
+
+      <button type="button" class="modal-cancel-button" [disabled]="isSendingSupportMessage"
+        (click)="closeMessagePopup()">
+        Cancel
+      </button>
+
+      <button type="button" class="modal-send-button" [disabled]="
+          isSendingSupportMessage ||
+          !supportSubject.trim() ||
+          !supportMessage.trim()
+        " (click)="sendSupportMessage()">
+        <i class="fa-solid" [ngClass]="
+            isSendingSupportMessage
+              ? 'fa-spinner fa-spin'
+              : 'fa-paper-plane'
+          "></i>
+
+        {{
+        isSendingSupportMessage
+        ? 'Sending...'
+        : 'Send message'
+        }}
+      </button>
+
+    </div>
+
+  </div>
+</div>
+
+<!-- ARTICLE DETAILS POPUP -->
+<div class="help-modal-backdrop" *ngIf="
+    showArticlePopup &&
+    selectedArticle
+  " (click)="closeArticlePopup()">
+  <div class="help-modal article-modal" (click)="$event.stopPropagation()">
+
+    <button type="button" class="help-modal-close" (click)="closeArticlePopup()" aria-label="Close article">
+      <i class="fa-solid fa-xmark"></i>
+    </button>
+
+    <div class="help-modal-icon">
+      <i class="fa-regular fa-file-lines"></i>
+    </div>
+
+    <p class="modal-eyebrow">
+      HELP ARTICLE
+    </p>
+
+    <h2>
+      {{ selectedArticle.title }}
+    </h2>
+
+    <p class="article-description">
+      {{ selectedArticle.description }}
+    </p>
+
+    <button type="button" class="modal-send-button full-width" (click)="closeArticlePopup()">
+      <i class="fa-solid fa-check"></i>
+      Done
+    </button>
+
+  </div>
+</div>
