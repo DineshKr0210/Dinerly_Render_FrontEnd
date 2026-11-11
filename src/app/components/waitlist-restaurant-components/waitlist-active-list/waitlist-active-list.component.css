@@ -29,7 +29,7 @@
 .header-title h1 {
   margin: 0;
   color: #241f2d;
-  font-size: 25px;
+  font-size: 26px;
   font-weight: 700;
   line-height: 1.1;
   letter-spacing: -0.5px;
@@ -4090,7 +4090,7 @@
 .page-heading h1 {
   margin: 0;
   color: #2d2735;
-  font-size: 34px;
+  font-size: 26px;
   line-height: 1.02;
   font-weight: 800;
 }
@@ -4327,7 +4327,7 @@
 
 .waitlist-table-body {
   border: 1px solid #ece4f4;
-  border-radius: 16px;
+  border-radius: 12px;
   background: rgba(248, 245, 251, 0.55);
   overflow: hidden;
 }
@@ -4472,7 +4472,7 @@
 
 .info-card-table {
   border: 1px solid #ece4f4;
-  border-radius: 16px;
+  border-radius: 12px;
   overflow: hidden;
   background: rgba(248, 245, 251, 0.55);
 }

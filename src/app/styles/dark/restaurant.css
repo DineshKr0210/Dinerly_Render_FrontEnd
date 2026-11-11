@@ -2235,3 +2235,11 @@ html[data-theme="dark"] .history-list-head {
   border-bottom-color: var(--dk-border);
   color: var(--dk-text-3);
 }
+
+/* Settings submenu: the active item was a light pill in dark mode.
+   Angular's emulated encapsulation makes the component's own rule more
+   specific, so this one needs !important. */
+html[data-theme="dark"] app-waitlist-restaurant-component .settings-submenu button.active {
+  background: var(--dk-brand-soft) !important;
+  color: var(--dk-brand) !important;
+}

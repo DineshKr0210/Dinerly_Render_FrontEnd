@@ -17,6 +17,11 @@
 :root {
   /* Shared sidebar width for every portal (Guest, Admin, Restaurant, Server). */
   --portal-sidebar-width: 224px;
+  /* Shared UI tokens: primary button, card radius and page title size. */
+  --ui-primary: #5a3fb8;
+  --ui-primary-hover: #4b31a0;
+  --ui-card-radius: 12px;
+  --ui-title-size: 26px;
   --font-ui: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
   --text-muted: #6b6478;
   --shadow-sm: 0 1px 2px rgba(25, 15, 38, 0.06);
