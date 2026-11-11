@@ -61,22 +61,31 @@ app-waitlist-restaurant-component .app-shell .guest-row {
   border-radius: 12px;
 }
 
-/* Restaurant portal opens at 80% zoom by default. The page height is
-   compensated so the layout still fills the viewport. */
-app-waitlist-restaurant-component {
-  zoom: 0.8;
-}
-
-app-waitlist-restaurant-component .app-shell {
-  min-height: 125vh;
+/* Restaurant content opens slightly smaller (90%). The navbar and
+   sidebar stay at the normal size. */
+app-waitlist-restaurant-component .app-shell .main-content {
+  zoom: 0.9;
+  /* zoom also scales the margin, so divide to keep the sidebar offset exact */
+  margin-left: calc(var(--sidebar-width) / 0.9);
+  /* keep the 18px gap under the 62px navbar after scaling */
+  padding-top: calc((var(--top-navbar-height) + 18px) / 0.9) !important;
 }
 
 /* Current Waitlist: the header row and guest rows share one column grid,
    so each heading sits above its value. */
 app-waitlist-restaurant-component .app-shell .waitlist-table-body .table-row.header-row,
 app-waitlist-restaurant-component .app-shell .guest-list .guest-row {
-  grid-template-columns: minmax(220px, 2.8fr) minmax(80px, 0.7fr) minmax(120px, 0.9fr) minmax(150px, 1.2fr) minmax(170px, 1.8fr);
+  grid-template-columns: minmax(220px, 2.6fr) minmax(80px, 0.7fr) minmax(120px, 0.9fr) minmax(150px, 1.2fr) minmax(260px, 2fr);
   column-gap: 14px;
   padding-left: 14px;
   padding-right: 14px;
+}
+
+/* Actions buttons start at the same left edge as the Actions heading */
+app-waitlist-restaurant-component .app-shell .guest-list .guest-row .action-cell {
+  justify-content: flex-start;
+}
+
+app-waitlist-restaurant-component .app-shell .guest-list .guest-row .notify-action {
+  left: 0;
 }
