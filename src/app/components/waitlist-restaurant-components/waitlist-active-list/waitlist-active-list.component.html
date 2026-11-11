@@ -286,14 +286,20 @@
           <!-- ACTIONS -->
           <div class="action-cell" (click)="$event.stopPropagation()">
 
-            <button class="notify-action" type="button" *ngIf="guest.status === 'WAITING'" (click)="notifyGuest(guest)">
+            <span class="call-pill" *ngIf="getCallPill(guest) as pill" [ngClass]="'call-pill--' + pill.state" aria-live="polite">
+              <i class="call-pill-dot"></i>
+              <i class="fa-solid fa-check call-pill-check" *ngIf="pill.state === 'answered'"></i>
+              {{ pill.label }}
+            </span>
+
+            <button class="notify-action" type="button" *ngIf="guest.status === 'WAITING' && !isCallLive(guest)" (click)="notifyGuest(guest)">
               <i class="fa-regular fa-paper-plane"></i>
               Notify
             </button>
 
             <div class="contact-action-wrapper">
 
-              <button class="action-btn call" type="button" *ngIf="guest.status === 'NOTIFIED'"
+              <button class="action-btn call" type="button" *ngIf="guest.status === 'NOTIFIED' && !isCallLive(guest)"
                 (click)="toggleContactActions(guest, $event)">
                 <i class="fa-solid fa-phone-volume" style="color: #5b32e1;"></i>
               </button>
@@ -362,7 +368,12 @@
 
             <div class="tablet-guest-action-wrap">
               <div class="tablet-guest-actions">
-                <button class="tablet-quick-btn notify" type="button" *ngIf="guest.status === 'WAITING'"
+                <span class="call-pill" *ngIf="getCallPill(guest) as pill" [ngClass]="'call-pill--' + pill.state" aria-live="polite">
+                  <i class="call-pill-dot"></i>
+                  <i class="fa-solid fa-check call-pill-check" *ngIf="pill.state === 'answered'"></i>
+                  {{ pill.label }}
+                </span>
+                <button class="tablet-quick-btn notify" type="button" *ngIf="guest.status === 'WAITING' && !isCallLive(guest)"
                   (click)="notifyGuest(guest); $event.stopPropagation()">
                   <i class="fa-regular fa-paper-plane"></i> Notify
                 </button>

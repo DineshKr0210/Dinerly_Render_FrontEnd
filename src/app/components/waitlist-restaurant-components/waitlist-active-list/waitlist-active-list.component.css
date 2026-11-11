@@ -5521,3 +5521,141 @@
   }
 }
 
+
+/* =====================================================
+   INLINE CALL STATUS PILL (replaces Notify while a call runs)
+   calling: fill sweeps left to right, dot pulses
+   in-call: steady green, dot breathes
+   answered: one short vibrate, then check mark
+   ended: fades to grey and stops
+   ===================================================== */
+.call-pill {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: clamp(42px, 2.6vw, 54px);
+  padding: 0 14px;
+  border-radius: 12px;
+  border: 1px solid transparent;
+  font-size: 12px;
+  font-weight: 800;
+  white-space: nowrap;
+  overflow: hidden;
+  isolation: isolate;
+  flex: 0 0 auto;
+}
+
+.call-pill::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  transform-origin: left center;
+  transform: scaleX(0);
+}
+
+.call-pill-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: currentColor;
+  flex: 0 0 7px;
+}
+
+.call-pill-check {
+  font-size: 11px;
+}
+
+/* calling */
+.call-pill--calling {
+  background: #f1edff;
+  color: #5a3fb8;
+  border-color: #d9ccff;
+}
+
+.call-pill--calling::before {
+  background: rgba(90, 63, 184, 0.16);
+  animation: call-pill-load 1.6s ease-in-out infinite;
+}
+
+.call-pill--calling .call-pill-dot {
+  animation: call-pill-pulse 1.2s ease-in-out infinite;
+}
+
+/* in call */
+.call-pill--in-call {
+  background: #e6f7ee;
+  color: #1f7a4a;
+  border-color: #bfe6cf;
+}
+
+.call-pill--in-call .call-pill-dot {
+  animation: call-pill-breathe 2.4s ease-in-out infinite;
+}
+
+/* answered */
+.call-pill--answered {
+  background: #e6f7ee;
+  color: #1f7a4a;
+  border-color: #8fd3a9;
+  animation: call-pill-vibrate 0.45s ease-in-out 1;
+}
+
+.call-pill--answered .call-pill-check {
+  animation: call-pill-fade-in 0.3s ease 0.2s both;
+}
+
+/* ended */
+.call-pill--ended {
+  background: #f3f1f6;
+  color: #6b6478;
+  border-color: #e3dfea;
+  animation: call-pill-settle 0.4s ease 1;
+}
+
+@keyframes call-pill-load {
+  0% { transform: scaleX(0); }
+  100% { transform: scaleX(1); }
+}
+
+@keyframes call-pill-pulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.5); opacity: 0.5; }
+}
+
+@keyframes call-pill-breathe {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.35; }
+}
+
+@keyframes call-pill-vibrate {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-3px); }
+  40% { transform: translateX(3px); }
+  60% { transform: translateX(-2px); }
+  80% { transform: translateX(2px); }
+}
+
+@keyframes call-pill-fade-in {
+  from { opacity: 0; transform: scale(0.6); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes call-pill-settle {
+  from { opacity: 0.4; }
+  to { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .call-pill,
+  .call-pill::before,
+  .call-pill-dot,
+  .call-pill-check {
+    animation: none !important;
+  }
+
+  .call-pill--calling::before {
+    transform: scaleX(1);
+  }
+}

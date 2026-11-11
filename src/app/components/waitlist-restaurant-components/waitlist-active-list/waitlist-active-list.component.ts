@@ -1497,7 +1497,8 @@ export class WaitlistActiveListComponent
     this.activeCallGuestId = guestId;
     this.callRequestStarted = false;
     this.isCallInProgress = true;
-    this.showCallingPopup = true;
+    this.showCallingPopup = false;
+    this.startCallRecord(guestId);
 
     this.waitlistApi
       .makecallToGuest(
@@ -1568,6 +1569,10 @@ export class WaitlistActiveListComponent
   }
 
   closeCallingPopup(): void {
+    if (this.activeCallGuestId) {
+      this.markCallEnded(this.activeCallGuestId, false);
+    }
+
     this.clearCallPopupTimeout();
 
     this.showCallingPopup = false;
@@ -1576,6 +1581,131 @@ export class WaitlistActiveListComponent
     this.callingGuest = null;
     this.activeCallGuestId = null;
     this.callRequestStarted = false;
+  }
+
+  /* ===== Inline call status (shown as a pill in the guest row) ===== */
+
+  callRecords: {
+    [guestId: number]: {
+      state: 'calling' | 'in-call' | 'answered' | 'ended';
+      startedAt: number;
+      endedAt?: number;
+      noAnswer?: boolean;
+    };
+  } = {};
+
+  private callAnswerTimers: { [guestId: number]: any } = {};
+  private callTickTimer: any = null;
+
+  private startCallRecord(guestId: number): void {
+    this.callRecords[guestId] = {
+      state: 'calling',
+      startedAt: Date.now()
+    };
+    this.startCallTicker();
+  }
+
+  private markCallInProgress(guestId: number): void {
+    const rec = this.callRecords[guestId];
+    if (rec && rec.state === 'calling') {
+      rec.state = 'in-call';
+    }
+  }
+
+  private markCallAnswered(guestId: number): void {
+    const rec = this.callRecords[guestId];
+    if (!rec || rec.state === 'ended' || rec.state === 'answered') {
+      return;
+    }
+
+    rec.state = 'answered';
+    rec.endedAt = Date.now();
+
+    /* Show the answered animation briefly, then settle to ended. */
+    this.callAnswerTimers[guestId] = setTimeout(() => {
+      const current = this.callRecords[guestId];
+      if (current && current.state === 'answered') {
+        current.state = 'ended';
+      }
+    }, 2600);
+  }
+
+  private markCallEnded(guestId: number, noAnswer: boolean): void {
+    const rec = this.callRecords[guestId];
+    if (!rec || rec.state === 'ended' || rec.state === 'answered') {
+      return;
+    }
+
+    rec.state = 'ended';
+    rec.endedAt = Date.now();
+    rec.noAnswer = noAnswer;
+  }
+
+  private isConnectedCallStatus(status?: string): boolean {
+    const normalized = String(status || '').trim().toUpperCase();
+    return normalized.includes('IN_PROGRESS') || normalized.includes('CONNECTED');
+  }
+
+  /** Keeps the timer text moving once per second while a call is live. */
+  private startCallTicker(): void {
+    if (this.callTickTimer) {
+      return;
+    }
+
+    this.callTickTimer = setInterval(() => {
+      const live = Object.values(this.callRecords).some(
+        rec => rec.state === 'calling' || rec.state === 'in-call'
+      );
+
+      if (!live) {
+        clearInterval(this.callTickTimer);
+        this.callTickTimer = null;
+      }
+    }, 1000);
+  }
+
+  private formatCallTime(ms: number): string {
+    const total = Math.max(0, Math.floor(ms / 1000));
+    const mm = String(Math.floor(total / 60)).padStart(2, '0');
+    const ss = String(total % 60).padStart(2, '0');
+    return `${mm}:${ss}`;
+  }
+
+  /** The pill shown in place of the Notify / call button, or null. */
+  getCallPill(guest: DashboardLiveGuest): { state: string; label: string } | null {
+    const rec = this.callRecords[Number(guest?.id)];
+
+    if (!rec) {
+      return null;
+    }
+
+    if (guest.status !== 'WAITING' && guest.status !== 'NOTIFIED') {
+      return null;
+    }
+
+    const now = Date.now();
+
+    switch (rec.state) {
+      case 'calling':
+        return { state: 'calling', label: `Calling ${this.formatCallTime(now - rec.startedAt)}` };
+      case 'in-call':
+        return { state: 'in-call', label: `In call ${this.formatCallTime(now - rec.startedAt)}` };
+      case 'answered':
+        return { state: 'answered', label: 'Answered' };
+      case 'ended':
+        return {
+          state: 'ended',
+          label: rec.noAnswer
+            ? 'No answer'
+            : `Called ${this.formatCallTime((rec.endedAt || now) - rec.startedAt)}`
+        };
+    }
+  }
+
+  /** True while the pill is calling, in call or answered (hides Notify / call button). */
+  isCallLive(guest: DashboardLiveGuest): boolean {
+    const pill = this.getCallPill(guest);
+    return !!pill && pill.state !== 'ended';
   }
 
   private handleActiveCallStatus(): void {
@@ -1606,16 +1736,25 @@ export class WaitlistActiveListComponent
         updatedGuest
       )
     ) {
+      this.markCallAnswered(updatedGuest.id);
       this.closeCallingPopup();
       return;
     }
 
+    if (
+      this.isConnectedCallStatus(
+        updatedGuest.callStatus
+      )
+    ) {
+      this.markCallInProgress(updatedGuest.id);
+    }
 
     if (
       this.isTerminalCallStatus(
         updatedGuest.callStatus
       )
     ) {
+      this.markCallEnded(updatedGuest.id, true);
       this.closeCallingPopup();
     }
   }
