@@ -48,7 +48,7 @@ html[data-theme="dark"] .login-page .input-box {
 
 html[data-theme="dark"] .login-page .input-box:focus-within {
   border-color: var(--dk-brand);
-  box-shadow: var(--focus-ring);
+  box-shadow: none;
 }
 
 html[data-theme="dark"] .login-page .input-box input {

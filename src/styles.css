@@ -36,12 +36,18 @@ html, body { height: 100%; }
 body { margin: 0; font-family: var(--font-ui); -webkit-font-smoothing: antialiased; }
 
 button:focus-visible,
-a:focus-visible,
+a:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+
+/* Form fields: a border colour change only, no box around the field */
 input:focus-visible,
 select:focus-visible,
 textarea:focus-visible {
   outline: none;
-  box-shadow: var(--focus-ring);
+  box-shadow: none;
+  border-color: var(--ui-primary);
 }
 
 button:active:not(:disabled) { transform: scale(0.98); }

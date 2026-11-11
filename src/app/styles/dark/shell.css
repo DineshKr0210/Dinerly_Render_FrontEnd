@@ -457,7 +457,7 @@ html[data-theme="dark"] .input-box {
 html[data-theme="dark"] .input-box:focus-within,
 html[data-theme="dark"] .restaurant-select-box:focus-within {
   border-color: var(--dk-brand);
-  box-shadow: var(--focus-ring);
+  box-shadow: none;
 }
 
 html[data-theme="dark"] .input-icon {

@@ -122,7 +122,20 @@ html:not([data-theme="dark"]) app-waitlist-admin .sidebar .settings-submenu butt
 }
 
 .sidebar-header-toggle:hover {
-  background: rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.22);
+  border-color: rgba(255, 255, 255, 0.35);
+}
+
+.sidebar-header-toggle:focus-visible,
+.guest-sidebar-toggle:focus-visible,
+.sidebar-show-fab:focus-visible {
+  outline: none;
+  box-shadow: none;
+}
+
+/* Keep the restaurant name clear of the header toggle */
+.sidebar .restaurant-section {
+  padding-right: 46px;
 }
 
 /* Guest sidebar header toggle (desktop only; phones use the navbar menu) */

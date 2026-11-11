@@ -397,7 +397,7 @@ html[data-theme="dark"] .restaurant-phone-box {
 html[data-theme="dark"] .restaurant-phone-box:focus-within {
   background: var(--dk-surface);
   border-color: var(--dk-brand);
-  box-shadow: 0 0 0 2px var(--dk-brand-soft);
+  box-shadow: none;
 }
 
 html[data-theme="dark"] .restaurant-phone-box.error {

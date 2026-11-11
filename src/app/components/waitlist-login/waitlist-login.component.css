@@ -239,7 +239,7 @@ form label {
 
 .input-box:focus-within {
   border-color: #6421bd;
-  box-shadow: 0 0 0 3px rgba(100, 33, 189, 0.08);
+  box-shadow: none;
 }
 
 .input-box input {
