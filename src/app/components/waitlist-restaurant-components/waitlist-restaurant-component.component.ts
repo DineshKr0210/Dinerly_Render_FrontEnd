@@ -20,6 +20,7 @@ import { NotificationService } from 'src/app/services/notification.service';
 import { ThemeService } from 'src/app/services/theme.service';
 import { WaitlistApiRestaurantService } from 'src/app/services/waitlist-api-restaurant.service';
 import { WaitlistAuthService } from 'src/app/services/waitlist-auth.service';
+import { RestaurantSearchService } from 'src/app/services/restaurant-search.service';
 
 type SettingsTab =
   | 'profile'
@@ -38,6 +39,14 @@ export class WaitlistRestaurantComponentComponent
   implements OnInit, OnDestroy {
 
   activeRoute = 'waitlist';
+
+  searchQuery = '';
+
+  onSearchInput(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    this.searchQuery = this.search.setQuery(input.value);
+    input.value = this.searchQuery;
+  }
 
   activeSettingsTab: SettingsTab = 'profile';
 
@@ -81,7 +90,8 @@ export class WaitlistRestaurantComponentComponent
     private waitlistService: WaitlistApiRestaurantService,
     private notificationService: NotificationService,
     private themeService: ThemeService,
-    private authService: WaitlistAuthService
+    private authService: WaitlistAuthService,
+    private search: RestaurantSearchService
   ) { }
 
   get isDarkMode(): boolean {

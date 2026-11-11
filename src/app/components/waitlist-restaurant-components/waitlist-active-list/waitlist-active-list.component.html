@@ -461,8 +461,8 @@
           </div>
         </div>
 
-        <h3>Your waitlist is clear.</h3>
-        <p>New guest requests will appear here.</p>
+        <h3>{{ search.query ? 'No matching guests' : 'Your waitlist is clear.' }}</h3>
+        <p>{{ search.query ? 'Try a different name or phone number.' : 'New guest requests will appear here.' }}</p>
 
         <button class="primary-btn small-btn" type="button" (click)="modalService.open()">
           <i class="fa-solid fa-user-plus"></i>

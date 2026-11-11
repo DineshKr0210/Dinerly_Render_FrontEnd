@@ -35,6 +35,7 @@ import { NotificationService } from 'src/app/services/notification.service';
 import { ToastService } from 'src/app/services/toast.service';
 import { WaitlistApiRestaurantService } from 'src/app/services/waitlist-api-restaurant.service';
 import { WaitlistAuthService } from 'src/app/services/waitlist-auth.service';
+import { RestaurantSearchService } from 'src/app/services/restaurant-search.service';
 import { WaitlistRestaurantModalService } from 'src/app/services/waitlist-restaurant-modal.service';
 
 interface DashboardLiveGuest {
@@ -128,11 +129,16 @@ export class WaitlistActiveListComponent
   cancelledGuests: CancelledGuest[] = [];
 
   get activeSeatedGuests(): SeatedGuest[] {
-    return (this.seatedGuests || []).filter((guest: any) => guest?.status === 'SEATED');
+    return (this.seatedGuests || []).filter((guest: any) => guest?.status === 'SEATED' && this.matchesSearch(guest));
   }
 
   get completedGuests(): SeatedGuest[] {
-    return (this.seatedGuests || []).filter((guest: any) => guest?.status === 'COMPLETED');
+    return (this.seatedGuests || []).filter((guest: any) => guest?.status === 'COMPLETED' && this.matchesSearch(guest));
+  }
+
+  /** Navbar search: filters by guest name or phone number. */
+  private matchesSearch(guest: any): boolean {
+    return this.search.matches(guest?.guestName, guest?.guestPhone);
   }
 
   activeTab: WaitlistTab = 'WAITING';
@@ -317,7 +323,8 @@ export class WaitlistActiveListComponent
     private notificationService:
       NotificationService,
     private auth: WaitlistAuthService,
-    private toastService: ToastService
+    private toastService: ToastService,
+    public search: RestaurantSearchService
   ) { }
 
   ngOnInit(): void {
@@ -592,7 +599,9 @@ export class WaitlistActiveListComponent
     return [
       ...this.waitingGuests,
       ...this.notifiedGuests
-    ].map((guest: any) =>
+    ].filter((guest: any) =>
+      this.matchesSearch(guest)
+    ).map((guest: any) =>
       this.mapDashboardGuest(guest)
     );
   }

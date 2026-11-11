@@ -24,7 +24,7 @@
 
     <div class="top-search">
       <i class="fa-solid fa-magnifying-glass"></i>
-      <input type="text" placeholder="Search guests, phone number or notes..." aria-label="Search guests" />
+      <input type="text" placeholder="Search guest name or phone number" aria-label="Search guests by name or phone number" [value]="searchQuery" (input)="onSearchInput($event)" autocomplete="off" />
     </div>
 
     <div class="top-actions">

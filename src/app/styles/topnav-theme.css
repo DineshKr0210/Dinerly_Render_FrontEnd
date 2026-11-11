@@ -1,17 +1,68 @@
 /* =========================================================
-   TOP NAVBAR (light mode)
-   The navbar was plain white, the same as the page content, so
-   it did not separate from the page. A soft lavender tint with a
-   subtle border and shadow matches the sidebar's purple theme.
-   Dark mode is left as it is.
+   TOP NAVBAR (light mode): deep plum
+   Matches the triangle sidebar. Text, icons and inputs inside the
+   navbar switch to light colours. Dark mode is left unchanged.
    ========================================================= */
 
 html:not([data-theme="dark"]) .top-navbar,
 html:not([data-theme="dark"]) .guest-navbar,
 html:not([data-theme="dark"]) app-waitlist-navbar {
-  background: linear-gradient(90deg, #e9e1f8 0%, #f2edfc 55%, #e8e0f8 100%);
-  border-bottom-color: #d6c9ee;
-  box-shadow: 0 2px 10px rgba(74, 40, 120, 0.07);
+  background: linear-gradient(90deg, #2a1446 0%, #3a1d63 100%);
+  border-bottom-color: rgba(214, 202, 233, 0.18);
+  box-shadow: 0 2px 10px rgba(20, 8, 36, 0.28);
   -webkit-backdrop-filter: none;
   backdrop-filter: none;
+}
+
+/* Brand text */
+html:not([data-theme="dark"]) .top-navbar .brand-name,
+html:not([data-theme="dark"]) .guest-navbar .brand-name,
+html:not([data-theme="dark"]) .guest-navbar .navbar-profile-name {
+  color: #ffffff;
+}
+
+html:not([data-theme="dark"]) .top-navbar .brand-badge,
+html:not([data-theme="dark"]) .guest-navbar .brand-badge {
+  background: #a78bfa;
+  color: #1a0f2e;
+}
+
+/* Search box */
+html:not([data-theme="dark"]) .top-navbar .top-search {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+}
+
+html:not([data-theme="dark"]) .top-navbar .top-search i {
+  color: #cbbfe0;
+}
+
+html:not([data-theme="dark"]) .top-navbar .top-search input {
+  color: #ffffff;
+  background: transparent;
+}
+
+html:not([data-theme="dark"]) .top-navbar .top-search input::placeholder {
+  color: #cbbfe0;
+  opacity: 1;
+}
+
+/* Icon buttons (bell, theme, profile) */
+html:not([data-theme="dark"]) .top-navbar .top-action-button,
+html:not([data-theme="dark"]) .guest-navbar .navbar-icon-button,
+html:not([data-theme="dark"]) .guest-navbar .navbar-profile-wrapper button {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.16);
+  color: #ffffff;
+}
+
+html:not([data-theme="dark"]) .top-navbar .top-action-button:hover,
+html:not([data-theme="dark"]) .guest-navbar .navbar-icon-button:hover {
+  background: rgba(255, 255, 255, 0.18);
+  color: #ffffff;
+}
+
+/* The profile dropdown stays light so its text remains readable */
+html:not([data-theme="dark"]) .top-navbar .admin-user-menu {
+  color: #1d1830;
 }
