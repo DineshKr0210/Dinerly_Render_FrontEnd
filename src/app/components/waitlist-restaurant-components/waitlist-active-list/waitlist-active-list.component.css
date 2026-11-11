@@ -5922,3 +5922,108 @@
   font-size: 11px;
   font-weight: 650;
 }
+
+/* ---------------------------------------------------------------
+   Table design, matched to the reference image.
+   Seated, Completed and Cancelled: the row number column is hidden, and the
+   header and each row share one column template, so every heading sits
+   directly above its value. Actions line up on one row, left under the
+   Actions heading.
+   --------------------------------------------------------------- */
+.info-card.seated-card .info-row > :first-child,
+.info-card.completed-card .info-row > :first-child,
+.info-card.cancelled-card .info-row > :first-child {
+  display: none;
+}
+
+.info-card.seated-card .info-row {
+  grid-template-columns: minmax(0, 2.3fr) minmax(0, 0.7fr) minmax(0, 1.1fr) minmax(0, 1fr) minmax(0, 1.9fr);
+}
+
+.info-card.completed-card .info-row {
+  grid-template-columns: minmax(0, 2.3fr) minmax(0, 0.7fr) minmax(0, 1.1fr) minmax(0, 1.4fr);
+}
+
+.info-card.cancelled-card .info-row {
+  grid-template-columns: minmax(0, 2.3fr) minmax(0, 0.7fr) minmax(0, 1.1fr) minmax(0, 1fr);
+}
+
+.info-card .info-row.data-row {
+  align-items: center;
+}
+
+.info-card .info-row.data-row .inline-action-stack {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 12px;
+  height: 100%;
+}
+
+.info-card .info-row.data-row .inline-link {
+  height: 34px;
+  display: inline-flex;
+  align-items: center;
+  padding: 0 6px;
+  font-size: 13px;
+  font-weight: 650;
+  color: #5a3fb8;
+  background: transparent;
+  border: 0;
+}
+
+.info-card .info-row.data-row .inline-link.complete-link {
+  height: 34px;
+  padding: 0 16px;
+  border-radius: 8px;
+  background: #1e8b5a;
+  border: 1px solid #1e8b5a;
+  color: #ffffff;
+}
+
+/* Light theme: Notify uses the lilac button from the reference image */
+html:not([data-theme="dark"]) app-waitlist-restaurant-component .notify-action {
+  background: #f1ecfc !important;
+  border-color: #dccff7 !important;
+  color: #5a3fb8 !important;
+}
+
+/* Pin each cell to its column (the hidden row number is child 1), so the
+   header and every row place their cells the same way. */
+.info-card.seated-card .info-row > :nth-child(2) { grid-column: 1; grid-row: 1; }
+.info-card.seated-card .info-row > :nth-child(3) { grid-column: 2; grid-row: 1; }
+.info-card.seated-card .info-row > :nth-child(4) { grid-column: 3; grid-row: 1; }
+.info-card.seated-card .info-row > :nth-child(5) { grid-column: 4; grid-row: 1; }
+.info-card.seated-card .info-row > :nth-child(6) { grid-column: 5; grid-row: 1; }
+
+.info-card.completed-card .info-row > :nth-child(2) { grid-column: 1; grid-row: 1; }
+.info-card.completed-card .info-row > :nth-child(3) { grid-column: 2; grid-row: 1; }
+.info-card.completed-card .info-row > :nth-child(4) { grid-column: 3; grid-row: 1; }
+.info-card.completed-card .info-row > :nth-child(5) { grid-column: 4; grid-row: 1; }
+
+.info-card.cancelled-card .info-row > :nth-child(2) { grid-column: 1; grid-row: 1; }
+.info-card.cancelled-card .info-row > :nth-child(3) { grid-column: 2; grid-row: 1; }
+.info-card.cancelled-card .info-row > :nth-child(4) { grid-column: 3; grid-row: 1; }
+.info-card.cancelled-card .info-row > :nth-child(5) { grid-column: 4; grid-row: 1; }
+
+/* The seated data rows carry their own earlier template; set the final one
+   on the data rows and header so the reference column layout wins. */
+.info-card.seated-card .info-row.data-row,
+.info-card.seated-card .info-row.header-row {
+  grid-template-columns: minmax(0, 2.3fr) minmax(0, 0.7fr) minmax(0, 1.1fr) minmax(0, 1fr) minmax(0, 1.9fr);
+}
+
+.info-card.completed-card .info-row.data-row,
+.info-card.completed-card .info-row.header-row {
+  grid-template-columns: minmax(0, 2.3fr) minmax(0, 0.7fr) minmax(0, 1.1fr) minmax(0, 1.4fr);
+}
+
+.info-card.cancelled-card .info-row.data-row,
+.info-card.cancelled-card .info-row.header-row {
+  grid-template-columns: minmax(0, 2.3fr) minmax(0, 0.7fr) minmax(0, 1.1fr) minmax(0, 1fr);
+}
+
+/* Room for five seated rows before the table scrolls */
+.info-card.seated-card .info-card-table {
+  max-height: 490px;
+}
