@@ -179,10 +179,6 @@
 
     recentChangedGuestId === guest.id
       ? 'row-changed'
-      : '',
-
-    shakingGuestIds.has(guest.id)
-      ? 'customer-reply-shake'
       : ''
   ]">
 
@@ -207,7 +203,8 @@
 
               <ng-container *ngIf="
     guest.status === 'NOTIFIED' &&
-    hasCustomerReply(guest)
+    hasCustomerReply(guest) &&
+    getVisibleReply(guest)?.source === 'SMS'
   ">
                 <ng-container *ngIf="
     getVisibleReply(guest)
@@ -287,9 +284,9 @@
           <div class="action-cell" (click)="$event.stopPropagation()">
 
             <span class="call-pill" *ngIf="getCallPill(guest) as pill" [ngClass]="'call-pill--' + pill.state" aria-live="polite">
-              <i class="call-pill-dot"></i>
-              <i class="fa-solid fa-check call-pill-check" *ngIf="pill.state === 'answered'"></i>
+              <i class="call-pill-dot" *ngIf="pill.state !== 'answered' && pill.state !== 'fading'"></i>
               {{ pill.label }}
+              <i class="fa-solid fa-phone call-pill-phone" *ngIf="pill.state === 'answered' || pill.state === 'fading'"></i>
             </span>
 
             <button class="notify-action" type="button" *ngIf="guest.status === 'WAITING' && !isCallLive(guest)" (click)="notifyGuest(guest)">
@@ -369,9 +366,9 @@
             <div class="tablet-guest-action-wrap">
               <div class="tablet-guest-actions">
                 <span class="call-pill" *ngIf="getCallPill(guest) as pill" [ngClass]="'call-pill--' + pill.state" aria-live="polite">
-                  <i class="call-pill-dot"></i>
-                  <i class="fa-solid fa-check call-pill-check" *ngIf="pill.state === 'answered'"></i>
-                  {{ pill.label }}
+                  <i class="call-pill-dot" *ngIf="pill.state !== 'answered' && pill.state !== 'fading'"></i>
+              {{ pill.label }}
+              <i class="fa-solid fa-phone call-pill-phone" *ngIf="pill.state === 'answered' || pill.state === 'fading'"></i>
                 </span>
                 <button class="tablet-quick-btn notify" type="button" *ngIf="guest.status === 'WAITING' && !isCallLive(guest)"
                   (click)="notifyGuest(guest); $event.stopPropagation()">
@@ -434,7 +431,10 @@
               <strong>{{ guest.notes }}</strong>
             </div>
 
-            <div class="tablet-detail-row full-width" *ngIf="guest.status === 'NOTIFIED' && hasCustomerReply(guest)">
+            <div class="tablet-detail-row full-width" *ngIf="guest.status === 'NOTIFIED' &&
+    hasCustomerReply(guest) &&
+    getVisibleReply(guest)?.source === 'SMS'
+  ">
               <span>Customer reply</span>
               <div class="tablet-reply-preview-wrap" *ngIf="getVisibleReply(guest) as visibleReply">
                 <button type="button" class="reply-preview" [ngClass]="getReplyViewClass(visibleReply)"
@@ -1020,27 +1020,6 @@
 
 
 <!-- Calling Popup -->
-<!-- CALL IN PROGRESS FLOATING BUTTON -->
-<div class="active-call-floating" *ngIf="isCallInProgress && !showCallingPopup">
-  <div class="active-call-floating-info">
-    <span class="active-call-dot"></span>
-
-    <div>
-      <strong>Call in progress</strong>
-
-      <small>
-        {{ callingGuest?.guestName || 'Customer' }}
-      </small>
-    </div>
-  </div>
-
-  <button type="button" class="show-call-btn" (click)="showActiveCallingPopup()">
-    <i class="fa-solid fa-phone-volume"></i>
-    Show
-  </button>
-</div>
-
-
 <!-- CALLING POPUP -->
 <div class="calling-popup-backdrop" *ngIf="showCallingPopup" (click)="hideCallingPopup()">
   <div class="calling-popup" (click)="$event.stopPropagation()">

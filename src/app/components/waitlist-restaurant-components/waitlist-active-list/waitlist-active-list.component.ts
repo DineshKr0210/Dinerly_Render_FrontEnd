@@ -1587,7 +1587,7 @@ export class WaitlistActiveListComponent
 
   callRecords: {
     [guestId: number]: {
-      state: 'calling' | 'in-call' | 'answered' | 'ended';
+      state: 'calling' | 'in-call' | 'answered' | 'fading' | 'ended';
       startedAt: number;
       endedAt?: number;
       noAnswer?: boolean;
@@ -1614,31 +1614,54 @@ export class WaitlistActiveListComponent
 
   private markCallAnswered(guestId: number): void {
     const rec = this.callRecords[guestId];
-    if (!rec || rec.state === 'ended' || rec.state === 'answered') {
+    if (!rec || rec.state !== 'calling' && rec.state !== 'in-call') {
       return;
     }
 
     rec.state = 'answered';
     rec.endedAt = Date.now();
 
-    /* Show the answered animation briefly, then settle to ended. */
+    /* Vibrate, hold briefly, fade out, then remove the pill. */
     this.callAnswerTimers[guestId] = setTimeout(() => {
       const current = this.callRecords[guestId];
       if (current && current.state === 'answered') {
-        current.state = 'ended';
+        current.state = 'fading';
+        setTimeout(() => {
+          if (this.callRecords[guestId]?.state === 'fading') {
+            delete this.callRecords[guestId];
+          }
+        }, 450);
       }
     }, 2600);
   }
 
   private markCallEnded(guestId: number, noAnswer: boolean): void {
     const rec = this.callRecords[guestId];
-    if (!rec || rec.state === 'ended' || rec.state === 'answered') {
+    if (!rec || ['ended', 'answered', 'fading'].includes(rec.state)) {
+      return;
+    }
+
+    if (!noAnswer) {
+      /* Ended by the manager or by a closed call: remove the pill at once. */
+      delete this.callRecords[guestId];
       return;
     }
 
     rec.state = 'ended';
     rec.endedAt = Date.now();
-    rec.noAnswer = noAnswer;
+    rec.noAnswer = true;
+
+    setTimeout(() => {
+      const current = this.callRecords[guestId];
+      if (current && current.state === 'ended') {
+        current.state = 'fading';
+        setTimeout(() => {
+          if (this.callRecords[guestId]?.state === 'fading') {
+            delete this.callRecords[guestId];
+          }
+        }, 450);
+      }
+    }, 2000);
   }
 
   private isConnectedCallStatus(status?: string): boolean {
@@ -1671,7 +1694,7 @@ export class WaitlistActiveListComponent
     return `${mm}:${ss}`;
   }
 
-  /** The pill shown in place of the Notify / call button, or null. */
+  /** The pill shown next to the guest's buttons, or null. */
   getCallPill(guest: DashboardLiveGuest): { state: string; label: string } | null {
     const rec = this.callRecords[Number(guest?.id)];
 
@@ -1683,29 +1706,30 @@ export class WaitlistActiveListComponent
       return null;
     }
 
-    const now = Date.now();
+    const elapsed = Date.now() - rec.startedAt;
 
     switch (rec.state) {
       case 'calling':
-        return { state: 'calling', label: `Calling ${this.formatCallTime(now - rec.startedAt)}` };
+        return { state: 'calling', label: `Calling ${this.formatCallTime(elapsed)}` };
       case 'in-call':
-        return { state: 'in-call', label: `In call ${this.formatCallTime(now - rec.startedAt)}` };
+        return { state: 'in-call', label: `In call ${this.formatCallTime(elapsed)}` };
       case 'answered':
-        return { state: 'answered', label: 'Answered' };
+        return { state: 'answered', label: 'Confirmed' };
+      case 'fading':
+        return rec.noAnswer
+          ? { state: 'fading-muted', label: 'No answer' }
+          : { state: 'fading', label: 'Confirmed' };
       case 'ended':
-        return {
-          state: 'ended',
-          label: rec.noAnswer
-            ? 'No answer'
-            : `Called ${this.formatCallTime((rec.endedAt || now) - rec.startedAt)}`
-        };
+        return { state: 'ended', label: 'No answer' };
     }
+
+    return null;
   }
 
-  /** True while the pill is calling, in call or answered (hides Notify / call button). */
+  /** True while calling or in call: hides Notify and the call button. */
   isCallLive(guest: DashboardLiveGuest): boolean {
     const pill = this.getCallPill(guest);
-    return !!pill && pill.state !== 'ended';
+    return !!pill && (pill.state === 'calling' || pill.state === 'in-call');
   }
 
   private handleActiveCallStatus(): void {

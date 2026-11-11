@@ -5595,11 +5595,27 @@
 }
 
 /* answered */
-.call-pill--answered {
+.call-pill--answered,
+.call-pill--fading {
   background: #e6f7ee;
   color: #1f7a4a;
   border-color: #8fd3a9;
   animation: call-pill-vibrate 0.45s ease-in-out 1;
+}
+
+.call-pill-phone {
+  font-size: 11px;
+}
+
+.call-pill--fading-muted {
+  background: #f3f1f6;
+  color: #6b6478;
+  border-color: #e3dfea;
+  animation: call-pill-fade-out 0.4s ease forwards;
+}
+
+.call-pill--fading {
+  animation: call-pill-fade-out 0.4s ease forwards;
 }
 
 .call-pill--answered .call-pill-check {
@@ -5640,6 +5656,11 @@
 @keyframes call-pill-fade-in {
   from { opacity: 0; transform: scale(0.6); }
   to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes call-pill-fade-out {
+  from { opacity: 1; transform: scale(1); }
+  to { opacity: 0; transform: scale(0.9); }
 }
 
 @keyframes call-pill-settle {
