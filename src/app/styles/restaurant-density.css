@@ -75,7 +75,7 @@ app-waitlist-restaurant-component .app-shell .main-content {
    so each heading sits above its value. */
 app-waitlist-restaurant-component .app-shell .waitlist-table-body .table-row.header-row,
 app-waitlist-restaurant-component .app-shell .guest-list .guest-row {
-  grid-template-columns: minmax(160px, 2.2fr) minmax(56px, 0.6fr) minmax(96px, 0.9fr) minmax(120px, 1.1fr) minmax(420px, 2fr);
+  grid-template-columns: minmax(220px, 2.6fr) minmax(80px, 0.7fr) minmax(120px, 0.9fr) minmax(150px, 1.2fr) minmax(260px, 2fr);
   column-gap: 14px;
   padding-left: 14px;
   padding-right: 14px;
@@ -88,23 +88,4 @@ app-waitlist-restaurant-component .app-shell .guest-list .guest-row .action-cell
 
 app-waitlist-restaurant-component .app-shell .guest-list .guest-row .notify-action {
   left: 0;
-}
-
-/* =====================================================
-   ACTIONS: status pill, phone, check, cross and Notify share one size
-   ===================================================== */
-app-waitlist-restaurant-component .app-shell .guest-list .guest-row .action-cell {
-  gap: 10px;
-}
-
-app-waitlist-restaurant-component .app-shell .guest-list .guest-row .action-cell .call-pill,
-app-waitlist-restaurant-component .app-shell .guest-list .guest-row .action-cell .action-btn,
-app-waitlist-restaurant-component .app-shell .guest-list .guest-row .action-cell .notify-action {
-  width: 128px;
-  min-width: 128px;
-  height: 42px;
-  padding: 0 10px;
-  justify-content: center;
-  box-sizing: border-box;
-  flex: 0 0 auto;
 }
