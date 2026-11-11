@@ -2416,3 +2416,15 @@ html[data-theme="dark"] app-waitlist-restaurant-component .sidebar .nav-item.act
   color: var(--dk-brand) !important;
   box-shadow: inset 3px 0 0 var(--dk-brand) !important;
 }
+
+/* Column headers (Option 2) in dark mode: no tinted background, a hairline
+   divider, lighter muted labels. Applies to all four waitlist panels. */
+html[data-theme="dark"] .table-row.header-row,
+html[data-theme="dark"] .info-card .info-row.header-row {
+  background: transparent !important;
+  border-bottom: 1px solid var(--dk-border) !important;
+  color: var(--dk-text-3) !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.02em !important;
+  text-transform: none !important;
+}
