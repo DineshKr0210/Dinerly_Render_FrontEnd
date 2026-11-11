@@ -296,7 +296,7 @@
 
             <div class="contact-action-wrapper">
 
-              <button class="action-btn call" type="button" *ngIf="guest.status === 'NOTIFIED' && !isCallLive(guest)"
+              <button class="action-btn call" type="button" *ngIf="guest.status === 'NOTIFIED' && !isCallLive(guest) && !isCallAnswered(guest)"
                 (click)="toggleContactActions(guest, $event)">
                 <i class="fa-solid fa-phone-volume" style="color: #5b32e1;"></i>
               </button>

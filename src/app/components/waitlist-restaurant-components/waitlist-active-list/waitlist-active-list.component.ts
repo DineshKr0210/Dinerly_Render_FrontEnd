@@ -1620,51 +1620,28 @@ export class WaitlistActiveListComponent
       return;
     }
 
+    /* Confirmed or declined stays on the row until the guest's status changes. */
     rec.state = 'answered';
     rec.endedAt = Date.now();
     rec.rejected = this.isRejectedReply(guest);
-
-    /* Vibrate, hold briefly, fade out, then remove the pill. */
-    this.callAnswerTimers[guestId] = setTimeout(() => {
-      const current = this.callRecords[guestId];
-      if (current && current.state === 'answered') {
-        current.state = 'fading';
-        setTimeout(() => {
-          if (this.callRecords[guestId]?.state === 'fading') {
-            delete this.callRecords[guestId];
-          }
-        }, 450);
-      }
-    }, 2600);
   }
 
   private markCallEnded(guestId: number, noAnswer: boolean): void {
     const rec = this.callRecords[guestId];
-    if (!rec || ['ended', 'answered', 'fading'].includes(rec.state)) {
+    if (!rec || rec.state === 'ended' || rec.state === 'answered') {
       return;
     }
 
     if (!noAnswer) {
-      /* Ended by the manager or by a closed call: remove the pill at once. */
+      /* Ended by the manager: remove the pill at once. */
       delete this.callRecords[guestId];
       return;
     }
 
+    /* Not attended stays on the row, with the call button to call again. */
     rec.state = 'ended';
     rec.endedAt = Date.now();
     rec.noAnswer = true;
-
-    setTimeout(() => {
-      const current = this.callRecords[guestId];
-      if (current && current.state === 'ended') {
-        current.state = 'fading';
-        setTimeout(() => {
-          if (this.callRecords[guestId]?.state === 'fading') {
-            delete this.callRecords[guestId];
-          }
-        }, 450);
-      }
-    }, 2000);
   }
 
   /** Voice reply 2 (or a decline wording) means the guest cannot attend. */
@@ -1706,13 +1683,29 @@ export class WaitlistActiveListComponent
 
   /** The pill shown next to the guest's buttons, or null. */
   getCallPill(guest: DashboardLiveGuest): { state: string; label: string; tone: string } | null {
-    const rec = this.callRecords[Number(guest?.id)];
-
-    if (!rec) {
+    if (guest.status !== 'WAITING' && guest.status !== 'NOTIFIED') {
       return null;
     }
 
-    if (guest.status !== 'WAITING' && guest.status !== 'NOTIFIED') {
+    const rec = this.callRecords[Number(guest?.id)];
+
+    if (!rec) {
+      /* No call in this session: use the status the backend reports (survives reload). */
+      const backendStatus = String((guest as any)?.callStatus || '').trim().toUpperCase();
+
+      if (backendStatus === 'CALL_RESPONSE_RECEIVED') {
+        const rejected = this.isRejectedReply(guest);
+        return {
+          state: 'answered',
+          label: rejected ? 'Declined' : 'Confirmed',
+          tone: rejected ? 'reject' : 'ok'
+        };
+      }
+
+      if (backendStatus && this.isTerminalCallStatus(backendStatus)) {
+        return { state: 'ended', label: 'Not attended', tone: 'ok' };
+      }
+
       return null;
     }
 
@@ -1727,18 +1720,17 @@ export class WaitlistActiveListComponent
         return rec.rejected
           ? { state: 'answered', label: 'Declined', tone: 'reject' }
           : { state: 'answered', label: 'Confirmed', tone: 'ok' };
-      case 'fading':
-        if (rec.noAnswer) {
-          return { state: 'fading-muted', label: 'No answer', tone: 'ok' };
-        }
-        return rec.rejected
-          ? { state: 'fading', label: 'Declined', tone: 'reject' }
-          : { state: 'fading', label: 'Confirmed', tone: 'ok' };
       case 'ended':
-        return { state: 'ended', label: 'No answer', tone: 'ok' };
+        return { state: 'ended', label: 'Not attended', tone: 'ok' };
     }
 
     return null;
+  }
+
+  /** True when the guest confirmed or declined by phone (no call button then). */
+  isCallAnswered(guest: DashboardLiveGuest): boolean {
+    const pill = this.getCallPill(guest);
+    return !!pill && pill.state === 'answered';
   }
 
   /** True while calling or in call: hides Notify and the call button. */
