@@ -5752,3 +5752,46 @@
     grid-column: auto;
   }
 }
+
+/* Calmer table values: the big black-weight numbers and times were too
+   heavy beside the labels. Values now 13-15px at weight 600, secondary
+   text smaller, and seated actions sit under their heading. */
+.size-cell {
+  font-size: 15px !important;
+  font-weight: 600 !important;
+}
+
+.wait-cell strong {
+  font-size: 14px !important;
+  font-weight: 600 !important;
+}
+
+.wait-cell p {
+  font-size: 12px !important;
+}
+
+.status-cell {
+  font-size: 13px !important;
+}
+
+.info-card .info-row.data-row {
+  font-size: 13px;
+}
+
+.info-card .info-row.data-row strong {
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.info-card .info-row.data-row .guest-name-block strong {
+  font-size: 14px;
+}
+
+.info-card .info-row.data-row .inline-link {
+  font-size: 12px;
+}
+
+.info-card.seated-card .inline-action-stack {
+  justify-content: flex-start;
+  gap: 14px;
+}
