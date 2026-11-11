@@ -60,6 +60,38 @@
     </app-waitlist-user-sidebar>
 
 
+    <!-- Mobile bottom tab bar (floating pill): phones only -->
+    <nav class="mobile-tabbar" aria-label="Main navigation">
+      <button type="button" [class.active]="activeTab === 'HOME'" (click)="changeTab('HOME')" aria-label="Home">
+        <i class="fa-solid fa-house"></i>
+        <span>Home</span>
+      </button>
+
+      <button type="button" [class.active]="activeTab === 'WAITLIST'" [class.locked]="!hasWaitlistAccess"
+        (click)="changeTab('WAITLIST')" aria-label="Waitlist">
+        <i class="fa-regular fa-clock"></i>
+        <span>Waitlist</span>
+      </button>
+
+      <button type="button" [class.active]="activeTab === 'OFFERS'" [class.locked]="!canAccessAccountFeatures"
+        (click)="changeTab('OFFERS')" aria-label="Offers">
+        <i class="fa-solid fa-tag"></i>
+        <span>Offers</span>
+      </button>
+
+      <button type="button" [class.active]="activeTab === 'MENU'" [class.locked]="!canAccessAccountFeatures"
+        (click)="changeTab('MENU')" aria-label="Food">
+        <i class="fa-solid fa-utensils"></i>
+        <span>Food</span>
+      </button>
+
+      <button type="button" [class.active]="activeTab === 'REVIEWS'" [class.locked]="!hasWaitlistAccess"
+        (click)="changeTab('REVIEWS')" aria-label="Reviews">
+        <i class="fa-regular fa-star"></i>
+        <span>Reviews</span>
+      </button>
+    </nav>
+
     <main class="customer-main">
 
       <!-- HOME -->
