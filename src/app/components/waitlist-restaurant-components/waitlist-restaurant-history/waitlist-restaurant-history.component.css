@@ -112,9 +112,15 @@
   box-shadow: 0 5px 18px rgba(71, 37, 111, 0.04);
 }
 
-.history-list-head {
+/* Shared column layout for the header and each row */
+.history-columns {
   display: grid;
-  grid-template-columns: 1fr auto;
+  grid-template-columns: minmax(220px, 2fr) 70px minmax(110px, 1.1fr) 80px minmax(120px, 1.1fr) minmax(120px, 1.1fr) 120px;
+  gap: 12px;
+  align-items: center;
+}
+
+.history-list-head {
   align-items: center;
   padding: 14px 22px;
   background: #f3ebff;
@@ -128,10 +134,6 @@
 }
 
 .history-row-button {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
   width: 100%;
   min-height: 72px;
   padding: 0 22px;
@@ -171,6 +173,28 @@
   color: #3d2d49;
   font-size: 16px;
   font-weight: 800;
+}
+
+.guest-text {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  gap: 2px;
+}
+
+.guest-phone {
+  font-size: 12px;
+  color: #7b7189;
+  font-variant-numeric: tabular-nums;
+}
+
+.cell {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 13px;
+  color: #3f314e;
 }
 
 .guest-name {
@@ -402,5 +426,16 @@
 
   .history-pagination {
     align-items: flex-start;
+  }
+}
+
+/* Narrow screens: keep guest and status, hide the detail columns */
+@media (max-width: 900px) {
+  .history-columns {
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+
+  .cell-optional {
+    display: none;
   }
 }
