@@ -2243,3 +2243,36 @@ html[data-theme="dark"] app-waitlist-restaurant-component .settings-submenu butt
   background: var(--dk-brand-soft) !important;
   color: var(--dk-brand) !important;
 }
+
+/* =========================================================
+   Add guest modal (dark): one surface for each field, no grey
+   middle or black edges; country text hidden; values sized down.
+   ========================================================= */
+html[data-theme="dark"] .restaurant-phone-box,
+html[data-theme="dark"] .restaurant-select-box,
+html[data-theme="dark"] .input-box {
+  background: var(--dk-surface) !important;
+  border-color: var(--dk-border);
+}
+
+html[data-theme="dark"] .restaurant-phone-box input,
+html[data-theme="dark"] .restaurant-select-box select,
+html[data-theme="dark"] .restaurant-select-box input,
+html[data-theme="dark"] .phone-number-input,
+html[data-theme="dark"] .input-box input,
+html[data-theme="dark"] .input-box select {
+  background: transparent !important;
+  color: var(--dk-text);
+  font-size: 13px;
+}
+
+html[data-theme="dark"] .country-code-selector select {
+  background: transparent !important;
+  color: transparent !important;
+}
+
+html[data-theme="dark"] .restaurant-select-box select option,
+html[data-theme="dark"] .country-code-selector select option {
+  background: var(--dk-surface-2);
+  color: var(--dk-text);
+}
