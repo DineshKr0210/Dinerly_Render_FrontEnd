@@ -1047,13 +1047,3 @@
     padding: 18px;
   }
 }
-
-/* Deals near you: approved deal image on top of the card */
-.deal-image {
-  display: block;
-  width: calc(100% + 8px);
-  height: 120px;
-  margin: -4px -4px 14px;
-  object-fit: cover;
-  border-radius: 12px;
-}

@@ -94,6 +94,10 @@
           loading="lazy"
           (error)="$any($event.target).src = 'assets/offers/offer-card.png'" />
 
+        <span class="offer-discount" *ngIf="offer.discountValue && offer.discountValue > 0">
+          {{ offer.discountValue }}%<small>OFF</small>
+        </span>
+
         <span class="offer-status" *ngIf="offer.status">
 
           {{ offer.status }}
