@@ -672,3 +672,9 @@ html[data-theme="dark"] .picker-column button {
 html[data-theme="dark"] .picker-column button.active {
   color: var(--dk-text);
 }
+
+/* Top search (dark): the input sits on the black search pill, so it must not
+   pick up the grey form-field background from the global input rule above. */
+html[data-theme="dark"] .top-search input {
+  background: transparent !important;
+}
