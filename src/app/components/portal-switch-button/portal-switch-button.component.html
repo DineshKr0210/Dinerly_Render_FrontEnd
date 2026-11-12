@@ -1,7 +1,7 @@
 <div class="portal-switch-wrapper" *ngIf="canShow">
   <button
     type="button"
-    [ngClass]="buttonClass"
+    class="portal-switch-trigger"
     (click)="toggleMenu($event)"
     aria-haspopup="true"
     [attr.aria-expanded]="showMenu"

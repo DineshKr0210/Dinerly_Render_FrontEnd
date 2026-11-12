@@ -1,11 +1,57 @@
+/* Self-contained button styling: the host navbars' own .top-action-button /
+   .navbar-icon-button classes are defined inside each portal's own scoped
+   component stylesheet (or imported into it), so Angular's view
+   encapsulation never lets them reach a button rendered by this separate
+   component even when the class name matches -- the class name alone did
+   nothing (confirmed: computed size came back as plain unstyled browser
+   button chrome). Matching the exact spec here instead, so every portal
+   gets an identical, correctly-sized button regardless of that. */
 .portal-switch-wrapper {
   position: relative;
 }
 
+.portal-switch-trigger {
+  position: relative;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #e8e1f0;
+  border-radius: 9px;
+  background: #ffffff;
+  color: #5d5668;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.portal-switch-trigger:hover {
+  background: #f8f4fd;
+  color: #6421bd;
+}
+
+.portal-switch-trigger i {
+  font-size: 14px;
+}
+
+:host-context(html[data-theme="dark"]) .portal-switch-trigger {
+  background: var(--dk-surface-2);
+  border-color: var(--dk-border);
+  color: var(--dk-text-2);
+}
+
+:host-context(html[data-theme="dark"]) .portal-switch-trigger:hover {
+  background: var(--dk-surface-3);
+  color: var(--dk-brand);
+}
+
+/* Anchored to the button's RIGHT edge (not left), so it opens leftward and
+   never overflows past the viewport's right side -- this button sits at
+   the far right of the navbar on every portal. */
 .portal-switch-menu {
   position: absolute;
   top: calc(100% + 10px);
-  left: 0;
+  right: 0;
   z-index: 60;
   width: 220px;
   padding: 6px;

@@ -30,9 +30,6 @@ export class PortalSwitchButtonComponent {
   /** Which portal this instance is rendered on, so it can hide its own entry. */
   @Input() currentPortal: PortalName = 'admin';
 
-  /** Icon-button class to match the host navbar's own account/theme buttons. */
-  @Input() buttonClass = 'top-action-button';
-
   showMenu = false;
 
   constructor(
