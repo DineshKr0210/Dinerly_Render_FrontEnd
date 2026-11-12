@@ -107,16 +107,27 @@ app-waitlist-restaurant-component .app-shell .guest-list .guest-row .action-cell
     padding-top: calc((var(--top-navbar-height) + 18px) / 0.86) !important;
   }
 
-  /* Current Waitlist rows: the desktop grid's minimum widths (Guest 220px,
-     Party 80px, Wait 120px, Preference 150px, Actions 260px) add up to
-     more than the real content width at every tablet-portrait size, so
-     the Actions column (Notify + check/cross) was rendering clipped off
-     the right edge, entirely invisible. Actions now sits on its own full
-     width line below the other four columns, which always has enough
-     room regardless of the exact tablet width. The header row keeps the
-     single-line layout since its five labels are short text, not buttons. */
-  app-waitlist-restaurant-component .app-shell .guest-list .guest-row {
+}
+
+/* Tablet PORTRAIT only (768-1199px wide, taller than wide): the desktop
+   grid's minimum widths (Guest 220px, Party 80px, Wait 120px,
+   Preference 150px, Actions 260px) add up to more than the real content
+   width in portrait, so the Actions column (Notify + check/cross) was
+   rendering clipped off the right edge, entirely invisible. Actions now
+   sits on its own full width line below the other four columns. In
+   landscape at the same widths there's enough room for the normal
+   single-line layout, so this is scoped to portrait only.
+   The header row is given the SAME 4-column template as the data row
+   (with its "Actions" label hidden, since Actions no longer has its own
+   column) -- without this, the header kept 5 columns while the row had
+   4, so each value ended up sitting under the wrong heading. */
+@media (min-width: 768px) and (max-width: 1199px) and (orientation: portrait) {
+  app-waitlist-restaurant-component .app-shell .guest-list .guest-row,
+  app-waitlist-restaurant-component .app-shell .waitlist-table-body .table-row.header-row {
     grid-template-columns: minmax(0, 2fr) minmax(0, 0.6fr) minmax(0, 1fr) minmax(0, 1fr);
+  }
+
+  app-waitlist-restaurant-component .app-shell .guest-list .guest-row {
     grid-template-rows: auto auto;
     row-gap: 10px;
   }
@@ -145,6 +156,12 @@ app-waitlist-restaurant-component .app-shell .guest-list .guest-row .action-cell
     grid-column: 1 / -1;
     grid-row: 2;
     justify-self: start;
+  }
+
+  /* The header row's 5th label ("Actions") no longer has a column of its
+     own to sit above, now that Actions moved to its own line in the row. */
+  app-waitlist-restaurant-component .app-shell .waitlist-table-body .table-row.header-row > :nth-child(5) {
+    display: none;
   }
 }
 
