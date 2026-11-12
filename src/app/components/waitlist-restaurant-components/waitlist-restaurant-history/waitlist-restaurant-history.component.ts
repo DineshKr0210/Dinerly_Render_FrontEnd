@@ -295,8 +295,10 @@ export class WaitlistRestaurantHistoryComponent implements OnInit {
   }
 
   formatPreference(preference?: string | null): string {
-    if (!preference) {
-      return 'No preference';
+    const normalized = (preference || '').trim().toLowerCase().replace(/_/g, ' ');
+
+    if (!preference || normalized === 'no preference') {
+      return '—';
     }
 
     return preference

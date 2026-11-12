@@ -1,0 +1,29 @@
+<div class="portal-switch-wrapper" *ngIf="canShow">
+  <button
+    type="button"
+    class="portal-switch-trigger"
+    (click)="toggleMenu($event)"
+    aria-haspopup="true"
+    [attr.aria-expanded]="showMenu"
+    aria-label="Switch portal"
+    title="Switch portal">
+    <i class="fa-solid fa-right-left"></i>
+  </button>
+
+  <div class="portal-switch-menu" *ngIf="showMenu">
+    <button type="button" class="portal-switch-option" *ngIf="currentPortal !== 'admin'" (click)="goToAdmin($event)">
+      <i class="fa-solid fa-gauge"></i>
+      <span>Admin Portal</span>
+    </button>
+
+    <button type="button" class="portal-switch-option" *ngIf="currentPortal !== 'restaurant'" (click)="goToRestaurant($event)">
+      <i class="fa-solid fa-utensils"></i>
+      <span>Restaurant Portal</span>
+    </button>
+
+    <button type="button" class="portal-switch-option" *ngIf="currentPortal !== 'guest'" (click)="goToGuest($event)">
+      <i class="fa-regular fa-user"></i>
+      <span>Guest Portal</span>
+    </button>
+  </div>
+</div>

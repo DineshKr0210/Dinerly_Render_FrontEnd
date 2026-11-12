@@ -145,7 +145,7 @@
 .input-box:focus-within,
 .restaurant-select-box:focus-within {
   border-color: #6421bd;
-  box-shadow: 0 0 0 3px rgba(100, 33, 189, 0.08);
+  box-shadow: none;
 }
 
 .input-icon {
@@ -464,7 +464,7 @@ input::placeholder,
 
 .country-code-select {
   position: relative;
-  flex: 0 0 72px;
+  flex: 0 0 84px;
   height: 100%;
   display: flex;
   align-items: center;
@@ -485,7 +485,7 @@ input::placeholder,
 
 .country-code-select i {
   position: absolute;
-  left: 38px;
+  left: 42px;
   transform: translateY(-50%);
   color: #9a91a4;
   font-size: 10px;
@@ -753,7 +753,10 @@ input::placeholder,
     height: 38px;
   }
 
-  .restaurant-select-box select,
+  .restaurant-select-box select {
+    font-size: 13px;
+  }
+
   input,
   .request-textarea {
     font-size: 16px;
@@ -855,7 +858,7 @@ input::placeholder,
   }
 
   .country-code-select {
-    flex-basis: 56px;
+    flex: 0 0 84px;
   }
 
   .selected-country-flag {
@@ -864,7 +867,7 @@ input::placeholder,
   }
 
   .country-code-select i {
-    left: 36px;
+    left: 42px;
   }
 
   .selected-dial-code {

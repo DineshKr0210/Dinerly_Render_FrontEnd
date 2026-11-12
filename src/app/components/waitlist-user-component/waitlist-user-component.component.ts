@@ -25,6 +25,9 @@ import { WaitlistAuthService } from 'src/app/services/waitlist-auth.service';
 })
 export class WaitlistUserComponentComponent
   implements OnInit, OnDestroy {
+  /** Desktop sidebar hidden with the navbar toggle. */
+  desktopSidebarHidden = false;
+
 
   isDarkMode = false;
   showMobileSidebar = false;
@@ -766,6 +769,12 @@ export class WaitlistUserComponentComponent
   }
 
   toggleMobileSidebar(): void {
+
+    if (window.innerWidth > 1024) {
+      this.desktopSidebarHidden =
+        !this.desktopSidebarHidden;
+      return;
+    }
 
     this.showMobileSidebar =
       !this.showMobileSidebar;

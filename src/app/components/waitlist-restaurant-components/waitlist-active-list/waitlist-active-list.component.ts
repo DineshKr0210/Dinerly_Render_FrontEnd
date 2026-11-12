@@ -35,6 +35,7 @@ import { NotificationService } from 'src/app/services/notification.service';
 import { ToastService } from 'src/app/services/toast.service';
 import { WaitlistApiRestaurantService } from 'src/app/services/waitlist-api-restaurant.service';
 import { WaitlistAuthService } from 'src/app/services/waitlist-auth.service';
+import { RestaurantSearchService } from 'src/app/services/restaurant-search.service';
 import { WaitlistRestaurantModalService } from 'src/app/services/waitlist-restaurant-modal.service';
 
 interface DashboardLiveGuest {
@@ -128,11 +129,16 @@ export class WaitlistActiveListComponent
   cancelledGuests: CancelledGuest[] = [];
 
   get activeSeatedGuests(): SeatedGuest[] {
-    return (this.seatedGuests || []).filter((guest: any) => guest?.status === 'SEATED');
+    return (this.seatedGuests || []).filter((guest: any) => guest?.status === 'SEATED' && this.matchesSearch(guest));
   }
 
   get completedGuests(): SeatedGuest[] {
-    return (this.seatedGuests || []).filter((guest: any) => guest?.status === 'COMPLETED');
+    return (this.seatedGuests || []).filter((guest: any) => guest?.status === 'COMPLETED' && this.matchesSearch(guest));
+  }
+
+  /** Navbar search: filters by guest name or phone number. */
+  private matchesSearch(guest: any): boolean {
+    return this.search.matches(guest?.guestName, guest?.guestPhone);
   }
 
   activeTab: WaitlistTab = 'WAITING';
@@ -158,6 +164,12 @@ export class WaitlistActiveListComponent
   isRefreshing = false;
   isLoading = false;
   isApproving = false;
+
+  /** Date filter shared by every waitlist panel. '' = no date sent -> backend defaults to today. */
+  todayDateString = new Date().toISOString().slice(0, 10);
+  selectedWaitlistDate = '';
+  pendingWaitlistDate = '';
+  showDateConfirm = false;
   isRejecting = false;
   isNotifying = false;
   isSeating = false;
@@ -317,7 +329,8 @@ export class WaitlistActiveListComponent
     private notificationService:
       NotificationService,
     private auth: WaitlistAuthService,
-    private toastService: ToastService
+    private toastService: ToastService,
+    public search: RestaurantSearchService
   ) { }
 
   ngOnInit(): void {
@@ -382,42 +395,42 @@ export class WaitlistActiveListComponent
         this.waitlistApi.getGuestsStatus(
           this.restaurantId,
           'PENDING',
-          ''
+          this.selectedWaitlistDate
         ),
 
       waiting:
         this.waitlistApi.getWaitingGuests(
           this.restaurantId,
           'WAITING',
-          ''
+          this.selectedWaitlistDate
         ),
 
       notified:
         this.waitlistApi.getNotifiedGuests(
           this.restaurantId,
           'NOTIFIED',
-          ''
+          this.selectedWaitlistDate
         ),
 
       seated:
         this.waitlistApi.getSeatedGuests(
           this.restaurantId,
           'SEATED',
-          ''
+          this.selectedWaitlistDate
         ),
 
       completed:
         this.waitlistApi.getSeatedGuests(
           this.restaurantId,
           'COMPLETED',
-          ''
+          this.selectedWaitlistDate
         ),
 
       cancelled:
         this.waitlistApi.getCancelledGuests(
           this.restaurantId,
           'CANCELLED',
-          ''
+          this.selectedWaitlistDate
         ),
 
       tables:
@@ -428,10 +441,47 @@ export class WaitlistActiveListComponent
     });
   }
 
+/** Server name by staff id (same roster the Tables/Floor page uses),
+   so the Seated panel can show the server actually assigned to the
+   guest (guest.assignedServerId) rather than guessing from the table. */
+  staffNamesById: Record<number, string> = {};
+
+  loadRestaurantStaff(): void {
+    this.waitlistApi
+      .getRestaurantStaff(this.restaurantId)
+      .subscribe({
+        next: res => {
+          const names: Record<number, string> = {};
+          (res?.data || [])
+            .forEach(member => {
+              if (member?.id) {
+                names[member.id] = member.name;
+              }
+            });
+          this.staffNamesById = names;
+        },
+        error: () => {
+          this.staffNamesById = {};
+        }
+      });
+  }
+
+  serverForGuest(guest: SeatedGuest): string {
+    const serverId = guest.assignedServerId;
+
+    if (!serverId) {
+      return '—';
+    }
+
+    return this.staffNamesById[serverId] || '—';
+  }
+
   private applyDashboardData(
     res: any,
     showLoader: boolean
   ): void {
+    this.loadRestaurantStaff();
+
     if (showLoader) {
       this.isInitialLoading = false;
     }
@@ -592,7 +642,9 @@ export class WaitlistActiveListComponent
     return [
       ...this.waitingGuests,
       ...this.notifiedGuests
-    ].map((guest: any) =>
+    ].filter((guest: any) =>
+      this.matchesSearch(guest)
+    ).map((guest: any) =>
       this.mapDashboardGuest(guest)
     );
   }
@@ -651,6 +703,64 @@ export class WaitlistActiveListComponent
 
       tableName: guest.tableName
     };
+  }
+
+  /** Human label for the date filter button: "Today" or a formatted date. */
+  get waitlistDateLabel(): string {
+    return this.selectedWaitlistDate
+      ? this.formatFilterDate(this.selectedWaitlistDate)
+      : 'Today';
+  }
+
+  formatFilterDate(value: string): string {
+    if (!value) {
+      return 'Today';
+    }
+
+    const parsed = new Date(`${value}T00:00:00`);
+
+    if (isNaN(parsed.getTime())) {
+      return value;
+    }
+
+    return parsed.toLocaleDateString('en-US', {
+      weekday: 'short',
+      month: 'short',
+      day: 'numeric',
+      year: 'numeric'
+    });
+  }
+
+  /** User picked a date in the input: stage it and ask for confirmation before it takes effect. */
+  onWaitlistDateInput(value: string): void {
+    this.pendingWaitlistDate = value;
+
+    if (this.pendingWaitlistDate === this.selectedWaitlistDate) {
+      return;
+    }
+
+    this.showDateConfirm = true;
+  }
+
+  /** "Back to today": stage an empty date and ask for confirmation, same as picking a date. */
+  requestClearWaitlistDate(): void {
+    if (!this.selectedWaitlistDate) {
+      return;
+    }
+
+    this.pendingWaitlistDate = '';
+    this.showDateConfirm = true;
+  }
+
+  confirmWaitlistDateChange(): void {
+    this.selectedWaitlistDate = this.pendingWaitlistDate;
+    this.showDateConfirm = false;
+    this.loadDashboardAllData(true);
+  }
+
+  cancelWaitlistDateChange(): void {
+    this.pendingWaitlistDate = this.selectedWaitlistDate;
+    this.showDateConfirm = false;
   }
 
   updateDateTime(): void {
@@ -1377,15 +1487,28 @@ export class WaitlistActiveListComponent
     return 'First time at Brothers Café';
   }
 
+  /** True when the guest actually picked a seating preference (not empty,
+   *  not the enum 'NO_PREFERENCE', and not the literal 'No preference'
+   *  text the Add Guest form sends by default). */
+  hasPreference(
+    preference?: string | null
+  ): boolean {
+
+    const normalized =
+      (preference || '')
+        .trim()
+        .toLowerCase()
+        .replace(/_/g, ' ');
+
+    return Boolean(preference) && normalized !== 'no preference';
+  }
+
   getPreferenceLabel(
     preference?: string
   ): string {
 
-    if (
-      !preference ||
-      preference === 'NO_PREFERENCE'
-    ) {
-      return 'No pref';
+    if (!this.hasPreference(preference) || !preference) {
+      return 'No';
     }
 
     return preference
@@ -1488,7 +1611,8 @@ export class WaitlistActiveListComponent
     this.activeCallGuestId = guestId;
     this.callRequestStarted = false;
     this.isCallInProgress = true;
-    this.showCallingPopup = true;
+    this.showCallingPopup = false;
+    this.startCallRecord(guestId);
 
     this.waitlistApi
       .makecallToGuest(
@@ -1559,6 +1683,10 @@ export class WaitlistActiveListComponent
   }
 
   closeCallingPopup(): void {
+    if (this.activeCallGuestId) {
+      this.markCallEnded(this.activeCallGuestId, false);
+    }
+
     this.clearCallPopupTimeout();
 
     this.showCallingPopup = false;
@@ -1567,6 +1695,162 @@ export class WaitlistActiveListComponent
     this.callingGuest = null;
     this.activeCallGuestId = null;
     this.callRequestStarted = false;
+  }
+
+  /* ===== Inline call status (shown as a pill in the guest row) ===== */
+
+  callRecords: {
+    [guestId: number]: {
+      state: 'calling' | 'in-call' | 'answered' | 'fading' | 'ended';
+      startedAt: number;
+      endedAt?: number;
+      noAnswer?: boolean;
+      rejected?: boolean;
+    };
+  } = {};
+
+  private callAnswerTimers: { [guestId: number]: any } = {};
+  private callTickTimer: any = null;
+
+  private startCallRecord(guestId: number): void {
+    this.callRecords[guestId] = {
+      state: 'calling',
+      startedAt: Date.now()
+    };
+    this.startCallTicker();
+  }
+
+  private markCallInProgress(guestId: number): void {
+    const rec = this.callRecords[guestId];
+    if (rec && rec.state === 'calling') {
+      rec.state = 'in-call';
+    }
+  }
+
+  private markCallAnswered(guest: any): void {
+    const guestId = Number(guest?.id);
+    const rec = this.callRecords[guestId];
+    if (!rec || rec.state !== 'calling' && rec.state !== 'in-call') {
+      return;
+    }
+
+    /* Confirmed or declined stays on the row until the guest's status changes. */
+    rec.state = 'answered';
+    rec.endedAt = Date.now();
+    rec.rejected = this.isRejectedReply(guest);
+  }
+
+  private markCallEnded(guestId: number, noAnswer: boolean): void {
+    const rec = this.callRecords[guestId];
+    if (!rec || rec.state === 'ended' || rec.state === 'answered') {
+      return;
+    }
+
+    if (!noAnswer) {
+      /* Ended by the manager: remove the pill at once. */
+      delete this.callRecords[guestId];
+      return;
+    }
+
+    /* Not attended stays on the row, with the call button to call again. */
+    rec.state = 'ended';
+    rec.endedAt = Date.now();
+    rec.noAnswer = true;
+  }
+
+  /** Voice reply 2 (or a decline wording) means the guest cannot attend. */
+  private isRejectedReply(guest: any): boolean {
+    const digits = String(guest?.voiceReplyDigits ?? '').trim();
+    const text = String(guest?.callResponse ?? guest?.latestVoiceReply ?? '').toLowerCase();
+    return digits === '2' || /reject|declin|can.?t|cannot|not attend/.test(text);
+  }
+
+  private isConnectedCallStatus(status?: string): boolean {
+    const normalized = String(status || '').trim().toUpperCase();
+    return normalized.includes('IN_PROGRESS') || normalized.includes('CONNECTED');
+  }
+
+  /** Keeps the timer text moving once per second while a call is live. */
+  private startCallTicker(): void {
+    if (this.callTickTimer) {
+      return;
+    }
+
+    this.callTickTimer = setInterval(() => {
+      const live = Object.values(this.callRecords).some(
+        rec => rec.state === 'calling' || rec.state === 'in-call'
+      );
+
+      if (!live) {
+        clearInterval(this.callTickTimer);
+        this.callTickTimer = null;
+      }
+    }, 1000);
+  }
+
+  private formatCallTime(ms: number): string {
+    const total = Math.max(0, Math.floor(ms / 1000));
+    const mm = String(Math.floor(total / 60)).padStart(2, '0');
+    const ss = String(total % 60).padStart(2, '0');
+    return `${mm}:${ss}`;
+  }
+
+  /** The pill shown next to the guest's buttons, or null. */
+  getCallPill(guest: DashboardLiveGuest): { state: string; label: string; tone: string } | null {
+    if (guest.status !== 'WAITING' && guest.status !== 'NOTIFIED') {
+      return null;
+    }
+
+    const rec = this.callRecords[Number(guest?.id)];
+
+    if (!rec) {
+      /* No call in this session: use the status the backend reports (survives reload). */
+      const backendStatus = String((guest as any)?.callStatus || '').trim().toUpperCase();
+
+      if (backendStatus === 'CALL_RESPONSE_RECEIVED') {
+        const rejected = this.isRejectedReply(guest);
+        return {
+          state: 'answered',
+          label: rejected ? 'Declined' : 'Confirmed',
+          tone: rejected ? 'reject' : 'ok'
+        };
+      }
+
+      if (backendStatus && this.isTerminalCallStatus(backendStatus)) {
+        return { state: 'ended', label: 'Not attended', tone: 'ok' };
+      }
+
+      return null;
+    }
+
+    const elapsed = Date.now() - rec.startedAt;
+
+    switch (rec.state) {
+      case 'calling':
+        return { state: 'calling', label: `Calling ${this.formatCallTime(elapsed)}`, tone: 'ok' };
+      case 'in-call':
+        return { state: 'in-call', label: `In call ${this.formatCallTime(elapsed)}`, tone: 'ok' };
+      case 'answered':
+        return rec.rejected
+          ? { state: 'answered', label: 'Declined', tone: 'reject' }
+          : { state: 'answered', label: 'Confirmed', tone: 'ok' };
+      case 'ended':
+        return { state: 'ended', label: 'Not attended', tone: 'ok' };
+    }
+
+    return null;
+  }
+
+  /** True when the guest confirmed or declined by phone (no call button then). */
+  isCallAnswered(guest: DashboardLiveGuest): boolean {
+    const pill = this.getCallPill(guest);
+    return !!pill && pill.state === 'answered';
+  }
+
+  /** True while calling or in call: hides Notify and the call button. */
+  isCallLive(guest: DashboardLiveGuest): boolean {
+    const pill = this.getCallPill(guest);
+    return !!pill && (pill.state === 'calling' || pill.state === 'in-call');
   }
 
   private handleActiveCallStatus(): void {
@@ -1597,16 +1881,25 @@ export class WaitlistActiveListComponent
         updatedGuest
       )
     ) {
+      this.markCallAnswered(updatedGuest);
       this.closeCallingPopup();
       return;
     }
 
+    if (
+      this.isConnectedCallStatus(
+        updatedGuest.callStatus
+      )
+    ) {
+      this.markCallInProgress(updatedGuest.id);
+    }
 
     if (
       this.isTerminalCallStatus(
         updatedGuest.callStatus
       )
     ) {
+      this.markCallEnded(updatedGuest.id, true);
       this.closeCallingPopup();
     }
   }

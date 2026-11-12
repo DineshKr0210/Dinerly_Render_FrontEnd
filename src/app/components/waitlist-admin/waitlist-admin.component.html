@@ -1,4 +1,8 @@
-<div class="app-shell">
+<div class="app-shell" [class.sidebar-hidden]="sidebarHidden">
+  <button type="button" class="sidebar-show-fab" (click)="toggleSidebarVisibility()"
+    aria-label="Show sidebar" title="Show sidebar">
+    <i class="fa-solid fa-bars"></i>
+  </button>
 
   <!-- =====================================================
        TOP NAVBAR
@@ -6,7 +10,7 @@
   <header class="top-navbar">
 
     <!-- BRAND -->
-    <div class="top-brand">
+    <div class="top-brand" (click)="goToLanding()" role="link" aria-label="Go to Home">
 
       <div class="brand-logo">
         <img src="assets/brand/dinerly-icon.png" alt="">
@@ -24,6 +28,11 @@
 
     <!-- RIGHT SIDE -->
     <div class="top-actions">
+
+      <!-- PORTAL SWITCHER: admin-only, opens Restaurant/Guest portal in the
+           same tab, reusing this session so there's no separate login. -->
+      <app-portal-switch-button currentPortal="admin"></app-portal-switch-button>
+
       <button
         type="button"
         class="top-action-button theme-toggle-button"
@@ -99,6 +108,10 @@
        SIDEBAR
        ===================================================== -->
   <aside class="sidebar">
+    <button type="button" class="sidebar-header-toggle" (click)="toggleSidebarVisibility()"
+      [attr.aria-label]="sidebarHidden ? 'Show sidebar' : 'Hide sidebar'" [attr.title]="sidebarHidden ? 'Show sidebar' : 'Hide sidebar'">
+      <i class="fa-solid fa-bars"></i>
+    </button>
 
     <div class="sidebar-top">
 

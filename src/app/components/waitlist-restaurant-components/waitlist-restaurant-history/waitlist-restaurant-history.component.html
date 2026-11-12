@@ -34,8 +34,15 @@
       <option value="NO_SHOW">No-show</option>
     </select>
 
-    <input type="date" [(ngModel)]="selectedFromDate" (change)="resetAccordionAndPage()" aria-label="From date" />
-    <input type="date" [(ngModel)]="selectedToDate" (change)="resetAccordionAndPage()" aria-label="To date" />
+    <div class="date-filter-field">
+      <span class="date-filter-label">From</span>
+      <input type="date" [(ngModel)]="selectedFromDate" (change)="resetAccordionAndPage()" aria-label="From date" />
+    </div>
+
+    <div class="date-filter-field">
+      <span class="date-filter-label">To</span>
+      <input type="date" [(ngModel)]="selectedToDate" (change)="resetAccordionAndPage()" aria-label="To date" />
+    </div>
 
     <button type="button" class="clear-btn" (click)="clearFilters()">
       Clear Filters
@@ -43,8 +50,13 @@
   </div>
 
   <div class="history-list-card">
-    <div class="history-list-head">
+    <div class="history-list-head history-columns">
       <span>Guest</span>
+      <span class="cell-optional">Party</span>
+      <span class="cell-optional">Preference</span>
+      <span class="cell-optional">Table</span>
+      <span class="cell-optional">Joined</span>
+      <span class="cell-optional">Seated</span>
       <span>Status</span>
     </div>
 
@@ -52,15 +64,24 @@
       <ng-container *ngFor="let entry of filteredHistory; trackBy: trackById">
         <button
           type="button"
-          class="history-row-button"
+          class="history-row-button history-columns"
           [class.expanded]="isHistoryExpanded(entry)"
           [attr.aria-expanded]="isHistoryExpanded(entry)"
           [attr.aria-controls]="'history-details-' + entry.id"
           (click)="toggleHistoryAccordion(entry)">
           <span class="guest-info">
             <span class="guest-avatar">{{ getInitial(entry.guestName) }}</span>
-            <span class="guest-name">{{ entry.guestName }}</span>
+            <span class="guest-text">
+              <span class="guest-name">{{ entry.guestName }}</span>
+              <span class="guest-phone">{{ entry.guestPhone || '—' }}</span>
+            </span>
           </span>
+
+          <span class="cell cell-optional">{{ entry.partySize || '—' }}</span>
+          <span class="cell cell-optional">{{ formatPreference(entry.preference) }}</span>
+          <span class="cell cell-optional">{{ entry.tableName || '—' }}</span>
+          <span class="cell cell-optional">{{ formatHistoryDateTime(entry.joinedAt) }}</span>
+          <span class="cell cell-optional">{{ formatHistoryDateTime(entry.seatedAt) }}</span>
 
           <span class="guest-status" [ngClass]="getStatusClass(entry.status)">
             {{ formatStatus(entry.status) }}
@@ -119,8 +140,13 @@
             </div>
 
             <div class="detail-item">
-              <span>Completed At</span>
-              <strong>{{ formatHistoryDateTime(entry.seatedAt) }}</strong>
+              <span>Approved At</span>
+              <strong>{{ formatHistoryDateTime(entry.approvedAt) }}</strong>
+            </div>
+
+            <div class="detail-item">
+              <span>Notified At</span>
+              <strong>{{ formatHistoryDateTime(entry.notifiedAt) }}</strong>
             </div>
 
             <div class="detail-item">
@@ -137,6 +163,7 @@
         <div class="empty-icon"><i class="fa-solid fa-clock-rotate-left"></i></div>
         <h3>No guests match your filters</h3>
         <p>Try adjusting the search or clear the filters.</p>
+        <button type="button" class="clear-btn" (click)="clearFilters()">Clear filters</button>
       </div>
     </ng-template>
   </div>

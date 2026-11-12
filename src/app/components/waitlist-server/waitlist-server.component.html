@@ -1,11 +1,15 @@
-<div class="app-shell">
+<div class="app-shell" [class.sidebar-hidden]="sidebarHidden">
+  <button type="button" class="sidebar-show-fab" (click)="toggleSidebarVisibility()"
+    aria-label="Show sidebar" title="Show sidebar">
+    <i class="fa-solid fa-bars"></i>
+  </button>
 
   <!-- =====================================================
        TOP NAVBAR
        ===================================================== -->
   <header class="top-navbar">
 
-    <div class="top-brand">
+    <div class="top-brand" (click)="goToLanding()" role="link" aria-label="Go to My tables">
 
       <div class="brand-logo">
         <img src="assets/brand/dinerly-icon.png" alt="">
@@ -22,6 +26,7 @@
     </div>
 
     <div class="top-actions">
+
 
       <button
         type="button"
@@ -111,6 +116,10 @@
        SIDEBAR
        ===================================================== -->
   <aside class="sidebar">
+    <button type="button" class="sidebar-header-toggle" (click)="toggleSidebarVisibility()"
+      [attr.aria-label]="sidebarHidden ? 'Show sidebar' : 'Hide sidebar'" [attr.title]="sidebarHidden ? 'Show sidebar' : 'Hide sidebar'">
+      <i class="fa-solid fa-bars"></i>
+    </button>
 
     <div class="sidebar-top">
 

@@ -1029,7 +1029,7 @@
 
 @media (max-width: 480px) {
   .section-heading {
-    align-items: flex-start;
+    align-items: center;
   }
 
   .section-heading h2 {
@@ -1038,10 +1038,74 @@
 
   .section-heading button {
     font-size: 12px;
+    min-height: 36px;
+    padding: 0 4px;
   }
 
   .login-offers-card {
     border-radius: 14px;
     padding: 18px;
   }
+}
+
+
+/* Search: dish results */
+.search-dishes {
+  margin: 0 0 18px;
+}
+
+.search-dishes-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 8px;
+}
+
+.search-dishes-head h3 {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 700;
+  color: #241f2d;
+}
+
+.search-dishes-head span,
+.search-none {
+  font-size: 12px;
+  color: #7b7189;
+}
+
+.search-dish-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 8px;
+}
+
+.search-dish-list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  border: 1px solid #e5ddec;
+  border-radius: 10px;
+  background: #ffffff;
+}
+
+.search-dish-list strong {
+  display: block;
+  font-size: 13px;
+  color: #241f2d;
+}
+
+.search-dish-list small {
+  font-size: 11px;
+  color: #7b7189;
+}
+
+.search-dish-list span {
+  font-size: 13px;
+  font-weight: 700;
+  color: #5a3fb8;
 }

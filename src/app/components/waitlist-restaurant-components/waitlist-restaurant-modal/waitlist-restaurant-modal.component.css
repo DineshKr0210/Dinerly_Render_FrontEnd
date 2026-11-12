@@ -284,8 +284,7 @@
 .restaurant-phone-box:focus-within {
   border-color: #6421bd;
   background: #ffffff;
-  box-shadow:
-    0 0 0 2px rgba(105, 32, 194, 0.1);
+  box-shadow: none;
 }
 
 .restaurant-phone-box.error {

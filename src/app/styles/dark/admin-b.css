@@ -1368,3 +1368,9 @@ html[data-theme="dark"] .cancel-button {
 html[data-theme="dark"] .cancel-button:hover {
   background: var(--dk-surface-2);
 }
+
+/* admin-offers: disabled primary button stays readable in dark mode */
+html[data-theme="dark"] body.dark-mode .primary-button:disabled {
+  background: var(--dk-surface-3);
+  color: var(--dk-text-3);
+}

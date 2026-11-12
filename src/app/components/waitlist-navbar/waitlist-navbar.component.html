@@ -71,6 +71,10 @@
 
   <div class="navbar-actions">
 
+    <!-- PORTAL SWITCHER: only shows up when there's an admin session in
+         this browser; reuses it to jump to Admin/Restaurant in the same tab. -->
+    <app-portal-switch-button currentPortal="guest"></app-portal-switch-button>
+
     <button type="button" class="navbar-icon-button theme-button" aria-label="Change theme" (click)="toggleTheme()">
       <i class="fa-solid" [ngClass]="
           isDarkMode
@@ -148,7 +152,6 @@
           <i class="fa-regular fa-user"></i>
           My profile
         </button>
-
 
         <button type="button" *ngIf="!hasAccountAccess" (click)="login()">
           <i class="fa-solid fa-arrow-right-to-bracket"></i>

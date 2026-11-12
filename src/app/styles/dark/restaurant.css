@@ -397,7 +397,7 @@ html[data-theme="dark"] .restaurant-phone-box {
 html[data-theme="dark"] .restaurant-phone-box:focus-within {
   background: var(--dk-surface);
   border-color: var(--dk-brand);
-  box-shadow: 0 0 0 2px var(--dk-brand-soft);
+  box-shadow: none;
 }
 
 html[data-theme="dark"] .restaurant-phone-box.error {
@@ -1525,8 +1525,11 @@ html[data-theme="dark"] .delete-btn {
 }
 
 /* waitlist-settings
-   The existing .restaurant-dark-mode rules have higher specificity, so they still win where that class is set. */
-html[data-theme="dark"] .settings-page {
+   The existing .restaurant-dark-mode rules have higher specificity, so they still win where that class is set.
+   The admin dark rule for .settings-page paints a grey box behind the restaurant settings page,
+   so the restaurant page is scoped here and kept transparent (like the other restaurant pages). */
+html[data-theme="dark"] app-waitlist-restaurant-component .settings-page {
+  background: transparent;
   color: var(--dk-text);
 }
 
@@ -1714,7 +1717,9 @@ html[data-theme="dark"] .purple-card {
   background: var(--dk-surface);
   color: var(--dk-text);
 }
-html[data-theme="dark"] .stat-icon,
+/* This used to force every stat icon to one purple tint, flattening the
+   four distinct colours. Replaced below with per-variant rules matching
+   the admin dashboard's token mapping (purple/blue/orange/green). */
 html[data-theme="dark"] .stat-icon.soft {
   background: var(--dk-brand-soft);
   color: var(--dk-brand);
@@ -2195,3 +2200,401 @@ html[data-theme="dark"] #offer-qr-reader {
 }
 html[data-theme="dark"] .qr-help-text { color: var(--dk-text-3); }
 html[data-theme="dark"] .qr-validation-loading { color: var(--dk-brand); }
+
+/* waitlist-active-list: table header rows stayed light lavender in dark mode */
+html[data-theme="dark"] .table-row.header-row,
+html[data-theme="dark"] .info-row.header-row {
+  background: var(--dk-surface-2);
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .waitlist-table-body {
+  background: var(--dk-surface);
+  border-color: var(--dk-border);
+}
+
+html[data-theme="dark"] .info-card-table {
+  background: var(--dk-surface);
+  border-color: var(--dk-border);
+}
+
+/* waitlist-restaurant-history: filter bar was a light panel in dark mode */
+html[data-theme="dark"] .history-filters {
+  background: var(--dk-surface);
+  border-color: var(--dk-border);
+  box-shadow: none;
+}
+
+html[data-theme="dark"] .clear-btn {
+  color: var(--dk-text-2);
+}
+
+/* waitlist-restaurant-history: list card and its header row */
+html[data-theme="dark"] .history-list-card {
+  background: var(--dk-surface);
+  border-color: var(--dk-border);
+}
+
+html[data-theme="dark"] .history-list-head {
+  background: var(--dk-surface-2);
+  border-bottom-color: var(--dk-border);
+  color: var(--dk-text-3);
+}
+
+/* waitlist-restaurant-history: guest rows, expanded details and pagination
+   were hard-coded white in the component CSS. */
+html[data-theme="dark"] .history-row-button {
+  background: var(--dk-surface);
+  border-bottom-color: var(--dk-border);
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .history-row-button:hover {
+  background: var(--dk-surface-2);
+}
+
+html[data-theme="dark"] .history-row-button.expanded {
+  background: var(--dk-surface-2);
+}
+
+html[data-theme="dark"] .history-row-button .guest-name {
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .history-row-button .guest-phone,
+html[data-theme="dark"] .history-row-button .cell {
+  color: var(--dk-text-2);
+}
+
+html[data-theme="dark"] .history-details {
+  background: var(--dk-sunken);
+  border-top-color: var(--dk-border);
+}
+
+html[data-theme="dark"] .history-pagination {
+  background: var(--dk-surface);
+  border-color: var(--dk-border);
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .history-pagination .page-btn {
+  background: var(--dk-surface-2);
+  border-color: var(--dk-border);
+  color: var(--dk-text-2);
+}
+
+html[data-theme="dark"] .history-pagination .page-btn.arrow {
+  color: var(--dk-text-2);
+}
+
+/* Settings submenu: the active item was a light pill in dark mode.
+   Angular's emulated encapsulation makes the component's own rule more
+   specific, so this one needs !important. */
+html[data-theme="dark"] app-waitlist-restaurant-component .settings-submenu button.active {
+  background: var(--dk-brand-soft) !important;
+  color: var(--dk-brand) !important;
+}
+
+/* =========================================================
+   Add guest modal (dark): one surface for each field, no grey
+   middle or black edges; country text hidden; values sized down.
+   ========================================================= */
+html[data-theme="dark"] .restaurant-phone-box,
+html[data-theme="dark"] .restaurant-select-box,
+html[data-theme="dark"] .input-box {
+  background: var(--dk-surface) !important;
+  border-color: var(--dk-border);
+}
+
+html[data-theme="dark"] .restaurant-phone-box input,
+html[data-theme="dark"] .restaurant-select-box select,
+html[data-theme="dark"] .restaurant-select-box input,
+html[data-theme="dark"] .phone-number-input,
+html[data-theme="dark"] .input-box input,
+html[data-theme="dark"] .input-box select {
+  background: transparent !important;
+  color: var(--dk-text);
+  font-size: 13px;
+}
+
+html[data-theme="dark"] .country-code-selector select {
+  background: transparent !important;
+  color: transparent !important;
+}
+
+html[data-theme="dark"] .restaurant-select-box select option,
+html[data-theme="dark"] .country-code-selector select option {
+  background: var(--dk-surface-2);
+  color: var(--dk-text);
+}
+
+/* Guest rows (Current Waitlist): name avatar in dark mode is a muted tint
+   of the guest's status colour, using the same shared tokens as the admin
+   dashboard (info/warning/success/danger) instead of one-off hex values. */
+html[data-theme="dark"] .guest-row.status-waiting .guest-avatar {
+  background: var(--dk-info-soft) !important;
+  color: var(--dk-info) !important;
+  box-shadow: inset 0 0 0 1px var(--dk-info-soft) !important;
+}
+
+html[data-theme="dark"] .guest-row.status-notified .guest-avatar {
+  background: var(--dk-warning-soft) !important;
+  color: var(--dk-warning) !important;
+  box-shadow: inset 0 0 0 1px var(--dk-warning-soft) !important;
+}
+
+html[data-theme="dark"] .guest-row.status-seated .guest-avatar {
+  background: var(--dk-success-soft) !important;
+  color: var(--dk-success) !important;
+  box-shadow: inset 0 0 0 1px var(--dk-success-soft) !important;
+}
+
+html[data-theme="dark"] .guest-row.status-cancelled .guest-avatar {
+  background: var(--dk-danger-soft) !important;
+  color: var(--dk-danger) !important;
+  box-shadow: inset 0 0 0 1px var(--dk-danger-soft) !important;
+}
+
+/* Seated / Completed / Cancelled panel avatars: same soft-tint treatment,
+   one shared token per panel (success/brand/danger). */
+html[data-theme="dark"] .seated-card .info-avatar {
+  background: var(--dk-success-soft) !important;
+  color: var(--dk-success) !important;
+}
+
+html[data-theme="dark"] .completed-card .info-avatar {
+  background: var(--dk-brand-soft) !important;
+  color: var(--dk-brand) !important;
+}
+
+html[data-theme="dark"] .cancelled-card .info-avatar {
+  background: var(--dk-danger-soft) !important;
+  color: var(--dk-danger) !important;
+}
+
+html[data-theme="dark"] .guest-row .guest-name-line strong {
+  color: #f4f4f8 !important;
+}
+
+/* Add Guest modal: focused fields stayed white in dark mode (the component
+   sets background:#fff on :focus). Keep the dark field colour while focused. */
+html[data-theme="dark"] .form-input:focus,
+html[data-theme="dark"] .form-select:focus,
+html[data-theme="dark"] .form-textarea:focus,
+html[data-theme="dark"] .restaurant-phone-box:focus-within,
+html[data-theme="dark"] .restaurant-select-box:focus-within,
+html[data-theme="dark"] .input-box:focus-within {
+  background: var(--dk-sunken) !important;
+}
+
+/* Seat dialog and edit-table dialog: table choices were white in dark mode
+   (the component's own button rule outranks the dark rules above). */
+html[data-theme="dark"] .table-options button,
+html[data-theme="dark"] .edit-table-options button {
+  background: var(--dk-surface-2) !important;
+  border-color: var(--dk-border) !important;
+  color: var(--dk-text) !important;
+}
+
+html[data-theme="dark"] .table-options button.active,
+html[data-theme="dark"] .edit-table-options button.active {
+  background: #6920c2 !important;
+  border-color: #6920c2 !important;
+  color: #ffffff !important;
+}
+
+/* ---------------------------------------------------------------
+   Restaurant pages use the admin portal's dark surfaces and type scale.
+   Scope: waitlist, tables, history, settings (inside the restaurant shell).
+   --------------------------------------------------------------- */
+html[data-theme="dark"] app-waitlist-restaurant-component .info-card {
+  background: var(--dk-surface) !important;
+  border-color: var(--dk-border) !important;
+  border-radius: 14px;
+}
+
+html[data-theme="dark"] app-waitlist-restaurant-component h1 {
+  color: var(--dk-text);
+  font-size: 27px !important;
+  font-weight: 700 !important;
+}
+
+html[data-theme="dark"] app-waitlist-restaurant-component h1 + p,
+html[data-theme="dark"] app-waitlist-restaurant-component .page-header p {
+  color: var(--dk-text-3);
+}
+
+/* Restaurant nav in dark mode: muted text like admin; active item uses the
+   admin's brand-soft fill and inset bar (no violet tint on every item). */
+html[data-theme="dark"] app-waitlist-restaurant-component .sidebar .nav-item:not(.active) {
+  background: transparent !important;
+  color: var(--dk-text-2) !important;
+}
+
+html[data-theme="dark"] app-waitlist-restaurant-component .sidebar .nav-item.active {
+  background: var(--dk-brand-soft) !important;
+  color: var(--dk-brand) !important;
+  box-shadow: inset 3px 0 0 var(--dk-brand) !important;
+}
+
+/* ===================================================================
+   OPTION 1 — Clean table (approved design) in dark mode: same quiet
+   headers, hairline row dividers, no boxed backgrounds or coloured
+   accent bar. Applies to all four waitlist panels.
+   =================================================================== */
+html[data-theme="dark"] .table-row.header-row,
+html[data-theme="dark"] .info-card .info-row.header-row.header-row {
+  background: transparent !important;
+  border-bottom: 1px solid var(--dk-border) !important;
+  color: var(--dk-text-3) !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.02em !important;
+  text-transform: none !important;
+}
+
+html[data-theme="dark"] .waitlist-table-body,
+html[data-theme="dark"] .info-card .info-card-table {
+  background: transparent !important;
+  border: 0 !important;
+}
+
+html[data-theme="dark"] .guest-row,
+html[data-theme="dark"] .guest-row.status-waiting,
+html[data-theme="dark"] .guest-row.status-notified,
+html[data-theme="dark"] .guest-row.status-seated,
+html[data-theme="dark"] .guest-row.status-cancelled {
+  background: transparent !important;
+  border: 0 !important;
+  border-bottom: 1px solid var(--dk-border) !important;
+  box-shadow: none !important;
+}
+
+html[data-theme="dark"] .guest-row:last-child {
+  border-bottom: 0 !important;
+}
+
+html[data-theme="dark"] .guest-row::before {
+  display: none !important;
+}
+
+html[data-theme="dark"] .guest-row:hover {
+  box-shadow: none !important;
+}
+
+/* Same specificity issue as the inline-link buttons: the component's
+   light rule gains extra specificity from Angular's [_ngcontent]
+   attributes, so it was outranking this dark override (even with
+   !important) and showing the light divider colour in dark mode. The
+   class is repeated here to match that specificity. */
+html[data-theme="dark"] .info-card .info-row.data-row.data-row {
+  border-top: 0 !important;
+  border-bottom: 1px solid var(--dk-border) !important;
+}
+
+html[data-theme="dark"] .info-card .info-row.data-row.data-row:last-child {
+  border-bottom: 0 !important;
+}
+
+/* Seated / Completed / Cancelled buttons in dark mode.
+   The component CSS's light-mode rule gains extra specificity from the
+   [_ngcontent] attribute Angular adds to each compound selector, so a
+   plain dark override (even with !important) loses on the background
+   property. The class is repeated here to match that specificity. */
+html[data-theme="dark"] .info-card .inline-link.inline-link {
+  border-color: var(--dk-border) !important;
+  background: var(--dk-surface-2) !important;
+  color: var(--dk-text) !important;
+}
+
+html[data-theme="dark"] .info-card .inline-link.complete-link.complete-link {
+  border-color: var(--dk-success) !important;
+  background: var(--dk-success) !important;
+  color: #ffffff !important;
+}
+
+html[data-theme="dark"] .info-card .inline-link.completed-pill.completed-pill {
+  background: var(--dk-success-soft) !important;
+  color: var(--dk-success) !important;
+}
+
+/* Restaurant stat-card icons: restore the four distinct colours in dark
+   mode, using the exact same tokens the admin dashboard's metric icons
+   use (purple->brand, amber->warning, lilac->info, green->success). */
+html[data-theme="dark"] .stat-icon-purple {
+  background: var(--dk-brand-soft) !important;
+  color: var(--dk-brand) !important;
+}
+
+html[data-theme="dark"] .stat-icon-amber {
+  background: var(--dk-warning-soft) !important;
+  color: var(--dk-warning) !important;
+}
+
+html[data-theme="dark"] .stat-icon-lilac {
+  background: var(--dk-info-soft) !important;
+  color: var(--dk-info) !important;
+}
+
+html[data-theme="dark"] .stat-icon-green {
+  background: var(--dk-success-soft) !important;
+  color: var(--dk-success) !important;
+}
+
+/* Date filter control and confirmation dialog in dark mode */
+html[data-theme="dark"] .waitlist-date-filter.waitlist-date-filter {
+  border-color: var(--dk-border) !important;
+  background: var(--dk-surface-2) !important;
+  color: var(--dk-text) !important;
+}
+
+html[data-theme="dark"] .waitlist-date-filter.custom-date.custom-date {
+  border-color: var(--dk-brand) !important;
+  background: var(--dk-brand-soft) !important;
+  color: var(--dk-brand) !important;
+}
+
+html[data-theme="dark"] .waitlist-date-clear.waitlist-date-clear {
+  background: var(--dk-brand-soft) !important;
+  color: var(--dk-brand) !important;
+}
+
+html[data-theme="dark"] .waitlist-date-input.waitlist-date-input {
+  color-scheme: dark;
+}
+
+html[data-theme="dark"] .date-confirm-dialog.date-confirm-dialog {
+  background: var(--dk-surface) !important;
+  box-shadow: var(--shadow-lg) !important;
+}
+
+html[data-theme="dark"] .date-confirm-dialog h3 {
+  color: var(--dk-text) !important;
+}
+
+html[data-theme="dark"] .date-confirm-dialog p {
+  color: var(--dk-text-3) !important;
+}
+
+html[data-theme="dark"] .date-confirm-actions .ghost-btn.ghost-btn {
+  border-color: var(--dk-border) !important;
+  background: var(--dk-surface-2) !important;
+  color: var(--dk-text) !important;
+}
+
+/* History date filters: labelled field wrapper in dark mode, and an
+   explicit color-scheme on the date inputs themselves (some WebKit
+   builds need it set directly on the control, not just inherited from
+   an ancestor, to theme the native calendar popup correctly). */
+html[data-theme="dark"] .date-filter-field {
+  border-color: var(--dk-border);
+  background: var(--dk-sunken);
+}
+
+html[data-theme="dark"] .date-filter-label {
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .date-filter-field input[type="date"] {
+  color: var(--dk-text);
+  color-scheme: dark;
+}

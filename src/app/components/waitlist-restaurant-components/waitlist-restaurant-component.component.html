@@ -1,33 +1,43 @@
 
 <app-dinerly-loader *ngIf="isLoading"></app-dinerly-loader>
 
-<div *ngIf="!isLoading" class="app-shell" [class.sidebar-collapsed]="isSidebarCollapsed" [class.waitlist-page]="activeRoute === 'waitlist'">
+<div *ngIf="!isLoading" class="app-shell" [class.sidebar-collapsed]="isSidebarCollapsed" [class.sidebar-hidden]="isSidebarCollapsed" [class.waitlist-page]="activeRoute === 'waitlist'">
+  <button type="button" class="sidebar-show-fab" (click)="toggleSidebar()"
+    aria-label="Show sidebar" title="Show sidebar">
+    <i class="fa-solid fa-bars"></i>
+  </button>
 
   <!-- =====================================================
        TOP NAVBAR
        ===================================================== -->
   <header class="top-navbar">
 
-    <button type="button" class="brand-toggle-button" (click)="toggleSidebar()" aria-label="Toggle sidebar">
-      <div class="brand-logo">
-        <img src="assets/brand/dinerly-icon.png" alt="Dinerly logo">
-      </div>
+    <div class="top-brand-group">
+      <button type="button" class="brand-toggle-button" (click)="goToLanding()" aria-label="Go to Waitlist">
+        <div class="brand-logo">
+          <img src="assets/brand/dinerly-icon.png" alt="Dinerly logo">
+        </div>
 
-      <span class="brand-name">
-        Dinerly
-      </span>
+        <span class="brand-name">
+          Dinerly
+        </span>
 
-      <span class="brand-badge">
-        RESTAURANT
-      </span>
-    </button>
+        <span class="brand-badge">
+          RESTAURANT
+        </span>
+      </button>
+    </div>
 
     <div class="top-search">
       <i class="fa-solid fa-magnifying-glass"></i>
-      <input type="text" placeholder="Search guests, phone number or notes..." aria-label="Search guests" />
+      <input type="text" placeholder="Search guest name or phone number" aria-label="Search guests by name or phone number" [value]="searchQuery" (input)="onSearchInput($event)" autocomplete="off" />
     </div>
 
     <div class="top-actions">
+
+      <!-- PORTAL SWITCHER: only shows up when there's an admin session in
+           this browser; reuses it to jump to Admin/Guest in the same tab. -->
+      <app-portal-switch-button currentPortal="restaurant"></app-portal-switch-button>
 
       <div class="admin-user-wrapper">
 
@@ -91,6 +101,10 @@
        SIDEBAR
        ===================================================== -->
   <aside class="sidebar" [class.sidebar-collapsed]="isSidebarCollapsed">
+    <button type="button" class="sidebar-header-toggle" (click)="toggleSidebar()"
+      [attr.aria-label]="isSidebarCollapsed ? 'Show sidebar' : 'Hide sidebar'" [attr.title]="isSidebarCollapsed ? 'Show sidebar' : 'Hide sidebar'">
+      <i class="fa-solid fa-bars"></i>
+    </button>
 
     <div class="sidebar-top">
 
@@ -265,6 +279,15 @@
 
   </aside>
 
+
+  <!-- Mobile floating tab bar (phones only) -->
+  <nav class="portal-tabbar" aria-label="Main navigation">
+    <a routerLink="/restaurant/waitlist" routerLinkActive="active"><i class="fa-regular fa-clock"></i><span>Waitlist</span></a>
+    <a routerLink="/restaurant/tables" routerLinkActive="active"><i class="fa-solid fa-table-cells"></i><span>Tables</span></a>
+    <a routerLink="/restaurant/history" routerLinkActive="active"><i class="fa-solid fa-clock-rotate-left"></i><span>History</span></a>
+    <a routerLink="/restaurant/offer-redeem" routerLinkActive="active"><i class="fa-solid fa-ticket"></i><span>Redeem</span></a>
+    <button type="button" (click)="toggleSidebar()"><i class="fa-solid fa-bars"></i><span>Menu</span></button>
+  </nav>
 
   <main class="main-content">
 

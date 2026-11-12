@@ -29,7 +29,7 @@
 .header-title h1 {
   margin: 0;
   color: #241f2d;
-  font-size: 25px;
+  font-size: 26px;
   font-weight: 700;
   line-height: 1.1;
   letter-spacing: -0.5px;
@@ -4090,7 +4090,7 @@
 .page-heading h1 {
   margin: 0;
   color: #2d2735;
-  font-size: 34px;
+  font-size: 26px;
   line-height: 1.02;
   font-weight: 800;
 }
@@ -4120,11 +4120,16 @@
   padding: 0 15px;
   border: none;
   border-radius: 5px;
-  background: linear-gradient(135deg, #8b45d6 0%, #6733d2 100%);
+  background: #5a3fb8;
   color: #ffffff;
   font-size: 13px;
-  font-weight: 700;
-  box-shadow: 0 12px 22px rgba(97, 45, 181, 0.18);
+  font-weight: 600;
+  box-shadow: 0 1px 2px rgba(60, 35, 120, 0.2);
+  transition: background-color 0.15s ease;
+}
+
+.primary-btn:hover {
+  background: #4b31a0;
 }
 
 .small-btn {
@@ -4322,7 +4327,7 @@
 
 .waitlist-table-body {
   border: 1px solid #ece4f4;
-  border-radius: 16px;
+  border-radius: 12px;
   background: rgba(248, 245, 251, 0.55);
   overflow: hidden;
 }
@@ -4467,9 +4472,12 @@
 
 .info-card-table {
   border: 1px solid #ece4f4;
-  border-radius: 16px;
-  overflow: hidden;
+  border-radius: 12px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  max-height: 420px;
   background: rgba(248, 245, 251, 0.55);
+  scrollbar-width: thin;
 }
 
 .info-empty-state {
@@ -5102,7 +5110,7 @@
 }
 
 /* MOBILE ONLY */
-@media screen and (min-width: 500px) and (max-width: 768px) {
+@media screen and (min-width: 500px) and (max-width: 767px) {
   .stats-grid {
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -5516,3 +5524,525 @@
   }
 }
 
+
+/* =====================================================
+   INLINE CALL STATUS PILL (replaces Notify while a call runs)
+   calling: fill sweeps left to right, dot pulses
+   in-call: steady green, dot breathes
+   answered: one short vibrate, then check mark
+   ended: fades to grey and stops
+   ===================================================== */
+.call-pill {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: clamp(42px, 2.6vw, 54px);
+  padding: 0 14px;
+  border-radius: 12px;
+  border: 1px solid transparent;
+  font-size: 12px;
+  font-weight: 800;
+  white-space: nowrap;
+  overflow: hidden;
+  isolation: isolate;
+  flex: 0 0 auto;
+}
+
+.call-pill::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  transform-origin: left center;
+  transform: scaleX(0);
+}
+
+.call-pill-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: currentColor;
+  flex: 0 0 7px;
+}
+
+.call-pill-check {
+  font-size: 11px;
+}
+
+/* calling */
+.call-pill--calling {
+  background: #f1edff;
+  color: #5a3fb8;
+  border-color: #d9ccff;
+}
+
+.call-pill--calling::before {
+  background: rgba(90, 63, 184, 0.16);
+  animation: call-pill-load 1.6s ease-in-out infinite;
+}
+
+.call-pill--calling .call-pill-dot {
+  animation: call-pill-pulse 1.2s ease-in-out infinite;
+}
+
+/* in call */
+.call-pill--in-call {
+  background: #e6f7ee;
+  color: #1f7a4a;
+  border-color: #bfe6cf;
+}
+
+.call-pill--in-call .call-pill-dot {
+  animation: call-pill-breathe 2.4s ease-in-out infinite;
+}
+
+/* answered */
+.call-pill--answered,
+.call-pill--fading {
+  background: #e6f7ee;
+  color: #1f7a4a;
+  border-color: #8fd3a9;
+  animation: call-pill-vibrate 0.45s ease-in-out 1;
+}
+
+.call-pill-phone {
+  font-size: 13px;
+}
+
+.call-pill--fading-muted {
+  background: #f3f1f6;
+  color: #6b6478;
+  border-color: #e3dfea;
+  animation: call-pill-fade-out 0.4s ease forwards;
+}
+
+.call-pill--fading {
+  animation: call-pill-fade-out 0.4s ease forwards;
+}
+
+.call-pill--answered .call-pill-check {
+  animation: call-pill-fade-in 0.3s ease 0.2s both;
+}
+
+/* ended */
+.call-pill--ended {
+  background: #f3f1f6;
+  color: #6b6478;
+  border-color: #e3dfea;
+  animation: call-pill-settle 0.4s ease 1;
+}
+
+@keyframes call-pill-load {
+  0% { transform: scaleX(0); }
+  100% { transform: scaleX(1); }
+}
+
+@keyframes call-pill-pulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.5); opacity: 0.5; }
+}
+
+@keyframes call-pill-breathe {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.35; }
+}
+
+@keyframes call-pill-vibrate {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-3px); }
+  40% { transform: translateX(3px); }
+  60% { transform: translateX(-2px); }
+  80% { transform: translateX(2px); }
+}
+
+@keyframes call-pill-fade-in {
+  from { opacity: 0; transform: scale(0.6); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes call-pill-fade-out {
+  from { opacity: 1; transform: scale(1); }
+  to { opacity: 0; transform: scale(0.9); }
+}
+
+@keyframes call-pill-settle {
+  from { opacity: 0.4; }
+  to { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .call-pill,
+  .call-pill::before,
+  .call-pill-dot,
+  .call-pill-check {
+    animation: none !important;
+  }
+
+  .call-pill--calling::before {
+    transform: scaleX(1);
+  }
+}
+
+/* declined (voice reply 2): red, same vibrate and fade as confirmed */
+.call-pill--reject {
+  background: #fdecec;
+  color: #b42318;
+  border-color: #f3b8b8;
+}
+
+/* Confirmed / Declined: same width as the phone button (only these pills change) */
+.call-pill--answered,
+.call-pill--fading {
+  width: clamp(92px, 6vw, 124px);
+  justify-content: center;
+  padding: 0 6px;
+  gap: 5px;
+  font-size: 11px;
+}
+
+
+/* Below desktop (up to 1199px: tablet portrait and landscape, and phones):
+   Seated, Completed and Cancelled stack one below another. */
+@media (max-width: 1199px) {
+  app-waitlist-restaurant-component .lower-grid,
+  .lower-grid {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+}
+
+/* Seated table: guest, party, seated time, server, actions */
+.info-card.seated-card .info-row {
+  grid-template-columns: minmax(0, 0.4fr) minmax(0, 1.5fr) minmax(0, 0.6fr) minmax(0, 0.9fr) minmax(0, 1fr) minmax(170px, 1.9fr);
+}
+
+.server-cell {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 13px;
+  font-weight: 600;
+  color: #4b3f5e;
+}
+
+/* Seated table: actions line up under their heading */
+.info-card.seated-card .info-row > :last-child {
+  justify-self: start;
+}
+
+/* Phones: the seated table drops the row number so guest, party, time,
+   server and actions fit without overlapping. */
+@media (max-width: 767px) {
+  .info-card.seated-card .info-row {
+    grid-template-columns: minmax(0, 1.7fr) minmax(0, 0.45fr) minmax(0, 0.95fr) minmax(0, 0.95fr) minmax(0, 1.2fr) !important;
+    gap: 6px;
+  }
+
+  .info-card.seated-card .info-row > :first-child {
+    display: none;
+  }
+
+  .server-cell {
+    white-space: normal;
+    overflow-wrap: anywhere;
+  }
+
+  .info-card.seated-card .info-row > :first-child + * {
+    grid-column: auto;
+  }
+}
+
+/* Calmer table values: the big black-weight numbers and times were too
+   heavy beside the labels. Values now 13-15px at weight 600, secondary
+   text smaller, and seated actions sit under their heading. */
+.size-cell {
+  font-size: 15px !important;
+  font-weight: 600 !important;
+}
+
+.wait-cell strong {
+  font-size: 14px !important;
+  font-weight: 600 !important;
+}
+
+.wait-cell p {
+  font-size: 12px !important;
+}
+
+.status-cell {
+  font-size: 13px !important;
+}
+
+.info-card .info-row.data-row {
+  font-size: 13px;
+}
+
+.info-card .info-row.data-row strong {
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.info-card .info-row.data-row .guest-name-block strong {
+  font-size: 14px;
+}
+
+.info-card .info-row.data-row .inline-link {
+  font-size: 12px;
+}
+
+.info-card.seated-card .inline-action-stack {
+  justify-content: flex-start;
+  gap: 14px;
+}
+
+/* ===================================================================
+   OPTION 1 — Clean table (approved design): quiet headers with a hairline
+   divider instead of a tinted bar, rows separated by a thin line instead
+   of individual cards, and no coloured left accent bar. Applies to all
+   four panels: Current Waitlist, Seated, Completed and Cancelled.
+   =================================================================== */
+
+/* Column headers: no background tint, hairline divider, lighter label */
+.table-row.header-row,
+.info-card .info-row.header-row {
+  background: transparent !important;
+  border-bottom: 1px solid #ece7f3 !important;
+  color: #a79dbb !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.02em !important;
+  text-transform: none !important;
+  padding-bottom: 12px !important;
+}
+
+/* Outer boxed container becomes a flat area; rows carry their own divider */
+.waitlist-table-body,
+.info-card .info-card-table {
+  background: transparent !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+}
+
+.guest-list {
+  gap: 0 !important;
+}
+
+/* Current Waitlist rows: no individual card, just a thin divider */
+.guest-row {
+  background: transparent !important;
+  border: 0 !important;
+  border-bottom: 1px solid #ece7f3 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  padding: 16px 6px !important;
+}
+
+.guest-row:last-child {
+  border-bottom: 0 !important;
+}
+
+.guest-row::before {
+  display: none !important;
+}
+
+/* Seated / Completed / Cancelled rows: same hairline treatment */
+.info-card .info-row.data-row {
+  border-top: 0 !important;
+  border-bottom: 1px solid #ece7f3 !important;
+}
+
+.info-card .info-row.data-row:last-child {
+  border-bottom: 0 !important;
+}
+
+/* ===================================================================
+   Seated / Completed / Cancelled rows: avatar for every guest, and
+   Edit / Complete / View rendered as real buttons instead of plain text.
+   =================================================================== */
+.info-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  flex: none;
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: 700;
+  background: #8b7fa8;
+}
+
+.seated-card .info-avatar {
+  background: #1e8b5a;
+}
+
+.completed-card .info-avatar {
+  background: #5a3fb8;
+}
+
+.cancelled-card .info-avatar {
+  background: #c03a3a;
+}
+
+.guest-name-text {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  gap: 2px;
+}
+
+/* Edit / View: quiet outlined button instead of a bare text link */
+.info-card .inline-link {
+  height: 32px;
+  padding: 0 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #e3dcee !important;
+  border-radius: 8px;
+  background: #ffffff !important;
+  font-weight: 650;
+  white-space: nowrap;
+}
+
+/* Complete: filled primary-style button */
+.info-card .inline-link.complete-link {
+  border-color: #1e8b5a !important;
+  background: #1e8b5a !important;
+  color: #ffffff !important;
+}
+
+.info-card .inline-link.complete-link:disabled {
+  opacity: 0.65;
+}
+
+/* Completed status pill stays a pill, not a button */
+.info-card .inline-link.completed-pill {
+  border: 0 !important;
+  background: #e7f5ee !important;
+}
+
+/* ===================================================================
+   Date filter: one shared control for every waitlist panel, plus the
+   confirmation dialog shown before a date change actually takes effect.
+   =================================================================== */
+.page-intro-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.waitlist-date-filter {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 40px;
+  padding: 0 14px;
+  border: 1px solid #e3dcee;
+  border-radius: 10px;
+  background: #ffffff;
+  color: #4b3f5e;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.waitlist-date-filter.custom-date {
+  border-color: #c7b6ec;
+  background: #f1ecfc;
+  color: #5a3fb8;
+}
+
+.waitlist-date-filter i.fa-calendar-days {
+  color: inherit;
+  font-size: 14px;
+}
+
+.waitlist-date-input {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+  border: 0;
+}
+
+.waitlist-date-clear {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(90, 63, 184, 0.14);
+  color: inherit;
+  font-size: 9px;
+  cursor: pointer;
+  position: relative;
+  z-index: 1;
+}
+
+.date-confirm-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 2200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(20, 10, 36, 0.45);
+  padding: 20px;
+}
+
+.date-confirm-dialog {
+  width: 100%;
+  max-width: 420px;
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 24px 60px rgba(20, 10, 36, 0.3);
+}
+
+.date-confirm-dialog h3 {
+  margin: 0 0 10px;
+  font-size: 17px;
+  font-weight: 700;
+  color: #241f2d;
+}
+
+.date-confirm-dialog p {
+  margin: 0 0 20px;
+  font-size: 13px;
+  line-height: 1.5;
+  color: #5e5670;
+}
+
+.date-confirm-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.date-confirm-actions .ghost-btn {
+  height: 38px;
+  padding: 0 16px;
+  border: 1px solid #e3dcee;
+  border-radius: 9px;
+  background: #ffffff;
+  color: #4b3f5e;
+  font-weight: 650;
+  cursor: pointer;
+}
+
+.date-confirm-actions .primary-btn {
+  height: 38px;
+}
+
+/* Current Waitlist: the phone/notes line under the guest name scaled up to
+   17px on wide screens (a leftover responsive clamp), making it look as
+   prominent as the name itself. Fixed to a small, calm size. */
+.guest-info p {
+  font-size: 12px !important;
+}

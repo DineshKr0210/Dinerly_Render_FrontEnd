@@ -71,7 +71,7 @@
   z-index: 1500;
 
   display: block;
-  width: 224px;
+  width: var(--portal-sidebar-width);
 
   min-width: 0;
   overflow-x: hidden;
@@ -83,7 +83,7 @@
 
 .customer-main {
   min-width: 0;
-  margin-left: 224px;
+  margin-left: var(--portal-sidebar-width);
 
   padding: 24px 28px 32px;
 
@@ -1089,7 +1089,7 @@
     display: block;
 
     width: min(
-      260px,
+      var(--portal-sidebar-width),
       84vw
     );
 
@@ -1098,15 +1098,16 @@
 
     background: #ffffff;
 
-    box-shadow:
-      18px 0 50px
-      rgba(25, 14, 42, 0.2);
-
+    /* Closed: hidden completely, so no shadow shows on the page edge. */
     transform:
       translateX(-105%);
 
+    visibility: hidden;
+
     transition:
-      transform 0.28s ease;
+      transform 0.28s ease,
+      visibility 0.28s,
+      box-shadow 0.28s ease;
 
     will-change: transform;
   }
@@ -1118,6 +1119,12 @@
   .guest-sidebar-component.mobile-open {
     transform:
       translateX(0);
+
+    visibility: visible;
+
+    box-shadow:
+      18px 0 50px
+      rgba(25, 14, 42, 0.2);
   }
 
 
@@ -1241,8 +1248,8 @@
 
   .guest-sidebar-component {
     width: min(
-      320px,
-      90vw
+      var(--portal-sidebar-width),
+      84vw
     );
   }
 
@@ -1337,4 +1344,73 @@
     font-size: 18px;
   }
 
+}
+
+/* =====================================================
+   MOBILE BOTTOM TAB BAR (floating pill, phones only)
+   The side drawer stays for the menu and account.
+   ===================================================== */
+.mobile-tabbar {
+  display: none;
+}
+
+@media (max-width: 767px) {
+  .mobile-tabbar {
+    position: fixed;
+    left: 12px;
+    right: 12px;
+    bottom: calc(12px + env(safe-area-inset-bottom));
+    z-index: 1800;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 8px;
+    border-radius: 999px;
+    background: #2a1446;
+    box-shadow: 0 10px 24px rgba(20, 8, 36, 0.35);
+  }
+
+  .mobile-tabbar button {
+    flex: 1 1 0;
+    min-width: 0;
+    height: 48px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+    border: 0;
+    border-radius: 999px;
+    background: transparent;
+    color: #cfc5e2;
+    font-family: inherit;
+    font-size: 10px;
+    font-weight: 600;
+    cursor: pointer;
+    position: relative;
+  }
+
+  .mobile-tabbar button i {
+    font-size: 16px;
+  }
+
+  .mobile-tabbar button.active {
+    background: #ffffff;
+    color: #5a3fb8;
+    font-weight: 700;
+  }
+
+  .mobile-tabbar button.locked {
+    opacity: 0.6;
+  }
+
+  .mobile-tabbar button:active {
+    transform: scale(0.96);
+  }
+
+  /* Keep the last content above the floating bar */
+  .customer-main {
+    padding-bottom: calc(96px + env(safe-area-inset-bottom)) !important;
+  }
 }

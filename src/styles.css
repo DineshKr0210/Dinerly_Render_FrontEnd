@@ -10,8 +10,18 @@
 @import 'app/styles/dark/text-fixes.css';
 @import 'app/styles/dark/server.css';
 @import 'app/styles/dark/surfaces.css';
+@import 'app/styles/sidebar-theme.css';
+@import 'app/styles/restaurant-density.css';
+@import 'app/styles/topnav-theme.css';
 
 :root {
+  /* Shared sidebar width for every portal (Guest, Admin, Restaurant, Server). */
+  --portal-sidebar-width: 224px;
+  /* Shared UI tokens: primary button, card radius and page title size. */
+  --ui-primary: #5a3fb8;
+  --ui-primary-hover: #4b31a0;
+  --ui-card-radius: 12px;
+  --ui-title-size: 26px;
   --font-ui: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
   --text-muted: #6b6478;
   --shadow-sm: 0 1px 2px rgba(25, 15, 38, 0.06);
@@ -26,12 +36,18 @@ html, body { height: 100%; }
 body { margin: 0; font-family: var(--font-ui); -webkit-font-smoothing: antialiased; }
 
 button:focus-visible,
-a:focus-visible,
+a:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+
+/* Form fields: a border colour change only, no box around the field */
 input:focus-visible,
 select:focus-visible,
 textarea:focus-visible {
   outline: none;
-  box-shadow: var(--focus-ring);
+  box-shadow: none;
+  border-color: var(--ui-primary);
 }
 
 button:active:not(:disabled) { transform: scale(0.98); }
@@ -88,4 +104,11 @@ button:active:not(:disabled) { transform: scale(0.98); }
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
+}
+
+
+/* Guest mobile drawer open: lock page scrolling behind it */
+body.guest-mobile-menu-open {
+  overflow: hidden;
+  touch-action: none;
 }

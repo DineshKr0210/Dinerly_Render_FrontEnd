@@ -15,11 +15,58 @@
       <p>Manage your restaurant's waitlist.</p>
     </div>
 
-    <button class="primary-btn" type="button" (click)="modalService.open()">
-      <i class="fa-solid fa-user-plus"></i>
-      Add Guest
-    </button>
+    <div class="page-intro-actions">
+      <div class="waitlist-date-filter" [class.custom-date]="selectedWaitlistDate">
+        <i class="fa-regular fa-calendar-days"></i>
+        <span>{{ waitlistDateLabel }}</span>
+        <input
+          type="date"
+          class="waitlist-date-input"
+          [max]="todayDateString"
+          [ngModel]="pendingWaitlistDate"
+          (ngModelChange)="onWaitlistDateInput($event)"
+          aria-label="Choose a date to view the waitlist for"
+        />
+        <button
+          type="button"
+          class="waitlist-date-clear"
+          *ngIf="selectedWaitlistDate"
+          (click)="requestClearWaitlistDate()"
+          title="Back to today"
+        >
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <button class="primary-btn" type="button" (click)="modalService.open()">
+        <i class="fa-solid fa-user-plus"></i>
+        Add Guest
+      </button>
+    </div>
   </section>
+
+  <!-- Confirm before switching the date filter, so an accidental pick doesn't
+       silently change what every panel on the page is showing. -->
+  <div class="date-confirm-overlay" *ngIf="showDateConfirm" (click)="cancelWaitlistDateChange()">
+    <div class="date-confirm-dialog" (click)="$event.stopPropagation()">
+      <h3>{{ pendingWaitlistDate ? 'Switch waitlist date?' : 'Back to today?' }}</h3>
+      <p *ngIf="pendingWaitlistDate">
+        You're about to view <strong>{{ formatFilterDate(pendingWaitlistDate) }}</strong> instead of
+        {{ selectedWaitlistDate ? formatFilterDate(selectedWaitlistDate) : 'today' }}. This applies to
+        Current Waitlist, Seated, Completed and Cancelled.
+      </p>
+      <p *ngIf="!pendingWaitlistDate">
+        You're about to go back to viewing <strong>today's</strong> waitlist instead of
+        {{ formatFilterDate(selectedWaitlistDate) }}. This applies to every panel on this page.
+      </p>
+      <div class="date-confirm-actions">
+        <button type="button" class="ghost-btn" (click)="cancelWaitlistDateChange()">Cancel</button>
+        <button type="button" class="primary-btn" (click)="confirmWaitlistDateChange()">
+          {{ pendingWaitlistDate ? 'Switch date' : 'Back to today' }}
+        </button>
+      </div>
+    </div>
+  </div>
 
   <section class="request-banner" *ngIf="latestPendingGuest">
 
@@ -131,8 +178,8 @@
     <div class="waitlist-table-body">
       <div class="table-row header-row">
         <span>Guest</span>
-        <span>Party Size</span>
-        <span>Wait Time</span>
+        <span>Party</span>
+        <span>Wait</span>
         <span>Preference</span>
         <span>Actions</span>
       </div>
@@ -179,10 +226,6 @@
 
     recentChangedGuestId === guest.id
       ? 'row-changed'
-      : '',
-
-    shakingGuestIds.has(guest.id)
-      ? 'customer-reply-shake'
       : ''
   ]">
 
@@ -207,7 +250,8 @@
 
               <ng-container *ngIf="
     guest.status === 'NOTIFIED' &&
-    hasCustomerReply(guest)
+    hasCustomerReply(guest) &&
+    getVisibleReply(guest)?.source === 'SMS'
   ">
                 <ng-container *ngIf="
     getVisibleReply(guest)
@@ -286,14 +330,20 @@
           <!-- ACTIONS -->
           <div class="action-cell" (click)="$event.stopPropagation()">
 
-            <button class="notify-action" type="button" *ngIf="guest.status === 'WAITING'" (click)="notifyGuest(guest)">
+            <span class="call-pill" *ngIf="getCallPill(guest) as pill" [ngClass]="['call-pill--' + pill.state, pill.tone === 'reject' ? 'call-pill--reject' : '']" aria-live="polite">
+              <i class="call-pill-dot" *ngIf="pill.state !== 'answered' && pill.state !== 'fading'"></i>
+              {{ pill.label }}
+              <i class="fa-solid fa-phone call-pill-phone" *ngIf="pill.state === 'answered' || pill.state === 'fading'"></i>
+            </span>
+
+            <button class="notify-action" type="button" *ngIf="guest.status === 'WAITING' && !isCallLive(guest)" (click)="notifyGuest(guest)">
               <i class="fa-regular fa-paper-plane"></i>
               Notify
             </button>
 
             <div class="contact-action-wrapper">
 
-              <button class="action-btn call" type="button" *ngIf="guest.status === 'NOTIFIED'"
+              <button class="action-btn call" type="button" *ngIf="guest.status === 'NOTIFIED' && !isCallLive(guest) && !isCallAnswered(guest)"
                 (click)="toggleContactActions(guest, $event)">
                 <i class="fa-solid fa-phone-volume" style="color: #5b32e1;"></i>
               </button>
@@ -362,7 +412,12 @@
 
             <div class="tablet-guest-action-wrap">
               <div class="tablet-guest-actions">
-                <button class="tablet-quick-btn notify" type="button" *ngIf="guest.status === 'WAITING'"
+                <span class="call-pill" *ngIf="getCallPill(guest) as pill" [ngClass]="['call-pill--' + pill.state, pill.tone === 'reject' ? 'call-pill--reject' : '']" aria-live="polite">
+                  <i class="call-pill-dot" *ngIf="pill.state !== 'answered' && pill.state !== 'fading'"></i>
+              {{ pill.label }}
+              <i class="fa-solid fa-phone call-pill-phone" *ngIf="pill.state === 'answered' || pill.state === 'fading'"></i>
+                </span>
+                <button class="tablet-quick-btn notify" type="button" *ngIf="guest.status === 'WAITING' && !isCallLive(guest)"
                   (click)="notifyGuest(guest); $event.stopPropagation()">
                   <i class="fa-regular fa-paper-plane"></i> Notify
                 </button>
@@ -414,7 +469,7 @@
               <span>Joined</span>
               <strong>{{ formatTime(guest.joinedAt || guest.approvedAt) }}</strong>
             </div>
-            <div class="tablet-detail-row">
+            <div class="tablet-detail-row" *ngIf="hasPreference(guest.preference)">
               <span>Preference</span>
               <strong>{{ getPreferenceLabel(guest.preference) }}</strong>
             </div>
@@ -423,7 +478,10 @@
               <strong>{{ guest.notes }}</strong>
             </div>
 
-            <div class="tablet-detail-row full-width" *ngIf="guest.status === 'NOTIFIED' && hasCustomerReply(guest)">
+            <div class="tablet-detail-row full-width" *ngIf="guest.status === 'NOTIFIED' &&
+    hasCustomerReply(guest) &&
+    getVisibleReply(guest)?.source === 'SMS'
+  ">
               <span>Customer reply</span>
               <div class="tablet-reply-preview-wrap" *ngIf="getVisibleReply(guest) as visibleReply">
                 <button type="button" class="reply-preview" [ngClass]="getReplyViewClass(visibleReply)"
@@ -461,8 +519,8 @@
           </div>
         </div>
 
-        <h3>Your waitlist is clear.</h3>
-        <p>New guest requests will appear here.</p>
+        <h3>{{ search.query ? 'No matching guests' : 'Your waitlist is clear.' }}</h3>
+        <p>{{ search.query ? 'Try a different name or phone number.' : 'New guest requests will appear here.' }}</p>
 
         <button class="primary-btn small-btn" type="button" (click)="modalService.open()">
           <i class="fa-solid fa-user-plus"></i>
@@ -486,19 +544,24 @@
         <div class="info-row header-row">
           <span>#</span>
           <span>Guest</span>
-          <span>Party Size</span>
-          <span>Seated At</span>
+          <span>Party</span>
+          <span>Seated</span>
+          <span>Server</span>
           <span>Actions</span>
         </div>
 
-        <div class="info-row data-row" *ngFor="let guest of activeSeatedGuests.slice(0, 3); trackBy: trackByGuest; let i = index">
+        <div class="info-row data-row" *ngFor="let guest of activeSeatedGuests; trackBy: trackByGuest; let i = index">
           <span>{{ i + 1 }}</span>
           <div class="guest-name-block">
-            <strong>{{ guest.guestName }}</strong>
-            <small *ngIf="guest.tableName">Table {{ guest.tableName }}</small>
+            <div class="info-avatar">{{ getGuestInitials(guest.guestName) }}</div>
+            <div class="guest-name-text">
+              <strong>{{ guest.guestName }}</strong>
+              <small *ngIf="guest.tableName">Table {{ guest.tableName }}</small>
+            </div>
           </div>
           <span>{{ guest.partySize }}</span>
           <strong>{{ formatTime(guest.seatedAt) }}</strong>
+          <span class="server-cell">{{ serverForGuest(guest) }}</span>
 
           <div class="inline-action-stack">
             <button type="button" class="inline-link" (click)="openEditSeatedGuestModal(guest)">Edit</button>
@@ -583,16 +646,19 @@
         <div class="info-row header-row">
           <span>#</span>
           <span>Guest</span>
-          <span>Party Size</span>
-          <span>Completed At</span>
+          <span>Party</span>
+          <span>Completed</span>
           <span>Status</span>
         </div>
 
-        <div class="info-row data-row" *ngFor="let guest of completedGuests.slice(0, 3); trackBy: trackByGuest; let i = index">
+        <div class="info-row data-row" *ngFor="let guest of completedGuests; trackBy: trackByGuest; let i = index">
           <span>{{ i + 1 }}</span>
           <div class="guest-name-block">
-            <strong>{{ guest.guestName }}</strong>
-            <small *ngIf="guest.tableName">Table {{ guest.tableName }}</small>
+            <div class="info-avatar">{{ getGuestInitials(guest.guestName) }}</div>
+            <div class="guest-name-text">
+              <strong>{{ guest.guestName }}</strong>
+              <small *ngIf="guest.tableName">Table {{ guest.tableName }}</small>
+            </div>
           </div>
           <span>{{ guest.partySize }}</span>
           <strong>{{ formatTime(guest.seatedAt) }}</strong>
@@ -664,16 +730,19 @@
         <div class="info-row header-row">
           <span>#</span>
           <span>Guest</span>
-          <span>Party Size</span>
-          <span>Cancelled At</span>
+          <span>Party</span>
+          <span>Cancelled</span>
           <span>Actions</span>
         </div>
 
-        <div class="info-row data-row" *ngFor="let guest of cancelledGuests.slice(0, 3); trackBy: trackByGuest; let i = index">
+        <div class="info-row data-row" *ngFor="let guest of cancelledGuests; trackBy: trackByGuest; let i = index">
           <span>{{ i + 1 }}</span>
           <div class="guest-name-block">
-            <strong>{{ guest.guestName }}</strong>
-            <small *ngIf="guest.guestPhone">{{ guest.guestPhone }}</small>
+            <div class="info-avatar">{{ getGuestInitials(guest.guestName) }}</div>
+            <div class="guest-name-text">
+              <strong>{{ guest.guestName }}</strong>
+              <small *ngIf="guest.guestPhone">{{ guest.guestPhone }}</small>
+            </div>
           </div>
           <span>{{ guest.partySize }}</span>
           <strong>{{ formatTime(guest.joinedAt) }}</strong>
@@ -1009,27 +1078,6 @@
 
 
 <!-- Calling Popup -->
-<!-- CALL IN PROGRESS FLOATING BUTTON -->
-<div class="active-call-floating" *ngIf="isCallInProgress && !showCallingPopup">
-  <div class="active-call-floating-info">
-    <span class="active-call-dot"></span>
-
-    <div>
-      <strong>Call in progress</strong>
-
-      <small>
-        {{ callingGuest?.guestName || 'Customer' }}
-      </small>
-    </div>
-  </div>
-
-  <button type="button" class="show-call-btn" (click)="showActiveCallingPopup()">
-    <i class="fa-solid fa-phone-volume"></i>
-    Show
-  </button>
-</div>
-
-
 <!-- CALLING POPUP -->
 <div class="calling-popup-backdrop" *ngIf="showCallingPopup" (click)="hideCallingPopup()">
   <div class="calling-popup" (click)="$event.stopPropagation()">

@@ -23,7 +23,7 @@
 .history-header-copy h1 {
   margin: 0;
   color: #241f2d;
-  font-size: clamp(28px, 2vw, 42px);
+  font-size: 26px;
   line-height: 1.08;
   font-weight: 800;
   letter-spacing: -0.06em;
@@ -66,7 +66,7 @@
   align-items: center;
   padding: 12px 14px;
   border: 1px solid #e8e0f3;
-  border-radius: 14px;
+  border-radius: 12px;
   background: rgba(255, 255, 255, 0.8);
   box-shadow: 0 3px 12px rgba(62, 33, 97, 0.04);
 }
@@ -106,15 +106,21 @@
   width: 100%;
   margin-top: 18px;
   border: 1px solid #e8e0f3;
-  border-radius: 14px;
+  border-radius: 12px;
   overflow: hidden;
   background: #ffffff;
   box-shadow: 0 5px 18px rgba(71, 37, 111, 0.04);
 }
 
-.history-list-head {
+/* Shared column layout for the header and each row */
+.history-columns {
   display: grid;
-  grid-template-columns: 1fr auto;
+  grid-template-columns: minmax(220px, 2fr) 70px minmax(110px, 1.1fr) 80px minmax(120px, 1.1fr) minmax(120px, 1.1fr) 120px;
+  gap: 12px;
+  align-items: center;
+}
+
+.history-list-head {
   align-items: center;
   padding: 14px 22px;
   background: #f3ebff;
@@ -128,10 +134,6 @@
 }
 
 .history-row-button {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
   width: 100%;
   min-height: 72px;
   padding: 0 22px;
@@ -171,6 +173,28 @@
   color: #3d2d49;
   font-size: 16px;
   font-weight: 800;
+}
+
+.guest-text {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  gap: 2px;
+}
+
+.guest-phone {
+  font-size: 12px;
+  color: #7b7189;
+  font-variant-numeric: tabular-nums;
+}
+
+.cell {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 13px;
+  color: #3f314e;
 }
 
 .guest-name {
@@ -365,7 +389,7 @@
   }
 }
 
-@media screen and (min-width: 500px) and (max-width: 768px) {
+@media screen and (min-width: 500px) and (max-width: 767px) {
   .history-page {
     padding: 0 12px 28px;
   }
@@ -403,4 +427,106 @@
   .history-pagination {
     align-items: flex-start;
   }
+}
+
+/* Narrow screens: keep guest and status, hide the detail columns */
+@media (max-width: 900px) {
+  .history-columns {
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+
+  .cell-optional {
+    display: none;
+  }
+}
+
+/* Phones: stack the filters so nothing pushes the page wider than the screen */
+@media (max-width: 767px) {
+  .history-filters {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+
+  .history-filters > * {
+    flex: 1 1 100% !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+    box-sizing: border-box;
+  }
+}
+
+
+/* Tablet (768-1199px): filters in a three-column grid (search spans two),
+   and the list shows Guest, Party, Joined and Status so nothing is clipped. */
+@media (min-width: 768px) and (max-width: 1199px) {
+  .history-filters {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .history-filters > input[type="text"] {
+    grid-column: span 2;
+  }
+
+  .history-filters .clear-btn {
+    justify-self: end;
+  }
+
+  .history-columns {
+    grid-template-columns: minmax(0, 2.1fr) 40px minmax(0, 1.3fr) 130px;
+    column-gap: 16px;
+  }
+
+  .history-columns > .cell-optional {
+    display: block;
+  }
+
+  .history-columns > :nth-child(3),
+  .history-columns > :nth-child(4),
+  .history-columns > :nth-child(6) {
+    display: none;
+  }
+
+  .history-columns > :nth-child(2),
+  .history-columns > :nth-child(5) {
+    text-align: left;
+    justify-self: start;
+  }
+}
+
+/* ---------------------------------------------------------------
+   Date filters: a persistent "From"/"To" label so the field's purpose is
+   visible even when a date hasn't been picked yet (native date-input
+   placeholders render inconsistently across browsers -- Safari in
+   particular may show nothing at all when the field is empty).
+   --------------------------------------------------------------- */
+.date-filter-field {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 0 12px;
+  border: 1px solid #e1d7ee;
+  border-radius: 10px;
+  background: #ffffff;
+}
+
+.date-filter-field:focus-within {
+  border-color: #7d4ad0;
+  box-shadow: 0 0 0 3px rgba(125, 74, 208, 0.12);
+}
+
+.date-filter-label {
+  flex: none;
+  font-size: 12px;
+  font-weight: 650;
+  color: #8a8193;
+}
+
+.date-filter-field input[type="date"] {
+  min-height: 0 !important;
+  flex: 1;
+  padding: 0 !important;
+  border: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
 }

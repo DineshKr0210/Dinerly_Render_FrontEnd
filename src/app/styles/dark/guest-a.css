@@ -904,3 +904,23 @@ html[data-theme="dark"] .review-success-card {
 html[data-theme="dark"] .btn-cancel:hover:not(:disabled) {
   background: var(--dk-surface-3);
 }
+
+
+/* Guest search (dark): one surface, no grey box inside the field */
+html[data-theme="dark"] .restaurant-search {
+  background: var(--dk-surface) !important;
+}
+
+html[data-theme="dark"] .restaurant-search input {
+  background: transparent !important;
+}
+
+html[data-theme="dark"] .search-dish-list li {
+  background: var(--dk-surface);
+  border-color: var(--dk-border);
+}
+
+html[data-theme="dark"] .search-dishes-head h3,
+html[data-theme="dark"] .search-dish-list strong {
+  color: var(--dk-text);
+}

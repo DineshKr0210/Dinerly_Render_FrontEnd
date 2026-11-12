@@ -1,0 +1,320 @@
+/* =========================================================
+   SIDEBAR BACKGROUND: shared triangle pattern
+   The same sidebar-new.png pattern is used by the Guest, Admin,
+   Restaurant and Server portals, in both light and dark mode.
+   Imported globally, so it overrides the per-component sidebar
+   backgrounds (which have higher specificity) with !important.
+   ========================================================= */
+
+.sidebar,
+.customer-sidebar {
+  background-color: #2a1446 !important;
+  background-image: url('/assets/sidebar-new.png') !important;
+  background-size: cover !important;
+  background-position: center center !important;
+  background-repeat: no-repeat !important;
+}
+
+/* Guest sidebar text was dark; it sits on the dark pattern now. */
+.customer-sidebar {
+  color: #f4f0fb !important;
+}
+
+/* The portal shell adds a radial glow on top of the sidebar.
+   Remove it so the triangle pattern looks the same in every portal. */
+.sidebar::before,
+.customer-sidebar::before {
+  display: none !important;
+}
+
+/* Admin sidebar in light mode: the triangle pattern is dark, so the
+   menu uses light text instead of the grey used on the white sidebar. */
+html:not([data-theme="dark"]) app-waitlist-admin .sidebar .nav-item {
+  color: #e7e0f3;
+}
+
+html:not([data-theme="dark"]) app-waitlist-admin .sidebar .nav-item:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+}
+
+html:not([data-theme="dark"]) app-waitlist-admin .sidebar .nav-item.active {
+  background: rgba(255, 255, 255, 0.16);
+  color: #ffffff;
+  box-shadow: inset 3px 0 0 #c4a8ff;
+}
+
+html:not([data-theme="dark"]) app-waitlist-admin .sidebar .nav-icon {
+  color: inherit;
+}
+
+html:not([data-theme="dark"]) app-waitlist-admin .sidebar .restaurant-info strong {
+  color: #ffffff;
+}
+
+html:not([data-theme="dark"]) app-waitlist-admin .sidebar .restaurant-info small,
+html:not([data-theme="dark"]) app-waitlist-admin .sidebar .location-chevron {
+  color: #cfc5e2;
+}
+
+html:not([data-theme="dark"]) app-waitlist-admin .sidebar .settings-submenu button {
+  color: #d6cde6;
+}
+
+html:not([data-theme="dark"]) app-waitlist-admin .sidebar .settings-submenu button.active,
+html:not([data-theme="dark"]) app-waitlist-admin .sidebar .settings-submenu button:hover {
+  color: #ffffff;
+}
+
+/* =========================================================
+   SIDEBAR HIDE / SHOW (animated)
+   The portal root gets .sidebar-hidden. The sidebar slides out to
+   the left while the content moves to the left edge.
+   ========================================================= */
+
+:root {
+  --sidebar-ease: cubic-bezier(0.645, 0.045, 0.355, 1);
+  --sidebar-duration: 0.6s;
+}
+
+.app-shell .sidebar,
+.app-wrapper .guest-sidebar-component {
+  transition:
+    transform var(--sidebar-duration) var(--sidebar-ease),
+    opacity var(--sidebar-duration) ease,
+    visibility var(--sidebar-duration);
+}
+
+.app-shell .main-content {
+  transition: margin-left var(--sidebar-duration) var(--sidebar-ease);
+}
+
+.app-shell.sidebar-hidden .sidebar,
+.app-wrapper.sidebar-hidden .guest-sidebar-component {
+  transform: translateX(-100%);
+  opacity: 0;
+  visibility: hidden;
+}
+
+.app-shell.sidebar-hidden .main-content {
+  margin-left: 0 !important;
+}
+
+@media (min-width: 1025px) {
+  .app-wrapper .customer-main {
+    transition: margin-left var(--sidebar-duration) var(--sidebar-ease);
+  }
+
+  .app-wrapper.sidebar-hidden .customer-main {
+    margin-left: 0 !important;
+  }
+}
+
+/* Open state: hide button at the bottom-left of the sidebar */
+.sidebar-header-toggle {
+  position: absolute;
+  left: 12px;
+  bottom: 14px;
+  z-index: 3;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.12);
+  color: #ffffff;
+  font-size: 12px;
+  cursor: pointer;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.sidebar-header-toggle:hover {
+  background: rgba(255, 255, 255, 0.22);
+  border-color: rgba(255, 255, 255, 0.35);
+}
+
+/* Guest: same bottom-left button, desktop only (phones use the navbar menu) */
+.guest-sidebar-toggle {
+  position: fixed;
+  left: 12px;
+  bottom: 14px;
+  z-index: 1600;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 8px;
+  background: rgba(35, 20, 60, 0.85);
+  color: #ffffff;
+  font-size: 12px;
+  cursor: pointer;
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 0.4s ease, visibility 0.4s, background 0.2s ease;
+}
+
+.guest-sidebar-toggle:hover {
+  background: rgba(60, 35, 100, 0.95);
+}
+
+@media (max-width: 1024px) {
+  .guest-sidebar-toggle {
+    display: none;
+  }
+}
+
+.app-wrapper.sidebar-hidden .guest-sidebar-toggle {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.sidebar-header-toggle:focus-visible,
+.guest-sidebar-toggle:focus-visible,
+.sidebar-show-fab:focus-visible {
+  outline: none;
+  box-shadow: none;
+}
+
+/* Hidden state: round button at the bottom-left, fades and rises in */
+.sidebar-show-fab {
+  position: fixed;
+  left: 16px;
+  bottom: 16px;
+  z-index: 1600;
+  width: 44px;
+  height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  border-radius: 50%;
+  background: #5a3fb8;
+  color: #ffffff;
+  font-size: 15px;
+  box-shadow: 0 6px 18px rgba(40, 20, 70, 0.3);
+  cursor: pointer;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(12px) scale(0.85);
+  transition:
+    opacity 0.4s ease 0.15s,
+    transform 0.5s var(--sidebar-ease) 0.15s,
+    visibility 0.4s,
+    background 0.2s ease;
+}
+
+.sidebar-show-fab:hover {
+  background: #4b31a0;
+}
+
+.app-shell.sidebar-hidden .sidebar-show-fab,
+.app-wrapper.sidebar-hidden .sidebar-show-fab {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .app-shell .sidebar,
+  .app-wrapper .guest-sidebar-component,
+  .app-shell .main-content,
+  .app-wrapper .customer-main,
+  .sidebar-show-fab,
+  .guest-sidebar-toggle {
+    transition: none !important;
+  }
+}
+
+/* Brand logo in the navbar is a link to the default landing page */
+.top-brand {
+  cursor: pointer;
+}
+
+
+/* Guest sidebar brand text reads on the dark triangle pattern */
+.customer-sidebar h2 {
+  color: #ffffff !important;
+}
+
+.customer-sidebar p {
+  color: #cfc5e2 !important;
+}
+
+/* Phone country code (dark mode): the native select text is hidden, so only
+   the flag shows, the same as light mode. Stops "CA" overlapping the flag. */
+html[data-theme="dark"] .phone-box .country-code-select select {
+  color: transparent !important;
+}
+
+
+/* =========================================================
+   PHONES (under 768px): floating bottom bar in Restaurant and Admin,
+   same look as the Guest portal. Side-menu toggles are hidden here.
+   ========================================================= */
+.portal-tabbar {
+  display: none;
+}
+
+@media (max-width: 767px) {
+  .sidebar-header-toggle,
+  .sidebar-show-fab {
+    display: none !important;
+  }
+
+  .app-shell .main-content {
+    margin-left: 0 !important;
+    padding-bottom: calc(96px + env(safe-area-inset-bottom)) !important;
+  }
+
+  .portal-tabbar {
+    position: fixed;
+    left: 12px;
+    right: 12px;
+    bottom: calc(12px + env(safe-area-inset-bottom));
+    z-index: 1800;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 8px;
+    border-radius: 999px;
+    background: #2a1446;
+    box-shadow: 0 10px 24px rgba(20, 8, 36, 0.35);
+  }
+
+  .portal-tabbar a,
+  .portal-tabbar button {
+    flex: 1 1 0;
+    min-width: 0;
+    height: 48px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+    border: 0;
+    border-radius: 999px;
+    background: transparent;
+    color: #cfc5e2;
+    font-family: inherit;
+    font-size: 10px;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+  .portal-tabbar a i,
+  .portal-tabbar button i {
+    font-size: 16px;
+  }
+
+  .portal-tabbar a.active {
+    background: #ffffff;
+    color: #5a3fb8;
+    font-weight: 700;
+  }
+}
