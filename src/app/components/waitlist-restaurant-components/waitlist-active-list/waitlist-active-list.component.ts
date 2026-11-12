@@ -1476,14 +1476,27 @@ export class WaitlistActiveListComponent
     return 'First time at Brothers Café';
   }
 
+  /** True when the guest actually picked a seating preference (not empty,
+   *  not the enum 'NO_PREFERENCE', and not the literal 'No preference'
+   *  text the Add Guest form sends by default). */
+  hasPreference(
+    preference?: string | null
+  ): boolean {
+
+    const normalized =
+      (preference || '')
+        .trim()
+        .toLowerCase()
+        .replace(/_/g, ' ');
+
+    return Boolean(preference) && normalized !== 'no preference';
+  }
+
   getPreferenceLabel(
     preference?: string
   ): string {
 
-    if (
-      !preference ||
-      preference === 'NO_PREFERENCE'
-    ) {
+    if (!this.hasPreference(preference) || !preference) {
       return 'No';
     }
 

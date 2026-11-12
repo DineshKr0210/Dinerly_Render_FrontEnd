@@ -469,7 +469,7 @@
               <span>Joined</span>
               <strong>{{ formatTime(guest.joinedAt || guest.approvedAt) }}</strong>
             </div>
-            <div class="tablet-detail-row" *ngIf="guest.preference && guest.preference !== 'NO_PREFERENCE'">
+            <div class="tablet-detail-row" *ngIf="hasPreference(guest.preference)">
               <span>Preference</span>
               <strong>{{ getPreferenceLabel(guest.preference) }}</strong>
             </div>
