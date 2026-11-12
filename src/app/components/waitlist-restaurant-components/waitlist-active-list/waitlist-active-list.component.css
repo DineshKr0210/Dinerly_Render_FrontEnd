@@ -6039,3 +6039,10 @@
 .date-confirm-actions .primary-btn {
   height: 38px;
 }
+
+/* Current Waitlist: the phone/notes line under the guest name scaled up to
+   17px on wide screens (a leftover responsive clamp), making it look as
+   prominent as the name itself. Fixed to a small, calm size. */
+.guest-info p {
+  font-size: 12px !important;
+}
