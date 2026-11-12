@@ -106,6 +106,46 @@ app-waitlist-restaurant-component .app-shell .guest-list .guest-row .action-cell
     margin-left: calc(var(--sidebar-width) / 0.86);
     padding-top: calc((var(--top-navbar-height) + 18px) / 0.86) !important;
   }
+
+  /* Current Waitlist rows: the desktop grid's minimum widths (Guest 220px,
+     Party 80px, Wait 120px, Preference 150px, Actions 260px) add up to
+     more than the real content width at every tablet-portrait size, so
+     the Actions column (Notify + check/cross) was rendering clipped off
+     the right edge, entirely invisible. Actions now sits on its own full
+     width line below the other four columns, which always has enough
+     room regardless of the exact tablet width. The header row keeps the
+     single-line layout since its five labels are short text, not buttons. */
+  app-waitlist-restaurant-component .app-shell .guest-list .guest-row {
+    grid-template-columns: minmax(0, 2fr) minmax(0, 0.6fr) minmax(0, 1fr) minmax(0, 1fr);
+    grid-template-rows: auto auto;
+    row-gap: 10px;
+  }
+
+  app-waitlist-restaurant-component .app-shell .guest-list .guest-row > :nth-child(1) {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  app-waitlist-restaurant-component .app-shell .guest-list .guest-row > :nth-child(2) {
+    grid-column: 2;
+    grid-row: 1;
+  }
+
+  app-waitlist-restaurant-component .app-shell .guest-list .guest-row > :nth-child(3) {
+    grid-column: 3;
+    grid-row: 1;
+  }
+
+  app-waitlist-restaurant-component .app-shell .guest-list .guest-row > :nth-child(4) {
+    grid-column: 4;
+    grid-row: 1;
+  }
+
+  app-waitlist-restaurant-component .app-shell .guest-list .guest-row > :nth-child(5) {
+    grid-column: 1 / -1;
+    grid-row: 2;
+    justify-self: start;
+  }
 }
 
 /* ---------------------------------------------------------------
