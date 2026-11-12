@@ -164,5 +164,24 @@ app-waitlist-restaurant-component .app-shell .calling-popup-backdrop,
 app-waitlist-restaurant-component .app-shell .full-reply-backdrop,
 app-waitlist-restaurant-component .app-shell .sms-popup-backdrop,
 app-waitlist-restaurant-component .app-shell .date-confirm-overlay {
+  /* inverse of the 0.9 zoom above -- this is the default (phones and
+     desktop/laptop, i.e. everything outside the 768-1199px tablet band) */
   zoom: 1.1112;
+}
+
+/* Tablet (768-1199px) uses a different ambient zoom (0.86), so the
+   backdrop needs the matching inverse here, or it only partly compensates
+   and a thin grey strip still shows at tablet and "laptop-ish" widths in
+   that range. */
+@media (min-width: 768px) and (max-width: 1199px) {
+  app-waitlist-restaurant-component .app-shell .modal-backdrop,
+  app-waitlist-restaurant-component .app-shell .restaurant-modal-backdrop,
+  app-waitlist-restaurant-component .app-shell .help-modal-backdrop,
+  app-waitlist-restaurant-component .app-shell .request-modal-backdrop,
+  app-waitlist-restaurant-component .app-shell .calling-popup-backdrop,
+  app-waitlist-restaurant-component .app-shell .full-reply-backdrop,
+  app-waitlist-restaurant-component .app-shell .sms-popup-backdrop,
+  app-waitlist-restaurant-component .app-shell .date-confirm-overlay {
+    zoom: 1.1628;
+  }
 }

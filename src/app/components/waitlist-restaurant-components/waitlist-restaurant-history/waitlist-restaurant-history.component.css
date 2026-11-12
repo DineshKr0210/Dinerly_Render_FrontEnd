@@ -389,7 +389,7 @@
   }
 }
 
-@media screen and (min-width: 500px) and (max-width: 768px) {
+@media screen and (min-width: 500px) and (max-width: 767px) {
   .history-page {
     padding: 0 12px 28px;
   }
@@ -472,7 +472,8 @@
   }
 
   .history-columns {
-    grid-template-columns: minmax(0, 2.2fr) 56px minmax(0, 1.4fr) 124px;
+    grid-template-columns: minmax(0, 2.1fr) 40px minmax(0, 1.3fr) 130px;
+    column-gap: 16px;
   }
 
   .history-columns > .cell-optional {
@@ -490,4 +491,42 @@
     text-align: left;
     justify-self: start;
   }
+}
+
+/* ---------------------------------------------------------------
+   Date filters: a persistent "From"/"To" label so the field's purpose is
+   visible even when a date hasn't been picked yet (native date-input
+   placeholders render inconsistently across browsers -- Safari in
+   particular may show nothing at all when the field is empty).
+   --------------------------------------------------------------- */
+.date-filter-field {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 0 12px;
+  border: 1px solid #e1d7ee;
+  border-radius: 10px;
+  background: #ffffff;
+}
+
+.date-filter-field:focus-within {
+  border-color: #7d4ad0;
+  box-shadow: 0 0 0 3px rgba(125, 74, 208, 0.12);
+}
+
+.date-filter-label {
+  flex: none;
+  font-size: 12px;
+  font-weight: 650;
+  color: #8a8193;
+}
+
+.date-filter-field input[type="date"] {
+  min-height: 0 !important;
+  flex: 1;
+  padding: 0 !important;
+  border: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
 }

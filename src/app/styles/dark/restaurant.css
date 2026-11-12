@@ -2580,3 +2580,21 @@ html[data-theme="dark"] .date-confirm-actions .ghost-btn.ghost-btn {
   background: var(--dk-surface-2) !important;
   color: var(--dk-text) !important;
 }
+
+/* History date filters: labelled field wrapper in dark mode, and an
+   explicit color-scheme on the date inputs themselves (some WebKit
+   builds need it set directly on the control, not just inherited from
+   an ancestor, to theme the native calendar popup correctly). */
+html[data-theme="dark"] .date-filter-field {
+  border-color: var(--dk-border);
+  background: var(--dk-sunken);
+}
+
+html[data-theme="dark"] .date-filter-label {
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .date-filter-field input[type="date"] {
+  color: var(--dk-text);
+  color-scheme: dark;
+}

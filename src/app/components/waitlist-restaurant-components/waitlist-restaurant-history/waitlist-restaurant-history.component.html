@@ -34,8 +34,15 @@
       <option value="NO_SHOW">No-show</option>
     </select>
 
-    <input type="date" [(ngModel)]="selectedFromDate" (change)="resetAccordionAndPage()" aria-label="From date" />
-    <input type="date" [(ngModel)]="selectedToDate" (change)="resetAccordionAndPage()" aria-label="To date" />
+    <div class="date-filter-field">
+      <span class="date-filter-label">From</span>
+      <input type="date" [(ngModel)]="selectedFromDate" (change)="resetAccordionAndPage()" aria-label="From date" />
+    </div>
+
+    <div class="date-filter-field">
+      <span class="date-filter-label">To</span>
+      <input type="date" [(ngModel)]="selectedToDate" (change)="resetAccordionAndPage()" aria-label="To date" />
+    </div>
 
     <button type="button" class="clear-btn" (click)="clearFilters()">
       Clear Filters

@@ -5110,7 +5110,7 @@
 }
 
 /* MOBILE ONLY */
-@media screen and (min-width: 500px) and (max-width: 768px) {
+@media screen and (min-width: 500px) and (max-width: 767px) {
   .stats-grid {
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
