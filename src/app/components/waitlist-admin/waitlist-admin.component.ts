@@ -27,6 +27,10 @@ import {
   ThemeService
 } from 'src/app/services/theme.service';
 
+import {
+  WaitlistAuthService
+} from 'src/app/services/waitlist-auth.service';
+
 type SettingsTab =
   | 'profile'
   | 'notification'
@@ -65,6 +69,8 @@ export class WaitlistAdminComponent
   showLocationDropdown = false;
 
   showAdminMenu = false;
+
+  showPortalMenu = false;
 
   notificationCount = 3;
 
@@ -120,8 +126,41 @@ export class WaitlistAdminComponent
     private router: Router,
     private locationContext:
       AdminLocationContextService,
-    private themeService: ThemeService
+    private themeService: ThemeService,
+    private authService: WaitlistAuthService
   ) { }
+
+  togglePortalMenu(): void {
+    this.showPortalMenu = !this.showPortalMenu;
+  }
+
+  closePortalMenu(): void {
+    this.showPortalMenu = false;
+  }
+
+  /** Opens the Restaurant portal in a new tab, reusing this admin's own
+   *  session (same backend token, same role) so there's no separate
+   *  login. Scoped to the location currently selected in Admin. */
+  switchToRestaurantPortal(event: MouseEvent): void {
+    event.stopPropagation();
+    this.showPortalMenu = false;
+
+    this.authService.switchAdminToRestaurant(
+      this.selectedLocation?.id,
+      this.selectedLocation?.name
+    );
+
+    window.open('/restaurant/waitlist', '_blank');
+  }
+
+  /** The guest-facing waitlist page needs no login at all, so this just
+   *  opens it -- admin-only because the button itself is admin-gated. */
+  switchToGuestPortal(event: MouseEvent): void {
+    event.stopPropagation();
+    this.showPortalMenu = false;
+
+    window.open('/user', '_blank');
+  }
 
   get isDarkMode(): boolean {
     return this.themeService.isDark;
@@ -357,6 +396,16 @@ export class WaitlistAdminComponent
     ) {
 
       this.showAdminMenu =
+        false;
+    }
+
+    if (
+      !target.closest(
+        '.portal-switch-wrapper'
+      )
+    ) {
+
+      this.showPortalMenu =
         false;
     }
   }

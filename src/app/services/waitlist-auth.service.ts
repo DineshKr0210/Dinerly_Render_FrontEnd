@@ -412,6 +412,66 @@ export class WaitlistAuthService {
     return this.getCurrentUser('server');
   }
 
+  /**
+   * Admin-only portal switcher: reuses the admin's own session so they can
+   * open the Restaurant portal without a separate login. Only ever reads
+   * from the 'admin' scope and only ever writes the 'restaurant' scope, so
+   * it can't be used to escalate any other role into admin access.
+   */
+  canSwitchAdminToRestaurant(): boolean {
+
+    return this.isAdminUser();
+  }
+
+  switchAdminToRestaurant(
+    overrideRestaurantId?: number,
+    overrideRestaurantName?: string
+  ): boolean {
+
+    if (!this.isAdminUser()) {
+      return false;
+    }
+
+    const token =
+      this.getToken('admin');
+
+    const adminUser =
+      this.getAdminUser();
+
+    if (!token || !adminUser) {
+      return false;
+    }
+
+    const restaurantUser: AuthUser = {
+      ...adminUser,
+      restaurantId:
+        overrideRestaurantId ||
+        adminUser.restaurantId ||
+        1,
+      restaurantName:
+        overrideRestaurantName ||
+        adminUser.restaurantName
+    };
+
+    const keys =
+      this.STORAGE_KEYS['restaurant'];
+
+    localStorage.setItem(
+      keys.token,
+      token
+    );
+
+    localStorage.setItem(
+      keys.user,
+      JSON.stringify(restaurantUser)
+    );
+
+    this.getUserSubject('restaurant').next(restaurantUser);
+    this.idleTimeout.start('restaurant');
+
+    return true;
+  }
+
   isLoggedIn(
     scope: AuthScope
   ): boolean {

@@ -2268,3 +2268,41 @@ html[data-theme="dark"] .pagination-button:hover:not(:disabled) {
 html[data-theme="dark"] .pagination-info {
   color: var(--dk-text-3);
 }
+
+/* Portal switcher (top-left, admin-only) in dark mode */
+html[data-theme="dark"] .portal-switch-button {
+  border-color: var(--dk-border);
+  background: var(--dk-surface-2);
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .portal-switch-button:hover {
+  border-color: var(--dk-brand);
+  background: var(--dk-brand-soft);
+}
+
+html[data-theme="dark"] .portal-switch-caret {
+  color: var(--dk-text-3);
+}
+
+html[data-theme="dark"] .portal-switch-menu {
+  border-color: var(--dk-border);
+  background: var(--dk-surface);
+  box-shadow: var(--shadow-lg);
+}
+
+html[data-theme="dark"] .portal-switch-option {
+  color: var(--dk-text);
+}
+
+html[data-theme="dark"] .portal-switch-option:hover {
+  background: var(--dk-surface-2);
+}
+
+html[data-theme="dark"] .portal-switch-option i {
+  color: var(--dk-brand);
+}
+
+html[data-theme="dark"] .portal-switch-option span {
+  color: var(--dk-text-3);
+}
