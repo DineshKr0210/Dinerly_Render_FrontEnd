@@ -275,7 +275,7 @@
           </div>
 
           <!-- STATUS / PREFERENCE -->
-          <div class="status-cell" *ngIf="guest.preference && guest.preference !== 'NO_PREFERENCE'">
+          <div class="status-cell">
             <i [ngClass]="getPreferenceIcon(guest.preference)"></i>
             {{ getPreferenceLabel(guest.preference) }}
           </div>

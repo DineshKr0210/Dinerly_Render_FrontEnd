@@ -1420,7 +1420,7 @@ export class WaitlistActiveListComponent
       !preference ||
       preference === 'NO_PREFERENCE'
     ) {
-      return 'No pref';
+      return 'No';
     }
 
     return preference
