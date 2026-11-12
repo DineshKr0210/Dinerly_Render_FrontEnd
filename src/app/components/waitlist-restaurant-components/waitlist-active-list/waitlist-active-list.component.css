@@ -5713,7 +5713,7 @@
 
 /* Seated table: guest, party, seated time, server, actions */
 .info-card.seated-card .info-row {
-  grid-template-columns: minmax(0, 0.45fr) minmax(0, 1.7fr) minmax(0, 0.7fr) minmax(0, 1fr) minmax(0, 1.2fr) minmax(0, 1.3fr);
+  grid-template-columns: minmax(0, 0.4fr) minmax(0, 1.5fr) minmax(0, 0.6fr) minmax(0, 0.9fr) minmax(0, 1fr) minmax(170px, 1.9fr);
 }
 
 .server-cell {
@@ -5853,4 +5853,71 @@
 
 .info-card .info-row.data-row:last-child {
   border-bottom: 0 !important;
+}
+
+/* ===================================================================
+   Seated / Completed / Cancelled rows: avatar for every guest, and
+   Edit / Complete / View rendered as real buttons instead of plain text.
+   =================================================================== */
+.info-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  flex: none;
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: 700;
+  background: #8b7fa8;
+}
+
+.seated-card .info-avatar {
+  background: #1e8b5a;
+}
+
+.completed-card .info-avatar {
+  background: #5a3fb8;
+}
+
+.cancelled-card .info-avatar {
+  background: #c03a3a;
+}
+
+.guest-name-text {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  gap: 2px;
+}
+
+/* Edit / View: quiet outlined button instead of a bare text link */
+.info-card .inline-link {
+  height: 32px;
+  padding: 0 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #e3dcee !important;
+  border-radius: 8px;
+  background: #ffffff !important;
+  font-weight: 650;
+  white-space: nowrap;
+}
+
+/* Complete: filled primary-style button */
+.info-card .inline-link.complete-link {
+  border-color: #1e8b5a !important;
+  background: #1e8b5a !important;
+  color: #ffffff !important;
+}
+
+.info-card .inline-link.complete-link:disabled {
+  opacity: 0.65;
+}
+
+/* Completed status pill stays a pill, not a button */
+.info-card .inline-link.completed-pill {
+  border: 0 !important;
+  background: #e7f5ee !important;
 }

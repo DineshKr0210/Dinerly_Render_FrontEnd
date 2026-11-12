@@ -131,8 +131,8 @@
     <div class="waitlist-table-body">
       <div class="table-row header-row">
         <span>Guest</span>
-        <span>Party Size</span>
-        <span>Wait Time</span>
+        <span>Party</span>
+        <span>Wait</span>
         <span>Preference</span>
         <span>Actions</span>
       </div>
@@ -497,8 +497,8 @@
         <div class="info-row header-row">
           <span>#</span>
           <span>Guest</span>
-          <span>Party Size</span>
-          <span>Seated At</span>
+          <span>Party</span>
+          <span>Seated</span>
           <span>Server</span>
           <span>Actions</span>
         </div>
@@ -506,8 +506,11 @@
         <div class="info-row data-row" *ngFor="let guest of activeSeatedGuests; trackBy: trackByGuest; let i = index">
           <span>{{ i + 1 }}</span>
           <div class="guest-name-block">
-            <strong>{{ guest.guestName }}</strong>
-            <small *ngIf="guest.tableName">Table {{ guest.tableName }}</small>
+            <div class="info-avatar">{{ getGuestInitials(guest.guestName) }}</div>
+            <div class="guest-name-text">
+              <strong>{{ guest.guestName }}</strong>
+              <small *ngIf="guest.tableName">Table {{ guest.tableName }}</small>
+            </div>
           </div>
           <span>{{ guest.partySize }}</span>
           <strong>{{ formatTime(guest.seatedAt) }}</strong>
@@ -596,16 +599,19 @@
         <div class="info-row header-row">
           <span>#</span>
           <span>Guest</span>
-          <span>Party Size</span>
-          <span>Completed At</span>
+          <span>Party</span>
+          <span>Completed</span>
           <span>Status</span>
         </div>
 
         <div class="info-row data-row" *ngFor="let guest of completedGuests; trackBy: trackByGuest; let i = index">
           <span>{{ i + 1 }}</span>
           <div class="guest-name-block">
-            <strong>{{ guest.guestName }}</strong>
-            <small *ngIf="guest.tableName">Table {{ guest.tableName }}</small>
+            <div class="info-avatar">{{ getGuestInitials(guest.guestName) }}</div>
+            <div class="guest-name-text">
+              <strong>{{ guest.guestName }}</strong>
+              <small *ngIf="guest.tableName">Table {{ guest.tableName }}</small>
+            </div>
           </div>
           <span>{{ guest.partySize }}</span>
           <strong>{{ formatTime(guest.seatedAt) }}</strong>
@@ -677,16 +683,19 @@
         <div class="info-row header-row">
           <span>#</span>
           <span>Guest</span>
-          <span>Party Size</span>
-          <span>Cancelled At</span>
+          <span>Party</span>
+          <span>Cancelled</span>
           <span>Actions</span>
         </div>
 
         <div class="info-row data-row" *ngFor="let guest of cancelledGuests; trackBy: trackByGuest; let i = index">
           <span>{{ i + 1 }}</span>
           <div class="guest-name-block">
-            <strong>{{ guest.guestName }}</strong>
-            <small *ngIf="guest.guestPhone">{{ guest.guestPhone }}</small>
+            <div class="info-avatar">{{ getGuestInitials(guest.guestName) }}</div>
+            <div class="guest-name-text">
+              <strong>{{ guest.guestName }}</strong>
+              <small *ngIf="guest.guestPhone">{{ guest.guestPhone }}</small>
+            </div>
           </div>
           <span>{{ guest.partySize }}</span>
           <strong>{{ formatTime(guest.joinedAt) }}</strong>
