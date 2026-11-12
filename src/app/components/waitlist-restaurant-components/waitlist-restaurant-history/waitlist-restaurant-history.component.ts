@@ -295,8 +295,8 @@ export class WaitlistRestaurantHistoryComponent implements OnInit {
   }
 
   formatPreference(preference?: string | null): string {
-    if (!preference) {
-      return 'No preference';
+    if (!preference || preference === 'NO_PREFERENCE') {
+      return '—';
     }
 
     return preference

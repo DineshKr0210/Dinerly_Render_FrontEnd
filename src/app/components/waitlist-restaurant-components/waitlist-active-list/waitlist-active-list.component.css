@@ -5795,3 +5795,62 @@
   justify-content: flex-start;
   gap: 14px;
 }
+
+/* ===================================================================
+   OPTION 1 — Clean table (approved design): quiet headers with a hairline
+   divider instead of a tinted bar, rows separated by a thin line instead
+   of individual cards, and no coloured left accent bar. Applies to all
+   four panels: Current Waitlist, Seated, Completed and Cancelled.
+   =================================================================== */
+
+/* Column headers: no background tint, hairline divider, lighter label */
+.table-row.header-row,
+.info-card .info-row.header-row {
+  background: transparent !important;
+  border-bottom: 1px solid #ece7f3 !important;
+  color: #a79dbb !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.02em !important;
+  text-transform: none !important;
+  padding-bottom: 12px !important;
+}
+
+/* Outer boxed container becomes a flat area; rows carry their own divider */
+.waitlist-table-body,
+.info-card .info-card-table {
+  background: transparent !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+}
+
+.guest-list {
+  gap: 0 !important;
+}
+
+/* Current Waitlist rows: no individual card, just a thin divider */
+.guest-row {
+  background: transparent !important;
+  border: 0 !important;
+  border-bottom: 1px solid #ece7f3 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  padding: 16px 6px !important;
+}
+
+.guest-row:last-child {
+  border-bottom: 0 !important;
+}
+
+.guest-row::before {
+  display: none !important;
+}
+
+/* Seated / Completed / Cancelled rows: same hairline treatment */
+.info-card .info-row.data-row {
+  border-top: 0 !important;
+  border-bottom: 1px solid #ece7f3 !important;
+}
+
+.info-card .info-row.data-row:last-child {
+  border-bottom: 0 !important;
+}

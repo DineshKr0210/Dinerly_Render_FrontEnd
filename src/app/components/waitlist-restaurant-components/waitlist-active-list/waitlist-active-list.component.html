@@ -275,7 +275,7 @@
           </div>
 
           <!-- STATUS / PREFERENCE -->
-          <div class="status-cell">
+          <div class="status-cell" *ngIf="guest.preference && guest.preference !== 'NO_PREFERENCE'">
             <i [ngClass]="getPreferenceIcon(guest.preference)"></i>
             {{ getPreferenceLabel(guest.preference) }}
           </div>
@@ -422,7 +422,7 @@
               <span>Joined</span>
               <strong>{{ formatTime(guest.joinedAt || guest.approvedAt) }}</strong>
             </div>
-            <div class="tablet-detail-row">
+            <div class="tablet-detail-row" *ngIf="guest.preference && guest.preference !== 'NO_PREFERENCE'">
               <span>Preference</span>
               <strong>{{ getPreferenceLabel(guest.preference) }}</strong>
             </div>
