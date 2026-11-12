@@ -1717,7 +1717,9 @@ html[data-theme="dark"] .purple-card {
   background: var(--dk-surface);
   color: var(--dk-text);
 }
-html[data-theme="dark"] .stat-icon,
+/* This used to force every stat icon to one purple tint, flattening the
+   four distinct colours. Replaced below with per-variant rules matching
+   the admin dashboard's token mapping (purple/blue/orange/green). */
 html[data-theme="dark"] .stat-icon.soft {
   background: var(--dk-brand-soft);
   color: var(--dk-brand);
@@ -2326,30 +2328,48 @@ html[data-theme="dark"] .country-code-selector select option {
   color: var(--dk-text);
 }
 
-/* Guest rows (Current Waitlist): name avatar in dark mode is a muted tint of
-   the guest's status colour, with the status colour letter and a thin ring. */
+/* Guest rows (Current Waitlist): name avatar in dark mode is a muted tint
+   of the guest's status colour, using the same shared tokens as the admin
+   dashboard (info/warning/success/danger) instead of one-off hex values. */
 html[data-theme="dark"] .guest-row.status-waiting .guest-avatar {
-  background: rgba(233, 128, 16, 0.16) !important;
-  color: #fdba74 !important;
-  box-shadow: inset 0 0 0 1px rgba(253, 186, 116, 0.45) !important;
+  background: var(--dk-info-soft) !important;
+  color: var(--dk-info) !important;
+  box-shadow: inset 0 0 0 1px var(--dk-info-soft) !important;
 }
 
 html[data-theme="dark"] .guest-row.status-notified .guest-avatar {
-  background: rgba(230, 185, 30, 0.16) !important;
-  color: #f7d46a !important;
-  box-shadow: inset 0 0 0 1px rgba(247, 212, 106, 0.45) !important;
+  background: var(--dk-warning-soft) !important;
+  color: var(--dk-warning) !important;
+  box-shadow: inset 0 0 0 1px var(--dk-warning-soft) !important;
 }
 
 html[data-theme="dark"] .guest-row.status-seated .guest-avatar {
-  background: rgba(21, 150, 83, 0.16) !important;
-  color: #6ee7b7 !important;
-  box-shadow: inset 0 0 0 1px rgba(110, 231, 183, 0.45) !important;
+  background: var(--dk-success-soft) !important;
+  color: var(--dk-success) !important;
+  box-shadow: inset 0 0 0 1px var(--dk-success-soft) !important;
 }
 
 html[data-theme="dark"] .guest-row.status-cancelled .guest-avatar {
-  background: rgba(199, 53, 53, 0.16) !important;
-  color: #fca5a5 !important;
-  box-shadow: inset 0 0 0 1px rgba(252, 165, 165, 0.45) !important;
+  background: var(--dk-danger-soft) !important;
+  color: var(--dk-danger) !important;
+  box-shadow: inset 0 0 0 1px var(--dk-danger-soft) !important;
+}
+
+/* Seated / Completed / Cancelled panel avatars: same soft-tint treatment,
+   one shared token per panel (success/brand/danger). */
+html[data-theme="dark"] .seated-card .info-avatar {
+  background: var(--dk-success-soft) !important;
+  color: var(--dk-success) !important;
+}
+
+html[data-theme="dark"] .completed-card .info-avatar {
+  background: var(--dk-brand-soft) !important;
+  color: var(--dk-brand) !important;
+}
+
+html[data-theme="dark"] .cancelled-card .info-avatar {
+  background: var(--dk-danger-soft) !important;
+  color: var(--dk-danger) !important;
 }
 
 html[data-theme="dark"] .guest-row .guest-name-line strong {
@@ -2488,6 +2508,29 @@ html[data-theme="dark"] .info-card .inline-link.complete-link.complete-link {
 }
 
 html[data-theme="dark"] .info-card .inline-link.completed-pill.completed-pill {
+  background: var(--dk-success-soft) !important;
+  color: var(--dk-success) !important;
+}
+
+/* Restaurant stat-card icons: restore the four distinct colours in dark
+   mode, using the exact same tokens the admin dashboard's metric icons
+   use (purple->brand, amber->warning, lilac->info, green->success). */
+html[data-theme="dark"] .stat-icon-purple {
+  background: var(--dk-brand-soft) !important;
+  color: var(--dk-brand) !important;
+}
+
+html[data-theme="dark"] .stat-icon-amber {
+  background: var(--dk-warning-soft) !important;
+  color: var(--dk-warning) !important;
+}
+
+html[data-theme="dark"] .stat-icon-lilac {
+  background: var(--dk-info-soft) !important;
+  color: var(--dk-info) !important;
+}
+
+html[data-theme="dark"] .stat-icon-green {
   background: var(--dk-success-soft) !important;
   color: var(--dk-success) !important;
 }
