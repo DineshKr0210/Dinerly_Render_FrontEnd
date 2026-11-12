@@ -146,3 +146,23 @@ app-waitlist-restaurant-component .app-shell .primary-btn {
   padding: 0 18px;
   border-radius: 10px;
 }
+
+/* ---------------------------------------------------------------
+   Fixed-position overlay fix: the restaurant portal's .main-content has
+   zoom: 0.9, and Chromium/WebKit scale position:fixed descendants along
+   with it, so a full-screen backdrop (inset: 0) only ever covered 90% of
+   the real viewport, leaving a grey strip visible on the right and
+   bottom edges behind every modal (Seat Guest, Add Guest, Help, the
+   pending-request popup, call/SMS/reply popups, the date-filter confirm).
+   Countering the zoom on the overlay itself restores true full coverage.
+   --------------------------------------------------------------- */
+app-waitlist-restaurant-component .app-shell .modal-backdrop,
+app-waitlist-restaurant-component .app-shell .restaurant-modal-backdrop,
+app-waitlist-restaurant-component .app-shell .help-modal-backdrop,
+app-waitlist-restaurant-component .app-shell .request-modal-backdrop,
+app-waitlist-restaurant-component .app-shell .calling-popup-backdrop,
+app-waitlist-restaurant-component .app-shell .full-reply-backdrop,
+app-waitlist-restaurant-component .app-shell .sms-popup-backdrop,
+app-waitlist-restaurant-component .app-shell .date-confirm-overlay {
+  zoom: 1.1112;
+}
