@@ -2443,7 +2443,7 @@ html[data-theme="dark"] app-waitlist-restaurant-component .sidebar .nav-item.act
    accent bar. Applies to all four waitlist panels.
    =================================================================== */
 html[data-theme="dark"] .table-row.header-row,
-html[data-theme="dark"] .info-card .info-row.header-row {
+html[data-theme="dark"] .info-card .info-row.header-row.header-row {
   background: transparent !important;
   border-bottom: 1px solid var(--dk-border) !important;
   color: var(--dk-text-3) !important;
@@ -2481,12 +2481,17 @@ html[data-theme="dark"] .guest-row:hover {
   box-shadow: none !important;
 }
 
-html[data-theme="dark"] .info-card .info-row.data-row {
+/* Same specificity issue as the inline-link buttons: the component's
+   light rule gains extra specificity from Angular's [_ngcontent]
+   attributes, so it was outranking this dark override (even with
+   !important) and showing the light divider colour in dark mode. The
+   class is repeated here to match that specificity. */
+html[data-theme="dark"] .info-card .info-row.data-row.data-row {
   border-top: 0 !important;
   border-bottom: 1px solid var(--dk-border) !important;
 }
 
-html[data-theme="dark"] .info-card .info-row.data-row:last-child {
+html[data-theme="dark"] .info-card .info-row.data-row.data-row:last-child {
   border-bottom: 0 !important;
 }
 
