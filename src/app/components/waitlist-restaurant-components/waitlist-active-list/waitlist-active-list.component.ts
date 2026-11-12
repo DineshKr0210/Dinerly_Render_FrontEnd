@@ -164,6 +164,12 @@ export class WaitlistActiveListComponent
   isRefreshing = false;
   isLoading = false;
   isApproving = false;
+
+  /** Date filter shared by every waitlist panel. '' = no date sent -> backend defaults to today. */
+  todayDateString = new Date().toISOString().slice(0, 10);
+  selectedWaitlistDate = '';
+  pendingWaitlistDate = '';
+  showDateConfirm = false;
   isRejecting = false;
   isNotifying = false;
   isSeating = false;
@@ -389,42 +395,42 @@ export class WaitlistActiveListComponent
         this.waitlistApi.getGuestsStatus(
           this.restaurantId,
           'PENDING',
-          ''
+          this.selectedWaitlistDate
         ),
 
       waiting:
         this.waitlistApi.getWaitingGuests(
           this.restaurantId,
           'WAITING',
-          ''
+          this.selectedWaitlistDate
         ),
 
       notified:
         this.waitlistApi.getNotifiedGuests(
           this.restaurantId,
           'NOTIFIED',
-          ''
+          this.selectedWaitlistDate
         ),
 
       seated:
         this.waitlistApi.getSeatedGuests(
           this.restaurantId,
           'SEATED',
-          ''
+          this.selectedWaitlistDate
         ),
 
       completed:
         this.waitlistApi.getSeatedGuests(
           this.restaurantId,
           'COMPLETED',
-          ''
+          this.selectedWaitlistDate
         ),
 
       cancelled:
         this.waitlistApi.getCancelledGuests(
           this.restaurantId,
           'CANCELLED',
-          ''
+          this.selectedWaitlistDate
         ),
 
       tables:
@@ -686,6 +692,64 @@ export class WaitlistActiveListComponent
 
       tableName: guest.tableName
     };
+  }
+
+  /** Human label for the date filter button: "Today" or a formatted date. */
+  get waitlistDateLabel(): string {
+    return this.selectedWaitlistDate
+      ? this.formatFilterDate(this.selectedWaitlistDate)
+      : 'Today';
+  }
+
+  formatFilterDate(value: string): string {
+    if (!value) {
+      return 'Today';
+    }
+
+    const parsed = new Date(`${value}T00:00:00`);
+
+    if (isNaN(parsed.getTime())) {
+      return value;
+    }
+
+    return parsed.toLocaleDateString('en-US', {
+      weekday: 'short',
+      month: 'short',
+      day: 'numeric',
+      year: 'numeric'
+    });
+  }
+
+  /** User picked a date in the input: stage it and ask for confirmation before it takes effect. */
+  onWaitlistDateInput(value: string): void {
+    this.pendingWaitlistDate = value;
+
+    if (this.pendingWaitlistDate === this.selectedWaitlistDate) {
+      return;
+    }
+
+    this.showDateConfirm = true;
+  }
+
+  /** "Back to today": stage an empty date and ask for confirmation, same as picking a date. */
+  requestClearWaitlistDate(): void {
+    if (!this.selectedWaitlistDate) {
+      return;
+    }
+
+    this.pendingWaitlistDate = '';
+    this.showDateConfirm = true;
+  }
+
+  confirmWaitlistDateChange(): void {
+    this.selectedWaitlistDate = this.pendingWaitlistDate;
+    this.showDateConfirm = false;
+    this.loadDashboardAllData(true);
+  }
+
+  cancelWaitlistDateChange(): void {
+    this.pendingWaitlistDate = this.selectedWaitlistDate;
+    this.showDateConfirm = false;
   }
 
   updateDateTime(): void {

@@ -15,11 +15,58 @@
       <p>Manage your restaurant's waitlist.</p>
     </div>
 
-    <button class="primary-btn" type="button" (click)="modalService.open()">
-      <i class="fa-solid fa-user-plus"></i>
-      Add Guest
-    </button>
+    <div class="page-intro-actions">
+      <div class="waitlist-date-filter" [class.custom-date]="selectedWaitlistDate">
+        <i class="fa-regular fa-calendar-days"></i>
+        <span>{{ waitlistDateLabel }}</span>
+        <input
+          type="date"
+          class="waitlist-date-input"
+          [max]="todayDateString"
+          [ngModel]="pendingWaitlistDate"
+          (ngModelChange)="onWaitlistDateInput($event)"
+          aria-label="Choose a date to view the waitlist for"
+        />
+        <button
+          type="button"
+          class="waitlist-date-clear"
+          *ngIf="selectedWaitlistDate"
+          (click)="requestClearWaitlistDate()"
+          title="Back to today"
+        >
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <button class="primary-btn" type="button" (click)="modalService.open()">
+        <i class="fa-solid fa-user-plus"></i>
+        Add Guest
+      </button>
+    </div>
   </section>
+
+  <!-- Confirm before switching the date filter, so an accidental pick doesn't
+       silently change what every panel on the page is showing. -->
+  <div class="date-confirm-overlay" *ngIf="showDateConfirm" (click)="cancelWaitlistDateChange()">
+    <div class="date-confirm-dialog" (click)="$event.stopPropagation()">
+      <h3>{{ pendingWaitlistDate ? 'Switch waitlist date?' : 'Back to today?' }}</h3>
+      <p *ngIf="pendingWaitlistDate">
+        You're about to view <strong>{{ formatFilterDate(pendingWaitlistDate) }}</strong> instead of
+        {{ selectedWaitlistDate ? formatFilterDate(selectedWaitlistDate) : 'today' }}. This applies to
+        Current Waitlist, Seated, Completed and Cancelled.
+      </p>
+      <p *ngIf="!pendingWaitlistDate">
+        You're about to go back to viewing <strong>today's</strong> waitlist instead of
+        {{ formatFilterDate(selectedWaitlistDate) }}. This applies to every panel on this page.
+      </p>
+      <div class="date-confirm-actions">
+        <button type="button" class="ghost-btn" (click)="cancelWaitlistDateChange()">Cancel</button>
+        <button type="button" class="primary-btn" (click)="confirmWaitlistDateChange()">
+          {{ pendingWaitlistDate ? 'Switch date' : 'Back to today' }}
+        </button>
+      </div>
+    </div>
+  </div>
 
   <section class="request-banner" *ngIf="latestPendingGuest">
 

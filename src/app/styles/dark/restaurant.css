@@ -2539,3 +2539,44 @@ html[data-theme="dark"] .stat-icon-green {
   background: var(--dk-success-soft) !important;
   color: var(--dk-success) !important;
 }
+
+/* Date filter control and confirmation dialog in dark mode */
+html[data-theme="dark"] .waitlist-date-filter.waitlist-date-filter {
+  border-color: var(--dk-border) !important;
+  background: var(--dk-surface-2) !important;
+  color: var(--dk-text) !important;
+}
+
+html[data-theme="dark"] .waitlist-date-filter.custom-date.custom-date {
+  border-color: var(--dk-brand) !important;
+  background: var(--dk-brand-soft) !important;
+  color: var(--dk-brand) !important;
+}
+
+html[data-theme="dark"] .waitlist-date-clear.waitlist-date-clear {
+  background: var(--dk-brand-soft) !important;
+  color: var(--dk-brand) !important;
+}
+
+html[data-theme="dark"] .waitlist-date-input.waitlist-date-input {
+  color-scheme: dark;
+}
+
+html[data-theme="dark"] .date-confirm-dialog.date-confirm-dialog {
+  background: var(--dk-surface) !important;
+  box-shadow: var(--shadow-lg) !important;
+}
+
+html[data-theme="dark"] .date-confirm-dialog h3 {
+  color: var(--dk-text) !important;
+}
+
+html[data-theme="dark"] .date-confirm-dialog p {
+  color: var(--dk-text-3) !important;
+}
+
+html[data-theme="dark"] .date-confirm-actions .ghost-btn.ghost-btn {
+  border-color: var(--dk-border) !important;
+  background: var(--dk-surface-2) !important;
+  color: var(--dk-text) !important;
+}

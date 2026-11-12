@@ -5921,3 +5921,121 @@
   border: 0 !important;
   background: #e7f5ee !important;
 }
+
+/* ===================================================================
+   Date filter: one shared control for every waitlist panel, plus the
+   confirmation dialog shown before a date change actually takes effect.
+   =================================================================== */
+.page-intro-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.waitlist-date-filter {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 40px;
+  padding: 0 14px;
+  border: 1px solid #e3dcee;
+  border-radius: 10px;
+  background: #ffffff;
+  color: #4b3f5e;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.waitlist-date-filter.custom-date {
+  border-color: #c7b6ec;
+  background: #f1ecfc;
+  color: #5a3fb8;
+}
+
+.waitlist-date-filter i.fa-calendar-days {
+  color: inherit;
+  font-size: 14px;
+}
+
+.waitlist-date-input {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+  border: 0;
+}
+
+.waitlist-date-clear {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(90, 63, 184, 0.14);
+  color: inherit;
+  font-size: 9px;
+  cursor: pointer;
+  position: relative;
+  z-index: 1;
+}
+
+.date-confirm-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 2200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(20, 10, 36, 0.45);
+  padding: 20px;
+}
+
+.date-confirm-dialog {
+  width: 100%;
+  max-width: 420px;
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 24px 60px rgba(20, 10, 36, 0.3);
+}
+
+.date-confirm-dialog h3 {
+  margin: 0 0 10px;
+  font-size: 17px;
+  font-weight: 700;
+  color: #241f2d;
+}
+
+.date-confirm-dialog p {
+  margin: 0 0 20px;
+  font-size: 13px;
+  line-height: 1.5;
+  color: #5e5670;
+}
+
+.date-confirm-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.date-confirm-actions .ghost-btn {
+  height: 38px;
+  padding: 0 16px;
+  border: 1px solid #e3dcee;
+  border-radius: 9px;
+  background: #ffffff;
+  color: #4b3f5e;
+  font-weight: 650;
+  cursor: pointer;
+}
+
+.date-confirm-actions .primary-btn {
+  height: 38px;
+}
