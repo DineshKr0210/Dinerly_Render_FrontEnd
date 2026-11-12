@@ -1,0 +1,62 @@
+.portal-switch-wrapper {
+  position: relative;
+}
+
+.portal-switch-menu {
+  position: absolute;
+  top: calc(100% + 10px);
+  left: 0;
+  z-index: 60;
+  width: 220px;
+  padding: 6px;
+  border: 1px solid #e3dcee;
+  border-radius: 12px;
+  background: #ffffff;
+  box-shadow: 0 16px 40px rgba(20, 10, 36, 0.18);
+}
+
+.portal-switch-option {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 9px 10px;
+  border: 0;
+  border-radius: 9px;
+  background: transparent;
+  color: #241f2d;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  text-align: left;
+  cursor: pointer;
+}
+
+.portal-switch-option:hover {
+  background: #f6f2fc;
+}
+
+.portal-switch-option i {
+  flex: none;
+  width: 16px;
+  color: #5a3fb8;
+  font-size: 13px;
+}
+
+:host-context(html[data-theme="dark"]) .portal-switch-menu {
+  border-color: var(--dk-border);
+  background: var(--dk-surface);
+  box-shadow: var(--shadow-lg);
+}
+
+:host-context(html[data-theme="dark"]) .portal-switch-option {
+  color: var(--dk-text);
+}
+
+:host-context(html[data-theme="dark"]) .portal-switch-option:hover {
+  background: var(--dk-surface-2);
+}
+
+:host-context(html[data-theme="dark"]) .portal-switch-option i {
+  color: var(--dk-brand);
+}

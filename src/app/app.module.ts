@@ -4,6 +4,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { WaitlistLoginComponent } from './components/waitlist-login/waitlist-login.component';
 import { WaitlistNavbarComponent } from './components/waitlist-navbar/waitlist-navbar.component';
+import { PortalSwitchButtonComponent } from './components/portal-switch-button/portal-switch-button.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { WaitlistUserComponentComponent } from './components/waitlist-user-component/waitlist-user-component.component';
@@ -71,6 +72,7 @@ import { ToastContainerComponent } from './components/toast-container/toast-cont
     AppComponent,
     WaitlistLoginComponent,
     WaitlistNavbarComponent,
+    PortalSwitchButtonComponent,
     WaitlistUserComponentComponent,
     WaitlistUserHeroComponent,
     WaitlistUserMenuComponent,

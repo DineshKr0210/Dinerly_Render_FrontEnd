@@ -423,6 +423,22 @@ export class WaitlistAuthService {
     return this.isAdminUser();
   }
 
+  /**
+   * Whether an admin session currently exists in this browser (under the
+   * 'admin' storage scope), regardless of which portal is actually being
+   * viewed right now. Since every portal is the same app sharing the same
+   * storage, this lets Restaurant and Guest show the same portal switcher
+   * an admin would see on the Admin portal itself, without needing a
+   * separate "am I admin" signal per portal.
+   */
+  canShowPortalSwitcher(): boolean {
+
+    return (
+      this.isAdminLoggedIn() &&
+      this.isAdminUser()
+    );
+  }
+
   switchAdminToRestaurant(
     overrideRestaurantId?: number,
     overrideRestaurantName?: string

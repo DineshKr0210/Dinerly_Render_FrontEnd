@@ -9,64 +9,29 @@
        ===================================================== -->
   <header class="top-navbar">
 
-    <!-- LEFT SIDE: brand + the portal switcher, grouped so both stay
-         anchored to the top-left instead of being centred by the
-         navbar's space-between layout. -->
-    <div class="top-left-group">
+    <!-- BRAND -->
+    <div class="top-brand" (click)="goToLanding()" role="link" aria-label="Go to Home">
 
-      <!-- BRAND -->
-      <div class="top-brand" (click)="goToLanding()" role="link" aria-label="Go to Home">
-
-        <div class="brand-logo">
-          <img src="assets/brand/dinerly-icon.png" alt="">
-        </div>
-
-        <span class="brand-name">
-          Dinerly
-        </span>
-
-        <span class="brand-badge">
-          ADMIN
-        </span>
-
+      <div class="brand-logo">
+        <img src="assets/brand/dinerly-icon.png" alt="">
       </div>
 
-      <!-- PORTAL SWITCHER: admin-only, opens Restaurant/Guest portal in a
-           new tab reusing this session, so there's no separate login. -->
-      <div class="portal-switch-wrapper">
-        <button
-          type="button"
-          class="portal-switch-button"
-          (click)="togglePortalMenu(); $event.stopPropagation()"
-          aria-haspopup="true"
-          [attr.aria-expanded]="showPortalMenu">
-          <i class="fa-solid fa-right-left"></i>
-          <span>Switch Portal</span>
-          <i class="fa-solid fa-chevron-down portal-switch-caret"></i>
-        </button>
+      <span class="brand-name">
+        Dinerly
+      </span>
 
-        <div class="portal-switch-menu" *ngIf="showPortalMenu">
-          <button type="button" class="portal-switch-option" (click)="switchToRestaurantPortal($event)">
-            <i class="fa-solid fa-utensils"></i>
-            <div>
-              <strong>Restaurant Portal</strong>
-              <span>Waitlist, tables and guests</span>
-            </div>
-          </button>
+      <span class="brand-badge">
+        ADMIN
+      </span>
 
-          <button type="button" class="portal-switch-option" (click)="switchToGuestPortal($event)">
-            <i class="fa-regular fa-user"></i>
-            <div>
-              <strong>Guest Portal</strong>
-              <span>What guests see and use</span>
-            </div>
-          </button>
-        </div>
-      </div>
     </div>
 
     <!-- RIGHT SIDE -->
     <div class="top-actions">
+
+      <!-- PORTAL SWITCHER: admin-only, opens Restaurant/Guest portal in the
+           same tab, reusing this session so there's no separate login. -->
+      <app-portal-switch-button currentPortal="admin"></app-portal-switch-button>
 
       <button
         type="button"
