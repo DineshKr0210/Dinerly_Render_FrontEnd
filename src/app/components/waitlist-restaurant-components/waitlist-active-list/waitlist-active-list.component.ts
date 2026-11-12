@@ -441,35 +441,46 @@ export class WaitlistActiveListComponent
     });
   }
 
-  /** Server assigned to each table, keyed by table name (for the seated list). */
-  tableServerNames: Record<string, string> = {};
+/** Server name by staff id (same roster the Tables/Floor page uses),
+   so the Seated panel can show the server actually assigned to the
+   guest (guest.assignedServerId) rather than guessing from the table. */
+  staffNamesById: Record<number, string> = {};
 
-  loadTableServerAssignments(): void {
+  loadRestaurantStaff(): void {
     this.waitlistApi
-      .getTableServerAssignments(this.restaurantId)
+      .getRestaurantStaff(this.restaurantId)
       .subscribe({
         next: res => {
-          const names: Record<string, string> = {};
+          const names: Record<number, string> = {};
           (res?.data || [])
-            .filter(a => a.isActive !== false && a.tableName)
-            .forEach(a => names[a.tableName] = a.serverName);
-          this.tableServerNames = names;
+            .forEach(member => {
+              if (member?.id) {
+                names[member.id] = member.name;
+              }
+            });
+          this.staffNamesById = names;
         },
         error: () => {
-          this.tableServerNames = {};
+          this.staffNamesById = {};
         }
       });
   }
 
   serverForGuest(guest: SeatedGuest): string {
-    return this.tableServerNames[guest.tableName] || '—';
+    const serverId = guest.assignedServerId;
+
+    if (!serverId) {
+      return '—';
+    }
+
+    return this.staffNamesById[serverId] || '—';
   }
 
   private applyDashboardData(
     res: any,
     showLoader: boolean
   ): void {
-    this.loadTableServerAssignments();
+    this.loadRestaurantStaff();
 
     if (showLoader) {
       this.isInitialLoading = false;

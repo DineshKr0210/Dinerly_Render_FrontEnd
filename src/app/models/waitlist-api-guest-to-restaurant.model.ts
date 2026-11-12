@@ -128,6 +128,7 @@ export interface SeatedGuest {
   status: string;
   seatedAt: string;
   tableName: string;
+  assignedServerId?: number | null;
 }
 
 export interface SeatedGuestResponse {
